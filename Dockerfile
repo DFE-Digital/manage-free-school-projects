@@ -2,7 +2,7 @@
 ARG ASPNET_IMAGE_TAG=6.0-bullseye-slim
 ARG NODEJS_IMAGE_TAG=18-bullseye
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS publish
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS publish
 
 WORKDIR /build
 
