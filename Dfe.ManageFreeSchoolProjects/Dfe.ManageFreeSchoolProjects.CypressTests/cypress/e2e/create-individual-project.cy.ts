@@ -66,6 +66,22 @@ describe("Creating an individual project - Create a new project", () => {
         const schoolName = dataGenerator.generateSchoolName();
         const TestTrn = "TR00111";
 
+
+        const currentEnvironment = Cypress.env('environment'); 
+
+        const expectedTrustNames = {
+            'dev': 'Aurora Academies Trust',
+            'test': 'The James Web School'};
+
+        const expectedTrustName = expectedTrustNames[currentEnvironment];
+
+        const expectedTrustTypes = {
+            'dev': 'MAT (multi-academy trust)',
+            'test': 'SAT (single academy trust)'};
+
+        const expectedTrustType = expectedTrustTypes[currentEnvironment];
+
+
         cy.executeAccessibilityTests();
 
         homePage.createNewProjects();
@@ -225,8 +241,8 @@ describe("Creating an individual project - Create a new project", () => {
         cy.executeAccessibilityTests();	       
         createProjectPage
             .titleIs("Confirm the trust")
-            .hasCorrectTrustName("The James Web School")
-            .hasCorrectTrustType("SAT (single academy trust)")
+            .hasCorrectTrustName(expectedTrustName)
+            .hasCorrectTrustType(expectedTrustType)
             .selectOption("Yes")
             .continue();
 
