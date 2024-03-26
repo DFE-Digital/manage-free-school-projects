@@ -195,30 +195,64 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             proj1.TRN = trust.TrustRef;
             request.Projects.Add(proj1);
 
-            //Reduce these string lengths to avoid truncation errors
-            request.Projects[0].ProjectId = DatabaseModelBuilder.CreateProjectId();
+            var projectId = DatabaseModelBuilder.CreateProjectId();
+            request.Projects[0].ProjectId = projectId;
 
             var result = await _client.PostAsync($"/api/v1/client/projects/create", request.ConvertToJson());
 
             result.StatusCode.Should().Be(HttpStatusCode.Created);
 
-            using var context = _testFixture.GetContext();
-
-            var createdProject1 = context.Kpi.First(p => p.ProjectStatusProjectId == request.Projects[0].ProjectId);
-
-            createdProject1.ProjectStatusProjectId.Should().Be(request.Projects[0].ProjectId);
-
-            //Create another request
-            var proj2 = _autoFixture.Create<ProjectDetails>();
-
-            CreateProjectRequest request2 = new CreateProjectRequest();
-            proj2.TRN = trust.TrustRef;
-            request2.Projects.Add(proj2);
-            request2.Projects[0].ProjectId = request.Projects[0].ProjectId;
-
-            var result2 = await _client.PostAsync($"/api/v1/client/projects/create", request2.ConvertToJson());
+            var result2 = await _client.PostAsync($"/api/v1/client/projects/create", request.ConvertToJson());
 
             result2.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            var content = await result2.Content.ReadAsStringAsync();
+
+            content.Should().Contain($"The following project(s) already exist: {projectId}");
+        }
+
+        [Fact]
+        public async Task When_CreateProject_TrustDoesNotExist_Returns_422()
+        {
+            var context = _testFixture.GetContext();
+            context.Trust.Add(DatabaseModelBuilder.BuildTrust());
+            await context.SaveChangesAsync();
+
+            var projectDetails = _autoFixture.Create<ProjectDetails>();
+            projectDetails.ProjectId = DatabaseModelBuilder.CreateProjectId();
+
+            var request = new CreateProjectRequest()
+            {
+                Projects = new List<ProjectDetails> { projectDetails }
+            };
+
+            var response = await _client.PostAsync($"/api/v1/client/projects/create", request.ConvertToJson());
+            response.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            
+            var content = await response.Content.ReadAsStringAsync();
+
+            content.Should().Contain($"The trust does not exist: {projectDetails.TRN}");
+        }
+
+        [Fact]
+        public async Task When_CreateProject_InvalidRequest_Returns_400()
+        {
+            var request = new CreateProjectRequest()
+            {
+                Projects = new List<ProjectDetails>()
+                {
+                    new ProjectDetails()
+                }
+            };
+
+            var response = await _client.PostAsync($"/api/v1/client/projects/create", request.ConvertToJson());
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            content.Should().Contain("'TRN' must not be empty.");
+            content.Should().Contain("'Project Id' must not be empty.");
+            content.Should().Contain("'Created By' must not be empty.");
         }
     }
 }

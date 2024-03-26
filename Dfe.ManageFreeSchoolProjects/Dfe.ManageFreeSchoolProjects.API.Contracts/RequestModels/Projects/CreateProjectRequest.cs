@@ -1,6 +1,5 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using System.ComponentModel.DataAnnotations;
 using SchoolType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.SchoolType;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Projects
@@ -12,7 +11,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Projects
 
     public class ProjectDetails
     {
-        [Required]
         public string ProjectId { get; set; }
         public string SchoolName { get; set; }
         public string Region { get; set; }
@@ -34,7 +32,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Projects
         public FaithType FaithType { get; set; }
         public string OtherFaithType { get; set; }
         public DateTime? ProvisionalOpeningDate { get; set; }
-        [Required]
         public string CreatedBy { get; set; }
         public string ProjectLead { get; set; }
     }

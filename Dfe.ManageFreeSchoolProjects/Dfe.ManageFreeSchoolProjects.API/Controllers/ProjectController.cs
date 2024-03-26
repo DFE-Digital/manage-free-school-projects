@@ -1,4 +1,3 @@
-using Azure;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Projects;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.ResponseModels;
@@ -13,13 +12,16 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
     public class ProjectController : ControllerBase
 	{
         private readonly ICreateProjectService _createProjectService;
+        private readonly CreateProjectRequestValidator _createProjectRequestValidator;
         private readonly ILogger<ProjectController> _logger;
 
         public ProjectController(
             ICreateProjectService createProject,
+            CreateProjectRequestValidator createProjectRequestValidator,
             ILogger<ProjectController> logger)
 		{
             _createProjectService = createProject;
+            _createProjectRequestValidator = createProjectRequestValidator;
             _logger = logger;
 		}
 
@@ -28,19 +30,15 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
         public async Task<ActionResult> CreateProject(CreateProjectRequest createProjectRequest)
         {
             _logger.LogMethodEntered();
-            
-            var createResult = await _createProjectService.Execute(createProjectRequest);
 
-            foreach (ProjectResponseDetails proj in createResult.Projects)
+            var validationResult = _createProjectRequestValidator.Validate(createProjectRequest);
+
+            if (!validationResult.IsValid)
             {
-                if (proj.ProjectCreateState == ProjectCreateState.Exists)
-                {
-                    return new ObjectResult(createResult)
-                    {
-                        StatusCode = StatusCodes.Status422UnprocessableEntity
-                    };
-                }
+                return new BadRequestObjectResult(validationResult.Errors.Select(e => e.ErrorMessage));
             }
+
+            var createResult = await _createProjectService.Execute(createProjectRequest);
 
             var response = new ApiSingleResponseV2<CreateProjectResponse>(createResult);
 

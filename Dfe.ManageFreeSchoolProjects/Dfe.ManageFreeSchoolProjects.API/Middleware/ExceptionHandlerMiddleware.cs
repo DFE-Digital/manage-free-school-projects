@@ -107,6 +107,8 @@ public class ExceptionHandlerMiddleware
 				return new StatusCodeMessagePrefix() { StatusCode = HttpStatusCode.NotFound, MessagePrefix = "Not Found" };
 			case OperationNotCompletedException:
 				return new StatusCodeMessagePrefix() { StatusCode = HttpStatusCode.BadRequest, MessagePrefix = "Operation not completed" };
+			case UnprocessableContentException:
+				return new StatusCodeMessagePrefix() { StatusCode = HttpStatusCode.UnprocessableEntity, MessagePrefix = "Unprocessable Entity" };
 			default:
 				return new StatusCodeMessagePrefix() { StatusCode = HttpStatusCode.InternalServerError, MessagePrefix = "Internal Server Error" };
 		}
