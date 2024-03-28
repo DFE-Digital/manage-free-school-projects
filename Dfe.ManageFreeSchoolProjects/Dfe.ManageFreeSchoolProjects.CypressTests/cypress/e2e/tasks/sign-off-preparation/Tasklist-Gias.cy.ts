@@ -23,7 +23,7 @@ describe("Testing gias", () => {
             });
     });
 
-    it("Should successfully set gias task", () => {
+    it("Should successfully set gias task", { tags: ['@dev'] },  () => {
 
         cy.log("Select gias");
         taskListPage.isTaskStatusIsNotStarted("Gias")

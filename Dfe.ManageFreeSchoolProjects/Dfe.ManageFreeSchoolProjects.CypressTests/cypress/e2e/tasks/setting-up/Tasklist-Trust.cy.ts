@@ -25,7 +25,7 @@ describe("Testing project overview", () => {
             });
     });
 
-    it("Should successfully set Tasklist-trust information", () => {
+    it("Should successfully set Tasklist-trust information", { tags: ['@dev'] },  () => {
         const validTrustId = "TR03446";
 
         Logger.log("Clicking on Task list tab");

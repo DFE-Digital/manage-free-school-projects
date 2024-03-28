@@ -32,7 +32,7 @@ describe("Testing the home page", () => {
             });
         });
 
-        it("Should be able to filter projects by project ID", () => {
+        it("Should be able to filter projects by project ID", { tags: ['@dev'] }, () => {
             homePage.openFilter().withProjectFilter(projectTitlePrefix).applyFilters();
 
             projectTable
@@ -71,7 +71,7 @@ describe("Testing the home page", () => {
             });
         });
 
-        it("Should be able to filter projects by region", () => {
+        it("Should be able to filter projects by region", { tags: ['@dev'] },  () => {
             homePage.openFilter().withRegionFilter("North West").applyFilters();
 
             projectTable.allRowsHaveRegion("North West");
@@ -100,7 +100,7 @@ describe("Testing the home page", () => {
             });
         });
 
-        it("Should be able to filter projects by local authority", () => {
+        it("Should be able to filter projects by local authority", { tags: ['@dev'] },  () => {
             homePage
                 .openFilter()
                 .withRegionFilter("East of England")
@@ -149,7 +149,7 @@ describe("Testing the home page", () => {
                 });
         });
 
-        it("Should paginate the projects based on my filter criteria", () => {
+        it("Should paginate the projects based on my filter criteria", { tags: ['@dev'] },  () => {
             homePage
                 .openFilter()
                 .withProjectFilter(paginationPrefix)
@@ -224,7 +224,7 @@ describe("Testing the home page", () => {
     });
 
     describe("Checking the project data export", () => {
-        it("Should be able to download a file of the project data export", () => {
+        it("Should be able to download a file of the project data export", { tags: ['@dev'] },  () => {
             homePage.downloadProjectDataExport();
 
             const now = new Date().toISOString().split('T')[0];

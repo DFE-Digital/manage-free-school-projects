@@ -24,7 +24,7 @@ describe("Testing statutory consultation", () => {
             });
     });
 
-    it("Should successfully set statutory consultation task", () => {
+    it("Should successfully set statutory consultation task", { tags: ['@dev'] },  () => {
 
         cy.log("Select statutory consultation");
         taskListPage.isTaskStatusIsNotStarted("StatutoryConsultation")

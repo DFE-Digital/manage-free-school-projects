@@ -102,6 +102,6 @@
         "baseUrl": "./",
 
         "lib": ["esnext", "dom"],
-        "types": ["cypress", "cypress-axe", "node", "xlsx"]
+        "types": ["cypress", "cypress-axe", "node", "xlsx", "@cypress/grep"]
     }
 }

@@ -24,7 +24,7 @@ describe("Testing Risk appraisal meeting Task", () => {
             });
     });
 
-    it("Should successfully set Tasklist-school information", () => {
+    it("Should successfully set Tasklist-school information", { tags: ['@dev'] },  () => {
         
         const RiskAppraisalMeeting = "RiskAppraisalMeeting"
 

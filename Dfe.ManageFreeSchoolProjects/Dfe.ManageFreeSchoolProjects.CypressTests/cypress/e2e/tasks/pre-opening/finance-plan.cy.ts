@@ -24,7 +24,7 @@ describe("Testing finance plan task", () => {
             });
     });
 
-    it("Should be able to set a finance plan", () => {
+    it("Should be able to set a finance plan", { tags: ['@dev'] },  () => {
 
         // Need these labels in a constant because we check exists and not exists
         // Ensures both checks will be consistent

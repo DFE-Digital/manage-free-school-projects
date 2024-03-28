@@ -48,5 +48,8 @@
         "uuid": "^9.0.0",
         "xlsx": "^0.18.5",
         "zaproxy": "^2.0.0-rc.2"
+    },
+    "dependencies": {
+        "@cypress/grep": "^4.0.1"
     }
 }

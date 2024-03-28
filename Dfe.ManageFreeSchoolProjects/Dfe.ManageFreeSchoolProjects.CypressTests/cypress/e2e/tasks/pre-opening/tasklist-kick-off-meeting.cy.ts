@@ -24,7 +24,7 @@ describe("Testing kick off meeting Task", () => {
             });
     });
 
-    it("Should successfully set kick off meeting", () => {
+    it("Should successfully set kick off meeting", { tags: ['@dev'] },  () => {
 
         cy.log("Select kick off meeting");
         taskListPage.isTaskStatusIsNotStarted("KickOffMeeting")

@@ -30,7 +30,7 @@ describe("Testing that we can add a project risk", () => {
     });
 
     describe("Adding a project risk", () => {
-        it("Should be able to add project risk", () => {
+        it("Should be able to add project risk", { tags: ['@dev'] },  () => {
 
             projectOverviewPage
                 .hasProjectRiskDate("Empty")
@@ -203,7 +203,7 @@ describe("Testing that we can add a project risk", () => {
                 .hasProjectRiskSummary("This is my overall risk summary");
         });
 
-        it("Should be able to add multiple project risks with the latest being displayed by default", () => {
+        it("Should be able to add multiple project risks with the latest being displayed by default", { tags: ['@dev'] },  () => {
             Logger.log("Changing project risk")
             projectOverviewPage.changeProjectRisk();
 
@@ -355,7 +355,7 @@ describe("Testing that we can add a project risk", () => {
                 });
         });
 
-        it("Should be able to add a project risk with the minimum values set", () => {
+        it("Should be able to add a project risk with the minimum values set", { tags: ['@dev'] },  () => {
             Logger.log("Changing project risk")
             projectOverviewPage.changeProjectRisk();
 
@@ -420,7 +420,7 @@ describe("Testing that we can add a project risk", () => {
                 })
         });
 
-        it("Should add a project risk entry even if none of the data changes", () => {
+        it("Should add a project risk entry even if none of the data changes", { tags: ['@dev'] },  () => {
             Logger.log("Changing project risk")
             projectOverviewPage.changeProjectRisk();
 

@@ -23,7 +23,7 @@ describe("Testing equalities assessment", () => {
             });
     });
 
-    it("Should successfully set equalities assessment task", () => {
+    it("Should successfully set equalities assessment task", { tags: ['@dev'] },  () => {
 
         cy.log("Select equalities assessment");
         taskListPage.isTaskStatusIsNotStarted("EqualitiesAssessment")

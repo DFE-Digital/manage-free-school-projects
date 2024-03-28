@@ -23,7 +23,7 @@ describe("Testing Model funding agreement Task", () => {
             });
     });
 
-    it("Should successfully set model funding agreement task", () => {
+    it("Should successfully set model funding agreement task", { tags: ['@dev'] },  () => {
 
         cy.log("Select model funding agreement");
         taskListPage.isTaskStatusIsNotStarted("ModelFundingAgreement")

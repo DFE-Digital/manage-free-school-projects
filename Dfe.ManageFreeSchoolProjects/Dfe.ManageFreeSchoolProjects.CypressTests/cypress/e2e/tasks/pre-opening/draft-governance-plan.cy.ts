@@ -31,7 +31,7 @@ describe("Testing draft governance plan task", () => {
             });
     });
 
-    it("Should be able to set a draft governance plan", () => {
+    it("Should be able to set a draft governance plan", { tags: ['@dev'] },  () => {
 
         cy.visit(`/projects/${project.projectId}/tasks`);
 
