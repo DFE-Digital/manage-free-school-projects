@@ -1,0 +1,37 @@
+﻿@page "/admin/features"
+@using Dfe.ManageFreeSchoolProjects.Configuration
+@model Dfe.ManageFreeSchoolProjects.Pages.Admin.Features.EditFeatureFlagsModel
+@{
+}
+
+<h1 class="govuk-heading-l">
+    Edit feature flags
+</h1>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form method="post">
+            <div class="govuk-checkboxes  govuk-fieldset__legend--m govuk-!-margin-bottom-6" data-module="govuk-checkboxes">
+                @foreach (var flag in Model.AvailableFeatureFlags)
+                {
+                    var checkedStatus = Model.SelectedFeatureFlags.Contains(flag) ? "checked" : "";
+
+                    <div class="govuk-checkboxes__item">
+                        <input class="govuk-checkboxes__input" id="@flag" name="feature-flag" type="checkbox" value="@flag" @checkedStatus>
+                        <label class="govuk-label govuk-checkboxes__label" for="@flag">
+                            @flag
+                        </label>
+                    </div>
+                }
+            </div>
+
+            <div class="govuk-button-group">
+                <button class="govuk-button" data-module="govuk-button">
+                    Save
+                </button>
+                <a class="govuk-link" href="/">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>
