@@ -38,7 +38,7 @@
       </PackageReference>
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-      <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.0.0" />
+      <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.5.0" />
       <PackageReference Include="OfficeOpenXml.Core.ExcelPackage" Version="1.0.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
