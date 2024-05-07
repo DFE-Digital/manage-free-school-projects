@@ -108,7 +108,7 @@ jobs:
 
   cypress-tests:
     name: Run Cypress Tests
-    if: needs.set-env.outputs.environment == 'staging' || needs.set-env.outputs.environment == 'development'
+    if: needs.set-env.outputs.environment == 'test' || needs.set-env.outputs.environment == 'development'
     needs: [ deploy-image, set-env ]
     runs-on: ubuntu-22.04
     environment: ${{ needs.set-env.outputs.environment }}
@@ -128,8 +128,11 @@ jobs:
       - name: Npm install
         run: npm install
 
-      - name: Run cypress
-        run: npm run cy:run -- --env username=${{ secrets.USERNAME }},url=${{ secrets.AZURE_WEB_ENDPOINT }},api=${{ secrets.AZURE_API_ENDPOINT }},apiKey=${{ secrets.AZURE_API_KEY }},authKey=${{secrets.CYPRESS_TEST_SECRET}}
+      - name: Run cypress dev
+        run: npm run cy:run -- --env grepTags=@dev,username=${{ secrets.USERNAME }},url=${{ secrets.AZURE_WEB_ENDPOINT }},api=${{ secrets.AZURE_API_ENDPOINT }},apiKey=${{ secrets.AZURE_API_KEY }},authKey=${{secrets.CYPRESS_TEST_SECRET}}
+
+      - name: Run cypress smoke/Test env
+        run: npm run cy:run -- --env grepTags=@smoke,username=${{ secrets.USERNAME }},url=${{ secrets.AZURE_WEB_ENDPOINT }},api=${{ secrets.AZURE_API_ENDPOINT }},apiKey=${{ secrets.AZURE_API_KEY }},authKey=${{secrets.CYPRESS_TEST_SECRET}}
 
       - name: Upload screenshots
         if: ${{ failure() }}

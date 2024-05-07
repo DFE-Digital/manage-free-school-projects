@@ -6,6 +6,7 @@
     "scripts": {
         "cy:open": "cypress open --browser edge",
         "cy:run": "npm run clean:reports && cypress run --browser edge",
+        "cy:smoke": "npm run clean:reports && cypress run --browser edge --env grepTags=@smoke",
         "cy:zap": "npm run clean:reports && cypress run --browser electron",
         "cy:notify": "cypress-slack-reporter",
         "clean:reports": "rm -rf cypress/reports/mocha/*.json",
@@ -48,5 +49,8 @@
         "uuid": "^9.0.0",
         "xlsx": "^0.18.5",
         "zaproxy": "^2.0.0-rc.2"
+    },
+    "dependencies": {
+        "@cypress/grep": "^4.0.1"
     }
 }

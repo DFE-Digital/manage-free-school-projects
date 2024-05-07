@@ -22,7 +22,7 @@ describe("Testing articles of association Task", () => {
                 cy.visit(`/projects/${project.projectId}/tasks`);
             });
     });
-    it("Should successfully set articles of association", () => {
+    it("Should successfully set articles of association", { tags: ['@dev'] },  () => {
 
         cy.log("Select articles of association");
         taskListPage.isTaskStatusIsNotStarted("ArticlesOfAssociation")

@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 import { generateZapReport } from "cypress/plugins/generateZapReport";
 
+
 export default defineConfig({
     defaultCommandTimeout: 20000,
     pageLoadTimeout: 20000,
@@ -14,7 +15,7 @@ export default defineConfig({
         reporterEnabled: "mochawesome",
         mochawesomeReporterOptions: {
             reportDir: "cypress/reports/mocha",
-            quite: true,
+            quiet: true,
             overwrite: false,
             html: false,
             json: true,
@@ -27,6 +28,7 @@ export default defineConfig({
             on("before:run", () => {
                 // Map cypress env vars to process env vars for usage outside of Cypress run environment
                 process.env = config.env;
+                require('@cypress/grep/src/plugin')(config);
             });
 
             on("after:run", async () => {

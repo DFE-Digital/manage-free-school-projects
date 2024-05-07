@@ -24,7 +24,7 @@ describe("Testing project overview", () => {
             });
     });
 
-    it("Should successfully set Tasklist-Region And LA information", () => {
+    it("Should successfully set Tasklist-Region And LA information", { tags: ['@dev'] },  () => {
 
         Logger.log("Select region and local authority task");
         taskListPage

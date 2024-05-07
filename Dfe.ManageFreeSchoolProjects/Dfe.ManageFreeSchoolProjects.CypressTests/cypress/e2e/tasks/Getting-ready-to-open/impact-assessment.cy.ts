@@ -24,7 +24,7 @@ describe("Testing the impact assessment task", () => {
             });
     });
 
-    it("Should be able to set impact assessment", () => {
+    it("Should be able to set impact assessment", { tags: ['@dev'] },  () => {
         Logger.log("Select impact assessment");
         taskListPage.isTaskStatusIsNotStarted("ImpactAssessment")
             .selectImpactAssessmentFromTaskList();

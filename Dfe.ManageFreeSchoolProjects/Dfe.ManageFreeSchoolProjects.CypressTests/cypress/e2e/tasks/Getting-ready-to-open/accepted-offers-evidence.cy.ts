@@ -24,7 +24,7 @@ describe("Testing the impact assessment task", () => {
             });
     });
 
-    it("Should be able to set accepted offers evidence", () => {
+    it("Should be able to set accepted offers evidence", { tags: ['@dev'] },  () => {
         Logger.log("Select Accepted offers evidence");
         taskListPage.isTaskStatusIsNotStarted("EvidenceOfAcceptedOffers")
             .selectAcceptedOffersEvidenceFromTaskList();

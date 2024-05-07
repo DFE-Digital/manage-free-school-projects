@@ -25,7 +25,7 @@ describe("Testing project overview", () => {
             });
     });
 
-    it("Should successfully set Tasklist-school information", () => {
+    it("Should successfully set Tasklist-school information", { tags: ['@dev'] },  () => {
 
         Logger.log("Select finance plan");
         taskListPage.isTaskStatusIsNotStarted("School")
@@ -213,7 +213,7 @@ describe("Testing project overview", () => {
         taskListPage.isTaskStatusIsCompleted("School");
     });
 
-    it("Should validate the faith type field if a faith status is selected", () => {
+    it("Should validate the faith type field if a faith status is selected", { tags: ['@dev'] }, () => {
 
         taskListPage.selectSchoolFromTaskList();
 

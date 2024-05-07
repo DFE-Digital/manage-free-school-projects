@@ -24,7 +24,7 @@ describe("Testing the admissions arragements task", () => {
             });
     });
 
-    it("Should be able to set admissions arrangements", () => {
+    it("Should be able to set admissions arrangements", { tags: ['@dev'] },  () => {
         Logger.log("Select admissions arrangements");
         taskListPage.isTaskStatusIsNotStarted("AdmissionsArrangements")
             .selectAdmissionsArrangementsFromTaskList();

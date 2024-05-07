@@ -24,7 +24,7 @@ describe("Testing education brief", () => {
             });
     });
 
-    it("Should successfully set education brief task", () => {
+    it("Should successfully set education brief task", { tags: ['@dev'] },  () => {
 
         cy.log("education brief");
         taskListPage.isTaskStatusIsNotStarted("EducationBrief")

@@ -10,7 +10,7 @@ describe("Testing project overview", () => {
         cy.login();
     });
 
-    it("Should create a project and display the project configuration in the overview", () => {
+    it("Should create a project and display the project configuration in the overview", { tags: ['@dev'] },  () => {
         const temporaryProjectId = dataGenerator.generateTemporaryId();
         const schoolName = dataGenerator.generateSchoolName();
 

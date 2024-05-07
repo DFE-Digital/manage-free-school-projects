@@ -11,7 +11,7 @@ describe("Testing the project creation journey", () => {
         cy.visit(Cypress.env('url'));
     });
 
-    it("Should NOT allow a NON-projectrecordcreator user to access certain URLs", () => {
+    it("Should NOT allow a NON-projectrecordcreator user to access certain URLs", { tags: ['@dev'] },  () => {
 
         Logger.log("Testing that NON-projectrecordcreator role is UNABLE to access Create individual project URLs")
         //Define the URLs that should trigger a failure for the "POTATO"/NON-projectrecordcreator user
@@ -34,7 +34,7 @@ describe("Testing the project creation journey", () => {
         });
     });
 
-    it("Should NOT allow a NON-projectrecordcreator user to create a new project using the form", () => {
+    it("Should NOT allow a NON-projectrecordcreator user to create a new project using the form", { tags: ['@dev'] },  () => {
         Logger.log("Testing that a NON-projectrecordcreator role DOES NOT have the green Create new projects CTA");
         cy.contains('Create new projects').should('not.exist');
         cy.executeAccessibilityTests();
@@ -46,7 +46,7 @@ describe("Testing the project creation journey", () => {
             cy.visit('/');
         });
 
-        it("Should display Create new projects button for projectRecordCreator role", () => {
+        it("Should display Create new projects button for projectRecordCreator role", { tags: ['@dev'] },  () => {
             Logger.log("Testing that a projectrecordcreator role DOES have the green Create new projects CTA");
             cy.contains('Create new projects').should('be.visible');
             cy.executeAccessibilityTests();
@@ -59,7 +59,7 @@ describe("Testing the project creation journey", () => {
             cy.visit('/');
         });
 
-        it("Should create a project", () => {
+        it("Should create a project", { tags: ['@dev'] },  () => {
             const temporaryProjectId = dataGenerator.generateTemporaryId();
             const schoolName = dataGenerator.generateSchoolName();
             const TestTrn = "TR00111";
@@ -411,7 +411,7 @@ describe("Testing the project creation journey", () => {
             cy.executeAccessibilityTests();
         });
 
-        it("Should navigate back to change project fields", () => {
+        it("Should navigate back to change project fields", { tags: ['@dev'] },  () => {
             const temporaryProjectId = dataGenerator.generateTemporaryId();
             const schoolName = dataGenerator.generateSchoolName();
             const updatedTemporaryProjectId = dataGenerator.generateTemporaryId();

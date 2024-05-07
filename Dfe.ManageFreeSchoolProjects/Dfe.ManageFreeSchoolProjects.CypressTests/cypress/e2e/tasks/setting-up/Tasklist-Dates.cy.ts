@@ -25,7 +25,7 @@ describe("Testing project overview", () => {
             });
     });
 
-    it("Should successfully set project dates", () => {
+    it("Should successfully set project dates", { tags: ['@dev'] },  () => {
         cy.executeAccessibilityTests();
 
         Logger.log("Selecting Dates link from Tasklist");

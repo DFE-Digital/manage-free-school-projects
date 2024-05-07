@@ -29,7 +29,7 @@ describe("Testing that we can add contacts", () => {
     });
 
     describe("Adding Contacts", () => {
-        it("Should be able to add contacts", () => {
+        it("Should be able to add contacts", { tags: ['@dev'] },  () => {
 
             cy.executeAccessibilityTests();
 

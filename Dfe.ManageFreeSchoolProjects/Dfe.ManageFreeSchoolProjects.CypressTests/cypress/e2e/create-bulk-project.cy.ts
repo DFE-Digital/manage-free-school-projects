@@ -15,7 +15,7 @@ describe("Creating a bulk project", () => {
         cy.visit("/project/create/bulk");
     });
 
-    it("Should validate an uploaded CSV file", () => {
+    it("Should validate an uploaded CSV file", { tags: ['@dev'] },  () => {
         const completeRow: BulkProjectRow = {
             projectId: v4(),
             projectTitle: v4(),
@@ -35,7 +35,7 @@ describe("Creating a bulk project", () => {
         bulkCreateProjectPage.upload(csv, "file.csv").continue();
     });
 
-    it("Should validate an uploaded Excel file", () => {
+    it("Should validate an uploaded Excel file", { tags: ['@dev'] },  () => {
         const completeRow: BulkProjectRow = {
             projectId: v4(),
             projectTitle: v4(),
