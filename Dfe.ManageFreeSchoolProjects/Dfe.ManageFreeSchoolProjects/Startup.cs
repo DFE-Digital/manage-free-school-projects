@@ -1,12 +1,15 @@
 using Azure.Identity;
 using Dfe.ManageFreeSchoolProjects.Authorization;
 using Dfe.ManageFreeSchoolProjects.Configuration;
+using Dfe.ManageFreeSchoolProjects.Middleware;
 using Dfe.ManageFreeSchoolProjects.Security;
 using Dfe.ManageFreeSchoolProjects.Services;
+using Dfe.ManageFreeSchoolProjects.Services.Admin;
 using Dfe.ManageFreeSchoolProjects.Services.Constituency;
 using Dfe.ManageFreeSchoolProjects.Services.Contacts;
 using Dfe.ManageFreeSchoolProjects.Services.Dashboard;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
+using Dfe.ManageFreeSchoolProjects.Services.Reports;
 using Dfe.ManageFreeSchoolProjects.Services.Tasks;
 using Dfe.ManageFreeSchoolProjects.Services.Trust;
 using Dfe.ManageFreeSchoolProjects.Services.User;
@@ -27,7 +30,6 @@ using Microsoft.Identity.Web.UI;
 using System;
 using System.IO;
 using System.Security.Claims;
-using Dfe.ManageFreeSchoolProjects.Services.Reports;
 
 namespace Dfe.ManageFreeSchoolProjects;
 
@@ -58,7 +60,6 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddHttpClient();
-        services.AddFeatureManagement();
         services.AddHealthChecks();
         services
            .AddRazorPages(options =>
@@ -100,11 +101,14 @@ public class Startup
         services.AddScoped<INotifyUserService, NotifyUserService>();
         services.AddScoped<IGetProjectManagersService, GetProjectManagersService>();
         services.AddScoped<IAnalyticsConsentService, AnalyticsConsentService>();
+        services.AddScoped<IFeatureFlagCache, FeatureFlagCache>();
         services.AddScoped<IAllProjectsReportService, AllProjectsReportService>();
         services.AddScoped<IGetProjectSitesService, GetProjectSitesService>();
         services.AddScoped<IUpdateProjectSitesService, UpdateProjectSitesService>();
         services.AddScoped<IGetPupilNumbersService, GetPupilNumbersService>();
         services.AddScoped<IUpdatePupilNumbersService, UpdatePupilNumbersService>();
+
+        services.AddFeatureManagement().AddSessionManager<FeatureFlagSessionManager>();
 
         services.AddScoped(sp => sp.GetService<IHttpContextAccessor>()?.HttpContext?.Session);
         services.AddSession(options =>
@@ -171,8 +175,6 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
     {
-        logger.LogInformation("Feature Flag - Use Academisation API: {usingAcademisationApi}", IsFeatureEnabled("hi"));
-
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -206,6 +208,8 @@ public class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
+        app.UseMiddleware<AdminRouteMiddleware>();
+
         app.UseEndpoints(endpoints =>
         {
             //endpoints.MapGet("/", context =>
@@ -216,11 +220,6 @@ public class Startup
             endpoints.MapRazorPages();
             endpoints.MapControllerRoute("default", "{controller}/{action}/");
         });
-
-        bool IsFeatureEnabled(string flag)
-        {
-            return (app.ApplicationServices.GetService(typeof(IFeatureManager)) as IFeatureManager)?.IsEnabledAsync(flag).Result ?? false;
-        }
     }
 
     /// <summary>
