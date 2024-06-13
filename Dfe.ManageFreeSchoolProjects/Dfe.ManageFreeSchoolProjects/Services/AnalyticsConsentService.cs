@@ -77,6 +77,13 @@ namespace Dfe.ManageFreeSchoolProjects.Services
                         //Delete if domain matches - need both as we wont be sent the cookie if the domain doesnt match
                         _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie, new CookieOptions() { Domain = AnalyticsDomain});
                     }
+                    if (cookie.StartsWith("ai_"))
+                    {
+                        //Delete if domain is the same
+                        _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie);
+                        //Delete if domain matches - need both as we wont be sent the cookie if the domain doesnt match
+                        _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie, new CookieOptions() { Domain = AnalyticsDomain});
+                    }
                 }
             }
         }
