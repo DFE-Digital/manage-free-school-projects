@@ -70,12 +70,12 @@ namespace Dfe.ManageFreeSchoolProjects.Services
             {
                 foreach (var cookie in request.Cookies.Keys)
                 {
-                    if (cookie.StartsWith("_ga") || cookie.Equals("_gid"))
+                    if (cookie.StartsWith("_ga") || cookie.Equals("_gid") || cookie.StartsWith("ai_"))
                     {
                         //Delete if domain is the same
                         _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie);
                         //Delete if domain matches - need both as we wont be sent the cookie if the domain doesnt match
-                        _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie, new CookieOptions() { Domain = AnalyticsDomain});
+                        _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie, new CookieOptions() { Domain = AnalyticsDomain, Secure = true });
                     }
                 }
             }
