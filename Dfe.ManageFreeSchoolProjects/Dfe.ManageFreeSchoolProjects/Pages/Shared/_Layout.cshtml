@@ -2,7 +2,8 @@
 @inject Dfe.ManageFreeSchoolProjects.Services.IAnalyticsConsentService _analytisConsentService
 
 @{
-    var showAnalytics = _configuration["GoogleAnalytics:Enable"] == "Yes" && _analytisConsentService.HasConsent();
+    var hasConsented = _analytisConsentService.HasConsent();
+    var showAnalytics = _configuration["GoogleAnalytics:Enable"] == "Yes" && hasConsented;
 
     var titleDescription = Context.Request.Path == "/project-type"
         ? string.Empty
@@ -10,6 +11,8 @@
 
 
     var widePage = ViewData["WidePage"] != null ? "mfsp-wider-page" : string.Empty;
+    bool.TryParse(_configuration["ApplicationInsights:BrowserAnalyticsEnabled"], out bool enableAppInsightsBrowserAnalytics);
+    var authenticatedUserId = Context.User.Identity is not null && Context.User.Identity.IsAuthenticated ? Context.User.Identity.Name ?? "Unknown" : "Anonymous";
 }
 
 <!DOCTYPE html>
@@ -28,6 +31,20 @@
                         'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
             })(window, document, 'script', 'dataLayer', 'GTM-5TFNH73B');</script>
         <!-- End Google Tag Manager -->
+    }
+
+    @if (hasConsented && enableAppInsightsBrowserAnalytics)
+    {
+        <!-- Application insights -->
+        <script type="text/javascript" integrity="sha384-g/ZkzetdQypWdY0NBZT5r2L3BR9/hURD8OBcd1rEaBpgX6QC7EaTL+o+mzWrBcXW" crossorigin="anonymous" src="https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.8.18.min.js"></script>
+        <script type="text/javascript" asp-add-nonce>
+            window.appInsights = {
+                connectionString: '@_configuration["ApplicationInsights:ConnectionString"]',
+                authenticatedUserId: '@authenticatedUserId'
+            }
+        </script>
+        <script type="text/javascript" src="~/dist/application-insights.min.js" asp-add-nonce></script>
+        <!-- End Application insights -->
     }
 
     <meta charset="utf-8"/>
