@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Dashboard;
+using Microsoft.FeatureManagement;
 
 namespace Dfe.BuildFreeSchools.Pages
 {
@@ -25,8 +26,9 @@ namespace Dfe.BuildFreeSchools.Pages
 			IGetLocalAuthoritiesService getLocalAuthoritiesService,
 			IGetProjectManagersService getProjectManagersService,
 			IAllProjectsReportService allProjectsReportService,
-			ILogger<IndexModel> logger) : base(createUserService, getDashboardService, getLocalAuthoritiesService,
-			getProjectManagersService)
+            IFeatureManager featureManager,
+            ILogger<IndexModel> logger) : base(createUserService, getDashboardService, getLocalAuthoritiesService,
+			getProjectManagersService, featureManager)
 		{
 			_logger = logger;
 			_allProjectsReportService = allProjectsReportService;

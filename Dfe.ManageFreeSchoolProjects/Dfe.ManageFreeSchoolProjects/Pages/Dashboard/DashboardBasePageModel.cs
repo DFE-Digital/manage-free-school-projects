@@ -6,6 +6,7 @@ using Dfe.ManageFreeSchoolProjects.Services.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.FeatureManagement;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,17 +42,19 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Dashboard
         protected readonly IGetDashboardService _getDashboardService;
         private readonly IGetLocalAuthoritiesService _getLocalAuthoritiesService;
         private readonly IGetProjectManagersService _getProjectManagersService;
-
+        private readonly IFeatureManager _featureManager;
         public DashboardBasePageModel(
             ICreateUserService createUserService,
             IGetDashboardService getDashboardAllService,
             IGetLocalAuthoritiesService getLocalAuthoritiesService,
-            IGetProjectManagersService getProjectManagersService)
+            IGetProjectManagersService getProjectManagersService,
+            IFeatureManager featureManager)
         {
             _createUserService = createUserService;
             _getDashboardService = getDashboardAllService;
             _getLocalAuthoritiesService = getLocalAuthoritiesService;
             _getProjectManagersService = getProjectManagersService;
+            _featureManager = featureManager;
         }
 
         public async Task<JsonResult> OnGetLocalAuthoritiesByRegion(string regions)
@@ -86,6 +89,13 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Dashboard
             getDashboardServiceParameters.ProjectManagedBy = ProjectManagedBySearchTerm;
             getDashboardServiceParameters.Page = PageNumber;
 
+            var allowCentralRoute = await _featureManager.IsEnabledAsync("AllowCentralRoute");
+
+            if (!allowCentralRoute)
+            {
+                getDashboardServiceParameters.Wave = "FS - Presumption";
+            }
+
             var response = await _getDashboardService.Execute(getDashboardServiceParameters);
 
             List<string> projectIds = new List<string>(); 
@@ -117,7 +127,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Dashboard
                 UserCanCreateProject = User.IsInRole(RolesConstants.ProjectRecordCreator),
                 ProjectManagers = projectManagersResponse.Result.ProjectManagers,
                 IsMyProjectsPage = loadDashboardParameters.Url.Contains("/my"),
-                TotalProjectIds = projectIds
+                TotalProjectIds = projectIds,
             };  
         }
 
@@ -143,7 +153,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Dashboard
             if (ProjectManagedBySearchTerm.Count > 0)
             {
                ProjectManagedBySearchTerm.ForEach((m => query = query.Add("search-by-pmb", m)));
-            }
+            }             
 
             return query.ToString();
         }

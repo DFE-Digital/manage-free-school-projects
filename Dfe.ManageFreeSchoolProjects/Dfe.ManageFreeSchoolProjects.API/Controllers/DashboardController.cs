@@ -29,6 +29,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             string regions,
             string localAuthorities,
             string project,
+            string wave,
             string projectManagedBy,
             int? page = 1,
             int? count = 5)
@@ -44,6 +45,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
                 UserId = userId,
                 Regions = regionsToSearch,
                 Project = project,
+                Wave = wave,
                 ProjectManagedBy = projectManagedByToSearch,
                 LocalAuthority = localAuthoritiesToSearch,
                 Page = page.Value,

@@ -21,6 +21,7 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Dashboard
         public List<string> Regions { get; set; }
         public List<string> LocalAuthorities { get; set; }
         public List<string> ProjectManagedBy { get; set; }
+        public string Wave { get; set; }
         public int Page { get; set; }
     }
 
@@ -74,6 +75,11 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Dashboard
             if (!string.IsNullOrEmpty(parameters.Project))
             {
                 query = query.Add("project", parameters.Project);
+            }
+
+            if (!string.IsNullOrEmpty(parameters.Wave))
+            {
+                query = query.Add("wave", parameters.Wave);
             }
 
             if (parameters.Regions.Any())

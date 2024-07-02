@@ -3,6 +3,7 @@ using Dfe.ManageFreeSchoolProjects.Services.Dashboard;
 using Dfe.ManageFreeSchoolProjects.Services.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.FeatureManagement;
 using System;
 using System.Threading.Tasks;
 
@@ -17,7 +18,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Dashboard
             IGetDashboardService getDashboardService,
             IGetLocalAuthoritiesService getLocalAuthoritiesService,
             IGetProjectManagersService getProjectManagersService,
-            ILogger<DashboardGetByUserModel> logger) : base(createUserService, getDashboardService, getLocalAuthoritiesService, getProjectManagersService)
+            ILogger<DashboardGetByUserModel> logger,
+            IFeatureManager featureManager) : base(createUserService, getDashboardService, getLocalAuthoritiesService, getProjectManagersService, featureManager)
         {
             _logger = logger;
         }
