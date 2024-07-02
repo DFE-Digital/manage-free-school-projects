@@ -1,7 +1,7 @@
 ﻿# Stage 1
 ARG ASPNET_IMAGE_TAG=8.0-bookworm-slim
 ARG DOTNET_SDK_IMAGE_TAG=8.0
-ARG NODEJS_IMAGE_TAG=18.20-bullseye
+ARG NODEJS_IMAGE_TAG=20.15-bullseye
 
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK_IMAGE_TAG} AS publish
 
