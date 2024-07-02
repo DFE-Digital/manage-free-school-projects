@@ -11,8 +11,8 @@
         public const string EditPermanentSiteInformation = "/projects/{0}/site-information/permanent/edit";
         public const string EditTemporarySiteInformation = "/projects/{0}/site-information/temporary/edit";
 
-        public const string EditProjectStatus = "/projects/{0}/projectstatus/edit-project-status"; 
-        
+        public const string EditProjectStatus = "/projects/{0}/projectstatus/edit-project-status";
+
         public const string ViewSchoolTask = TaskList + "/school";
         public const string EditSchoolTask = ViewSchoolTask + "/edit";
 
@@ -32,7 +32,7 @@
         public const string EditLocalAuthority = ViewRegionAndLocalAuthorityTask + "/localauthority/edit?region={1}";
 
         public const string ViewKickOffMeeting = TaskList + "/kickoffmeeting";
-        public const string EditKickOffMeeting= ViewKickOffMeeting + "/edit";
+        public const string EditKickOffMeeting = ViewKickOffMeeting + "/edit";
 
         public const string ViewFundingAgreement = TaskList + "/fundingagreement";
         public const string EditFundingAgreement = ViewFundingAgreement + "/edit";
@@ -51,10 +51,10 @@
 
         public const string ViewDraftGovernancePlanTask = TaskList + "/draft-governance-plan";
         public const string EditDraftGovernancePlanTask = ViewDraftGovernancePlanTask + "/edit";
-        
+
         public const string ViewGiasTask = TaskList + "/gias";
         public const string EditGiasTask = ViewGiasTask + "/edit";
-        
+
         public const string ViewEducationBriefTask = TaskList + "/education-brief";
         public const string EditEducationBriefTask = ViewEducationBriefTask + "/edit";
 
@@ -63,20 +63,20 @@
 
         public const string ViewEqualitiesAssessmentTask = TaskList + "/equalitiesassessment";
         public const string EditEqualitiesAssessmentTask = ViewEqualitiesAssessmentTask + "/edit";
-        
+
         public const string ViewImpactAssessmentTask = TaskList + "/impact-assessment";
         public const string EditImpactAssessmentTask = ViewImpactAssessmentTask + "/edit";
-        
+
         public const string ViewAcceptedOffersEvidenceTask = TaskList + "/accepted-offers-evidence";
         public const string EditAcceptedOffersEvidenceTask = ViewAcceptedOffersEvidenceTask + "/edit";
-        
+
         public const string ViewPupilNumbersChecksTask = TaskList + "/pupil-numbers-checks";
         public const string EditPupilNumbersChecksTask = ViewPupilNumbersChecksTask + "/edit";
-        
+
         public const string ViewOfstedPreRegistrationTask = TaskList + "/ofsted-pre-registration";
-        public const string EditBeforeOfstedInspectionTask = ViewOfstedPreRegistrationTask  + "/edit-before-inspection";
-        public const string EditAfterOfstedInspectionTask = ViewOfstedPreRegistrationTask  + "/edit-after-inspection";
-        
+        public const string EditBeforeOfstedInspectionTask = ViewOfstedPreRegistrationTask + "/edit-before-inspection";
+        public const string EditAfterOfstedInspectionTask = ViewOfstedPreRegistrationTask + "/edit-after-inspection";
+
         public const string ViewApplicationsEvidenceTask = TaskList + "/applications-evidence";
         public const string EditApplicationsEvidenceTask = ViewApplicationsEvidenceTask + "/edit";
 
@@ -85,13 +85,13 @@
 
         public const string ViewFinalFinancePlanTask = TaskList + "/final-finance-plan";
         public const string EditFinalFinancePlanTask = ViewFinalFinancePlanTask + "/edit";
-        
+
         public const string ViewCommissionedExternalExpertTask = TaskList + "/external-expert-visit";
         public const string EditCommissionedExternalExpertTask = ViewCommissionedExternalExpertTask + "/edit";
-        
+
         public const string ViewMovingToOpenTask = TaskList + "/moving-to-open";
         public const string EditMovingToOpenTask = ViewMovingToOpenTask + "/edit";
-        
+
         public const string CreateProjectMethod = CreateProject + "/method";
         public const string CreateProjectId = CreateProject + "/projectid";
         public const string CreateProjectSchool = CreateProject + "/school";
@@ -115,7 +115,7 @@
         public const string ProjectRiskConfirmation = "/projects/{0}/risk/add/confirmation?schoolName={1}";
         public const string CreateFaithStatus = CreateProject + "/faith-status";
         public const string CreateFaithType = CreateProject + "/faith-type";
-        
+
         public const string EditProjectAssignedTo = "/projects/{0}/contacts/project-assigned-to-edit";
         public const string EditTeamLead = "/projects/{0}/contacts/team-lead-edit";
         public const string EditGrade6 = "/projects/{0}/contacts/grade-6-edit";
@@ -138,5 +138,8 @@
         public const string EditRecruitmentAndViability = ViewPupilNumbers + "/recruitment-and-viability/edit";
         public const string EditPre16CapacityBuildup = ViewPupilNumbers + "/pre16-capacity-buildup/edit";
         public const string EditPost16CapacityBuildup = ViewPupilNumbers + "/post16-capacity-buildup/edit";
+
+        public const string ViewReferenceNumbers = "/projects/{0}/reference-numbers";
+        public const string EditReferenceNumbers = ViewReferenceNumbers + "/edit";
     }
 }

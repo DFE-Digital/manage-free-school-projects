@@ -106,6 +106,8 @@ public class Startup
         services.AddScoped<IUpdateProjectSitesService, UpdateProjectSitesService>();
         services.AddScoped<IGetPupilNumbersService, GetPupilNumbersService>();
         services.AddScoped<IUpdatePupilNumbersService, UpdatePupilNumbersService>();
+        services.AddScoped<IGetProjectReferenceNumbersService, GetProjectReferenceNumbersService>();
+        services.AddScoped<IUpdateProjectReferenceNumbersService, UpdateProjectReferenceNumbersService>();
 
         services.AddScoped(sp => sp.GetService<IHttpContextAccessor>()?.HttpContext?.Session);
         services.AddSession(options =>

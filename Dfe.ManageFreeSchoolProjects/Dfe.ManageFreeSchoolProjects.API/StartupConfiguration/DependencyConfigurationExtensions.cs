@@ -48,6 +48,7 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.PDG.WriteOff;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.FinalFinancePlan;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.MovingToOpen;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.PupilNumbersChecks;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.ReferenceNumbers;
 
 namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 {
@@ -127,6 +128,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 			services.AddScoped<IUpdatePost16CapacityBuildupService, UpdatePost16CapacityBuildupService>();
 			services.AddScoped<IUpdateRecruitmentAndViabilityService, UpdateRecruitmentAndViabilityService>();
 			services.AddScoped<IUpdatePublishedAdmissionNumberPercentageService, UpdatePublishedAdmissionNumberPercentageService>();
+            services.AddScoped<IGetProjectReferenceNumbersService, GetProjectReferenceNumbersService>();
+            services.AddScoped<IUpdateProjectReferenceNumbersService, UpdateProjectReferenceNumbersService>();
 
             services.AddValidatorsFromAssembly(Assembly.Load(Assembly.GetExecutingAssembly().FullName));
 
