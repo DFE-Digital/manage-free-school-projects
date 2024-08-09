@@ -1,4 +1,5 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks.PDG;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Payments;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks.PDG;
 using System.ComponentModel;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks

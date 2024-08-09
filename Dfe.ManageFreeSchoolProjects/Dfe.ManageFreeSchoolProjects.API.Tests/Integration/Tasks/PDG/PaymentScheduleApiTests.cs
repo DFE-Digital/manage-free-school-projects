@@ -60,7 +60,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration.Tasks.PDG
             using var context = _testFixture.GetContext();
             context.Kpi.Add(project);
 
-            var paymentScheduleTask = DatabaseModelBuilder.BuildPaymentScheduleTask(project.Rid);
+            var paymentScheduleTask = DatabaseModelBuilder.BuildProjectPayments(project.Rid);
             context.Po.Add(paymentScheduleTask);
             await context.SaveChangesAsync();
 

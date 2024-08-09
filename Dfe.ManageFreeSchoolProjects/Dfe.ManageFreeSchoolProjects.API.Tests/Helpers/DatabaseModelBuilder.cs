@@ -388,15 +388,93 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Helpers
             return result;
         }
 
-        public static Po BuildPaymentScheduleTask(string rid)
+        public static Po BuildProjectPayments(string rid)
         {
             var result = new Po()
             {
                 Rid = rid,
+
                 ProjectDevelopmentGrantFundingDateOf1stActualPayment = new DateTime().AddDays(1),
                 ProjectDevelopmentGrantFundingAmountOf1stPayment = _fixture.Create<decimal>().ToString(),
                 ProjectDevelopmentGrantFundingAmountOf1stPaymentDue = _fixture.Create<decimal>().ToString(),
                 ProjectDevelopmentGrantFundingDateOf1stPaymentDue = new DateTime().AddDays(2),
+
+                ProjectDevelopmentGrantFundingDateOf2ndActualPayment = new DateTime().AddDays(19),
+                ProjectDevelopmentGrantFundingAmountOf2ndPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf2ndPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf2ndPaymentDue = new DateTime().AddDays(20),
+
+            };
+
+            return result;
+        }
+
+        public static Po BuildAllProjectPayments(string rid)
+        {
+            var result = new Po()
+            {
+                Rid = rid,
+
+                ProjectDevelopmentGrantFundingDateOf1stActualPayment = new DateTime().AddDays(1),
+                ProjectDevelopmentGrantFundingAmountOf1stPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf1stPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf1stPaymentDue = new DateTime().AddDays(2),
+
+                ProjectDevelopmentGrantFundingDateOf2ndActualPayment = new DateTime().AddDays(19),
+                ProjectDevelopmentGrantFundingAmountOf2ndPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf2ndPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf2ndPaymentDue = new DateTime().AddDays(20),
+
+                ProjectDevelopmentGrantFundingDateOf3rdActualPayment = new DateTime().AddDays(41),
+                ProjectDevelopmentGrantFundingAmountOf3rdPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf3rdPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf3rdPaymentDue = new DateTime().AddDays(42),
+
+                ProjectDevelopmentGrantFundingDateOf4thActualPayment = new DateTime().AddDays(69),
+                ProjectDevelopmentGrantFundingAmountOf4thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf4thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf4thPaymentDue = new DateTime().AddDays(70),
+
+                ProjectDevelopmentGrantFundingDateOf5thActualPayment = new DateTime().AddDays(91),
+                ProjectDevelopmentGrantFundingAmountOf5thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf5thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf5thPaymentDue = new DateTime().AddDays(91),
+
+                ProjectDevelopmentGrantFundingDateOf6thActualPayment = new DateTime().AddDays(120),
+                ProjectDevelopmentGrantFundingAmountOf6thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf6thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf6thPaymentDue = new DateTime().AddDays(120),
+
+                ProjectDevelopmentGrantFundingDateOf7thActualPayment = new DateTime().AddDays(152),
+                ProjectDevelopmentGrantFundingAmountOf7thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf7thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf7thPaymentDue = new DateTime().AddDays(153),
+
+                ProjectDevelopmentGrantFundingDateOf8thActualPayment = new DateTime().AddDays(190),
+                ProjectDevelopmentGrantFundingAmountOf8thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf8thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf8thPaymentDue = new DateTime().AddDays(200),
+
+                ProjectDevelopmentGrantFundingDateOf9thActualPayment = new DateTime().AddDays(221),
+                ProjectDevelopmentGrantFundingAmountOf9thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf9thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf9thPaymentDue = new DateTime().AddDays(222),
+
+                ProjectDevelopmentGrantFundingDateOf10thActualPayment = new DateTime().AddDays(249),
+                ProjectDevelopmentGrantFundingAmountOf10thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf10thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf10thPaymentDue = new DateTime().AddDays(240),
+
+                ProjectDevelopmentGrantFundingDateOf11thActualPayment = new DateTime().AddDays(278),
+                ProjectDevelopmentGrantFundingAmountOf11thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf11thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf11thPaymentDue = new DateTime().AddDays(278),
+
+                ProjectDevelopmentGrantFundingDateOf12thActualPayment = new DateTime().AddDays(319),
+                ProjectDevelopmentGrantFundingAmountOf12thPayment = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingAmountOf12thPaymentDue = _fixture.Create<decimal>().ToString(),
+                ProjectDevelopmentGrantFundingDateOf12thPaymentDue = new DateTime().AddDays(320),
+
             };
 
             return result;
