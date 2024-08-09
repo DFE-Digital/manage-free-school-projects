@@ -17,7 +17,7 @@
 		"webpack-cli": "^5.0.0"
 	},
 	"dependencies": {
-		"accessible-autocomplete": "^2.0.4",
+		"accessible-autocomplete": "^3.0.0",
 		"dfe-frontend": "2.0.1",
 		"govuk-frontend": "5.4.0",
 		"jquery": "^3.6.1"
