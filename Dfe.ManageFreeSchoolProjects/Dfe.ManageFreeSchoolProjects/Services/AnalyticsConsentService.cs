@@ -25,9 +25,9 @@ namespace Dfe.ManageFreeSchoolProjects.Services
             var domain = _configuration["GoogleAnalytics:Domain"];
             if (!string.IsNullOrEmpty(domain))
             {
-				AnalyticsDomain = domain;
-			}
-		}
+                AnalyticsDomain = domain;
+            }
+        }
 
         public bool? ConsentValue()
         {
@@ -66,17 +66,17 @@ namespace Dfe.ManageFreeSchoolProjects.Services
             _httpContextAccessor.HttpContext.Response.Cookies.Append(ConsentCookieName, consent.ToString(), cookieOptions);
             var request = _httpContextAccessor.HttpContext.Request;
 
-			if (!consent)
+            if (!consent)
             {
                 foreach (var cookie in request.Cookies.Keys)
                 {
-                    if (cookie.StartsWith("_ga") || cookie.Equals("_gid"))
+                    if (cookie.StartsWith("_ga") || cookie.Equals("_gid") || cookie.StartsWith("ai_"))
                     {
                         //Delete if domain is the same
-						_httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie);
+                        _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie);
                         //Delete if domain matches - need both as we wont be sent the cookie if the domain doesnt match
-						_httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie, new CookieOptions() { Domain = AnalyticsDomain});
-					}
+                        _httpContextAccessor.HttpContext.Response.Cookies.Delete(cookie, new CookieOptions() { Domain = AnalyticsDomain, Secure = true });
+                    }
                 }
             }
         }
