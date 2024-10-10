@@ -7,7 +7,7 @@ import editSiteInformationPage from "cypress/pages/siteInformation/editSiteInfor
 import viewSiteInformationPage from "cypress/pages/siteInformation/viewSiteInformationPage";
 import validationComponent from "cypress/pages/validationComponent";
 
-describe("Testing the setting up of project sites", () => {
+describe("Testing the setting up of project sites - presumption route", () => {
     let project: ProjectDetailsRequest;
 
     beforeEach(() => {
@@ -150,4 +150,51 @@ describe("Testing the setting up of project sites", () => {
             .hasTemporarySiteAddress("Alternative temporary site", "Alternative temporary street", "Alternative temporary town")
             .hasTemporarySitePostcode("TE1 3RD");
     });
+
+});
+
+describe("Testing the setting up of project sites - central route", () => {
+    let project: ProjectDetailsRequest;
+    beforeEach(() => {
+        cy.login();
+
+        project = RequestBuilder.createProjectDetailsCentralRoute();
+
+        projectApi
+            .post({
+                projects: [project],
+            })
+            .then(() => {
+                cy.visit(`/projects/${project.projectId}/overview`);
+            });
+    });
+
+    it("Should be not allow user to able to edit the project sites for a central route project", () => {
+        Logger.log("When there are no project sites should display empty");
+        projectOverviewPage
+            .hasTemporarySiteAddress("Empty", "", "")
+            .hasTemporarySitePostcode("Empty")
+            .hasPermanentSiteAddress("Empty", "", "")
+            .hasPermanentSitePostcode("Empty");
+
+        projectOverviewPage.changeSiteInformation();
+
+        viewSiteInformationPage
+            .hasSchoolName(project.schoolName)
+            .checkInsetTextExists()
+            .hasTemporarySiteAddress("Empty", "", "")
+            .hasTemporarySitePostcode("Empty")
+            .hasTemporarySiteDatePlanningPermissionObtained("Empty")
+            .hasTemporarySiteStartDateOfOccupation("Empty")
+            .changeTemporarySiteShouldNotExist()
+            .hasPermanentSiteAddress("Empty", "", "")
+            .hasPermanentSitePostcode("Empty")
+            .hasPermanentSiteDatePlanningPermissionObtained("Empty")
+            .hasPermanentSiteStartDateOfOccupation("Empty")
+            .changePermanentSiteShouldNotExist();
+        
+        cy.executeAccessibilityTests();
+
+    });
+
 });

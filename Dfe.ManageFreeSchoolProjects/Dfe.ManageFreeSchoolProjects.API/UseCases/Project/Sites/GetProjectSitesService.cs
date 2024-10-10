@@ -1,4 +1,5 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites;
 using Dfe.ManageFreeSchoolProjects.API.Exceptions;
 using Dfe.ManageFreeSchoolProjects.Data;
 using Dfe.ManageFreeSchoolProjects.Data.Entities.Existing;
@@ -41,11 +42,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites
             var permanentSite = sites.FirstOrDefault(p => p.IsPermanentSite());
             var temporarySite = sites.FirstOrDefault(p => p.IsTemporarySite());
 
+            var projectType =
+               project.ProjectStatusFreeSchoolApplicationWave == "FS - Presumption"
+                   ? "Presumption"
+                   : "Central Route";
+
             var result = new GetProjectSitesResponse()
             {
                 PermanentSite = MapToSite(permanentSite),
                 TemporarySite = MapToSite(temporarySite),
                 SchoolName = project.ProjectStatusCurrentFreeSchoolName,
+                ProjectType = projectType,
             };
 
             return result;

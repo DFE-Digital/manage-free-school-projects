@@ -1,4 +1,5 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.ResponseModels;
 using Dfe.ManageFreeSchoolProjects.API.Tests.Fixtures;
 using Dfe.ManageFreeSchoolProjects.API.Tests.Helpers;
@@ -21,6 +22,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
         {
             var project = DatabaseModelBuilder.BuildProject();
             var projectId = project.ProjectStatusProjectId;
+
+            project.ProjectStatusFreeSchoolApplicationWave = DatabaseModelBuilder.CreateProjectWave(ProjectType.PresumptionRoute);
 
             using var context = _testFixture.GetContext();
             context.Kpi.Add(project);
@@ -46,6 +49,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             AssertionHelper.AssertProjectSite(actualTemporarySite, updateTemporarySiteRequest);
 
             content.Data.SchoolName.Should().Be(project.ProjectStatusCurrentFreeSchoolName);
+            content.Data.ProjectType.Should().Be("Presumption");
         }
 
         [Fact]
@@ -53,6 +57,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
         {
             var project = DatabaseModelBuilder.BuildProject();
             var projectId = project.ProjectStatusProjectId;
+
+            project.ProjectStatusFreeSchoolApplicationWave = DatabaseModelBuilder.CreateProjectWave(ProjectType.PresumptionRoute);
 
             using var context = _testFixture.GetContext();
             context.Kpi.Add(project);
@@ -78,6 +84,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
 
             AssertionHelper.AssertProjectSite(actualPermanentSite, updatePermanentSiteRequest);
             AssertionHelper.AssertProjectSite(actualTemporarySite, updateTemporarySiteRequest);
+
+            content.Data.ProjectType.Should().Be("Presumption");
         }
 
         [Fact]
@@ -85,6 +93,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
         {
             var project = DatabaseModelBuilder.BuildProject();
             var projectId = project.ProjectStatusProjectId;
+
+            project.ProjectStatusFreeSchoolApplicationWave = DatabaseModelBuilder.CreateProjectWave(ProjectType.PresumptionRoute);
 
             using var context = _testFixture.GetContext();
             context.Kpi.Add(project);
@@ -97,6 +107,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
 
             AssertBlankSite(content.Data.PermanentSite);
             AssertBlankSite(content.Data.TemporarySite);
+
+            content.Data.ProjectType.Should().Be("Presumption");
         }
 
         [Fact]

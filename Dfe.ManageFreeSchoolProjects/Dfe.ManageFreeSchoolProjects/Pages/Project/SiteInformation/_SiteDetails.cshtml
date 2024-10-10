@@ -3,11 +3,14 @@
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">@Model.SiteType site</h2>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@Model.EditLink" data-testid="change-@Model.IdPrefix-site">
-                Change<span class="govuk-visually-hidden">Change @Model.SiteType?.ToLower() site information</span>
-            </a>
-        </div>
+        @if(Model.EditLink != "")
+        {
+            <div class="govuk-summary-card__actions">
+                    <a class="govuk-link" href="@Model.EditLink" data-testid="change-@Model.IdPrefix-site">
+                        Change<span class="govuk-visually-hidden">Change @Model.SiteType?.ToLower() site information</span>
+                    </a>
+            </div>
+        }
     </div>
 
     <div class="govuk-summary-card__content">

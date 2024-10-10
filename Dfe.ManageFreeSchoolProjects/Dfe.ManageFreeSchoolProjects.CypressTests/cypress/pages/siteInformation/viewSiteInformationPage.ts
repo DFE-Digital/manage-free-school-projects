@@ -66,6 +66,24 @@ export class ViewSiteInformationPage {
         return this;
     }
 
+    public checkInsetTextExists() {
+        cy.getByTestId("central-route-hint").should("exist");
+
+        return this;
+    }
+
+    public changeTemporarySiteShouldNotExist(): this {
+        cy.getById("change-temporary-site").should("not.exist");
+
+        return this;
+    }
+
+    public changePermanentSiteShouldNotExist(): this {
+        cy.getById("change-permanent-site").should("not.exist");
+
+        return this;
+    }
+
     public backToProject(): this {
         cy.get(".govuk-back-link").click();
 

@@ -69,7 +69,13 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation
 
         public async Task<IActionResult> OnGet()
         {
+
             var sites = await _getProjectSitesService.Execute(ProjectId);
+
+            if(sites.ProjectType == "Central Route")
+            {
+                    return new NotFoundResult();
+            }
 
             var site = GetProjectSite(sites);
 
