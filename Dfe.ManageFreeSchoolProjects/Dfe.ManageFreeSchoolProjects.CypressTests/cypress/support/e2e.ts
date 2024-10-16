@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import { AuthenticationInterceptorParams } from "cypress/auth/authenticationInterceptor";
 import "./commands";
+import 'cypress-file-upload';
 import { RuleObject } from "axe-core";
 import {EnvAuthKey} from "../constants/cypressConstants";
 const registerCypressGrep = require('@cypress/grep')

@@ -3,6 +3,7 @@ import "cypress-axe";
 import { AuthenticationInterceptor } from "../auth/authenticationInterceptor";
 import { Logger } from "../common/logger";
 import { RuleObject } from "axe-core";
+import "cypress-file-upload";
 
 Cypress.Commands.add("getByTestId", (id) => {
     cy.get(`[data-testid="${id}"]`);
