@@ -56,10 +56,10 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.BulkEdit
                         CurrentRowIndex = row.FileRowIndex,
                         Data = currentRow
                     });
+                    
                     var currentValue = IsNotNullOrEmpty(currentRow) ? header.DataInteraction.GetFromDto(currentRow) : "";
                     if (!validationResult.IsValid)
                     {
-
                         validationRowResult.Columns.Add(new ValueChangeInfo()
                         {
                             ColumnIndex = column.ColumnIndex,
@@ -67,7 +67,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.BulkEdit
                             NewValue = header.DataInteraction.FormatValue(column.Value),
                             Error = validationResult.ErrorMessage
                         });
-
                     }
                     else
                     {

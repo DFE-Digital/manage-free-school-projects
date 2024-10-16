@@ -21,6 +21,9 @@
             if (!IsValidYear(year, out var yearNumber))
                 return CreateValidationResult(false, "Year must be between 2000 and 2050");
 
+            if (!int.TryParse(day, out _))
+                return CreateValidationResult(false, "Day must be a number, like 12");
+            
             if (!IsValidDay(day, yearNumber, monthNumber, out _))
                 return CreateValidationResult(false,
                     $"Day must be between 1 and {DateTime.DaysInMonth(yearNumber, monthNumber)}");
@@ -50,7 +53,7 @@
             if (string.IsNullOrEmpty(year)) missingParts.Add("year");
 
             if (missingParts.Count == 3)
-                return "Date must include a day, month, and year";
+                return "Date must include a day, month, and year"; 
             if (missingParts.Count > 0)
                 return $"Date must include a {string.Join(" and ", missingParts)}";
             return null;

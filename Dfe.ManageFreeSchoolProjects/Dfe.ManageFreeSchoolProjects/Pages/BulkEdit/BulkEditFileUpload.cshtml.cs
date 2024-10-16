@@ -108,7 +108,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.BulkEdit
                     })
                 });
 
-                ErrorCount = Rows.Count(x => x.Cells.Any(y => !string.IsNullOrEmpty(y.Error)));
+                ErrorCount = Rows.SelectMany(x => x.Cells).Count(y => !string.IsNullOrEmpty(y.Error));
 
                 if (ErrorCount == 0)
                 {
