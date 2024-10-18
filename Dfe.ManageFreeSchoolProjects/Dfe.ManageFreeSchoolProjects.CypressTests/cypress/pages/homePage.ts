@@ -12,6 +12,11 @@ class HomePage {
         return this;
     }
 
+    public updateMultipleFields(): this {
+        cy.get('.dfe-card').contains('Update multiple fields').click();
+
+        return this;
+    }
     public deleteProject(): this {
         cy.getByTestId("delete-project-button").click();
 
