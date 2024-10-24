@@ -12,6 +12,12 @@ class HomePage {
         return this;
     }
 
+    public bulkEdit(): this{
+        cy.contains('Update multiple fields').should('be.visible').click();
+        
+        return this;
+    }
+
     public deleteProject(): this {
         cy.getByTestId("delete-project-button").click();
 
