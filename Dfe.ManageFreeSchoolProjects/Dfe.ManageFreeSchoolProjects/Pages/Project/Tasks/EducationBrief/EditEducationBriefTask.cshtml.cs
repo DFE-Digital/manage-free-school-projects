@@ -83,7 +83,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.EducationBrief
                 };
 
                 await _updateProjectTaskService.Execute(ProjectId, request);
-                return Redirect(string.Format(RouteConstants.ViewEducationBriefTask, ProjectId));
+                return Redirect(string.Format(RouteConstants.ViewEducationPlansAndPoliciesTask, ProjectId));
             }
             catch (Exception ex)
             {

@@ -1,13 +1,13 @@
-@page "/projects/{projectId}/tasks/education-brief"
+@page "/projects/{projectId}/tasks/education-plans-and-policies"
 @using Dfe.ManageFreeSchoolProjects.Constants;
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.EducationBrief.ViewEducationBriefTask
 
 @{
-    ViewData["Title"] = $"Education brief - {Model.Project.SchoolName}";
+    ViewData["Title"] = $"Education plans and policies - {Model.Project.SchoolName}";
 
     var backlink = string.Format(RouteConstants.TaskList, Model.ProjectId);
-    var editlink = string.Format(RouteConstants.EditEducationBriefTask, Model.ProjectId);
+    var editlink = string.Format(RouteConstants.EditEducationPlansAndPoliciesTask, Model.ProjectId);
     var educationBrief = Model.Project.EducationBrief;
 }
 
@@ -23,7 +23,7 @@
             <span class="govuk-caption-l" data-testid="school-name">
                 @Model.Project.SchoolName
             </span>
-            Education brief
+            Education plans and policies
         </h1>
         <govuk-summary-list>
             <govuk-summary-item label="Education plan is in the education brief" asp-for="@educationBrief.EducationPlanInEducationBrief" href="@editlink"/>

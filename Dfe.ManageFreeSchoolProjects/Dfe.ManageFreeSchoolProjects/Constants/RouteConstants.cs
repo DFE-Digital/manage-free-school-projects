@@ -63,8 +63,8 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
         public const string ViewGiasTask = TaskList + "/gias";
         public const string EditGiasTask = ViewGiasTask + "/edit";
 
-        public const string ViewEducationBriefTask = TaskList + "/education-brief";
-        public const string EditEducationBriefTask = ViewEducationBriefTask + "/edit";
+        public const string ViewEducationPlansAndPoliciesTask = TaskList + "/education-plans-and-policies";
+        public const string EditEducationPlansAndPoliciesTask = ViewEducationPlansAndPoliciesTask + "/edit";
 
         public const string ViewAdmissionsArrangementsTask = TaskList + "/admissions-arrangements";
         public const string EditAdmissionsArrangementsTask = ViewAdmissionsArrangementsTask + "/edit";

@@ -26,7 +26,7 @@
     var articlesOfAssociationLink = string.Format(RouteConstants.ViewArticlesOfAssociation, Model.ProjectId);
     var financePlanLink = string.Format(RouteConstants.ViewFinancePlanTask, Model.ProjectId);
     var giasLink = string.Format(RouteConstants.ViewGiasTask, Model.ProjectId);
-    var educationBriefLink = string.Format(RouteConstants.ViewEducationBriefTask, Model.ProjectId);
+    var educationPlansAndPoliciesLink = string.Format(RouteConstants.ViewEducationPlansAndPoliciesTask, Model.ProjectId);
     var admissionsArrangementsLink = string.Format(RouteConstants.ViewAdmissionsArrangementsTask, Model.ProjectId);
     var equalitiesAssessmentLink = string.Format(RouteConstants.ViewEqualitiesAssessmentTask, Model.ProjectId);
     var impactAssessmentLink = string.Format(RouteConstants .ViewImpactAssessmentTask, Model.ProjectId);
@@ -149,7 +149,7 @@
                     <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.AdmissionsArrangements" href="@admissionsArrangementsLink" label="Admissions arrangements" />
                     <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.ArticlesOfAssociation" href="@articlesOfAssociationLink" label="Articles of association" />
                     <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.GovernancePlan" href="@governancePlanLink" label="Governance plan" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.EducationBrief" href="@educationBriefLink" label="Education brief" />
+                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.EducationBrief" href="@educationPlansAndPoliciesLink" label="Education plans and policies" />
                     <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FinancePlan" href="@financePlanLink" label="Finance plan" />
                     <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.StatutoryConsultation" href="@statutoryConsultationLink" label="Statutory consultation" />
                     <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.ImpactAssessment" href="@impactAssessmentLink" label="Impact assessment" />
