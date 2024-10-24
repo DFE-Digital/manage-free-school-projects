@@ -33,6 +33,9 @@ describe("Testing that we can add a project risk", () => {
         it("Should be able to add project risk", () => {
 
             projectOverviewPage
+                .hasProjectTitleHeader(project.schoolName)
+                .hasProjectStatus("Pre-opening")
+                .selectRiskRatingAndSummaryTab()
                 .hasProjectRiskDate("Empty")
                 .hasProjectRiskRating(["Empty"])
                 .hasProjectRiskSummary("Empty");
@@ -195,7 +198,7 @@ describe("Testing that we can add a project risk", () => {
             cy.executeAccessibilityTests();
 
             Logger.log("Ensure that the project risk has been updated on the overview");
-            cy.visit(`/projects/${project.projectId}/overview`);
+            cy.visit(`/projects/${project.projectId}/risk-rating-and-summary`);
 
             projectOverviewPage
                 .hasProjectRiskDate(toDisplayDate(now))
@@ -205,7 +208,9 @@ describe("Testing that we can add a project risk", () => {
 
         it("Should be able to add multiple project risks with the latest being displayed by default", () => {
             Logger.log("Changing project risk")
-            projectOverviewPage.changeProjectRisk();
+            projectOverviewPage
+                .selectRiskRatingAndSummaryTab()
+                .changeProjectRisk();
 
             Logger.log("Adding the first project risk");
             projectRiskSummaryPage.addRiskEntry();
@@ -346,7 +351,7 @@ describe("Testing that we can add a project risk", () => {
 
 
                     Logger.log("Ensure that the latest project risk has been updated on the overview");
-                    cy.visit(`/projects/${project.projectId}/overview`);
+                    cy.visit(`/projects/${project.projectId}/risk-rating-and-summary`);
 
                     projectOverviewPage
                         .hasProjectRiskDate(toDisplayDate(now))
@@ -357,7 +362,9 @@ describe("Testing that we can add a project risk", () => {
 
         it("Should be able to add a project risk with the minimum values set", () => {
             Logger.log("Changing project risk")
-            projectOverviewPage.changeProjectRisk();
+            projectOverviewPage
+                    .selectRiskRatingAndSummaryTab()
+                    .changeProjectRisk();
 
             Logger.log("Add risk entry");
             projectRiskSummaryPage.addRiskEntry();
@@ -422,7 +429,9 @@ describe("Testing that we can add a project risk", () => {
 
         it("Should add a project risk entry even if none of the data changes", () => {
             Logger.log("Changing project risk")
-            projectOverviewPage.changeProjectRisk();
+            projectOverviewPage
+                    .selectRiskRatingAndSummaryTab()
+                    .changeProjectRisk();
 
             Logger.log("Add risk entry");
             projectRiskSummaryPage.addRiskEntry();

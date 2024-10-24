@@ -177,6 +177,12 @@ class ContactsPage {
 
         return this;
     }
+
+    public hasProjectTitleHeader(value: string): this {
+        cy.getByTestId("project-title-header").should("contain.text", value);
+
+        return this;
+    }
     
 }
 

@@ -3,32 +3,47 @@
 @using Dfe.ManageFreeSchoolProjects.Constants
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.ViewSiteInformationModel
 @{
-    var backLink = string.Format(RouteConstants.ProjectOverview, Model.ProjectId);
+    var projectStatusViewModel = new ProjectStatusViewModel()
+            {
+                ProjectId = @Model.ProjectId,
+                ProjectStatus = @Model.ProjectStatus,
+                Referrer = Referrer.ProjectOverview
+            };
+
     var projectType = Model.SiteInformation.ProjectType;
     var editPermanentSite = projectType == "Central Route" ? "" : string.Format(RouteConstants.EditPermanentSiteInformation, Model.ProjectId);
     var editTemporarySite = projectType == "Central Route" ? "" : string.Format(RouteConstants.EditTemporarySiteInformation, Model.ProjectId);
 
     ViewData["Title"] = $"Site information - {Model.SiteInformation.SchoolName}";
+    ViewData["WidePage"] = true;
+
+    var currentNavIndex = NavConstants.NavItemList.FindIndex(item => item.Description == "Site information");
 }
+
 @section BeforeMain {
-    <div class="govuk-width-container">
-        <a href="@backLink" class="govuk-back-link">Back</a>
+    <mfsp-project-header project-id="@Model.ProjectId"
+                         school-name="@Model.SchoolName"
+                         back-link="/"
+                         back-text="Back to all projects"
+                         page-title="Site information"
+                         project-status="@projectStatusViewModel" />
+}
+
+<div class="govuk-grid-row">
+    <mfsp-nav project-id="@Model.ProjectId" current-index="@currentNavIndex" />
+    <div class="govuk-grid-column-three-quarters">
+        <div class="govuk-grid-column-full">
+            @{
+                if (projectType == "Central Route")
+                {
+                        <div class="govuk-inset-text govuk-!-width-two-thirds" data-testid="central-route-hint">
+                            Site information is in the Construct system for central route projects. Contact the relevant project director in Education Estates to access it.
+                        </div>
+                }
+            }
+
+            <govuk-site-details site="@Model.SiteInformation.TemporarySite" edit-link="@editTemporarySite" site-type="@ProjectSiteType.Temporary.ToString()" project-type="@Model.SiteInformation.ProjectType" />
+            <govuk-site-details site="@Model.SiteInformation.PermanentSite" edit-link="@editPermanentSite" site-type="@ProjectSiteType.Permanent.ToString()" project-type="@Model.SiteInformation.ProjectType" />
+        </div>
     </div>
-}
-
-<h1 class="govuk-heading-xl" data-testid="title">
-    <span class="govuk-caption-l" data-testid="school-name">@Model.SiteInformation.SchoolName</span>
-    Site information
-</h1>
-
-@{
-    if (projectType == "Central Route")
-    {
-            <div class="govuk-inset-text govuk-!-width-two-thirds" data-testid="central-route-hint">
-                Site information is in the Construct system for central route projects. Contact the relevant project director in Education Estates to access it.
-            </div>
-    }
-}
-
-<govuk-site-details site="@Model.SiteInformation.TemporarySite" edit-link="@editTemporarySite" site-type="@ProjectSiteType.Temporary.ToString()" project-type="@Model.SiteInformation.ProjectType" />
-<govuk-site-details site="@Model.SiteInformation.PermanentSite" edit-link="@editPermanentSite" site-type="@ProjectSiteType.Permanent.ToString()" project-type="@Model.SiteInformation.ProjectType" />
+</div>

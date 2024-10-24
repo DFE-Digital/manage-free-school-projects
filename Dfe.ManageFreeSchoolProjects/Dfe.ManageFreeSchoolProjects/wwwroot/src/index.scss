@@ -114,3 +114,44 @@ for details on configuring this project to bundle and minify static web assets. 
 .govuk-prototype-kit-common-templates-related-items .govuk-list > li {
     margin-bottom: govuk-spacing(2);
 }
+
+.mfsp-side-nav {
+	margin-left: -12px;
+
+	ul > li {
+		margin-bottom: 0;
+	}
+
+	.mfsp-side-nav__list {
+		@include govuk-responsive-margin(6, "bottom");
+		list-style-type: none;
+		padding: 0;
+		margin-top: 0;
+	}
+
+	.mfsp-side-nav__item {
+		padding-left: 8px;
+		padding-bottom: 8px;
+		padding-top: 6px;
+		box-sizing: content-box;
+		border-left: 4px solid transparent;
+	}
+
+	.mfsp-side-nav__item--current {
+		background-color: #f4f2f2;
+		border-color: #1d70b8;
+		font-weight: bold;
+	}
+
+	.mfsp-side-nav__heading {
+		@extend .mfsp-side-nav__item;
+		font-weight: normal;
+		font-size: 1.1857rem;
+		color: #505a5f;
+		margin: 0;
+	}
+
+	.mfsp-side-nav__link {
+		text-decoration: none;
+	}
+}

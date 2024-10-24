@@ -6,15 +6,13 @@
 
 @{
     ViewData["Title"] = $"Contacts";
+    ViewData["WidePage"] = true;
     var projectStatusViewModel = new ProjectStatusViewModel()
     {
         ProjectId = @Model.ProjectId,
         ProjectStatus = @Model.ProjectStatus,
         Referrer = Referrer.ContactsOverview
     };
-    var projectOverviewLink = string.Format(RouteConstants.ProjectOverview, Model.ProjectId);
-    var taskListLink = string.Format(RouteConstants.TaskList, Model.ProjectId);
-    var contactsLink = string.Format(RouteConstants.Contacts, Model.ProjectId);
     var projectAssignedToLink = string.Format(RouteConstants.EditProjectAssignedTo, Model.ProjectId);
     var teamLeadLink = string.Format(RouteConstants.EditTeamLead, Model.ProjectId);
     var grade6Link = string.Format(RouteConstants.EditGrade6, Model.ProjectId);
@@ -23,387 +21,354 @@
     var trustContactLink = string.Format(RouteConstants.EditTrustContact, Model.ProjectId);
     var ofstedContactLink = string.Format(RouteConstants.EditOfstedContact, Model.ProjectId);
     var principalDesignateContactLink = string.Format(RouteConstants.EditPrincipalDesignateContact, Model.ProjectId);
+
+    var currentNavIndex = NavConstants.NavItemList.FindIndex(item => item.Description == "Contacts");
 }
 
 <partial name="_ErrorSummary"/>
 
 @section BeforeMain
 {
-    <div class="dfe-content-page--header">
-        <div class="dfe-width-container ">
-            <div class="govuk-grid-row ">
-                <div class="govuk-grid-column-three-quarters">
-                    <a href="/" class="govuk-back-link">Back to all projects</a>
-                </div>
-            </div>
-            <div class="govuk-grid-row govuk-!-padding-top-5 govuk-!-padding-bottom-0">
-                <div class="govuk-grid-column-three-quarters">
-                    <partial name="_ProjectStatusSuccessBanner"/>
-                    <span class="govuk-body-s" data-testid="project-id-header">Project ID: @Model.ProjectId</span>
-                    <h1 class="govuk-heading-xl govuk-!-margin-bottom-2" data-testid="project-title-header">@Model.SchoolName</h1>
-                    <partial name="_ProjectStatus" model="@projectStatusViewModel"/>
-                    <p id="header-contacts" class="govuk-!-font-size-27 govuk-!-font-weight-bold">
-                        Contacts
-                    </p>
-                </div>
-            </div>
-            <div class="govuk-grid-row govuk-!-padding-top-0 govuk-!-padding-bottom-5">
-                <div class="govuk-grid-column-full">
-                </div>
-            </div>
-        </div>
-    </div>
+    <mfsp-project-header project-id="@Model.ProjectId"
+                         school-name="@Model.SchoolName"
+                         back-link="/"
+                         back-text="Back to all projects"
+                         page-title="Contacts"
+                         project-status="@projectStatusViewModel" />
 }
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <nav class="app-sub-navigation" aria-label="sub menu">
+    <mfsp-nav project-id="@Model.ProjectId" current-index="@currentNavIndex" />
+    <div class="govuk-grid-column-three-quarters">
+        <div class="govuk-grid-column-full">
 
-            <ul class="app-sub-navigation__list govuk-!-margin-top-6">
-                <li class="app-sub-navigation__item">
-                    <a class="app-sub-navigation__link" href="@projectOverviewLink">
-                        About the project
-                    </a>
-                </li>
-                <li class="app-sub-navigation__item">
-                    <a class="app-sub-navigation__link" href="@taskListLink">
-                        Task list
-                    </a>
-                </li>
-                <li class="app-sub-navigation__item">
-                    <a class="app-sub-navigation__link" aria-current="page" href="@contactsLink">
-                        Contacts
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+            <h2 class="govuk-heading-m govuk-!-font-size-27" id="regions-group">Regions Group</h2>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27" id="regions-group">Regions Group</h2>
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title">Project assigned to</h3>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@projectAssignedToLink" data-testid="edit-project-assigned-to">
+                            Change
+                            <span class="govuk-visually-hidden">Change Project assigned to (Regions Group)</span>
+                        </a>
+                    </div>
+                </div>
 
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">Project assigned to</h3>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@projectAssignedToLink" data-testid="edit-project-assigned-to">
-                Change
-                <span class="govuk-visually-hidden">Change Project assigned to (Regions Group)</span>
-            </a>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="project-assigned-to-name">
+                                @Model.Contacts.Contacts.ProjectAssignedTo.Name
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email address
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="project-assigned-to-email">
+                                @Model.Contacts.Contacts.ProjectAssignedTo.Email
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title">Team lead</h3>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@teamLeadLink" data-testid="edit-team-lead">
+                            Change
+                            <span class="govuk-visually-hidden">Change Team lead (Regions Group)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="team-lead-name">
+                                @Model.Contacts.Contacts.TeamLead.Name
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email address
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="team-lead-email">
+                                @Model.Contacts.Contacts.TeamLead.Email
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title">Grade 6</h3>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@grade6Link" data-testid="edit-grade-6">
+                            Change
+                            <span class="govuk-visually-hidden">Change Grade 6 (Regions Group)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="grade-6-name">
+                                @Model.Contacts.Contacts.Grade6.Name
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email address
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="grade-6-email">
+                                @Model.Contacts.Contacts.Grade6.Email
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <h2 class="govuk-heading-m govuk-!-font-size-27" id="education-estates">Education Estates</h2>
+
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title">Project manager</h3>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@projectManagerLink" data-testid="edit-project-manager">
+                            Change
+                            <span class="govuk-visually-hidden">Change Project manager (Education Estates)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="project-manager-name">
+                                @Model.Contacts.Contacts.ProjectManager.Name
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email address
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="project-manager-email">
+                                @Model.Contacts.Contacts.ProjectManager.Email
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title">Project director</h3>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@projectDirectorLink" data-testid="edit-project-director">
+                            Change
+                            <span class="govuk-visually-hidden">Change Project director (Education Estates)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="project-director-name">
+                                @Model.Contacts.Contacts.ProjectDirector.Name
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email address
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="project-director-email">
+                                @Model.Contacts.Contacts.ProjectDirector.Email
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <h2 class="govuk-heading-m govuk-!-font-size-27" id="external">External</h2>
+
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title">Principal designate</h3>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@principalDesignateContactLink" data-testid="edit-principal-designate">
+                            Change
+                            <span class="govuk-visually-hidden">Change Principal designate (External)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="principal-designate-name">
+                                @Model.Contacts.Contacts.PrincipalDesignate.Name
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email address
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="principal-designate-email">
+                                @Model.Contacts.Contacts.PrincipalDesignate.Email
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title">Trust contact</h3>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@trustContactLink" data-testid="edit-trust-contact">
+                            Change
+                            <span class="govuk-visually-hidden">Change Trust contact (External)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="trust-contact-name">
+                                @Model.Contacts.Contacts.TrustContact.Name
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email address
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="trust-contact-email">
+                                @Model.Contacts.Contacts.TrustContact.Email
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Phone number
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="trust-contact-phone-number">
+                                @Model.Contacts.Contacts.TrustContact.PhoneNumber
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Role
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="trust-contact-role">
+                                @Model.Contacts.Contacts.TrustContact.Role
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h3 class="govuk-summary-card__title">Ofsted contact</h3>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@ofstedContactLink" data-testid="edit-ofsted-contact">
+                            Change
+                            <span class="govuk-visually-hidden">Change Ofsted contact (External)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Name
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="ofsted-contact-name">
+                                @Model.Contacts.Contacts.OfstedContact.Name
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Email address
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="ofsted-contact-email">
+                                @Model.Contacts.Contacts.OfstedContact.Email
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Phone number
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="ofsted-contact-phone-number">
+                                @Model.Contacts.Contacts.OfstedContact.PhoneNumber
+                            </dd>
+
+                        </div>
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Role
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="ofsted-contact-role">
+                                @Model.Contacts.Contacts.OfstedContact.Role
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Name
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="project-assigned-to-name">
-                    @Model.Contacts.Contacts.ProjectAssignedTo.Name
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Email address
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="project-assigned-to-email">
-                    @Model.Contacts.Contacts.ProjectAssignedTo.Email
-                </dd>
-            </div>
-        </dl>
-    </div>
-</div>
-
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">Team lead</h3>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@teamLeadLink" data-testid="edit-team-lead">
-                Change
-                <span class="govuk-visually-hidden">Change Team lead (Regions Group)</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Name
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="team-lead-name">
-                    @Model.Contacts.Contacts.TeamLead.Name
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Email address
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="team-lead-email">
-                    @Model.Contacts.Contacts.TeamLead.Email
-                </dd>
-            </div>
-        </dl>
-    </div>
-</div>
-
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">Grade 6</h3>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@grade6Link" data-testid="edit-grade-6">
-                Change
-                <span class="govuk-visually-hidden">Change Grade 6 (Regions Group)</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Name
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="grade-6-name">
-                    @Model.Contacts.Contacts.Grade6.Name
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Email address
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="grade-6-email">
-                    @Model.Contacts.Contacts.Grade6.Email
-                </dd>
-            </div>
-        </dl>
-    </div>
-</div>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27" id="education-estates">Education Estates</h2>
-
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">Project manager</h3>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@projectManagerLink" data-testid="edit-project-manager">
-                Change
-                <span class="govuk-visually-hidden">Change Project manager (Education Estates)</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Name
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="project-manager-name">
-                    @Model.Contacts.Contacts.ProjectManager.Name
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Email address
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="project-manager-email">
-                    @Model.Contacts.Contacts.ProjectManager.Email
-                </dd>
-            </div>
-        </dl>
-    </div>
-</div>
-
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">Project director</h3>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@projectDirectorLink" data-testid="edit-project-director">
-                Change
-                <span class="govuk-visually-hidden">Change Project director (Education Estates)</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Name
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="project-director-name">
-                    @Model.Contacts.Contacts.ProjectDirector.Name
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Email address
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="project-director-email">
-                    @Model.Contacts.Contacts.ProjectDirector.Email
-                </dd>
-            </div>
-        </dl>
-    </div>
-</div>
-
-<h2 class="govuk-heading-m govuk-!-font-size-27" id="external">External</h2>
-
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">Principal designate</h3>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@principalDesignateContactLink" data-testid="edit-principal-designate">
-                Change
-                <span class="govuk-visually-hidden">Change Principal designate (External)</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Name
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="principal-designate-name">
-                    @Model.Contacts.Contacts.PrincipalDesignate.Name
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Email address
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="principal-designate-email">
-                    @Model.Contacts.Contacts.PrincipalDesignate.Email
-                </dd>
-            </div>
-        </dl>
-    </div>
-</div>
-
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">Trust contact</h3>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@trustContactLink" data-testid="edit-trust-contact">
-                Change
-                <span class="govuk-visually-hidden">Change Trust contact (External)</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Name
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="trust-contact-name">
-                    @Model.Contacts.Contacts.TrustContact.Name
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Email address
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="trust-contact-email">
-                    @Model.Contacts.Contacts.TrustContact.Email
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Phone number
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="trust-contact-phone-number">
-                    @Model.Contacts.Contacts.TrustContact.PhoneNumber
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Role
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="trust-contact-role">
-                    @Model.Contacts.Contacts.TrustContact.Role
-                </dd>
-            </div>
-        </dl>
-    </div>
-</div>
-
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h3 class="govuk-summary-card__title">Ofsted contact</h3>
-        <div class="govuk-summary-card__actions">
-            <a class="govuk-link" href="@ofstedContactLink" data-testid="edit-ofsted-contact">
-                Change
-                <span class="govuk-visually-hidden">Change Ofsted contact (External)</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Name
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="ofsted-contact-name">
-                    @Model.Contacts.Contacts.OfstedContact.Name
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Email address
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="ofsted-contact-email">
-                    @Model.Contacts.Contacts.OfstedContact.Email
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Phone number
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="ofsted-contact-phone-number">
-                    @Model.Contacts.Contacts.OfstedContact.PhoneNumber
-                </dd>
-
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Role
-                </dt>
-                <dd class="govuk-summary-list__value" data-testid="ofsted-contact-role">
-                    @Model.Contacts.Contacts.OfstedContact.Role
-                </dd>
-            </div>
-        </dl>
     </div>
 </div>

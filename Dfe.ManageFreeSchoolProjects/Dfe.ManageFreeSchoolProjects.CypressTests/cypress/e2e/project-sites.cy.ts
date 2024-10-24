@@ -27,12 +27,15 @@ describe("Testing the setting up of project sites - presumption route", () => {
     it("Should be able to configure the project sites", () => {
         Logger.log("When there are no project sites should display empty");
         projectOverviewPage
+            .selectSiteInformationTab();
+        
+        viewSiteInformationPage
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")
             .hasTemporarySiteAddress("Empty", "", "")
             .hasTemporarySitePostcode("Empty")
             .hasPermanentSiteAddress("Empty", "", "")
             .hasPermanentSitePostcode("Empty");
-
-        projectOverviewPage.changeSiteInformation();
 
         Logger.log("Test we can submit a blank site");
 
@@ -41,7 +44,6 @@ describe("Testing the setting up of project sites - presumption route", () => {
         editSiteInformationPage.saveAndContinue();
 
         viewSiteInformationPage
-            .hasSchoolName(project.schoolName)
             .hasTemporarySiteAddress("Empty", "", "")
             .hasTemporarySitePostcode("Empty")
             .hasTemporarySiteDatePlanningPermissionObtained("Empty")
@@ -74,7 +76,6 @@ describe("Testing the setting up of project sites - presumption route", () => {
         cy.executeAccessibilityTests();
 
         editSiteInformationPage
-            .hasSchoolName(project.schoolName)
             .withAddressLine1("Permanent test house")
             .withAddressLine2("Permanent test street")
             .withTownOrCity("Permanent test town")
@@ -142,9 +143,8 @@ describe("Testing the setting up of project sites - presumption route", () => {
             .hasTemporarySiteDatePlanningPermissionObtained("13 April 2027");
 
         Logger.log("Check the overview reflects the changes");
-        viewSiteInformationPage.backToProject();
 
-        projectOverviewPage
+        viewSiteInformationPage
             .hasPermanentSiteAddress("Alternative permanent site", "Alternative permanent street", "Alternative permanent town")
             .hasPermanentSitePostcode("TE1 4TH")
             .hasTemporarySiteAddress("Alternative temporary site", "Alternative temporary street", "Alternative temporary town")
@@ -165,22 +165,21 @@ describe("Testing the setting up of project sites - central route", () => {
                 projects: [project],
             })
             .then(() => {
-                cy.visit(`/projects/${project.projectId}/overview`);
+                cy.visit(`/projects/${project.projectId}/site-information`);
             });
     });
 
     it("Should be not allow user to able to edit the project sites for a central route project", () => {
         Logger.log("When there are no project sites should display empty");
-        projectOverviewPage
+        viewSiteInformationPage
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")
             .hasTemporarySiteAddress("Empty", "", "")
             .hasTemporarySitePostcode("Empty")
             .hasPermanentSiteAddress("Empty", "", "")
             .hasPermanentSitePostcode("Empty");
 
-        projectOverviewPage.changeSiteInformation();
-
         viewSiteInformationPage
-            .hasSchoolName(project.schoolName)
             .checkInsetTextExists()
             .hasTemporarySiteAddress("Empty", "", "")
             .hasTemporarySitePostcode("Empty")

@@ -89,6 +89,18 @@ export class ViewSiteInformationPage {
 
         return this;
     }
+
+    public hasProjectStatus(value: string): this {
+        cy.getById(`status-tag`).should(`contain.text`, value);
+
+        return this;
+    }
+
+    public hasProjectTitleHeader(value: string): this {
+        cy.getByTestId("project-title-header").should("contain.text", value);
+
+        return this;
+    }
 }
 
 const viewSiteInformationPage = new ViewSiteInformationPage();

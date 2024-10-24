@@ -1,0 +1,26 @@
+﻿@model Dfe.ManageFreeSchoolProjects.TagHelpers.ProjectHeaderViewModel
+
+<div class="dfe-content-page--header">
+    <div class="dfe-width-container ">
+        <div class="govuk-grid-row ">
+            <div class="govuk-grid-column-three-quarters">
+                <a href="@Model.BackLink" class="govuk-back-link">@Model.BackText</a>
+            </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-padding-top-5 govuk-!-padding-bottom-0">
+            <div class="govuk-grid-column-three-quarters">
+                <partial name="_ProjectStatusSuccessBanner" />
+                <span class="govuk-body-s" data-testid="project-id-header">Project ID: @Model.ProjectId</span>
+                <h1 class="govuk-heading-xl govuk-!-margin-bottom-2" data-testid="project-title-header">@Model.SchoolName</h1>
+                <partial name="_ProjectStatus" model="@Model.ProjectStatus" />
+                <p id="header-contacts" class="govuk-!-font-size-27 govuk-!-font-weight-bold">
+                    @Model.PageTitle
+                </p>
+            </div>
+        </div>
+        <div class="govuk-grid-row govuk-!-padding-top-0 govuk-!-padding-bottom-5">
+            <div class="govuk-grid-column-full">
+            </div>
+        </div>
+    </div>
+</div>

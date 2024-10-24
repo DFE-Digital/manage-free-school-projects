@@ -1,0 +1,15 @@
+﻿@using Dfe.ManageFreeSchoolProjects.Constants;
+
+@model Dfe.ManageFreeSchoolProjects.TagHelpers.NavItemViewModel
+
+@{
+    var href = Model.Href;
+    var current = Model.Current;
+    var description = Model.Description;
+
+    var classes = current ? "mfsp-side-nav__item mfsp-side-nav__item--current" : "mfsp-side-nav__item";
+}
+
+<li class="@classes">
+    <a class="govuk-link govuk-link--no-visited-state mfsp-side-nav__link" href="@href">@description</a>
+</li>

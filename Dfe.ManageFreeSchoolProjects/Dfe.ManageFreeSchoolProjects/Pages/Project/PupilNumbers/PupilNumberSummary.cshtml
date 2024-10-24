@@ -1,0 +1,106 @@
+﻿@page "/projects/{projectId}/pupil-numbers-summary"
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites
+@using Dfe.ManageFreeSchoolProjects.Constants
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.PupilNumbers.PupilNumbersSummaryModel
+@{
+    var projectStatusViewModel = new ProjectStatusViewModel()
+            {
+                ProjectId = @Model.ProjectId,
+                ProjectStatus = @Model.ProjectStatus,
+                Referrer = Referrer.ProjectOverview
+            };
+
+    var pupilNumbersLink = string.Format(RouteConstants.ViewPupilNumbers, Model.ProjectId);
+
+    ViewData["Title"] = $"Pupil numbers summary - {Model.SchoolName}";
+    ViewData["WidePage"] = true;
+
+    var currentNavIndex = NavConstants.NavItemList.FindIndex(item => item.Description == "Pupil numbers");
+}
+
+@section BeforeMain {
+    <mfsp-project-header project-id="@Model.ProjectId"
+                         school-name="@Model.SchoolName"
+                         back-link="/"
+                         back-text="Back to all projects"
+                         page-title="Pupil numbers"
+                         project-status="@projectStatusViewModel" />
+}
+
+<div class="govuk-grid-row">
+    <mfsp-nav project-id="@Model.ProjectId" current-index="@currentNavIndex"/>
+    <div class="govuk-grid-column-three-quarters">
+        <div class="govuk-grid-column-full">
+            <div class="govuk-summary-card" id="pupil-numbers">
+                <div class="govuk-summary-card__title-wrapper">
+                    <h2 class="govuk-summary-card__title">Pupil numbers</h2>
+                    <div class="govuk-summary-card__actions">
+                        <a class="govuk-link" href="@pupilNumbersLink" data-testid="change-pupil-numbers">
+                            View details<span class="govuk-visually-hidden">for pupil numbers</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Total capacity
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="total-capacity">
+                                @Model.PupilNumbers.TotalCapacity
+                            </dd>
+                        </div>
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Pre-16 published admission number (PAN)
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="pre16-published-admission-number">
+                                @Model.PupilNumbers.Pre16PublishedAdmissionNumber
+                            </dd>
+                        </div>
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Post-16 published admission number (PAN)
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="post16-published-admission-number">
+                                @Model.PupilNumbers.Post16PublishedAdmissionNumber
+                            </dd>
+
+                        </div>
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Minimum viable number (MVN) for first year
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="minimum-viable-number">
+                                @Model.PupilNumbers.MinimumViableNumberForFirstYear
+                            </dd>
+                        </div>
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Applications received
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="applications-received">
+                                @Model.PupilNumbers.ApplicationsReceived
+                            </dd>
+
+                        </div>
+
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">
+                                Accepted Offers
+                            </dt>
+                            <dd class="govuk-summary-list__value" data-testid="accepted-offers">
+                                @Model.PupilNumbers.AcceptedOffers
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

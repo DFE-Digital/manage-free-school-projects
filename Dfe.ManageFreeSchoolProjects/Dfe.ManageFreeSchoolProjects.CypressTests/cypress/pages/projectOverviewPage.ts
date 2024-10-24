@@ -8,9 +8,24 @@ class ProjectOverviewPage {
         return this;
     }
 
+    public selectRiskRatingAndSummaryTab(): this {
+        cy.contains("Risk rating and summary").click()
+        return this;
+    }
+
     public selectContactsTab(): this {
         cy.contains("Contacts").click()
 
+        return this;
+    }
+
+    public selectSiteInformationTab(): this {
+        cy.contains("Site information").click()
+        return this;
+    }
+
+    public selectPupilNumbersTab(): this {
+        cy.contains("Pupil numbers").click()
         return this;
     }
 

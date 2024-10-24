@@ -19,6 +19,8 @@ describe("Testing project overview", () => {
         cy.visit(`/projects/${temporaryProjectId}/overview`);
 
         projectOverviewPage
+          .hasProjectTitleHeader(schoolName)
+          .hasProjectStatus("Pre-opening")
           .hasProvisionalOpeningDateAgreedWithTrust("1 October 2035")
           .hasTrustId("TR00111")
           .hasTrustName("Aurora Academies Trust")

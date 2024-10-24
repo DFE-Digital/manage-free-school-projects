@@ -15,6 +15,7 @@ import viewPre16PublishedAdmissionNumber from "cypress/pages/pupil-numbers/viewP
 import viewPupilNumbersPage from "cypress/pages/pupil-numbers/viewPupilNumbersPage";
 import viewRecruitmentAndViabilityPage from "cypress/pages/pupil-numbers/viewRecruitmentAndViabilityPage";
 import validationComponent from "cypress/pages/validationComponent";
+import projectOverviewPage from "cypress/pages/projectOverviewPage";
 
 describe("Testing the setting of pupil numbers", () => {
     let project: ProjectDetailsRequest;
@@ -36,7 +37,12 @@ describe("Testing the setting of pupil numbers", () => {
     });
 
     it("Should be able to edit capacity when full", () => {
-        pupilNumbersSummaryComponent.viewDetails();
+        
+        projectOverviewPage.selectPupilNumbersTab();
+        pupilNumbersSummaryComponent
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")
+            .viewDetails();
 
         viewPupilNumbersPage
             .hasSchoolName(project.schoolName)
@@ -115,7 +121,11 @@ describe("Testing the setting of pupil numbers", () => {
     });
 
     it("Should be able to edit the pre-16 published admission numbers", () => {
-        pupilNumbersSummaryComponent.viewDetails();
+        projectOverviewPage.selectPupilNumbersTab();
+        pupilNumbersSummaryComponent
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")
+            .viewDetails();
 
         Logger.log("Check all values are 0 initially");
         viewPre16PublishedAdmissionNumber
@@ -169,7 +179,11 @@ describe("Testing the setting of pupil numbers", () => {
     });
 
     it("Should be able to edit the post-16 published admission numbers", () => {
-        pupilNumbersSummaryComponent.viewDetails();
+        projectOverviewPage.selectPupilNumbersTab();
+        pupilNumbersSummaryComponent
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")
+            .viewDetails();
 
         Logger.log("Check all values are 0 initially");
         viewPost16PublishedAdmissionNumberPage
@@ -213,7 +227,11 @@ describe("Testing the setting of pupil numbers", () => {
     });
 
     it("Should be able to edit recruitment and viability", () => {
-        pupilNumbersSummaryComponent.viewDetails();
+        projectOverviewPage.selectPupilNumbersTab();
+        pupilNumbersSummaryComponent
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")    
+            .viewDetails();
 
         Logger.log("Check all values are 0 initially");
         viewRecruitmentAndViabilityPage
@@ -293,7 +311,11 @@ describe("Testing the setting of pupil numbers", () => {
     });
 
     it("Should be able to edit pre-16 capacity buildup", () => {
-        pupilNumbersSummaryComponent.viewDetails();
+        projectOverviewPage.selectPupilNumbersTab();
+        pupilNumbersSummaryComponent
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")
+            .viewDetails();
 
         viewPre16CapacityBuildupPage
             .hasNursery("0", "0", "0", "0", "0", "0", "0", "0")
@@ -484,7 +506,11 @@ describe("Testing the setting of pupil numbers", () => {
     });
 
     it("Should be able to edit post-16 capacity buildup", () => {
-        pupilNumbersSummaryComponent.viewDetails();
+        projectOverviewPage.selectPupilNumbersTab();
+        pupilNumbersSummaryComponent
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")
+            .viewDetails();
 
         viewPre16CapacityBuildupPage
             .hasYear12("0", "0", "0", "0", "0", "0", "0", "0")
@@ -545,14 +571,16 @@ describe("Testing the setting of pupil numbers", () => {
     });
 
     it("Should update the pupil numbers summary component", () => {
+        projectOverviewPage.selectPupilNumbersTab();
         pupilNumbersSummaryComponent
+            .hasProjectTitleHeader(project.schoolName)
+            .hasProjectStatus("Pre-opening")
             .hasCapacity("0")
             .hasPre16PublishedAdmissionNumber("0")
             .hasPost16PublishedAdmissionNumber("0")
             .hasMinimumViableNumber("0")
-            .hasApplicationsReceived("0");
-
-        pupilNumbersSummaryComponent.viewDetails();
+            .hasApplicationsReceived("0")
+            .viewDetails();
 
         Logger.log("configuration capacity");
         viewPupilNumbersPage.editCapacity();

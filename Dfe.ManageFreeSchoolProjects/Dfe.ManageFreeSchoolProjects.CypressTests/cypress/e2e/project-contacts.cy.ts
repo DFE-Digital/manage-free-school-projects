@@ -39,6 +39,8 @@ describe("Testing that we can add contacts", () => {
             cy.executeAccessibilityTests();
 
             contactsPage
+                .hasProjectTitleHeader(project.schoolName)
+                .hasProjectStatus("Pre-opening")
                 .hasProjectAssignedToName(project.projectAssignedToName)
                 .hasProjectAssignedToEmail(project.projectAssignedToEmail)            
             Logger.log("Edit Project assigned to")
@@ -89,6 +91,8 @@ describe("Testing that we can add contacts", () => {
                 cy.executeAccessibilityTests();
     
                 contactsPage
+                    .hasProjectTitleHeader(project.schoolName)
+                    .hasProjectStatus("Pre-opening")
                     .isEmpty("team-lead-name")
                     .isEmpty("team-lead-email")
                 Logger.log("Edit Team lead")
@@ -133,6 +137,8 @@ describe("Testing that we can add contacts", () => {
                     cy.executeAccessibilityTests();
         
                     contactsPage
+                        .hasProjectTitleHeader(project.schoolName)
+                        .hasProjectStatus("Pre-opening")
                         .isEmpty("grade-6-name")
                         .isEmpty("grade-6-email")
                     Logger.log("Edit Grade 6")
@@ -177,6 +183,8 @@ describe("Testing that we can add contacts", () => {
                     cy.executeAccessibilityTests();
         
                     contactsPage
+                        .hasProjectTitleHeader(project.schoolName)
+                        .hasProjectStatus("Pre-opening")
                         .isEmpty("project-manager-name")
                         .isEmpty("project-manager-email")
                     Logger.log("Edit Project manager")
@@ -221,6 +229,8 @@ describe("Testing that we can add contacts", () => {
                     cy.executeAccessibilityTests();
         
                     contactsPage
+                        .hasProjectTitleHeader(project.schoolName)
+                        .hasProjectStatus("Pre-opening")
                         .isEmpty("project-director-name")
                         .isEmpty("project-director-email")
                     Logger.log("Edit Project director")
@@ -265,6 +275,8 @@ describe("Testing that we can add contacts", () => {
                     cy.executeAccessibilityTests();
         
                     contactsPage
+                        .hasProjectTitleHeader(project.schoolName)
+                        .hasProjectStatus("Pre-opening")
                         .isEmpty("ofsted-contact-name")
                         .isEmpty("ofsted-contact-email")
                     Logger.log("Edit Ofsted contact")
@@ -331,6 +343,8 @@ describe("Testing that we can add contacts", () => {
                     cy.executeAccessibilityTests();
         
                     contactsPage
+                        .hasProjectTitleHeader(project.schoolName)
+                        .hasProjectStatus("Pre-opening")
                         .isEmpty("trust-contact-name")
                         .isEmpty("trust-contact-email")
                     Logger.log("Edit Trust contact")
@@ -397,6 +411,8 @@ describe("Testing that we can add contacts", () => {
                     cy.executeAccessibilityTests();
         
                     contactsPage
+                        .hasProjectTitleHeader(project.schoolName)
+                        .hasProjectStatus("Pre-opening")
                         .isEmpty("principal-designate-name")
                         .isEmpty("principal-designate-email")
                     Logger.log("Edit Principal designate")

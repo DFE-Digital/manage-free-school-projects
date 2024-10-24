@@ -6,7 +6,7 @@ import taskListPage from "cypress/pages/taskListPage";
 import educationBriefEditPage from "../../../pages/tasks/sign-off-preparation/edit-education-brief.cy";
 import riskPage from "cypress/pages/risk/projectRiskSummaryPage"
 
-describe("Testing education brief", () => {
+describe("Testing education plans and policies", () => {
 
     let project: ProjectDetailsRequest;
 
@@ -24,19 +24,19 @@ describe("Testing education brief", () => {
             });
     });
 
-    it("Should successfully set education brief task", () => {
+    it("Should successfully set education plans and policies task", () => {
 
-        cy.log("education brief");
+        cy.log("education plans and policies");
         taskListPage.isTaskStatusIsNotStarted("EducationBrief")
             .selectEducationBriefFromList();
         
-        cy.log("Confirm empty education brief");
+        cy.log("Confirm empty education plans and policies");
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs("Education brief")
+            .titleIs("Education plans and policies")
             .inOrder()
-            .summaryShows("Education plan is in the education brief").IsEmpty().HasChangeLink()
-            .summaryShows("Education policies are in the education brief").IsEmpty().HasChangeLink()
+            .summaryShows("Education plan is in the education plans and policies").IsEmpty().HasChangeLink()
+            .summaryShows("Education policies are in the education plans and policies").IsEmpty().HasChangeLink()
             .summaryShows("Pupil assessment and tracking history are in place").IsEmpty().HasChangeLink()
             .summaryShows("Saved documents in Workplaces folder").IsEmpty().HasChangeLink()
             .isNotMarkedAsComplete();
@@ -46,7 +46,7 @@ describe("Testing education brief", () => {
         cy.log("Go back to task list");
         summaryPage.clickBack();
 
-        cy.log("Confirm not started and open education brief");
+        cy.log("Confirm not started and open education plans and policies");
         taskListPage.isTaskStatusIsNotStarted("EducationBrief")
             .selectEducationBriefFromList()
 
@@ -56,7 +56,7 @@ describe("Testing education brief", () => {
         taskListPage.isTaskStatusInProgress("EducationBrief")
             .selectEducationBriefFromList()
 
-        cy.log("Check education brief page");
+        cy.log("Check education plans and policies page");
 
         summaryPage.clickChange();
 
@@ -71,15 +71,15 @@ describe("Testing education brief", () => {
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs("Education brief")
+            .titleIs("Education plans and policies")
             .inOrder()
-            .summaryShows("Education plan is in the education brief").HasValue("Yes").HasChangeLink()
-            .summaryShows("Education policies are in the education brief").HasValue("Yes").HasChangeLink()
+            .summaryShows("Education plan is in the education plans and policies").HasValue("Yes").HasChangeLink()
+            .summaryShows("Education policies are in the education plans and policies").HasValue("Yes").HasChangeLink()
             .summaryShows("Pupil assessment and tracking history are in place").HasValue("Yes").HasChangeLink()
             .summaryShows("Saved documents in Workplaces folder").HasValue("Yes").HasChangeLink()
             .isNotMarkedAsComplete();
 
-        cy.log("uncheck education brief page");
+        cy.log("uncheck education plans and policies page");
 
         summaryPage.clickChange();
 
@@ -99,10 +99,10 @@ describe("Testing education brief", () => {
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs("Education brief")
+            .titleIs("Education plans and policies")
             .inOrder()
-            .summaryShows("Education plan is in the education brief").IsEmpty().HasChangeLink()
-            .summaryShows("Education policies are in the education brief").IsEmpty().HasChangeLink()
+            .summaryShows("Education plan is in the education plans and policies").IsEmpty().HasChangeLink()
+            .summaryShows("Education policies are in the education plans and policies").IsEmpty().HasChangeLink()
             .summaryShows("Pupil assessment and tracking history are in place").IsEmpty().HasChangeLink()
             .summaryShows("Saved documents in Workplaces folder").IsEmpty().HasChangeLink()
             .isMarkedAsComplete()

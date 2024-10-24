@@ -4,7 +4,7 @@
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.PupilNumbers.ViewPupilNumbersModel
 @{
     ViewData["Title"] = $"Pupil numbers - {Model.PupilNumbers.SchoolName}";
-    var backlink = string.Format(RouteConstants.ProjectOverview, Model.ProjectId);
+    var backlink = string.Format(RouteConstants.PupilNumbersSummary, Model.ProjectId);
     var capacityWhenFull = Model.PupilNumbers.CapacityWhenFull;
     var recruitmentAndViability = Model.PupilNumbers.RecruitmentAndViability;
     var pre16PublishedAdmissionNumber = Model.PupilNumbers.Pre16PublishedAdmissionNumber;

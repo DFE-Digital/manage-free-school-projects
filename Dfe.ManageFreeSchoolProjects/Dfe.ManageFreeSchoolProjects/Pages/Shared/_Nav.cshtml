@@ -1,0 +1,20 @@
+﻿@using Dfe.ManageFreeSchoolProjects.Constants;
+
+@model Dfe.ManageFreeSchoolProjects.TagHelpers.NavViewModel
+
+<div class="govuk-grid-column-one-quarter">
+
+    <nav class="mfsp-side-nav">
+        <ul class="mfsp-side-nav__list">
+            @{
+                foreach(NavConstants.NavItem navItem in NavConstants.NavItemList) {
+                    bool isCurrent = (NavConstants.NavItemList.IndexOf(navItem) == Model.CurrentIndex);
+
+                    <mfsp-nav-item href="@string.Format(navItem.Link, Model.ProjectId)" current=isCurrent description="@navItem.Description" />
+            }
+        }
+        </ul>
+
+    </nav>
+
+</div>

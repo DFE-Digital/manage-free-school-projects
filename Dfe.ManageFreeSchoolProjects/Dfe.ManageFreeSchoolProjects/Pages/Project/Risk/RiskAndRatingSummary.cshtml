@@ -1,0 +1,44 @@
+﻿@page "/projects/{projectId}/risk-rating-and-summary"
+@using Dfe.ManageFreeSchoolProjects.Pages.Project;
+@using Dfe.ManageFreeSchoolProjects.Constants;
+@using Dfe.ManageFreeSchoolProjects.Pages.Project.Risk
+@model RiskAndRatingSummaryModel
+@{
+    ViewData["Title"] = $"Risk and rating summary";
+    ViewData["WidePage"] = true;
+    var projectStatusViewModel = new ProjectStatusViewModel()
+            {
+                ProjectId = @Model.ProjectId,
+                ProjectStatus = @Model.ProjectStatus,
+                Referrer = Referrer.ProjectOverview
+            };
+
+    var currentNavIndex = NavConstants.NavItemList.FindIndex(item => item.Description == "Risk rating and summary");
+}
+
+<partial name="_ErrorSummary" />
+
+@section BeforeMain
+{
+    <mfsp-project-header project-id="@Model.ProjectId"
+                         school-name="@Model.SchoolName"
+                         back-link="/"
+                         back-text="Back to all projects"
+                         page-title="Risk rating and summary"
+                         project-status="@projectStatusViewModel"
+    />
+}
+
+<div class="govuk-grid-row">
+    <mfsp-nav project-id="@Model.ProjectId" current-index="@currentNavIndex"/>
+    <div class="govuk-grid-column-three-quarters">
+        <div class="govuk-grid-column-full">
+
+            <govuk-risk-rating-summary project-id="@Model.ProjectId"
+                                       change-link-text="Change"
+                                       date="@Model.ProjectRisk.Date"
+                                       risk-rating="@Model.ProjectRisk.Overall.RiskRating"
+                                       summary="@Model.ProjectRisk.Overall.Summary" />
+        </div>
+    </div>
+</div>

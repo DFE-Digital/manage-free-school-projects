@@ -128,6 +128,7 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
         public const string ProjectRiskSummary = "/projects/{0}/risk/summary";
         public const string ProjectRiskReview = "/projects/{0}/risk/add/review";
         public const string ProjectRiskConfirmation = "/projects/{0}/risk/add/confirmation?schoolName={1}";
+        public const string ProjectRiskRatingAndSummary = "/projects/{0}/risk-rating-and-summary";
         public const string CreateFaithStatus = CreateProject + "/faith-status";
         public const string CreateFaithType = CreateProject + "/faith-type";
 
@@ -163,6 +164,7 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
         public const string AddPDGGrantVariationLetter = ViewPDGCentral + "/add-variation-letter";
         public const string EditPDGVariationLetter = ViewPDGCentral + "/edit-variation-letter/{1}";
 
+        public const string PupilNumbersSummary = "/projects/{0}/pupil-numbers-summary";
         public const string ViewPupilNumbers = "/projects/{0}/pupil-numbers";
         public const string EditCapacityWhenFull = ViewPupilNumbers + "/capacity-when-full/edit";
         public const string EditPre16PublishedAdmissionNumber = ViewPupilNumbers + "/pre16-published-admission-number/edit";
