@@ -3,7 +3,8 @@
 @inject Microsoft.FeatureManagement.IFeatureManager _featureManager
 
 @{
-    var showAnalytics = _configuration["GoogleAnalytics:Enable"] == "Yes" && _analytisConsentService.HasConsent();
+    var hasConsented = _analytisConsentService.HasConsent();
+    var showAnalytics = _configuration["GoogleAnalytics:Enable"] == "Yes" && hasConsented;
 
     var titleDescription = Context.Request.Path == "/project-type"
         ? string.Empty
@@ -12,7 +13,8 @@
 
     var widePage = ViewData["WidePage"] != null ? "mfsp-wider-page" : string.Empty;
 
-
+    bool.TryParse(_configuration["ApplicationInsights:BrowserAnalyticsEnabled"], out bool enableAppInsightsBrowserAnalytics);
+    var authenticatedUserId = Context.User.Identity is not null && Context.User.Identity.IsAuthenticated ? Context.User.Identity.Name ?? "Unknown" : "Anonymous";
 }
 
 <!DOCTYPE html>
@@ -34,6 +36,21 @@
     }
 
     <meta charset="utf-8" />
+    @if (hasConsented && enableAppInsightsBrowserAnalytics)
+    {
+        <!-- Application insights -->
+        <script type="text/javascript" integrity="sha384-g/ZkzetdQypWdY0NBZT5r2L3BR9/hURD8OBcd1rEaBpgX6QC7EaTL+o+mzWrBcXW" crossorigin="anonymous" src="https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.8.18.min.js"></script>
+        <script type="text/javascript" asp-add-nonce>
+            window.appInsights = {
+                connectionString: '@_configuration["ApplicationInsights:ConnectionString"]',
+                authenticatedUserId: '@authenticatedUserId'
+            }
+        </script>
+        <script type="text/javascript" src="~/dist/application-insights.min.js" asp-add-nonce></script>
+        <!-- End Application insights -->
+    }
+
+    <meta charset="utf-8"/>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="theme-color" content="#0b0c0c">
@@ -114,7 +131,7 @@
             <partial name="Footer/_Footer" />
         }
     }
-    
+
     <script src="~/dist/accessible-autocomplete.min.js" asp-add-nonce></script>
     <script src="~/dist/site.js" asp-add-nonce></script>
 </body>

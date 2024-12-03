@@ -2,7 +2,8 @@
 	"scripts": {
 		"build": "npm run build:assets && npm run build:frontend",
 		"build:frontend": "webpack",
-		"build:assets": "webpack --config webpack.assets.config.js",
+		"build:assets": "webpack --config webpack.assets.config.js & npm run build:assets:application-insights",
+		"build:assets:application-insights": "webpack --config webpack.appinsights.config.js",
 		"build:watch": "webpack --watch"
 	},
 	"devDependencies": {
@@ -20,6 +21,7 @@
 		"accessible-autocomplete": "^3.0.0",
 		"dfe-frontend": "2.0.1",
 		"govuk-frontend": "5.4.1",
+		"@microsoft/applicationinsights-web": "^3.2.2",
 		"jquery": "^3.6.1"
 	}
 }

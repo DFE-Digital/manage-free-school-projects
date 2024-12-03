@@ -161,7 +161,10 @@ public class Startup
                }
            });
 
-        services.AddApplicationInsightsTelemetry();
+        services.AddApplicationInsightsTelemetry(options =>
+        {
+            options.ConnectionString = Configuration["ApplicationInsights:ConnectionString"];
+        });
 
         services.AddHttpClient("MfspClient", (_, client) =>
         {
