@@ -13,6 +13,13 @@ public static class DatabaseConfigurationExtensions
 
 		services.AddScoped<AuditInterceptor, AuditInterceptor>();
 
+		AddDbHealthCheck(services);
+
 		return services;
+	}
+
+	public static void AddDbHealthCheck(IServiceCollection services) {
+		services.AddHealthChecks()
+			.AddDbContextCheck<MfspContext>("Manage Free School Projects Database");
 	}
 }
