@@ -64,7 +64,6 @@ public class Startup
     {
         services.AddHttpClient();
         services.AddFeatureManagement();
-        services.AddHealthChecks();
         services
            .AddRazorPages(options =>
            {
@@ -72,7 +71,7 @@ public class Startup
                options.Conventions.AllowAnonymousToPage("/Public/AccessibilityStatement");
                options.Conventions.AllowAnonymousToPage("/Public/Cookies");
                options.Conventions.AllowAnonymousToPage("/Account/AccessDenied");
-           }) 
+           })
            .AddViewOptions(options =>
            {
                options.HtmlHelperOptions.ClientValidationEnabled = false;
@@ -118,7 +117,7 @@ public class Startup
         services.AddScoped<IUpdateProjectPaymentsService, UpdateProjectPaymentsService>();
         services.AddScoped<IAddProjectPaymentsService, AddProjectPaymentsService>();
         services.AddScoped<IDeleteProjectPaymentsService, DeleteProjectPaymentsService>();
-        services.AddScoped<IGrantLettersService, GrantLettersService>(); 
+        services.AddScoped<IGrantLettersService, GrantLettersService>();
         services.AddScoped<IPDGPaymentInfoService, PDGPaymentInfoService>();
         services.AddScoped<IBulkEditFileReader, BulkEditFileReader>();
         services.AddScoped<IBulkEditFileValidator, BulkEditFileValidator>();
@@ -181,6 +180,8 @@ public class Startup
         });
 
         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+        SetupHealthChecks(services);
     }
 
     private void SetupDataprotection(IServiceCollection services)
@@ -200,6 +201,11 @@ public class Startup
           credentials
         );
       }
+    }
+
+    private void SetupHealthChecks(IServiceCollection services)
+    {
+      services.AddHealthChecks();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
