@@ -81,6 +81,8 @@ namespace Dfe.ManageFreeSchoolProjects.API
             app.UseAuthorization();
 
             app.UseManageFreeSchoolProjectsEndpoints();
+
+            app.UseHealthChecks("/health");
         }
     }
 }
