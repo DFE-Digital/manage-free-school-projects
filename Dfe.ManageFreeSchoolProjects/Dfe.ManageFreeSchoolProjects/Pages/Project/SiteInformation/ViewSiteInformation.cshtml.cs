@@ -11,7 +11,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation
 {
     public class ViewSiteInformationModel : PageModel
     {
-        private readonly IGetProjectSitesService _getProjectSitesService;
+        private readonly IGetProjectSitesCentralService _getProjectSitesService;
         private readonly IGetProjectOverviewService _getProjectOverviewService;
         private readonly ILogger<ViewSiteInformationModel> _logger;
 
@@ -22,10 +22,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation
 
         public string SchoolName { get; set; }
 
-        public GetProjectSitesResponse SiteInformation { get; set; }
+        public GetProjectSitesCentralResponse SiteInformation { get; set; }
 
         public ViewSiteInformationModel(
-            IGetProjectSitesService getProjectSitesService,
+            IGetProjectSitesCentralService getProjectSitesService,
             IGetProjectOverviewService getProjectOverviewService,
             ILogger<ViewSiteInformationModel> logger)
         {

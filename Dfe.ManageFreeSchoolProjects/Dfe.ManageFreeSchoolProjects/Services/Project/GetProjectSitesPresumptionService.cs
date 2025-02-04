@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Services.Project
 {
-    public interface IGetProjectSitesService
+    public interface IGetProjectSitesPresumptionService
     {
-        public Task<GetProjectSitesResponse> Execute(string projectId);
+        public Task<GetProjectSitesPresumptionResponse> Execute(string projectId);
     }
 
-    public class GetProjectSitesService : IGetProjectSitesService
+    public class GetProjectSitesService : IGetProjectSitesPresumptionService
     {
         private readonly MfspApiClient _apiClient;
 
@@ -18,11 +18,11 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Project
             _apiClient = apiClient;
         }
 
-        public async Task<GetProjectSitesResponse> Execute(string projectId)
+        public async Task<GetProjectSitesPresumptionResponse> Execute(string projectId)
         {
             var endpoint = $"/api/v1/client/projects/{projectId}/sites";
 
-            var result = await _apiClient.Get<ApiSingleResponseV2<GetProjectSitesResponse>>(endpoint);
+            var result = await _apiClient.Get<ApiSingleResponseV2<GetProjectSitesPresumptionResponse>>(endpoint);
 
             return result.Data;
         }
