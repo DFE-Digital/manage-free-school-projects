@@ -9,11 +9,11 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Project
         public Task<GetProjectSitesPresumptionResponse> Execute(string projectId);
     }
 
-    public class GetProjectSitesService : IGetProjectSitesPresumptionService
+    public class GetProjectSitesPresumptionService : IGetProjectSitesPresumptionService
     {
         private readonly MfspApiClient _apiClient;
 
-        public GetProjectSitesService(MfspApiClient apiClient)
+        public GetProjectSitesPresumptionService(MfspApiClient apiClient)
         {
             _apiClient = apiClient;
         }
