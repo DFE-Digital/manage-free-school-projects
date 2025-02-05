@@ -20,7 +20,7 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Project
 
         public async Task Execute(string projectId, UpdateProjectSitePresumptionRequest request, ProjectSiteType projectSiteType)
         {
-            var endpoint = $"/api/v1/client/projects/{projectId}/sites/{projectSiteType.ToString().ToLower()}";
+            var endpoint = $"/api/v1/client/projects/{projectId}/sites/presumption/{projectSiteType.ToString().ToLower()}";
 
             await _apiClient.Patch<UpdateProjectSitePresumptionRequest, ApiSingleResponseV2<object>>(endpoint, request);
         }

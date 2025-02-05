@@ -1,9 +1,9 @@
-﻿@page "/projects/{projectId}/site-information"
+﻿@page "/projects/{projectId}/site-information/central"
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites
 @using Dfe.ManageFreeSchoolProjects.Constants
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Risk;
 
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.ViewSiteInformationModel
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Central.ViewSiteInformationModel
 @{
     var projectStatusViewModel = new ProjectStatusViewModel()
             {
@@ -28,7 +28,7 @@
 }
 
 <div class="govuk-grid-row">
-    <mfsp-nav project-id="@Model.ProjectId" current-index="@currentNavIndex" />
+    <mfsp-nav project-id="@Model.ProjectId" project-type="@Model.ProjectType" current-index="@currentNavIndex" />
     <div class="govuk-grid-column-three-quarters">
         <div class="govuk-grid-column-full">
             <div class="govuk-inset-text" data-testid="central-route-hint">
@@ -80,8 +80,8 @@
                     </dd>
                 </div>
             </dl>
-            <h2 class="govuk-heading-m govuk-!-font-size-24" id="temporary-key-dates-heading">Key dates</h2>
             <dl class="govuk-summary-list">
+                <h2 class="govuk-heading-m govuk-!-font-size-24" id="temporary-key-dates-heading">Key dates</h2>
 
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key" id="temporary-key-dates">
@@ -210,8 +210,8 @@
 
                 
             </dl>
-            <h2 class="govuk-heading-m govuk-!-font-size-24" id="permanent-key-dates-heading">Key dates</h2>
             <dl class="govuk-summary-list">
+                <h2 class="govuk-heading-m govuk-!-font-size-24" id="permanent-key-dates-heading">Key dates</h2>
 
                 <div class="govuk-summary-list__row">
                     <dt class="govuk-summary-list__key" id="permanent-key-dates">
@@ -357,4 +357,6 @@
 
         return null;
     }
+}
+
 }

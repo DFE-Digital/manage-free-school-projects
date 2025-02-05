@@ -1,12 +1,8 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Grants;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites.Presumption;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.ResponseModels;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites;
 using Dfe.ManageFreeSchoolProjects.API.Tests.Fixtures;
 using Dfe.ManageFreeSchoolProjects.API.Tests.Helpers;
 using System;
 using System.Net;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
@@ -34,7 +30,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             getSiteInformationResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var siteInformationData = await getSiteInformationResponse.Content
-                .ReadResponseFromWrapper<GetProjectSitesResponse>();
+                .ReadResponseFromWrapper<GetProjectSitesCentralResponse>();
 
             siteInformationData.TemporarySiteAddress.Should().BeNull();
             siteInformationData.TemporarySitePostcode.Should().BeNull();
@@ -94,7 +90,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             getSiteInformationResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var siteInformationData = await getSiteInformationResponse.Content
-                .ReadResponseFromWrapper<GetProjectSitesResponse>();
+                .ReadResponseFromWrapper<GetProjectSitesCentralResponse>();
 
             siteInformationData.TemporarySiteAddress.Should().Be(siteInformation.TemporarySiteAddress);
             siteInformationData.TemporarySitePostcode.Should().Be(siteInformation.TemporarySitePostcode);

@@ -9,8 +9,10 @@
             @{
                 foreach(NavConstants.NavItem navItem in NavConstants.NavItemList) {
                     bool isCurrent = (NavConstants.NavItemList.IndexOf(navItem) == Model.CurrentIndex);
+                    string projectTypePath = (Model.ProjectType == "Central Route" ? "central" : Model.ProjectType.ToLower());
+                    string link = (navItem.Description == "Site information" ? string.Format(navItem.Link, Model.ProjectId, projectTypePath) : string.Format(navItem.Link, Model.ProjectId));
 
-                    <mfsp-nav-item href="@string.Format(navItem.Link, Model.ProjectId)" current=isCurrent description="@navItem.Description" />
+                    <mfsp-nav-item href=@link current=isCurrent description="@navItem.Description" />
             }
         }
         </ul>

@@ -26,6 +26,8 @@ public class ContactsSummaryModel : PageModel
     public ProjectStatusType ProjectStatus { get; set; }
     public string SchoolName { get; set; }
 
+    public string ProjectType { get; set; }
+
     public GetContactsResponse Contacts { get; set; }
 
     public ContactsSummaryModel(IGetContactsService getContactsService, IGetProjectOverviewService projectOverviewService, ILogger<ContactsSummaryModel> logger )
@@ -47,7 +49,8 @@ public class ContactsSummaryModel : PageModel
            var project = await _getProjectOverviewService.Execute(projectId);
            SchoolName = project.ProjectStatus.CurrentFreeSchoolName;
            ProjectStatus = project.ProjectStatus.ProjectStatus;
-       }
+           ProjectType = project.ProjectType;
+        }
        catch (Exception ex)
        {
            _logger.LogErrorMsg(ex);

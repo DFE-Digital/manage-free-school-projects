@@ -41,11 +41,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites
             var permanentSite = sites.FirstOrDefault(p => p.IsPermanentSite());
             var temporarySite = sites.FirstOrDefault(p => p.IsTemporarySite());
 
+            var projectType =
+               project.ProjectStatusFreeSchoolApplicationWave == "FS - Presumption"
+                   ? "Presumption"
+                   : "Central Route";
+
             var result = new GetProjectSitesPresumptionResponse()
             {
                 PermanentSite = MapToSite(permanentSite),
                 TemporarySite = MapToSite(temporarySite),
                 SchoolName = project.ProjectStatusCurrentFreeSchoolName,
+                ProjectType = projectType
             };
 
             return result;

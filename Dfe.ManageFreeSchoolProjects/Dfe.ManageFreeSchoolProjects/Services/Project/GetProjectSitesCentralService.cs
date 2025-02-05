@@ -9,18 +9,18 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Project
         public Task<GetProjectSitesCentralResponse> Execute(string projectId);
     }
 
-    public class GetProjectSitesService : IGetProjectSitesCentralService
+    public class GetProjectSitesCentralService : IGetProjectSitesCentralService
     {
         private readonly MfspApiClient _apiClient;
 
-        public GetProjectSitesService(MfspApiClient apiClient)
+        public GetProjectSitesCentralService(MfspApiClient apiClient)
         {
             _apiClient = apiClient;
         }
 
         public async Task<GetProjectSitesCentralResponse> Execute(string projectId)
         {
-            var endpoint = $"/api/v1/client/projects/{projectId}/sites";
+            var endpoint = $"/api/v1/client/projects/{projectId}/sites/central";
 
             var result = await _apiClient.Get<ApiSingleResponseV2<GetProjectSitesCentralResponse>>(endpoint);
 

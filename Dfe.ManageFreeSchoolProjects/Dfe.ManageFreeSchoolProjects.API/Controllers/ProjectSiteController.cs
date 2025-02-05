@@ -28,8 +28,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             _logger = logger;
         }
 
-        [Route("/central")]
-        [HttpGet]
+        [HttpGet("central")]
         public async Task<ActionResult<ApiSingleResponseV2<GetProjectSitesCentralResponse>>> GetProjectSitesCentral(string projectId)
         {
             _logger.LogMethodEntered();
@@ -45,8 +44,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             { StatusCode = StatusCodes.Status200OK };
         }
 
-        [Route("/presumption")]
-        [HttpGet]
+        [HttpGet("presumption")]
         public async Task<ActionResult<ApiSingleResponseV2<GetProjectSitesPresumptionResponse>>> GetProjectSitesPresumption(string projectId)
         {
             _logger.LogMethodEntered();
@@ -62,8 +60,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             { StatusCode = StatusCodes.Status200OK };
         }
 
-        [Route("/presumption")]
-        [HttpPatch("{siteType}")]
+        [HttpPatch("presumption/{siteType}")]
         public async Task<ActionResult<ApiSingleResponseV2<object>>> PatchProjectSitePresumption(string projectId, ProjectSiteType siteType, UpdateProjectSitePresumptionRequest request)
         {
             _logger.LogMethodEntered();
