@@ -59,7 +59,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             siteInformationData.PlanningDecision.Should().BeNull();
 
             siteInformationData.HoTsAgreedForSiteForMainSchoolBuildingForecast.Should().BeNull();
-            siteInformationData.HoTAgreedForSiteForMainSchoolBuildingActual.Should().BeNull();
+            siteInformationData.HoTsAgreedForSiteForMainSchoolBuildingActual.Should().BeNull();
 
             siteInformationData.ContractorForSiteForMainSchoolBuildingAppointedForecast.Should().BeNull();
             siteInformationData.ContractorForSiteForMainSchoolBuildingAppointedActual.Should().BeNull();
@@ -119,7 +119,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             siteInformationData.PlanningDecision.Should().Be(siteInformation.PlanningDecision);
 
             siteInformationData.HoTsAgreedForSiteForMainSchoolBuildingForecast.Should().Be(siteInformation.HoTsAgreedForSiteForMainSchoolBuildingForecast);
-            siteInformationData.HoTAgreedForSiteForMainSchoolBuildingActual.Should().Be(siteInformation.HoTAgreedForSiteForMainSchoolBuildingActual);
+            siteInformationData.HoTsAgreedForSiteForMainSchoolBuildingActual.Should().Be(siteInformation.HoTsAgreedForSiteForMainSchoolBuildingActual);
 
             siteInformationData.ContractorForSiteForMainSchoolBuildingAppointedForecast.Should().Be(siteInformation.ContractorForSiteForMainSchoolBuildingAppointedForecast);
             siteInformationData.ContractorForSiteForMainSchoolBuildingAppointedActual.Should().Be(siteInformation.ContractorForSiteForMainSchoolBuildingAppointedActual);

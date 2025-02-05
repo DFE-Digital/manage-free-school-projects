@@ -45,7 +45,7 @@ public class GetProjectSitesCentralService : IGetProjectSitesCentralService
                                 SchoolName = kpi.ProjectStatusCurrentFreeSchoolName,
                                 ProjectId = kpi.ProjectStatusProjectId,
 
-                                HoTAgreedForSiteForMainSchoolBuildingActual = constructData.HoTAgreedForSiteForMainSchoolBuildingActual,
+                                HoTsAgreedForSiteForMainSchoolBuildingActual = constructData.HoTsAgreedForSiteForMainSchoolBuildingActual,
                                 TemporaryAccommodationFirstReadyForOccupationForecast = constructData.TemporaryAccommodationFirstReadyForOccupationForecast,
                                 TemporaryAccommodationFirstReadyForOccupationActual = constructData.TemporaryAccommodationFirstReadyForOccupationActual,
                                 MainSchoolBuildingFirstReadyForOccupationForecast = constructData.MainSchoolBuildingFirstReadyForOccupationForecast,

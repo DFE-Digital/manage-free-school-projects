@@ -658,7 +658,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Helpers
                 PlanningDecision = "Refused",
 
                 HoTsAgreedForSiteForMainSchoolBuildingForecast = new DateOnly().AddDays(9),
-                HoTAgreedForSiteForMainSchoolBuildingActual = new DateOnly().AddDays(10),
+                HoTsAgreedForSiteForMainSchoolBuildingActual = new DateOnly().AddDays(10),
 
                 ContractorForSiteForMainSchoolBuildingAppointedForecast = new DateOnly().AddDays(11),
                 ContractorForSiteForMainSchoolBuildingAppointedActual = new DateOnly().AddDays(12),

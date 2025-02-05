@@ -27,9 +27,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Configuration.Existing
             builder.Property(e => e.DateOfHoTSecuredOnTemporaryAccommodationSiteIfRequired)
                 .IsUnicode(false)
                 .HasColumnName("Date of HoT secured on temporary accommodation site, if required");
-            builder.Property(e => e.HoTAgreedForSiteForMainSchoolBuildingActual)
+            builder.Property(e => e.HoTsAgreedForSiteForMainSchoolBuildingActual)
                 .IsUnicode(false)
-                .HasColumnName("HoT Agreed for site for Main School Building (Actual)");
+                .HasColumnName("HoTs Agreed for site for Main School Building (Actual)");
             builder.Property(e => e.IsThisTheMainPlanningRecord)
                 .IsUnicode(false)
                 .HasColumnName("Is this the main planning record?");

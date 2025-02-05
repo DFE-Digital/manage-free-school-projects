@@ -7,7 +7,7 @@
 
 
 
-        public DateOnly? HoTAgreedForSiteForMainSchoolBuildingActual { get; set; }
+        public DateOnly? HoTsAgreedForSiteForMainSchoolBuildingActual { get; set; }
         public DateOnly? TemporaryAccommodationFirstReadyForOccupationForecast { get; set; }
         public DateOnly? TemporaryAccommodationFirstReadyForOccupationActual { get; set; }
         public DateOnly? MainSchoolBuildingFirstReadyForOccupationForecast { get; set; }
