@@ -1,0 +1,40 @@
+﻿@page "/projects/{projectId}/site-information/presumption"
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites
+@using Dfe.ManageFreeSchoolProjects.Constants
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption.ViewSiteInformationModel
+@{
+    var projectStatusViewModel = new ProjectStatusViewModel()
+            {
+                ProjectId = @Model.ProjectId,
+                ProjectStatus = @Model.ProjectStatus,
+                Referrer = Referrer.ProjectOverview
+            };
+
+    var backLink = string.Format(RouteConstants.ProjectOverview, Model.ProjectId);
+    var editPermanentSite = string.Format(RouteConstants.EditPermanentSiteInformation, Model.ProjectId);
+    var editTemporarySite = string.Format(RouteConstants.EditTemporarySiteInformation, Model.ProjectId);
+
+    ViewData["Title"] = $"Site information - {Model.SiteInformation.SchoolName}";
+    ViewData["WidePage"] = true;
+
+    var currentNavIndex = NavConstants.NavItemList.FindIndex(item => item.Description == "Site information");
+}
+
+@section BeforeMain {
+    <mfsp-project-header project-id="@Model.ProjectId"
+                         school-name="@Model.SchoolName"
+                         back-link="/"
+                         back-text="Back to all projects"
+                         page-title="Site information"
+                         project-status="@projectStatusViewModel" />
+}
+
+<div class="govuk-grid-row">
+    <mfsp-nav project-id="@Model.ProjectId" project-type="@Model.ProjectType" current-index="@currentNavIndex" />
+    <div class="govuk-grid-column-three-quarters">
+        <div class="govuk-grid-column-full">
+            <govuk-site-details site="@Model.SiteInformation.TemporarySite" edit-link="@editTemporarySite" site-type="@ProjectSiteType.Temporary.ToString()" />
+            <govuk-site-details site="@Model.SiteInformation.PermanentSite" edit-link="@editPermanentSite" site-type="@ProjectSiteType.Permanent.ToString()" />
+        </div>
+    </div>
+</div>

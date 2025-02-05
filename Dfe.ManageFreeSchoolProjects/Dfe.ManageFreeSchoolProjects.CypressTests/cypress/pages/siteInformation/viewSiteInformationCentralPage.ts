@@ -1,4 +1,4 @@
-export class ViewSiteInformationPage {
+export class ViewSiteInformationCentralPage {
     public hasTemporaryAddress(): this {
         cy.getById("temporary-address").should("be.visible");
 
@@ -171,6 +171,6 @@ export class ViewSiteInformationPage {
     }
 }
 
-const viewSiteInformationPage = new ViewSiteInformationPage();
+const viewSiteInformationCentralPage = new ViewSiteInformationCentralPage();
 
-export default viewSiteInformationPage;
+export default viewSiteInformationCentralPage;

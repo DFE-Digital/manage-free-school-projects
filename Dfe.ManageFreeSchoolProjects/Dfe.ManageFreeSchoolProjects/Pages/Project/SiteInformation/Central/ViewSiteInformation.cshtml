@@ -1,9 +1,9 @@
-﻿@page "/projects/{projectId}/site-information"
+﻿@page "/projects/{projectId}/site-information/central"
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites
 @using Dfe.ManageFreeSchoolProjects.Constants
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Risk;
 
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.ViewSiteInformationModel
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Central.ViewSiteInformationModel
 @{
     var projectStatusViewModel = new ProjectStatusViewModel()
             {
@@ -28,7 +28,7 @@
 }
 
 <div class="govuk-grid-row">
-    <mfsp-nav project-id="@Model.ProjectId" current-index="@currentNavIndex" />
+    <mfsp-nav project-id="@Model.ProjectId" project-type="@Model.ProjectType" current-index="@currentNavIndex" />
     <div class="govuk-grid-column-three-quarters">
         <div class="govuk-grid-column-full">
             <div class="govuk-inset-text" data-testid="central-route-hint">
@@ -236,7 +236,7 @@
                     </dd>
                     <dd class="govuk-summary-list__value mfsp-align-right" data-testid="permanent-heads-of-terms-agreed-actual">
                         @{
-                            RenderValue(@Model.SiteInformation.HoTAgreedForSiteForMainSchoolBuildingActual.ToDateString());
+                            RenderValue(@Model.SiteInformation.HoTsAgreedForSiteForMainSchoolBuildingActual.ToDateString());
                         }
                     </dd>
                 </div>

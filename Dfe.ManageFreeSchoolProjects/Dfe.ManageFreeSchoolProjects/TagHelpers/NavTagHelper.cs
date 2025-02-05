@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 
 namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 {
@@ -15,6 +16,9 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 
         [HtmlAttributeName("current-index")]
         public int CurrentIndex { get; set; }
+
+        [HtmlAttributeName("project-type")]
+        public string ProjectType { get; set; }
 
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -34,7 +38,8 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
             var model = new NavViewModel()
             {
                 ProjectId = ProjectId,
-                CurrentIndex= CurrentIndex
+                CurrentIndex = CurrentIndex,
+                ProjectType = ProjectType
             };
             
             var content = await _htmlHelper.PartialAsync("_Nav", model);
@@ -49,6 +54,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
     {
         public string ProjectId { get; set; }
         public int CurrentIndex { get; set; }
+        public string ProjectType { get; set; }
 
     }
 }

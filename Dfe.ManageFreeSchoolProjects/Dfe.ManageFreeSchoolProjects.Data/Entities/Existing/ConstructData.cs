@@ -14,7 +14,7 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
     {
         public string ProjectId { get; set; }
 
-        public DateOnly? HoTAgreedForSiteForMainSchoolBuildingActual { get; set; }
+        public DateOnly? HoTsAgreedForSiteForMainSchoolBuildingActual { get; set; }
 
         public DateOnly? TemporaryAccommodationFirstReadyForOccupationForecast { get; set; }
 

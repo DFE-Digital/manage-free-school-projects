@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites
+﻿namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites
 {
-    public class GetProjectSitesResponse
+    public class GetProjectSitesCentralResponse
     {
         public string SchoolName { get; set; }
         public string ProjectId { get; set; }
 
 
 
-        public DateOnly? HoTAgreedForSiteForMainSchoolBuildingActual { get; set; }
+        public DateOnly? HoTsAgreedForSiteForMainSchoolBuildingActual { get; set; }
         public DateOnly? TemporaryAccommodationFirstReadyForOccupationForecast { get; set; }
         public DateOnly? TemporaryAccommodationFirstReadyForOccupationActual { get; set; }
         public DateOnly? MainSchoolBuildingFirstReadyForOccupationForecast { get; set; }

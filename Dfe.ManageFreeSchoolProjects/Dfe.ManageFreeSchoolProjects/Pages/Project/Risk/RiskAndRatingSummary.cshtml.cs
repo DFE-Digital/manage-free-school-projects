@@ -22,6 +22,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Risk
 
         public string SchoolName { get; set; }
 
+        public string ProjectType { get; set; }
+
         public RiskAndRatingSummaryModel(
             IGetProjectRiskService getProjectRiskRatingService,
             IGetProjectOverviewService getProjectOverviewService)
@@ -38,6 +40,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Risk
             var project = await _getProjectOverviewService.Execute(projectId);
             SchoolName = project.ProjectStatus.CurrentFreeSchoolName;
             ProjectStatus = project.ProjectStatus.ProjectStatus;
+            ProjectType = project.ProjectType;
 
             ProjectRisk = new GetProjectRiskResponse();
             var projectRiskResponse = await _getProjectRiskRatingService.Execute(ProjectId, entry);

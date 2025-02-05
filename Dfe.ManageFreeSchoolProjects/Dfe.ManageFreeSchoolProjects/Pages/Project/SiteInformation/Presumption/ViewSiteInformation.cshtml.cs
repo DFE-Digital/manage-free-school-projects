@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using ProjectStatusType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectStatus;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
 {
     public class ViewSiteInformationModel : PageModel
     {
-        private readonly IGetProjectSitesService _getProjectSitesService;
+        private readonly IGetProjectSitesPresumptionService _getProjectSitesPresumptionService;
         private readonly IGetProjectOverviewService _getProjectOverviewService;
         private readonly ILogger<ViewSiteInformationModel> _logger;
 
@@ -22,14 +22,16 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation
 
         public string SchoolName { get; set; }
 
-        public GetProjectSitesResponse SiteInformation { get; set; }
+        public string ProjectType { get; set; }
+
+        public GetProjectSitesPresumptionResponse SiteInformation { get; set; }
 
         public ViewSiteInformationModel(
-            IGetProjectSitesService getProjectSitesService,
+            IGetProjectSitesPresumptionService getProjectSitesPresumptionService,
             IGetProjectOverviewService getProjectOverviewService,
             ILogger<ViewSiteInformationModel> logger)
         {
-            _getProjectSitesService = getProjectSitesService;
+            _getProjectSitesPresumptionService = getProjectSitesPresumptionService;
             _getProjectOverviewService = getProjectOverviewService;
             _logger = logger;
         }
@@ -38,13 +40,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation
         {
             _logger.LogMethodEntered();
 
-            SiteInformation = await _getProjectSitesService.Execute(ProjectId);
+            SiteInformation = await _getProjectSitesPresumptionService.Execute(ProjectId);
 
             var project = await _getProjectOverviewService.Execute(ProjectId);
 
             ProjectStatus = project.ProjectStatus.ProjectStatus;
 
             SchoolName = project.ProjectStatus.CurrentFreeSchoolName;
+
+            ProjectType = project.ProjectType;
 
             return Page();
         }

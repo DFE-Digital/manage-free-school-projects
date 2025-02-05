@@ -7,7 +7,6 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Contacts;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.PupilNumbers;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Risk;
-using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.AdmissionsArrangements;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.ApplicationsEvidence;
@@ -59,6 +58,7 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.PreFundingAgreemen
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.ReadinessToOpenMeeting;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.BulkEdit;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.LocalAuthority;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites;
 
 namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 {
@@ -132,8 +132,10 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 			services.AddScoped<ISfaReportService, SfaReportService>();
 			services.AddScoped<IUpdateTaskService, UpdateAdmissionsArrangementsTaskService>();
 			services.AddScoped<ISfaApiKeyValidationService, SfaApiKeyValidationService>();
-			services.AddScoped<IGetProjectSitesService, GetProjectSitesService>();
-			services.AddScoped<IGetPupilNumbersService, GetPupilNumbersService>();
+			services.AddScoped<IGetProjectSitesCentralService, GetProjectSitesCentralService>();
+            services.AddScoped<IGetProjectSitesPresumptionService, GetProjectSitesPresumptionService>();
+            services.AddScoped<IUpdateProjectSitePresumptionService, UpdateProjectSitePresumptionService>();
+            services.AddScoped<IGetPupilNumbersService, GetPupilNumbersService>();
 			services.AddScoped<IUpdatePupilNumbersService, UpdatePupilNumbersService>();
 			services.AddScoped<IUpdateCapacityWhenFullService, UpdateCapacityWhenFullService>();
 			services.AddScoped<IUpdatePre16PublishedAdmissionNumberService, UpdatePre16PublishedAdmissionNumberService>();
