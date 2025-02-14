@@ -23,3 +23,21 @@ CREATE SCHEMA [mfsp];
 GRANT CONTROL ON SCHEMA::[dbo] TO [mfsp];
 GRANT CONTROL ON SCHEMA::[mfsp] TO [mfsp];
 ```
+
+## Linting Sonar rules
+
+Include the following extension in your IDE installation: [SonarQube for IDE](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarlint-vscode)
+
+Update your [settings.json file](https://code.visualstudio.com/docs/getstarted/settings#_settings-json-file) to include the following
+
+```json
+"sonarlint.connectedMode.connections.sonarcloud": [   
+    {
+        "connectionId": "DfE",
+        "organizationKey": "dfe-digital",
+        "disableNotifications": false
+    }   
+]
+```
+
+Then follow [these steps](https://youtu.be/m8sAdYCIWhY) to connect to the SonarCloud instance.
