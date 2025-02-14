@@ -15,6 +15,8 @@ using Dfe.ManageFreeSchoolProjects.Constants;
 using System.ComponentModel;
 using System.Linq;
 using Dfe.ManageFreeSchoolProjects.Services.Tasks;
+using Dfe.ManageFreeSchoolProjects.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.FinancePlan
@@ -25,6 +27,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.FinancePlan
         private readonly IUpdateProjectByTaskService _updateProjectTaskService;
         private readonly IUpdateFinancePlanCache _updateFinancePlanCache;
         private readonly ILogger<EditFinancePlanTaskModel> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ErrorService _errorService;
 
         [BindProperty(SupportsGet = true, Name = "projectId")]
@@ -70,12 +73,14 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.FinancePlan
             IUpdateProjectByTaskService updateProjectTaskService,
             IUpdateFinancePlanCache updateFinancePlanCache,
             ILogger<EditFinancePlanTaskModel> logger,
+            IHttpContextAccessor httpContextAccessor,
             ErrorService errorService)
         {
             _getProjectService = getProjectService;
             _updateProjectTaskService = updateProjectTaskService;
             _updateFinancePlanCache = updateFinancePlanCache;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
             _errorService = errorService;
         }
 
@@ -165,15 +170,39 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.FinancePlan
         {
             var project = await _getProjectService.Execute(ProjectId, TaskName.FinancePlan);
 
-            FinancePlanAgreed = project.FinancePlan.FinancePlanAgreed == YesNo.Yes;
-            DateAgreed = project.FinancePlan.DateAgreed;
-            PlanSavedInWorkplacesFolder = project.FinancePlan.PlanSavedInWorkplacesFolder == YesNo.Yes;
-            LocalAuthorityAgreedToPupilNumbers = project.FinancePlan.LocalAuthorityAgreedPupilNumbers?.ToString();
-            TrustOptIntoRpa = project.FinancePlan.TrustWillOptIntoRpa?.ToString();
-            RpaStartDate = project.FinancePlan.RpaStartDate;
-            RpaCoverType = project.FinancePlan.RpaCoverType;
+            var referrerQuery = _httpContextAccessor.HttpContext.Request.Query["referrer"];
+
+            var isReferred = Enum.TryParse(referrerQuery, out Referrer referrer);
+
+
+            if (isReferred && referrer == Referrer.EditUnderwrittenPlaces)
+            {
+                var existingCacheItem = _updateFinancePlanCache.Get();
+
+                FinancePlanAgreed = existingCacheItem.FinancePlan.FinancePlanAgreed == YesNo.Yes;
+                DateAgreed = existingCacheItem.FinancePlan.DateAgreed;
+                PlanSavedInWorkplacesFolder = existingCacheItem.FinancePlan.PlanSavedInWorkplacesFolder == YesNo.Yes;
+                LocalAuthorityAgreedToPupilNumbers = existingCacheItem.FinancePlan.LocalAuthorityAgreedPupilNumbers?.ToString();
+                TrustOptIntoRpa = existingCacheItem.FinancePlan.TrustWillOptIntoRpa?.ToString();
+                RpaStartDate = existingCacheItem.FinancePlan.RpaStartDate;
+                RpaCoverType = existingCacheItem.FinancePlan.RpaCoverType;
+
+            }
+
+            else
+            {
+                FinancePlanAgreed = project.FinancePlan.FinancePlanAgreed == YesNo.Yes;
+                DateAgreed = project.FinancePlan.DateAgreed;
+                PlanSavedInWorkplacesFolder = project.FinancePlan.PlanSavedInWorkplacesFolder == YesNo.Yes;
+                LocalAuthorityAgreedToPupilNumbers = project.FinancePlan.LocalAuthorityAgreedPupilNumbers?.ToString();
+                TrustOptIntoRpa = project.FinancePlan.TrustWillOptIntoRpa?.ToString();
+                RpaStartDate = project.FinancePlan.RpaStartDate;
+                RpaCoverType = project.FinancePlan.RpaCoverType;
+            }
 
             SchoolName = project.SchoolName;
+
+
         }
 
         private static YesNoNotApplicable? ConvertYesNoNotApplicable(string value)

@@ -6,7 +6,7 @@
 @{
     ViewData["Title"] = $"Local authority underwriting pupil numbers - {Model.SchoolName}";
 
-    var backlink = string.Format(RouteConstants.EditFinancePlanTask, Model.ProjectId);
+    var backlink = string.Format(RouteConstants.EditFinancePlanTask, Model.ProjectId) + "?referrer=" + Referrer.EditUnderwrittenPlaces;
 
 }
 @section BeforeMain {
@@ -28,7 +28,9 @@
             School phase
         </dt>
         <dd class="govuk-summary-list__value">
-            @Model.SchoolPhase.ToDescription()
+            @{
+                RenderValue(Model.SchoolPhase.ToDescription());
+            }
         </dd>
     </div>
 </govuk-summary-list>
@@ -45,13 +47,13 @@
                     <h1 class="govuk-heading-l" data-testid="title">
                         Provide the total number of underwritten places
                     </h1>
-                    <govuk-number-input-cell id="primary-year-1-places" name="primary-year-1-places" asp-for="@Model.PrimaryYear1Places" label="First year of opening" suffix="places" />
-                    <govuk-number-input-cell id="primary-year-2-places" name="primary-year-2-places" asp-for="@Model.PrimaryYear2Places" label="Second year of opening" suffix="places" />
-                    <govuk-number-input-cell id="primary-year-3-places" name="primary-year-3-places" asp-for="@Model.PrimaryYear3Places" label="Third year of opening" suffix="places" />
-                    <govuk-number-input-cell id="primary-year-4-places" name="primary-year-4-places" asp-for="@Model.PrimaryYear4Places" label="Fourth year of opening" suffix="places" />
-                    <govuk-number-input-cell id="primary-year-5-places" name="primary-year-5-places" asp-for="@Model.PrimaryYear5Places" label="Fifth year of opening" suffix="places" />
-                    <govuk-number-input-cell id="primary-year-6-places" name="primary-year-6-places" asp-for="@Model.PrimaryYear6Places" label="Sixth year of opening" suffix="places" />
-                    <govuk-number-input-cell id="primary-year-7-places" name="primary-year-7-places" asp-for="@Model.PrimaryYear7Places" label="Seventh year of opening" suffix="places" />
+                    <govuk-number-input-cell id="primary-year-1-places" name="primary-year-1-places" asp-for="@Model.PrimaryYear1Places" show-label=true label="First year of opening" suffix="places" />
+                    <govuk-number-input-cell id="primary-year-2-places" name="primary-year-2-places" asp-for="@Model.PrimaryYear2Places" show-label=true label="Second year of opening" suffix="places" />
+                    <govuk-number-input-cell id="primary-year-3-places" name="primary-year-3-places" asp-for="@Model.PrimaryYear3Places" show-label=true label="Third year of opening" suffix="places" />
+                    <govuk-number-input-cell id="primary-year-4-places" name="primary-year-4-places" asp-for="@Model.PrimaryYear4Places" show-label=true label="Fourth year of opening" suffix="places" />
+                    <govuk-number-input-cell id="primary-year-5-places" name="primary-year-5-places" asp-for="@Model.PrimaryYear5Places" show-label=true label="Fifth year of opening" suffix="places" />
+                    <govuk-number-input-cell id="primary-year-6-places" name="primary-year-6-places" asp-for="@Model.PrimaryYear6Places" show-label=true label="Sixth year of opening" suffix="places" />
+                    <govuk-number-input-cell id="primary-year-7-places" name="primary-year-7-places" asp-for="@Model.PrimaryYear7Places" show-label=true label="Seventh year of opening" suffix="places" />
                 </div>
             }
 
@@ -61,11 +63,11 @@
                     <h1 class="govuk-heading-l" data-testid="title">
                         Provide the total number of underwritten places
                     </h1>
-                    <govuk-number-input-cell id="secondary-year-1-places" name="secondary-year-1-places" asp-for="@Model.SecondaryYear1Places" label="First year of opening" suffix="places" />
-                    <govuk-number-input-cell id="secondary-year-2-places" name="secondary-year-2-places" asp-for="@Model.SecondaryYear2Places" label="Second year of opening" suffix="places" />
-                    <govuk-number-input-cell id="secondary-year-3-places" name="secondary-year-3-places" asp-for="@Model.SecondaryYear3Places" label="Third year of opening" suffix="places" />
-                    <govuk-number-input-cell id="secondary-year-4-places" name="secondary-year-4-places" asp-for="@Model.SecondaryYear4Places" label="Fourth year of opening" suffix="places" />
-                    <govuk-number-input-cell id="secondary-year-5-places" name="secondary-year-5-places" asp-for="@Model.SecondaryYear5Places" label="Fifth year of opening" suffix="places" />
+                    <govuk-number-input-cell id="secondary-year-1-places" name="secondary-year-1-places" asp-for="@Model.SecondaryYear1Places" show-label=true label="First year of opening" suffix="places" />
+                    <govuk-number-input-cell id="secondary-year-2-places" name="secondary-year-2-places" asp-for="@Model.SecondaryYear2Places" show-label=true label="Second year of opening" suffix="places" />
+                    <govuk-number-input-cell id="secondary-year-3-places" name="secondary-year-3-places" asp-for="@Model.SecondaryYear3Places" show-label=true label="Third year of opening" suffix="places" />
+                    <govuk-number-input-cell id="secondary-year-4-places" name="secondary-year-4-places" asp-for="@Model.SecondaryYear4Places" show-label=true label="Fourth year of opening" suffix="places" />
+                    <govuk-number-input-cell id="secondary-year-5-places" name="secondary-year-5-places" asp-for="@Model.SecondaryYear5Places" show-label=true label="Fifth year of opening" suffix="places" />
                 </div>
             }
 
@@ -75,9 +77,9 @@
                     <h1 class="govuk-heading-l" data-testid="title">
                         Provide the total number of underwritten places
                     </h1>
-                    <govuk-number-input-cell id="sixteen-to-nineteen-year-1-places" name="sixteen-to-nineteen-year-1-places" asp-for="@Model.SixteenToNineteenYear1Places" label="First year of opening" suffix="places" />
-                    <govuk-number-input-cell id="sixteen-to-nineteen-year-2-places" name="sixteen-to-nineteen-year-2-places" asp-for="@Model.SixteenToNineteenYear2Places" label="Second year of opening" suffix="places" />
-                    <govuk-number-input-cell id="sixteen-to-nineteen-year-3-places" name="sixteen-to-nineteen-year-3-places" asp-for="@Model.SixteenToNineteenYear3Places" label="Third year of opening" suffix="places" />
+                    <govuk-number-input-cell id="sixteen-to-nineteen-year-1-places" name="sixteen-to-nineteen-year-1-places" asp-for="@Model.SixteenToNineteenYear1Places" show-label=true label="First year of opening" suffix="places" />
+                    <govuk-number-input-cell id="sixteen-to-nineteen-year-2-places" name="sixteen-to-nineteen-year-2-places" asp-for="@Model.SixteenToNineteenYear2Places" show-label=true label="Second year of opening" suffix="places" />
+                    <govuk-number-input-cell id="sixteen-to-nineteen-year-3-places" name="sixteen-to-nineteen-year-3-places" asp-for="@Model.SixteenToNineteenYear3Places" show-label=true label="Third year of opening" suffix="places" />
                 </div>
             }
 
@@ -87,33 +89,33 @@
                         <h1 class="govuk-heading-l" data-testid="title">
                             Provide the total number of underwritten primary places
                         </h1>
-                        <govuk-number-input-cell id="primary-year-1-places" name="primary-year-1-places" asp-for="@Model.PrimaryYear1Places" label="First year of opening" suffix="places" />
-                        <govuk-number-input-cell id="primary-year-2-places" name="primary-year-2-places" asp-for="@Model.PrimaryYear2Places" label="Second year of opening" suffix="places" />
-                        <govuk-number-input-cell id="primary-year-3-places" name="primary-year-3-places" asp-for="@Model.PrimaryYear3Places" label="Third year of opening" suffix="places" />
-                        <govuk-number-input-cell id="primary-year-4-places" name="primary-year-4-places" asp-for="@Model.PrimaryYear4Places" label="Fourth year of opening" suffix="places" />
-                        <govuk-number-input-cell id="primary-year-5-places" name="primary-year-5-places" asp-for="@Model.PrimaryYear5Places" label="Fifth year of opening" suffix="places" />
-                        <govuk-number-input-cell id="primary-year-6-places" name="primary-year-6-places" asp-for="@Model.PrimaryYear6Places" label="Sixth year of opening" suffix="places" />
-                        <govuk-number-input-cell id="primary-year-7-places" name="primary-year-7-places" asp-for="@Model.PrimaryYear7Places" label="Seventh year of opening" suffix="places" />
+                        <govuk-number-input-cell id="primary-year-1-places" name="primary-year-1-places" asp-for="@Model.PrimaryYear1Places" show-label=true label="First year of opening" suffix="places" />
+                        <govuk-number-input-cell id="primary-year-2-places" name="primary-year-2-places" asp-for="@Model.PrimaryYear2Places" show-label=true label="Second year of opening" suffix="places" />
+                        <govuk-number-input-cell id="primary-year-3-places" name="primary-year-3-places" asp-for="@Model.PrimaryYear3Places" show-label=true label="Third year of opening" suffix="places" />
+                        <govuk-number-input-cell id="primary-year-4-places" name="primary-year-4-places" asp-for="@Model.PrimaryYear4Places" show-label=true label="Fourth year of opening" suffix="places" />
+                        <govuk-number-input-cell id="primary-year-5-places" name="primary-year-5-places" asp-for="@Model.PrimaryYear5Places" show-label=true label="Fifth year of opening" suffix="places" />
+                        <govuk-number-input-cell id="primary-year-6-places" name="primary-year-6-places" asp-for="@Model.PrimaryYear6Places" show-label=true label="Sixth year of opening" suffix="places" />
+                        <govuk-number-input-cell id="primary-year-7-places" name="primary-year-7-places" asp-for="@Model.PrimaryYear7Places" show-label=true label="Seventh year of opening" suffix="places" />
                     </div>
 
                     <div class="govuk-form-group govuk-!-margin-bottom-9">
                         <h1 class="govuk-heading-l" data-testid="title">
                             Provide the total number of underwritten secondary places
                         </h1>
-                        <govuk-number-input-cell id="secondary-year-1-places" name="secondary-year-1-places" asp-for="@Model.SecondaryYear1Places" label="First year of opening" suffix="places" />
-                        <govuk-number-input-cell id="secondary-year-2-places" name="secondary-year-2-places" asp-for="@Model.SecondaryYear2Places" label="Second year of opening" suffix="places" />
-                        <govuk-number-input-cell id="secondary-year-3-places" name="secondary-year-3-places" asp-for="@Model.SecondaryYear3Places" label="Third year of opening" suffix="places" />
-                        <govuk-number-input-cell id="secondary-year-4-places" name="secondary-year-4-places" asp-for="@Model.SecondaryYear4Places" label="Fourth year of opening" suffix="places" />
-                        <govuk-number-input-cell id="secondary-year-5-places" name="secondary-year-5-places" asp-for="@Model.SecondaryYear5Places" label="Fifth year of opening" suffix="places" />
+                        <govuk-number-input-cell id="secondary-year-1-places" name="secondary-year-1-places" asp-for="@Model.SecondaryYear1Places" show-label=true label="First year of opening" suffix="places" />
+                        <govuk-number-input-cell id="secondary-year-2-places" name="secondary-year-2-places" asp-for="@Model.SecondaryYear2Places" show-label=true label="Second year of opening" suffix="places" />
+                        <govuk-number-input-cell id="secondary-year-3-places" name="secondary-year-3-places" asp-for="@Model.SecondaryYear3Places" show-label=true label="Third year of opening" suffix="places" />
+                        <govuk-number-input-cell id="secondary-year-4-places" name="secondary-year-4-places" asp-for="@Model.SecondaryYear4Places" show-label=true label="Fourth year of opening" suffix="places" />
+                        <govuk-number-input-cell id="secondary-year-5-places" name="secondary-year-5-places" asp-for="@Model.SecondaryYear5Places" show-label=true label="Fifth year of opening" suffix="places" />
                     </div>
 
                     <div class="govuk-form-group govuk-!-margin-bottom-9">
                         <h1 class="govuk-heading-l" data-testid="title">
                             Provide the total number of underwritten 16 to 19 places
                         </h1>
-                        <govuk-number-input-cell id="sixteen-to-nineteen-year-1-places" name="sixteen-to-nineteen-year-1-places" asp-for="@Model.SixteenToNineteenYear1Places" label="First year of opening" suffix="places" />
-                        <govuk-number-input-cell id="sixteen-to-nineteen-year-2-places" name="sixteen-to-nineteen-year-2-places" asp-for="@Model.SixteenToNineteenYear2Places" label="Second year of opening" suffix="places" />
-                        <govuk-number-input-cell id="sixteen-to-nineteen-year-3-places" name="sixteen-to-nineteen-year-3-places" asp-for="@Model.SixteenToNineteenYear3Places" label="Third year of opening" suffix="places" />
+                        <govuk-number-input-cell id="sixteen-to-nineteen-year-1-places" name="sixteen-to-nineteen-year-1-places" asp-for="@Model.SixteenToNineteenYear1Places" show-label=true label="First year of opening" suffix="places" />
+                        <govuk-number-input-cell id="sixteen-to-nineteen-year-2-places" name="sixteen-to-nineteen-year-2-places" asp-for="@Model.SixteenToNineteenYear2Places" show-label=true label="Second year of opening" suffix="places" />
+                        <govuk-number-input-cell id="sixteen-to-nineteen-year-3-places" name="sixteen-to-nineteen-year-3-places" asp-for="@Model.SixteenToNineteenYear3Places" show-label=true label="Third year of opening" suffix="places" />
                     </div>
                 }
 
@@ -127,3 +129,19 @@
 
     </div>
 </div>
+
+@functions {
+
+    public void RenderValue(string value)
+    {
+        if (string.IsNullOrEmpty(value) || value == "NotSet")
+        {
+            <span class="empty">Empty</span>
+        }
+        else
+        {
+            @value
+        }
+    }
+
+}

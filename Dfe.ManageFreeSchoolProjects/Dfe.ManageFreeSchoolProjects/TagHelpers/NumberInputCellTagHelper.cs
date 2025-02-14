@@ -11,7 +11,12 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
     [HtmlTargetElement("govuk-number-input-cell", TagStructure = TagStructure.WithoutEndTag)]
     public class NumberInputCellTagHelper : InputTagHelperBase
     {
-        public NumberInputCellTagHelper(IHtmlHelper htmlHelper) : base(htmlHelper) { }
+
+        [HtmlAttributeName("show-label")]
+        public bool ShowLabel { get; set; }
+
+        public NumberInputCellTagHelper(IHtmlHelper htmlHelper) : base(htmlHelper) {
+        }
 
         protected override async Task<IHtmlContent> RenderContentAsync()
         {
@@ -32,6 +37,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
                 Name = Name,
                 Value = For.Model?.ToString(),
                 Label = Label,
+                ShowLabel = ShowLabel,
                 Suffix = Suffix,
             };
 
@@ -52,6 +58,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
         public string Value { get; set; }
         public string ErrorMessage { get; set; }
         public string Label { get; set; }
+        public bool ShowLabel { get; set; }
         public string Suffix { get; set; }
     }
 }

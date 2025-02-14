@@ -34,77 +34,77 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.FinancePlan
         public FinancePlanTask FinancePlan { get; set; }
 
         [BindProperty(Name = "primary-year-1-places")]
-        [DisplayName("Primary Year 1 Places")]
+        [DisplayName("Primary places in first year of opening")]
         [ValidNumber(0,9999)]
         public string PrimaryYear1Places { get; set; }
 
         [BindProperty(Name = "primary-year-2-places")]
-        [DisplayName("Primary Year 2 Places")]
+        [DisplayName("Primary places in second year of opening")]
         [ValidNumber(0, 9999)]
         public string PrimaryYear2Places { get; set; }
 
         [BindProperty(Name = "primary-year-3-places")]
-        [DisplayName("Primary Year 3 Places")]
+        [DisplayName("Primary places in third year of opening")]
         [ValidNumber(0, 9999)]
         public string PrimaryYear3Places { get; set; }
 
         [BindProperty(Name = "primary-year-4-places")]
-        [DisplayName("Primary Year 4 Places")]
+        [DisplayName("Primary places in fourth year of opening")]
         [ValidNumber(0, 9999)]
         public string PrimaryYear4Places { get; set; }
 
         [BindProperty(Name = "primary-year-5-places")]
-        [DisplayName("Primary Year 5 Places")]
+        [DisplayName("Primary places in fifth year of opening")]
         [ValidNumber(0, 9999)]
         public string PrimaryYear5Places { get; set; }
 
         [BindProperty(Name = "primary-year-6-places")]
-        [DisplayName("Primary Year 6 Places")]
+        [DisplayName("Primary places in sixth year of opening")]
         [ValidNumber(0, 9999)]
         public string PrimaryYear6Places { get; set; }
 
         [BindProperty(Name = "primary-year-7-places")]
-        [DisplayName("Primary Year 7 Places")]
+        [DisplayName("Primary places in seventh year of opening")]
         [ValidNumber(0, 9999)]
         public string PrimaryYear7Places { get; set; }
 
         [BindProperty(Name = "secondary-year-1-places")]
-        [DisplayName("Secondary Year 1 Places")]
+        [DisplayName("Secondary places in first year of opening")]
         [ValidNumber(0, 9999)]
         public string SecondaryYear1Places { get; set; }
 
         [BindProperty(Name = "secondary-year-2-places")]
-        [DisplayName("Secondary Year 2 Places")]
+        [DisplayName("Secondary places in second year of opening")]
         [ValidNumber(0, 9999)]
         public string SecondaryYear2Places { get; set; }
 
         [BindProperty(Name = "secondary-year-3-places")]
-        [DisplayName("Secondary Year 3 Places")]
+        [DisplayName("Secondary places in third year of opening")]
         [ValidNumber(0, 9999)]
         public string SecondaryYear3Places { get; set; }
 
         [BindProperty(Name = "secondary-year-4-places")]
-        [DisplayName("Secondary Year 4 Places")]
+        [DisplayName("Secondary places in fourth year of opening")]
         [ValidNumber(0, 9999)]
         public string SecondaryYear4Places { get; set; }
 
         [BindProperty(Name = "secondary-year-5-places")]
-        [DisplayName("Secondary Year 5 Places")]
+        [DisplayName("Secondary places in fifth year of opening")]
         [ValidNumber(0, 9999)]
         public string SecondaryYear5Places { get; set; }
 
         [BindProperty(Name = "sixteen-to-nineteen-year-1-places")]
-        [DisplayName("16 to 19 Year 1 Places")]
+        [DisplayName("16 to 19 places in first year of opening")]
         [ValidNumber(0, 9999)]
         public string SixteenToNineteenYear1Places { get; set; }
 
         [BindProperty(Name = "sixteen-to-nineteen-year-2-places")]
-        [DisplayName("16 to 19 Year 2 Places")]
+        [DisplayName("16 to 19 places in second year of opening")]
         [ValidNumber(0, 9999)]
         public string SixteenToNineteenYear2Places { get; set; }
 
         [BindProperty(Name = "sixteen-to-nineteen-year-3-places")]
-        [DisplayName("16 to 19 Year 3 Places")]
+        [DisplayName("16 to 19 places in third year of opening")]
         [ValidNumber(0, 9999)]
         public string SixteenToNineteenYear3Places { get; set; }
 

@@ -167,8 +167,7 @@
                         Comments about underwritten places
                     </dt>
                     <dd class="govuk-summary-list__value">
-                        <div class="govuk-body dfe-text-area-display">@{RenderValue(@financePlan.CommentsAboutUnderwrittenPlaces);}
-                        </div>
+                        @{RenderComments(@financePlan.CommentsAboutUnderwrittenPlaces);}
                     </dd>
                     <dd class="govuk-summary-list__actions">
                         <a class="govuk-link" href="@editlink">Change<span class="govuk-visually-hidden"> comments about underwritten places</span></a>
@@ -198,7 +197,7 @@
 
 @functions {
 
-    public void RenderValue(string value)
+    public void RenderComments(string value)
     {
         if (string.IsNullOrEmpty(value) || value == "NotSet")
         {
@@ -206,7 +205,7 @@
         }
         else
         {
-            @value
+            <div class="govuk-body dfe-text-area-display">@value</div>
         }
     }
 

@@ -3,15 +3,18 @@
 @{
     var showError = !string.IsNullOrWhiteSpace(Model.ErrorMessage);
     var showSuffix = !string.IsNullOrWhiteSpace(Model.Suffix);
-    var showLabel = !string.IsNullOrWhiteSpace(Model.Label);
-}
-@{
-    if (showLabel)
-    {
-        <div class="govuk-heading-s">@Model.Label</div>
-    }
 }
 <div class="govuk-form-group @(showError ? "govuk-form-group--error" : "")">
+    @if (Model.ShowLabel)
+    {
+    <div class="govuk-heading-s">@Model.Label</div>
+    }
+    @if (showError)
+    {
+        <span id="@Model.Id-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> @Model.ErrorMessage
+        </span>
+    }
     @{
         if (showSuffix)
         {
