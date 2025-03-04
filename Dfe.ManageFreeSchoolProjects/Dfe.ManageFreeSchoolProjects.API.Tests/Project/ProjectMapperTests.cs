@@ -11,6 +11,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         [InlineData("FS - Special", SchoolType.Special)]
         [InlineData("SS", SchoolType.StudioSchool)]
         [InlineData("UTC", SchoolType.UniversityTechnicalCollege)]
+        [InlineData("VA", SchoolType.VoluntaryAided)]
         [InlineData("InvalidType", SchoolType.NotSet)]
         public void ToSchoolType_Returns_ExpectedString(string input, SchoolType? expectedResult)
         {
@@ -24,6 +25,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         [InlineData(SchoolType.Special, "FS - Special")]
         [InlineData(SchoolType.StudioSchool, "SS")]
         [InlineData(SchoolType.UniversityTechnicalCollege, "UTC")]
+        [InlineData(SchoolType.VoluntaryAided, "VA")]
         [InlineData(null, "NotSet")]
         public void ToSchoolType_ReturnsExpectedEnum(SchoolType? input, string expectedResult)
         {

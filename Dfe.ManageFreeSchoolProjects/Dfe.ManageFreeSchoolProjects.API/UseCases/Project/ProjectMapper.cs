@@ -18,6 +18,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 "FS - Mainstream" => SchoolType.Mainstream,
                 "UTC" => SchoolType.UniversityTechnicalCollege,
                 "FE" => SchoolType.FurtherEducation,
+                "VA" => SchoolType.VoluntaryAided,
                 _ => SchoolType.NotSet
             };
         }
@@ -32,6 +33,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 SchoolType.Mainstream => "FS - Mainstream",
                 SchoolType.UniversityTechnicalCollege => "UTC",
                 SchoolType.FurtherEducation => "FE",
+                SchoolType.VoluntaryAided => "VA",
                 _ => "NotSet"
             };
         }

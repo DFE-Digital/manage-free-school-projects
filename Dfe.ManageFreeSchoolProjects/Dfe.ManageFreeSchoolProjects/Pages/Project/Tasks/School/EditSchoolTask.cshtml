@@ -220,9 +220,8 @@
     {
 
         const schoolType = $("input[type='radio']:checked[name='school-type']").val();
-        const schoolTypesWithSpecialistProvisions = ["Mainstream", "StudioSchool", "UniversityTechnicalCollege"];
+        const schoolTypesWithSpecialistProvisions = ["Mainstream", "StudioSchool", "UniversityTechnicalCollege", "VoluntaryAided"];
         
-
         if (schoolTypesWithSpecialistProvisions.includes(schoolType))
         {
             $('#alternative-provision-container').show();

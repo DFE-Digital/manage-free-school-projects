@@ -7,7 +7,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project
 {
     public static class ProjectConstants
     {
-        public static readonly List<SchoolType> SchoolTypesWithSpecialistProvisions = [SchoolType.Mainstream, SchoolType.StudioSchool, SchoolType.UniversityTechnicalCollege];
+        public static readonly List<SchoolType> SchoolTypesWithSpecialistProvisions = [SchoolType.Mainstream, SchoolType.StudioSchool, SchoolType.UniversityTechnicalCollege, SchoolType.VoluntaryAided];
 
         public static readonly string[] ContactTypes = ["Team Lead", "Grade 6", "Project Director", "Trust Chair", "School Chair"];
     }

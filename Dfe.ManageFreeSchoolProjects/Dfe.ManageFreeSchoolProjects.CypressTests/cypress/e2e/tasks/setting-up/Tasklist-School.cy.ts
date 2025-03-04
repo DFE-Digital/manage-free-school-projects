@@ -269,5 +269,28 @@ describe("Testing project overview", () => {
             .hasValidationError("Select yes if it will have alternative provision")
             .hasValidationError("Select yes if it will have special educational needs provision");
     });
+
+    it("Should validate the class type field if a school type with specialist provisions is selected for Voluntary Aided", () => {
+
+        taskListPage.selectSchoolFromTaskList();
+
+        summaryPage.clickChange();
+
+        schoolDetailsPage
+            .withSchoolType("VoluntaryAided")
+            .withSchoolPhase("AllThrough")
+            .withAgeRange("11", "16")
+            .withFormsOfEntry("3")
+            .withGender("Mixed")
+            .withNursery("Yes")
+            .withSixthForm("No")
+            .withFaithStatus("Designation")
+            .withFaithType("faith-type-ChurchOfEngland")
+            .clickContinue();
+
+        validationComponent
+            .hasValidationError("Select yes if it will have alternative provision")
+            .hasValidationError("Select yes if it will have special educational needs provision");
+    });
     
 });

@@ -17,6 +17,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project
         [Description("Studio school")]
         StudioSchool = 5,
         [Description("University technical college")]
-        UniversityTechnicalCollege = 6
+        UniversityTechnicalCollege = 6,
+        [Description("Voluntary Aided")]
+        VoluntaryAided = 7
+
     }
 }
