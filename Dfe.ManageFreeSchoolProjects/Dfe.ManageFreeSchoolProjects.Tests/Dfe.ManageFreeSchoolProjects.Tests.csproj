@@ -11,7 +11,11 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.18.1" />
-    <PackageReference Include="DfE.CoreLibs.Testing" Version="1.1.9" />
+    <PackageReference Include="DfE.CoreLibs.Testing" Version="1.1.9">
+      <RestoreSources>
+        https://nuget.pkg.github.com/DFE-Digital/index.json;
+      </RestoreSources>
+    </PackageReference>
     <PackageReference Include="FluentAssertions" Version="6.12.2" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
