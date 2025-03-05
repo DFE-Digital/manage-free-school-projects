@@ -1,3 +1,6 @@
+## 1.0.2
+* 202346 - Build: Add 'Voluntary Aided' school type option for Presumption and Central route projects
+
 ## 1.0.1
 * 200388 - Build: Add ProjectAssignedTo and Grade6 data fields to MFSP all projects download sheet
 
