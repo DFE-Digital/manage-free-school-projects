@@ -39,6 +39,7 @@ jobs:
         browser: [
           "edge"
         ]
+        parallel: [ 'worker1', 'worker2', 'worker3' ] 
     container:
       image: cypress/browsers:22.13.1
     defaults:
@@ -55,6 +56,7 @@ jobs:
           runTests: false
           browser: ${{ matrix.browser }}
           working-directory: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests
+          run: cypress run --parallel
 
       - name: Run (dev)
         if: inputs.environment == 'development'
