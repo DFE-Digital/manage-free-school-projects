@@ -2,41 +2,77 @@
 ARG DOTNET_VERSION=8.0
 
 # Build the app using the dotnet SDK
-FROM "mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0" AS build
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0 AS build
 WORKDIR /build
-COPY ./Dfe.ManageFreeSchoolProjects/ /build
-RUN ["dotnet", "restore", "Dfe.ManageFreeSchoolProjects.API"]
-RUN ["dotnet", "build", "Dfe.ManageFreeSchoolProjects.API", "--no-restore", "-c", "Release"]
-RUN ["dotnet", "publish", "Dfe.ManageFreeSchoolProjects.API", "--no-build", "-o", "/app"]
+ARG PROJECT_NAME="Dfe.ManageFreeSchoolProjects"
 
-RUN ["dotnet", "new", "tool-manifest"]
-RUN ["dotnet", "tool", "install", "dotnet-ef", "--version", "8.0.11"]
-RUN ["mkdir", "-p", "/app/SQL"]
-RUN ["dotnet", "restore", "Dfe.ManageFreeSchoolProjects.Data"]
-RUN ["dotnet", "build", "Dfe.ManageFreeSchoolProjects.Data", "--no-restore"]
-RUN ["dotnet", "ef", "migrations", "script", "--output", "/app/SQL/DbMigrationScript.sql", "--idempotent", "-p", "/build/Dfe.ManageFreeSchoolProjects.Data", "--no-build"]
-RUN ["touch", "/app/SQL/DbMigrationScriptOutput.txt"]
+# Copy csproj files for restore caching
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.API.Contracts.Tests/${PROJECT_NAME}.API.Contracts.Tests.csproj ./${PROJECT_NAME}.API.Contracts.Tests/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.API.Contracts/${PROJECT_NAME}.API.Contracts.csproj             ./${PROJECT_NAME}.API.Contracts/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.API.Tests/${PROJECT_NAME}.API.Tests.csproj                     ./${PROJECT_NAME}.API.Tests/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.API/${PROJECT_NAME}.API.csproj                                 ./${PROJECT_NAME}.API/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.Data/${PROJECT_NAME}.Data.csproj                               ./${PROJECT_NAME}.Data/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.Logging/${PROJECT_NAME}.Logging.csproj                         ./${PROJECT_NAME}.Logging/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.Tests/${PROJECT_NAME}.Tests.csproj                             ./${PROJECT_NAME}.Tests/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.UserContext.Tests/${PROJECT_NAME}.UserContext.Tests.csproj     ./${PROJECT_NAME}.UserContext.Tests/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.UserContext/${PROJECT_NAME}.UserContext.csproj                 ./${PROJECT_NAME}.UserContext/
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}/${PROJECT_NAME}.csproj                                         ./${PROJECT_NAME}/
+
+# Copy solution file
+COPY ./${PROJECT_NAME}/${PROJECT_NAME}.sln .
+
+# Restore
+RUN --mount=type=secret,id=github_token dotnet nuget add source --username USERNAME --password $(cat /run/secrets/github_token) --store-password-in-clear-text --name github "https://nuget.pkg.github.com/DFE-Digital/index.json" && \
+    dotnet restore ${PROJECT_NAME}.sln
+
+# Copy remaining source code
+COPY ./${PROJECT_NAME}/ .
+
+# Build and publish the API Project
+WORKDIR /build/${PROJECT_NAME}.API
+RUN dotnet build --no-restore -c Release && \
+    dotnet publish \
+      --no-build \
+      -c Release \
+      -o /app
+
+# Build the Data Project and export the EF Migrations
+WORKDIR /build/${PROJECT_NAME}.Data
+RUN mkdir -p /app/SQL && \
+    dotnet new tool-manifest && \
+    dotnet tool install dotnet-ef --version 8.0.13 && \
+    dotnet restore && \
+    dotnet build --no-restore && \
+    dotnet ef migrations script \
+        --output /app/SQL/DbMigrationScript.sql \
+        --idempotent \
+        --no-build && \
+    touch /app/SQL/DbMigrationScriptOutput.txt
 
 # Build a runtime environment
 FROM "mcr.microsoft.com/dotnet/aspnet:${DOTNET_VERSION}-azurelinux3.0" AS runtime
 
 # Install SQL tools to allow migrations to be run
-RUN curl -fsSL https://packages.microsoft.com/config/rhel/8/prod.repo -o /tmp/mssql.repo \
-    && cat /tmp/mssql.repo | sed 's/\[packages-microsoft-com-prod\]/[mssql-release]/; s/repo_gpgcheck=1//' > /etc/yum.repos.d/mssql-release.repo \
-    && rm /tmp/mssql.repo \
-    && rpm --import https://packages.microsoft.com/keys/microsoft.asc \
-    && tdnf clean all \
-    && tdnf update -y --security
-RUN ACCEPT_EULA=Y tdnf install -y mssql-tools18
-RUN echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
-RUN source ~/.bashrc
+ADD https://packages.microsoft.com/config/rhel/8/prod.repo /tmp/mssql.repo
+RUN cat /tmp/mssql.repo \
+        | sed 's/\[packages-microsoft-com-prod\]/[mssql-release]/; s/repo_gpgcheck=1//' \
+        > /etc/yum.repos.d/mssql-release.repo && \
+    rm /tmp/mssql.repo && \
+    rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+    tdnf clean all && \
+    tdnf update -y --security && \
+    ACCEPT_EULA=Y tdnf install -y mssql-tools18 && \
+    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc && \
+    source ~/.bashrc
 
 WORKDIR /app
 LABEL org.opencontainers.image.source="https://github.com/DFE-Digital/manage-free-school-projects"
 LABEL org.opencontainers.image.description="Manage Free School Projects - API"
 COPY --from=build /app /app
 COPY ./script/api-docker-entrypoint.sh /app/docker-entrypoint.sh
-RUN ["chmod", "+x", "/app/docker-entrypoint.sh"]
-RUN ["touch", "/app/SQL/DbMigrationScriptOutput.txt"]
-RUN chown "$APP_UID" "/app/SQL" -R
+
+# Set permissions and user
+RUN chmod +x ./docker-entrypoint.sh && \
+    touch /app/SQL/DbMigrationScriptOutput.txt && \
+    chown "$APP_UID" /app/SQL -R
 USER $APP_UID
