@@ -5,15 +5,11 @@ on:
     branches:
     - main
     - develop
-    paths:
-    - 'Dfe.ManageFreeSchoolProjects/**'
-    - '!Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests/**'
   pull_request:
-    branches: [ main, develop, release/** ]
-    types: [ opened, synchronize, reopened ]
-    paths:
-    - 'Dfe.ManageFreeSchoolProjects/**'
-    - '!Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests/**'
+
+env:
+  JAVA_VERSION: 21
+  DOTNET_VERSION: 8.0.x
 
 jobs:
   build-test:
@@ -38,15 +34,15 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones disabled for a better relevancy of SC analysis
 
-      - name: Setup .NET
+      - name: Setup .NET ${{ env.DOTNET_VERSION }}
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
-          java-version: 17
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: 'microsoft'
 
       - name: Add nuget package source
