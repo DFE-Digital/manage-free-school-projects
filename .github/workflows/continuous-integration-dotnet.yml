@@ -69,8 +69,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet-sonarscanner begin /d:sonar.scanner.skipJreProvisioning=true /k:"DFE-Digital_manage-free-schools-projects" /o:"dfe-digital" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths=./Dfe.ManageFreeSchoolProjects/CoverageReport/SonarQube.xml
+          dotnet-sonarscanner begin /d:sonar.qualitygate.wait=true /d:sonar.scanner.skipJreProvisioning=true /k:"DFE-Digital_manage-free-schools-projects" /o:"dfe-digital" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths=./Dfe.ManageFreeSchoolProjects/CoverageReport/SonarQube.xml
           dotnet build Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.sln --no-restore
-          dotnet test Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --environment "${{env.CONNECTION_STRING_KEY}}"="${{env.CONNECTION_STRING}}"
+          dotnet test Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.sln --no-build --verbosity normal --collect:"XPlat Code Coverage" --environment "${{ env.CONNECTION_STRING_KEY }}"="${{ env.CONNECTION_STRING }}"
           reportgenerator -reports:"./**/coverage.cobertura.xml" -targetdir:./Dfe.ManageFreeSchoolProjects/CoverageReport -reporttypes:SonarQube
           dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
