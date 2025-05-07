@@ -316,35 +316,37 @@ else
             {
                 <tr class="govuk-table__row tr__large" data-testid="row-@project.ProjectId">
                     <td class="govuk-table__cell" data-testid="project-title">
-                        @project.ProjectTitle
+                        <span class="govuk-tag">@project.ProjectTitle</span>
                     </td>
                     <td class="govuk-table__cell" data-testid="project-id">
-                        @project.ProjectId
+                        <span class="govuk-tag">@project.ProjectId</span>
                     </td>
                     <td class="govuk-table__cell" data-testid="project-type">
-                        @project.ProjectType
+                        <span class="govuk-tag">@project.ProjectType</span>
                     </td>
                     <td class="govuk-table__cell" data-testid="trust-name">
-                        @project.TrustName
+                        <span class="govuk-tag">@project.TrustName</span>
                     </td>
                     <td class="govuk-table__cell" data-testid="region-name">
-                        @project.Region
+                        <span class="govuk-tag">@project.Region</span>
                     </td>
                     <td class="govuk-table__cell" data-testid="local-authority">
-                        @project.LocalAuthority
+                        <span class="govuk-tag">@project.LocalAuthority</span>
                     </td>
                     @{
                         if (!Model.IsMyProjectsPage)
                         {
                             <td class="govuk-table__cell" data-testid="project-managed-by">
-                                @project.ProjectManagedBy
+                                <span class="govuk-tag">@project.ProjectManagedBy</span>
                             </td>
                         }
                     }
                     <td class="govuk-table__cell" data-testid="provisional-opening-date">
-                        @{
-                            RenderValue(project.RealisticOpeningDate.ToDateString(false, true));
-                        }
+                        <span class="govuk-tag">
+                            @{
+                                RenderValue(project.RealisticOpeningDate.ToDateString(false, true));
+                            }
+                        </span>
                     </td>
                     <td class="govuk-table__cell" data-testid="status">
                         <govuk-status-tag status=@project.ProjectStatus />
