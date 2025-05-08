@@ -29,16 +29,21 @@
             </span>
             Impact assessment
         </h1>
-        
+
         <p class="govuk-body">Use <a class="govuk-link" target="_blank" href="https://apps.powerapps.com/play/e/default-fad277c9-c60a-4da1-b5f3-b3b8b34a82f9/a/f48134e3-e9d7-4c3a-9ea3-f25402537389?tenantId=fad277c9-c60a-4da1-b5f3-b3b8b34a82f9&hint=68285632-7229-46e9-888a-0a3ddcb314b4&sourcetime=1699873425524">Assess the Impact of Opening a New Free School (opens in a new tab)</a> to conduct the impact assessment.</p>
-        
-        <p>
-            Use the <a class="govuk-link" target="_blank" href="https://educationgovuk.sharepoint.com/:w:/r/sites/lvewp00030/_layouts/15/Doc.aspx?sourcedoc=%7b86457826-25BE-4F25-A7DE-E5E3A4C3A0B0%7d&file=C15_Section_9_Impact_Assessments.docx&action=default&mobileredirect=true">Section 9 letter template</a> to create a Section 9 letter and find out what to include (opens in new tab).
-        </p>
+
+        @{
+            if (!Model.Project.IsPresumptionRoute)
+            {
+                <p>
+                    Use the <a class="govuk-link" target="_blank" href="https://educationgovuk.sharepoint.com/:w:/r/sites/lvewp00030/_layouts/15/Doc.aspx?sourcedoc=%7b86457826-25BE-4F25-A7DE-E5E3A4C3A0B0%7d&file=C15_Section_9_Impact_Assessments.docx&action=default&mobileredirect=true">Section 9 letter template</a> to create a Section 9 letter and find out what to include (opens in new tab).
+                </p>
+            }
+        }
         
         <govuk-summary-list>
          @{
-             if (Model.Project.IsPresumptionRoute == false)
+             if (!Model.Project.IsPresumptionRoute)
              {
                  <govuk-summary-item label="Sent the section 9 letter to local authority" asp-for="@Model.Section9LetterSentToLocalAuthority" href="@editlink"/>
                  <govuk-summary-item label="Date sent" asp-for="@impactAssessment.Section9LetterDateSent" href="@editlink"/>
