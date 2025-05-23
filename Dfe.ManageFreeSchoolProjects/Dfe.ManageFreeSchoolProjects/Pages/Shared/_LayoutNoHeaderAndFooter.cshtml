@@ -55,6 +55,7 @@
 
 <div class="govuk-width-container">
 	@await RenderSectionAsync("BeforeMain", required: false)
+	<partial name="_NotificationBanner" />
 	<main class="govuk-main-wrapper gov-main-wrapper--auto-spacing" id="main-content" role="main">
 		@RenderBody()
 	</main>
