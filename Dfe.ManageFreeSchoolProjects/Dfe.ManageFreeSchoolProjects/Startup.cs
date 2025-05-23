@@ -191,21 +191,26 @@ public class Startup
 
     private void SetupDataprotection(IServiceCollection services)
     {
-      // Setup basic Data Protection and persist keys.xml to local file system
-      var dp = services.AddDataProtection();
+        // Setup basic Data Protection and persist keys.xml to local file system
+        var dp = services.AddDataProtection();
 
-      // If a Key Vault Key URI is defined, expect to encrypt the keys.xml
-      string kvProtectionKeyUri = Configuration.GetValue<string>("DataProtection:KeyVaultKey");
-      if (!string.IsNullOrEmpty(kvProtectionKeyUri))
-      {
-        dp.PersistKeysToFileSystem(new DirectoryInfo(@"/srv/app/storage"));
+        var dpTargetPath = @"/srv/app/storage";
+        if (Directory.Exists(dpTargetPath))
+        {
+            dp.PersistKeysToFileSystem(new DirectoryInfo(dpTargetPath));
 
-        var credentials = new DefaultAzureCredential();
-        dp.ProtectKeysWithAzureKeyVault(
-          new Uri(kvProtectionKeyUri),
-          credentials
-        );
-      }
+            // If a Key Vault Key URI is defined, expect to encrypt the keys.xml
+            string kvProtectionKeyUri = Configuration.GetValue<string>("DataProtection:KeyVaultKey");
+            if (!string.IsNullOrEmpty(kvProtectionKeyUri))
+            {
+                var credentials = new DefaultAzureCredential();
+
+                dp.ProtectKeysWithAzureKeyVault(
+                    new Uri(kvProtectionKeyUri),
+                    credentials
+                );
+            }
+        }
     }
 
     private static void SetupHealthChecks(IServiceCollection services)
