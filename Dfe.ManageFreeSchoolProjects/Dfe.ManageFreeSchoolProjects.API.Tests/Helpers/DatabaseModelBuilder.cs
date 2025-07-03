@@ -64,6 +64,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Helpers
             result.KeyContactsEsfaCapitalProjectDirector = _fixture.Create<string>();
             result.SchoolDetailsTrustType = _fixture.Create<string>();
             result.KeyContactsFsgLeadContact = _fixture.Create<string>();
+            result.KeyContactsFsgLeadContactEmail = _fixture.Create<string>();
             result.KeyContactsChairOfGovernorsEmail = _fixture.Create<string>();
             result.KeyContactsChairOfGovernorsName = _fixture.Create<string>();
             result.KeyContactsChairOfGovernorsMatEmail = _fixture.Create<string>();

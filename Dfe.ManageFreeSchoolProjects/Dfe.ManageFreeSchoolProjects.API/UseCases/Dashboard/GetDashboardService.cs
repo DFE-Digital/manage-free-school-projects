@@ -22,6 +22,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
         public List<string> LocalAuthority { get; set; }
         public List<string> ProjectManagedBy { get; set; }
         public List<string> ProjectStatus { get; set; }
+        public List<string> ProjectManagedByEmail { get; set; }
         public string Wave { get; set; }
         public int Page { get; set; }
         public int Count { get; set; }
@@ -51,9 +52,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
                 TrustName = record.TrustName,
                 LocalAuthority = record.LocalAuthority,
                 RealisticOpeningDate = record.ProjectStatusProvisionalOpeningDateAgreedWithTrust,
+                RealisticOpeningYear = record.ProjectStatusRealisticYearOfOpening,
                 Region = record.SchoolDetailsGeographicalRegion,
                 ProjectManagedBy = record.KeyContactsFsgLeadContact, 
                 ProjectType = record.ProjectStatusFreeSchoolApplicationWave == "FS - Presumption" ? "Presumption" : "Central Route",
+                ProjectManagedByEmail = record.KeyContactsFsgLeadContactEmail,
                 ProjectStatus = ProjectMapper.ToProjectStatusType(record.ProjectStatusProjectStatus)
             }).ToList();
             
@@ -80,6 +83,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
 
             if (parameters.ProjectManagedBy.Count != 0)
                 query = query.Where(kpi => parameters.ProjectManagedBy.Any(projectManagedBy => kpi.KeyContactsFsgLeadContact == projectManagedBy));
+
+            if (parameters.ProjectManagedByEmail.Count != 0)
+                query = query.Where(kpi => parameters.ProjectManagedByEmail.Any(projectManagedByEmail => kpi.KeyContactsFsgLeadContactEmail == projectManagedByEmail));
 
             var projectStatuses = parameters.ProjectStatus;
             if (projectStatuses.Count != 0)

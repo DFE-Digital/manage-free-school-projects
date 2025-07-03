@@ -55,6 +55,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             dashboard.Region.Should().Be(project.SchoolDetailsGeographicalRegion);
             dashboard.ProjectStatus.Should().Be(ProjectMapper.ToProjectStatusType(project.ProjectStatusProjectStatus));
             dashboard.ProjectType.Should().Be("Presumption");
+            dashboard.RealisticOpeningYear.Should().Be(project.ProjectStatusRealisticYearOfOpening);
+            dashboard.ProjectManagedBy.Should().Be(project.KeyContactsFsgLeadContact);
+            dashboard.ProjectManagedByEmail.Should().Be(project.KeyContactsFsgLeadContactEmail);
         }
 
         [Fact]
@@ -326,6 +329,51 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             secondProjectManagerProjects.Data.Should().Contain(r => r.ProjectId == projectThree.ProjectStatusProjectId);
         }
 
+        [Fact]
+        public async Task When_Get_WithProjectManagerEmail_Returns_DashboardForSpecifiedProjectManagerEmail_200()
+        {
+            using var context = _testFixture.GetContext();
+            var projectOne = DatabaseModelBuilder.BuildProject();
+            var projectTwo = DatabaseModelBuilder.BuildProject();
+            projectTwo.KeyContactsFsgLeadContactEmail = projectOne.KeyContactsFsgLeadContactEmail;
+            var firstProjectManager = projectOne.KeyContactsFsgLeadContactEmail;
+
+            var projectThree = DatabaseModelBuilder.BuildProject();
+            var projectFour = DatabaseModelBuilder.BuildProject();
+
+            var presumptionRoute = "FS - Presumption";
+            projectOne.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectOne.Wave = presumptionRoute;
+            projectTwo.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectTwo.Wave = presumptionRoute;
+            projectThree.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectThree.Wave = presumptionRoute;
+
+            context.Kpi.AddRange(projectOne, projectTwo, projectThree, projectFour);
+
+            await context.SaveChangesAsync();
+
+
+            var firstProjectManagerResponse = await _client.GetAsync($"/api/v1/client/dashboard?projectManagedByEmail={firstProjectManager}");
+            firstProjectManagerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var firstProjectManagerProjects = await firstProjectManagerResponse.Content.ReadFromJsonAsync<ApiListWrapper<GetDashboardResponse>>();
+
+            firstProjectManagerProjects.Data.Should().HaveCount(2);
+            firstProjectManagerProjects.Data.Should().Contain(r => r.ProjectId == projectOne.ProjectStatusProjectId);
+            firstProjectManagerProjects.Data.Should().Contain(r => r.ProjectId == projectTwo.ProjectStatusProjectId);
+
+            var secondProjectManager = projectThree.KeyContactsFsgLeadContactEmail;
+            var secondProjectManagerResponse = await _client.GetAsync($"/api/v1/client/dashboard?projectManagedByEmail={firstProjectManager},{secondProjectManager}");
+            secondProjectManagerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var secondProjectManagerProjects = await secondProjectManagerResponse.Content.ReadFromJsonAsync<ApiListWrapper<GetDashboardResponse>>();
+
+            secondProjectManagerProjects.Data.Should().HaveCount(3);
+            secondProjectManagerProjects.Data.Should().Contain(r => r.ProjectId == projectOne.ProjectStatusProjectId);
+            secondProjectManagerProjects.Data.Should().Contain(r => r.ProjectId == projectTwo.ProjectStatusProjectId);
+            secondProjectManagerProjects.Data.Should().Contain(r => r.ProjectId == projectThree.ProjectStatusProjectId);
+        }
         [Fact]
         public async Task When_Get_UserDoesNotExist_Returns_EmptyDashboard_200()
         {

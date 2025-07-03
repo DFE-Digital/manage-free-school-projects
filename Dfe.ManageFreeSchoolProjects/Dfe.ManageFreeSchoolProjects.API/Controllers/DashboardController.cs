@@ -32,6 +32,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             string wave,
             string projectManagedBy,
             string projectStatuses,
+            string? projectManagedByEmail,
             int? page = 1,
             int? count = 5)
         {
@@ -41,6 +42,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             var localAuthoritiesToSearch = localAuthorities?.Split(',').ToList() ?? [];
             var projectManagedByToSearch = projectManagedBy?.Split(",").ToList() ?? [];
             var projecStatusesToSearch = projectStatuses?.Split(",").ToList() ?? [];
+            var projectManagedByEmailToSearch = projectManagedByEmail?.Split(",").ToList() ?? [];
 
             var parameters = new GetDashboardParameters
             {
@@ -49,6 +51,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
                 Project = project,
                 Wave = wave,
                 ProjectManagedBy = projectManagedByToSearch,
+                ProjectManagedByEmail = projectManagedByEmailToSearch,
                 LocalAuthority = localAuthoritiesToSearch,
                 ProjectStatus = projecStatusesToSearch,
                 Page = page.Value,
@@ -83,11 +86,13 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
         string localAuthorities,
         string project,
         string projectManagedBy,
+        string projectManagedByEmail,
         string projectStatuses){
             
             var regionsToSearch = regions?.Split(',').ToList() ?? [];
             var localAuthoritiesToSearch = localAuthorities?.Split(',').ToList() ?? [];
             var projectManagedByToSearch = projectManagedBy?.Split(",").ToList() ?? [];
+            var projectManagedByEmailToSearch = projectManagedByEmail?.Split(",").ToList() ?? [];
             var projectStatusesToSearch = projectStatuses?.Split(",").ToList() ?? [];
 
             var parameters = new GetDashboardParameters
@@ -96,6 +101,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
                 Regions = regionsToSearch,
                 Project = project,
                 ProjectManagedBy = projectManagedByToSearch,
+                ProjectManagedByEmail = projectManagedByEmailToSearch,
                 ProjectStatus = projectStatusesToSearch,
                 LocalAuthority = localAuthoritiesToSearch
             };
