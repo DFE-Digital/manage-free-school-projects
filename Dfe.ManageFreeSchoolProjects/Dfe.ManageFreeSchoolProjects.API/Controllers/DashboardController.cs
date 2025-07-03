@@ -32,7 +32,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             string wave,
             string projectManagedBy,
             string projectStatuses,
-            string? projectManagedByEmail,
+            string projectManagedByEmail,
             int? page = 1,
             int? count = 5)
         {
@@ -41,7 +41,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             var regionsToSearch = regions?.Split(',').ToList() ?? [];
             var localAuthoritiesToSearch = localAuthorities?.Split(',').ToList() ?? [];
             var projectManagedByToSearch = projectManagedBy?.Split(",").ToList() ?? [];
-            var projecStatusesToSearch = projectStatuses?.Split(",").ToList() ?? [];
+            var projectStatusesToSearch = projectStatuses?.Split(",").ToList() ?? [];
             var projectManagedByEmailToSearch = projectManagedByEmail?.Split(",").ToList() ?? [];
 
             var parameters = new GetDashboardParameters
@@ -53,7 +53,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
                 ProjectManagedBy = projectManagedByToSearch,
                 ProjectManagedByEmail = projectManagedByEmailToSearch,
                 LocalAuthority = localAuthoritiesToSearch,
-                ProjectStatus = projecStatusesToSearch,
+                ProjectStatus = projectStatusesToSearch,
                 Page = page.Value,
                 Count = count.Value
             };
