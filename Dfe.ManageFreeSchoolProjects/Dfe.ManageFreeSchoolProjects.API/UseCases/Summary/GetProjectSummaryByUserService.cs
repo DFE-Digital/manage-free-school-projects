@@ -25,7 +25,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
 
             query = ApplyFilters(query, parameters);
 
-            var count = query.Count();
+            var count = await query.CountAsync();
 
             var projectRecords = await
                 query
