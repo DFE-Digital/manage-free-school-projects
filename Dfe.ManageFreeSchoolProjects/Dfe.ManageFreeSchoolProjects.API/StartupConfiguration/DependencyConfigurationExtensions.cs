@@ -59,6 +59,7 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.ReadinessToOpenMee
 using Dfe.ManageFreeSchoolProjects.API.UseCases.BulkEdit;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.LocalAuthority;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Summary;
 
 namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 {
@@ -159,6 +160,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 			services.AddScoped<ILocalAuthorityCache, LocalAuthorityCache>();
             services.AddScoped<IGetTaskService, GetPreFundingAgreementCheckpointMeetingTaskService>();
             services.AddScoped<IUpdateTaskService, UpdatePreFundingAgreementCheckpointMeetingTaskService>();
+            services.AddScoped<IGetProjectSummaryByUserService, GetProjectSummaryByUserService>();
 
             services.AddValidatorsFromAssembly(Assembly.Load(Assembly.GetExecutingAssembly().FullName));
 
