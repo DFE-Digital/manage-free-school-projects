@@ -114,7 +114,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 ProjectStatusType.Open => "Open",
                 ProjectStatusType.Closed => "Closed",
                 ProjectStatusType.Cancelled => "Cancelled during pre-opening",
-                ProjectStatusType.WithdrawnInPreOpening => "Withdrawn in pre-opening",
+                ProjectStatusType.WithdrawnInPreOpening => "Withdrawn during pre-opening",
                 ProjectStatusType.Rejected => "Rejected at application stage",
                 ProjectStatusType.ApplicationCompetitionStage => "Application Competition stage",
                 ProjectStatusType.ApplicationStage => "Application stage",

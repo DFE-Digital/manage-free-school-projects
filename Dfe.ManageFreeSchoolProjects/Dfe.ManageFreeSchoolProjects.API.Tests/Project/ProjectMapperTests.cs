@@ -74,7 +74,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         //[InlineData("AnyNotRecognised", ProjectStatus.Preopening)]
         [InlineData(ProjectStatus.Cancelled, "Cancelled during pre-opening")]
         [InlineData(ProjectStatus.Closed, "Closed")]
-        [InlineData(ProjectStatus.WithdrawnInPreOpening, "Withdrawn in pre-opening")]
+        [InlineData(ProjectStatus.WithdrawnInPreOpening, "Withdrawn during pre-opening")]
         [InlineData(ProjectStatus.ApplicationCompetitionStage, "Application Competition stage")]
         [InlineData(ProjectStatus.ApplicationStage, "Application stage")]
         [InlineData(ProjectStatus.OpenNotIncludedInFigures, "Open free school - Not included in figures")]
