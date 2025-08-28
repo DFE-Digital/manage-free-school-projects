@@ -1,3 +1,4 @@
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +25,9 @@ public static class Program
    public static IHostBuilder CreateHostBuilder(string[] args)
    {
       return Host.CreateDefaultBuilder(args)
-         .UseSerilog()
+         .UseSerilog((context, configureLogger) =>
+            configureLogger.WriteTo.ApplicationInsights(TelemetryConfiguration.CreateDefault(), TelemetryConverter.Traces)
+         )
          .ConfigureAppConfiguration((_, configuration) => configuration.AddEnvironmentVariables())
          .ConfigureWebHostDefaults(webBuilder =>
          {
