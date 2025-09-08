@@ -1,6 +1,8 @@
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -24,18 +26,20 @@ public static class Program
 
    public static IHostBuilder CreateHostBuilder(string[] args)
    {
-      return Host.CreateDefaultBuilder(args)
-         .UseSerilog((context, configureLogger) =>
-            configureLogger.WriteTo.ApplicationInsights(TelemetryConfiguration.CreateDefault(), TelemetryConverter.Traces)
-         )
-         .ConfigureAppConfiguration((_, configuration) => configuration.AddEnvironmentVariables())
-         .ConfigureWebHostDefaults(webBuilder =>
-         {
-            webBuilder.UseStartup<Startup>();
-            webBuilder.UseKestrel(options =>
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((_, configuration) => configuration.AddEnvironmentVariables())
+            .UseSerilog((hostContext, configureLogger) =>
             {
-               options.AddServerHeader = false;
-            });
-         });
+                var connectionString = hostContext.Configuration["ApplicationInsights:ConnectionString"];
+                configureLogger.WriteTo.ApplicationInsights(TelemetryConfiguration.CreateFromConfiguration(connectionString), TelemetryConverter.Traces);
+            })
+             .ConfigureWebHostDefaults(webBuilder =>
+             {
+                webBuilder.UseStartup<Startup>();
+                webBuilder.UseKestrel(options =>
+                {
+                   options.AddServerHeader = false;
+                });
+             });
    }
 }
