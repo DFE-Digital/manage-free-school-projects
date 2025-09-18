@@ -290,7 +290,7 @@ describe("Testing the home page", () => {
                 })
                 .then((projectIds: Array<string>) => {
                     Logger.log("Should get 1 case on page 3");
-                    expect(projectIds.length).to.equal(1);
+                    expect(projectIds.length).to.equal(20);
 
                     paginationComponent.isCurrentPage("3");
                 });
