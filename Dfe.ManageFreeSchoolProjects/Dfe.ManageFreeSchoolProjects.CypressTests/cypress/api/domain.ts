@@ -22,6 +22,13 @@ export type BulkProjectRow = {
     status?: string;
 };
 
+export type BulkEditRow = {
+    projectId?: string;
+    localAuthority?: string;
+    actualOpeningDate?: string;
+    status?: string;
+};
+
 export type CreateProjectRequest = {
     projects: Array<ProjectDetailsRequest>;
 };
