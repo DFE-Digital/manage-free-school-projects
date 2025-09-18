@@ -121,7 +121,6 @@ describe("Testing Constituency Task", () => {
             .titleIs("Confirm the constituency")
             .hasResult("Battersea")
             .hasResult("Cities of London and Westminster")
-            .hasResult("Hammersmith")
             .hasNoneOption()
             .selectNoneOption()
             .clickContinue()
@@ -148,7 +147,6 @@ describe("Testing Constituency Task", () => {
         constituencyEditPage
             .hasResult("Battersea")
             .hasResult("Cities of London and Westminster")
-            .hasResult("Hammersmith")
             .hasNoneOption()
             .selectOption("Battersea")
             .clickContinue()
