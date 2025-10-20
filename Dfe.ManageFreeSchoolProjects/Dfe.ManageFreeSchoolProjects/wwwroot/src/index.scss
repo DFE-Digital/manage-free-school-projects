@@ -1,15 +1,26 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-@import "node_modules/govuk-frontend/dist/govuk/all";
-@import "node_modules/dfe-frontend/packages/dfefrontend";
+//@import "node_modules/govuk-frontend/dist/govuk/all";
+//@import "../node_modules/govuk-frontend/dist/govuk/index.scss";
+//@import "node_modules/dfe-frontend/packages/dfefrontend";
+
+@import "./css/govuk.scss";
 @import "./css/related-items.scss";
 @import "./css/summary-card.scss";
 @import "./css/task-list.scss";
 @import "./css/cookie-banner.scss";
-@import "./css/dfe-frontend.scss";
+@import "./css/site.scss";
 @import "./css/risk.scss";
 @import "./css/project-overview.scss";
 @import "./css/pupil-numbers.scss";
+
+.govuk-header__logotype {
+	height: 30px;
+}
+
+.govuk-tag {
+	max-width: none;
+}
 
 .app-align-right {
   text-align: right;

@@ -5,13 +5,15 @@
 
 // Add extra styles here
 
-@import '../../node_modules/dfe-frontend/packages/dfefrontend';
+//@import '../../node_modules/dfe-frontend/packages/dfefrontend';
+//@import "../../node_modules/govuk-frontend/dist/govuk/index.scss";
 
-.dfe-width-container {
-    max-width: 960px;
-}
+//.dfe-width-container {
+//    max-width: 960px;
+//}
 
-.mfsp-wider-page .dfe-width-container,
+// .dfe-width-container,
+.mfsp-wider-page 
 .mfsp-wider-page .govuk-width-container {
     max-width: 1200px;
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Dfe.ManageFreeSchoolProjects.Constants;
 using System;
 
 namespace Dfe.ManageFreeSchoolProjects.Services
@@ -15,7 +16,6 @@ namespace Dfe.ManageFreeSchoolProjects.Services
     public class AnalyticsConsentService : IAnalyticsConsentService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private const string ConsentCookieName = ".ManageFreeSchoolProjects.Consent";
         private bool? Consent { get; set; }
         private string AnalyticsDomain = ".education.gov.uk";
 
@@ -36,9 +36,9 @@ namespace Dfe.ManageFreeSchoolProjects.Services
                 return Consent;
             }
 
-            if (_httpContextAccessor.HttpContext.Request.Cookies.ContainsKey(ConsentCookieName))
+            if (_httpContextAccessor.HttpContext.Request.Cookies.ContainsKey(CookieConstants.CookieConsentName))
             {
-                return bool.Parse(_httpContextAccessor.HttpContext.Request.Cookies[ConsentCookieName]);
+                return bool.Parse(_httpContextAccessor.HttpContext.Request.Cookies[CookieConstants.CookieConsentName]);
             }
 
             return false;
@@ -63,7 +63,7 @@ namespace Dfe.ManageFreeSchoolProjects.Services
         {
             Consent = consent;
             var cookieOptions = new CookieOptions { Expires = DateTime.Today.AddMonths(6), Secure = true, HttpOnly = true };
-            _httpContextAccessor.HttpContext.Response.Cookies.Append(ConsentCookieName, consent.ToString(), cookieOptions);
+            _httpContextAccessor.HttpContext.Response.Cookies.Append(CookieConstants.CookieConsentName, consent.ToString(), cookieOptions);
             var request = _httpContextAccessor.HttpContext.Request;
 
             if (!consent)
