@@ -13,31 +13,29 @@
 		aria-label="Cookies on Manage free school projects"
         data-module="govuk-cookie-banner"
 		 data-testid="cookie-banner">
-		<div class="govuk-width-container">
-			<div class="govuk-cookie-banner__message govuk-extra-width-container">
-				<div class="govuk-grid-row">
-					<div class="govuk-grid-column-two-thirds">
-						<h2 class="govuk-cookie-banner__heading govuk-heading-m">Cookies on Manage free school projects</h2>
-						<div class="govuk-cookie-banner__content">
-							<p class="govuk-body">We use some essential cookies to make this service work.</p>
-							<p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
-						</div>
+		<div class="govuk-cookie-banner__message govuk-extra-width-container">
+			<div class="govuk-grid-row">
+				<div class="govuk-grid-column-two-thirds">
+					<h2 class="govuk-cookie-banner__heading govuk-heading-m">Cookies on Manage free school projects</h2>
+					<div class="govuk-cookie-banner__content">
+						<p class="govuk-body">We use some essential cookies to make this service work.</p>
+						<p class="govuk-body">We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
 					</div>
 				</div>
-				<div class="govuk-button-group">
-					<a role="button" draggable="false" data-testid="cookie-banner-accept"
-					   class="govuk-button" asp-page="@Links.Public.CookiePreferences.Page"
-					   asp-route-consent="true" asp-route-returnUrl="@Context.Request.Path">
-						Accept analytics cookies
-					</a>
-					<a role="button" draggable="false" data-testid="cookie-banner-reject"
-					   class="govuk-button" asp-page="@Links.Public.CookiePreferences.Page"
-					   asp-route-consent="false" asp-route-returnUrl="@Context.Request.Path">
-						Reject analytics cookies
-					</a>
-					<a class="govuk-link" data-testid="cookie-banner-link-2"
-					   asp-page="@Links.Public.CookiePreferences.Page" asp-route-returnUrl="@Context.Request.Path">View cookies</a>
-				</div>
+			</div>
+			<div class="govuk-button-group">
+				<a role="button" draggable="false" data-testid="cookie-banner-accept"
+				   class="govuk-button" asp-page="@Links.Public.CookiePreferences.Page"
+				   asp-route-consent="true" asp-route-returnUrl="@Context.Request.Path">
+					Accept analytics cookies
+				</a>
+				<a role="button" draggable="false" data-testid="cookie-banner-reject"
+				   class="govuk-button" asp-page="@Links.Public.CookiePreferences.Page"
+				   asp-route-consent="false" asp-route-returnUrl="@Context.Request.Path">
+					Reject analytics cookies
+				</a>
+				<a class="govuk-link" data-testid="cookie-banner-link-2"
+				   asp-page="@Links.Public.CookiePreferences.Page" asp-route-returnUrl="@Context.Request.Path">View cookies</a>
 			</div>
 		</div>
 	</div>

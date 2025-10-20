@@ -1,19 +1,15 @@
 ﻿//
 // For guidance on how to add CSS and SCSS see:
 // https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
-//
 
 // Add extra styles here
+.govuk-extra-width-container {
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+}
 
-//@import '../../node_modules/dfe-frontend/packages/dfefrontend';
-//@import "../../node_modules/govuk-frontend/dist/govuk/index.scss";
-
-//.dfe-width-container {
-//    max-width: 960px;
-//}
-
-// .dfe-width-container,
-.mfsp-wider-page 
+.mfsp-wider-page
 .mfsp-wider-page .govuk-width-container {
     max-width: 1200px;
 }
