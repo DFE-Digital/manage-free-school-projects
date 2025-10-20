@@ -6,7 +6,7 @@
 
 @if (showBanner)
 {
-	<div class="govuk-cookie-banner"
+	<section class="govuk-cookie-banner"
 		id="appCookieBanner"
         data-nosnippet
         role="region"
@@ -38,5 +38,5 @@
 				   asp-page="@Links.Public.CookiePreferences.Page" asp-route-returnUrl="@Context.Request.Path">View cookies</a>
 			</div>
 		</div>
-	</div>
+	</section>
 }

@@ -22,13 +22,6 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 
         public string TransfersCookiesUrl { get; set; }
 
-		//public IActionResult OnGet()
-		//{
-		//	Consent = _analyticsConsentService.ConsentValue();
-
-		//	return Page();
-		//}
-
 		public ActionResult OnGet(bool? consent, string returnUrl)
 		{
 			returnPath = returnUrl;
@@ -69,20 +62,6 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 
 			return Page();
 		}
-
-        //public IActionResult OnPostHide()
-        //{
-        //    var cookieOptions = new CookieOptions
-        //    {
-        //        Expires = DateTime.Today.AddMonths(6),
-        //        Secure = true,
-        //        HttpOnly = true,
-        //    };
-
-        //    Response.Cookies.Append(CookieConstants.CookieConsentHide, "true", cookieOptions);
-
-        //    return Redirect(Request.GetTypedHeaders().Referer.ToString());
-        //}
 
         private void ApplyCookieConsent(bool consent)
 		{

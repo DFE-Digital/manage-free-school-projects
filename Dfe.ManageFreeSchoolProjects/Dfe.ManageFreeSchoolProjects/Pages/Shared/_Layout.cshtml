@@ -12,7 +12,6 @@
 
 
     var widePage = ViewData["WidePage"] != null ? "mfsp-wider-page" : string.Empty;
-    // var widePage = ViewData["WidePage"] != null ? "govuk-extra-width-container" : string.Empty;
 
     bool.TryParse(_configuration["ApplicationInsights:BrowserAnalyticsEnabled"], out bool enableAppInsightsBrowserAnalytics);
     var authenticatedUserId = Context.User.Identity is not null && Context.User.Identity.IsAuthenticated ? Context.User.Identity.Name ?? "Unknown" : "Anonymous";
