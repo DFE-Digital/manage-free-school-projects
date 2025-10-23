@@ -1,0 +1,24 @@
+services:
+  dfe.managefreeschoolprojects:
+    image: ${DOCKER_REGISTRY-}dfemanagefreeschoolprojects
+    build:
+      context: .
+      dockerfile: Dfe.ManageFreeSchoolProjects/Dockerfile
+    ports:
+       - "5003:8081"
+    networks:
+      - infrastructure
+
+  dfe.managefreeschoolprojects.api:
+    image: ${DOCKER_REGISTRY-}dfemanagefreeschoolprojects.api
+    build:
+      context: .
+      dockerfile: Dfe.ManageFreeSchoolProjects.API/Dockerfile
+    ports:
+       - "3000:3000"
+    networks:
+      - infrastructure
+
+networks:
+  infrastructure:
+    driver: bridge
