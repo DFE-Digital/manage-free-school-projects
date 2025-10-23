@@ -1,9 +1,5 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration _configuration
 
-@{
-    var supportLink = $"mailto:{_configuration["SupportEmail"]}?subject=Manage%20free%20school%20projects:%20support%20query";
-}
-
 <footer class="govuk-footer" role="contentinfo">
     <div class="govuk-extra-width-container">
         <svg focusable="false"
@@ -26,30 +22,22 @@
         </svg>
 
         <div class="govuk-footer__navigation">
-            <div class="govuk-footer__section govuk-grid-column-two-thirds">
+            <div class="govuk-footer__section govuk-grid-column-one-half">
                 <h2 class="govuk-footer__heading govuk-heading-m">Get help</h2>
                 <ul class="govuk-footer__list govuk-footer__list--column-1">
                     <li class="govuk-footer__list-item">
-                        <a class="govuk-footer__link" href="@supportLink">
-                            Email Service Support for help with using this system
-                        </a>
-                        <p>We aim to respond within 5 working days, or one working day for more urgent queries.</p>
-                    </li>
-                    <li class="govuk-footer__list-item">
-                        <a class="govuk-footer__link" href="@_configuration["HowToUseLink"]" target="_blank">
-                            How to use this system (opens in a new tab)
-                        </a>
+                        <a class="govuk-footer__link" href="@_configuration["SupportLink"]" target="_blank">Get help with a Regions Group system (opens in a new tab)</a>
                     </li>
                 </ul>
             </div>
-            <div class="govuk-footer__section govuk-grid-column-one-third">
+            <div class="govuk-footer__section govuk-grid-column-one-half">
                 <h2 class="govuk-footer__heading govuk-heading-m">Give feedback</h2>
                 <ul class="govuk-footer__list">
                     <li class="govuk-footer__list-item">
-                        <a class="govuk-footer__link" href="@_configuration["FeedbackLink"]" target="_blank">Give feedback (opens in a new tab)</a>
+                        <a class="govuk-footer__link" href="@_configuration["FeedbackLink"]" target="_blank">Give feedback about a Regions Group system (opens in a new tab)</a>
                     </li>
                     <li class="govuk-footer__list-item">
-                        <a class="govuk-footer__link" href="@_configuration["SuggestionsLink"]" target="_blank">Suggest a change (opens in a new tab)</a>
+                        <a class="govuk-footer__link" href="@_configuration["SuggestionsLink"]" target="_blank">Suggest a change to a Regions Group system (opens in a new tab)</a>
                     </li>
                 </ul>
             </div>
