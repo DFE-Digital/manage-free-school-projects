@@ -96,8 +96,6 @@
 					<label class="govuk-label govuk-checkboxes__label" id="@Id(Model.Id, i)-label" for="@Id(Model.Id, i)">
 						@if (Model.HtmlLabels.Any())
 						{
-							@* WARNING: HtmlLabels uses Html.Raw() - ONLY use with trusted, hardcoded HTML content
-							   NEVER populate HtmlLabels from user input as it creates XSS vulnerabilities *@
 							@Html.Raw(@Model.HtmlLabels[i])
 						}
 						else
