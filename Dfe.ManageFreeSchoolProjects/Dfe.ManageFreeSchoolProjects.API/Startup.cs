@@ -74,7 +74,11 @@ namespace Dfe.ManageFreeSchoolProjects.API
             app.UseMiddleware<CorrelationIdMiddleware>();
 			app.UseMiddleware<UserContextReceiverMiddleware>();
 
-            //app.UseHttpsRedirection();
+            // issue with docker communicating with https endpoints, disable redirection in development
+            if (!env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 

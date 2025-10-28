@@ -7,14 +7,14 @@ services:
       context: .
       dockerfile: Dfe.ManageFreeSchoolProjects/Dockerfile
     ports:
-       - 5003:5003
+       - 5001:5001
        - 5000:5000
     networks:
       - local-dev
  
   dfe.managefreeschoolprojects.api:
     environment:
-      ConnectionStrings__DefaultConnection: "Server=${MSFPDB_DB_SERVER};Database=mfspdb;User Id=sa;Password=${MSFPDB_SA_PASSWORD};TrustServerCertificate=True;"
+      ConnectionStrings__DefaultConnection: "Server=${MSFPDB_DB_SERVER};Database=mfspdb;User Id=sa;Password=${MSFPDB_SA_PASSWORD};TrustServerCertificate=true"
     image: ${DOCKER_REGISTRY-}dfemanagefreeschoolprojects.api
     build:
       context: .
