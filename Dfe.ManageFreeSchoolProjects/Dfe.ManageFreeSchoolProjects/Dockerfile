@@ -7,27 +7,28 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 5001
 EXPOSE 5000
+ARG PROJECT_NAME="Dfe.ManageFreeSchoolProjects"
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0-azurelinux3.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.csproj", "Dfe.ManageFreeSchoolProjects/"]
-COPY ["Dfe.ManageFreeSchoolProjects.API.Contracts/Dfe.ManageFreeSchoolProjects.API.Contracts.csproj", "Dfe.ManageFreeSchoolProjects.API.Contracts/"]
-COPY ["Dfe.ManageFreeSchoolProjects.Logging/Dfe.ManageFreeSchoolProjects.Logging.csproj", "Dfe.ManageFreeSchoolProjects.Logging/"]
-COPY ["Dfe.ManageFreeSchoolProjects.UserContext/Dfe.ManageFreeSchoolProjects.UserContext.csproj", "Dfe.ManageFreeSchoolProjects.UserContext/"]
-RUN dotnet restore "./Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.csproj"
-COPY . .
-WORKDIR "/src/Dfe.ManageFreeSchoolProjects"
-RUN dotnet build "./Dfe.ManageFreeSchoolProjects.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY ["${PROJECT_NAME}/${PROJECT_NAME}.csproj", "${PROJECT_NAME}/"]
+COPY ["${PROJECT_NAME}.API.Contracts/${PROJECT_NAME}.API.Contracts.csproj", "${PROJECT_NAME}.API.Contracts/"]
+COPY ["${PROJECT_NAME}.Logging/${PROJECT_NAME}.Logging.csproj", "${PROJECT_NAME}.Logging/"]
+COPY ["${PROJECT_NAME}.UserContext/${PROJECT_NAME}.UserContext.csproj", "${PROJECT_NAME}.UserContext/"]
+RUN dotnet restore "./${PROJECT_NAME}/${PROJECT_NAME}.csproj"
+COPY ./${PROJECT_NAME}/ .
+WORKDIR "/src/${PROJECT_NAME}"
+RUN dotnet build "./${PROJECT_NAME}.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Dfe.ManageFreeSchoolProjects.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./${PROJECT_NAME}.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Dfe.ManageFreeSchoolProjects.dll"]
+ENTRYPOINT ["dotnet", "${PROJECT_NAME}.dll"]
