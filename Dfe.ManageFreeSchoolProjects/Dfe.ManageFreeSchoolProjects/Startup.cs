@@ -135,6 +135,9 @@ public class Startup
             options.IdleTimeout = _authenticationExpiration;
             options.Cookie.Name = ".ManageFreeSchoolProjects.Session";
             options.Cookie.IsEssential = true;
+            options.Cookie.HttpOnly = true;
+            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            options.Cookie.SameSite = SameSiteMode.Lax;
         });
         services.AddHttpContextAccessor();
 

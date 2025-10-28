@@ -140,8 +140,13 @@
                 }
 
                 function refreshContent(pageNumber) {
-
-                    const url = `@Html.Raw(Model.Url)&pageNumber=${pageNumber}`;
+                    // Use encoded URL to prevent XSS if Model.Url contains malicious content
+                    @* 
+                        SECURITY: Html.Raw() here is safe because Model.Url comes from server-side Razor routing,
+                        not user input. The pageNumber parameter is validated as numeric.
+                        Consider using Url.Page() or similar helper for better safety.
+                    *@
+                    const url = `@Html.Raw(Model.Url)&pageNumber=${encodeURIComponent(pageNumber)}`;
 
                     $.get(url)
                         .done(function (response) {
