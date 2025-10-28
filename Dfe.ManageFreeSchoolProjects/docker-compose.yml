@@ -1,24 +1,29 @@
 services:
   dfe.managefreeschoolprojects:
+    environment:
+      Mfsp__ApiEndpoint: "http://dfe.managefreeschoolprojects.api:3000" 
     image: ${DOCKER_REGISTRY-}dfemanagefreeschoolprojects
     build:
       context: .
       dockerfile: Dfe.ManageFreeSchoolProjects/Dockerfile
     ports:
-       - "5003:8081"
+       - 5003:5003
+       - 5000:5000
     networks:
-      - infrastructure
-
+      - local-dev
+ 
   dfe.managefreeschoolprojects.api:
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=${MSFPDB_DB_SERVER};Database=mfspdb;User Id=sa;Password=${MSFPDB_SA_PASSWORD};TrustServerCertificate=True;"
     image: ${DOCKER_REGISTRY-}dfemanagefreeschoolprojects.api
     build:
       context: .
       dockerfile: Dfe.ManageFreeSchoolProjects.API/Dockerfile
     ports:
-       - "3000:3000"
+       - 3001:3001
+       - 3000:3000
     networks:
-      - infrastructure
+      - local-dev
 
 networks:
-  infrastructure:
-    driver: bridge
+  local-dev:

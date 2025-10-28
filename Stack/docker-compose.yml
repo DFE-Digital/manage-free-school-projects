@@ -1,0 +1,47 @@
+services:     
+   mfspsqldb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: ${MSFPDB_SA_PASSWORD}
+    ports:
+      - "1433:1433"
+    networks:
+      - local-dev
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S 127.0.0.1 -U sa -P ${MSFPDB_SA_PASSWORD} -C -Q 'SELECT 1' || exit 1
+      interval: 2s
+      retries: 10
+    restart: always 
+
+   mfspsqldb.configurator:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    volumes:
+      - ./init:/initdb.d
+    networks:
+      - local-dev
+    depends_on:
+      mfspsqldb:
+        condition: service_healthy
+    command: >
+      bash -c '
+      /opt/mssql-tools18/bin/sqlcmd -S mfspsqldb -U sa -P ${MSFPDB_SA_PASSWORD} -C -d master -i initdb.d/init.sql;
+      echo "All done!";
+      '
+
+   dfe.managefreeschoolprojects.data: 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONNECTION_STRING=Server=${MSFPDB_DB_SERVER};Database=mfspdb;User Id=sa;Password=${MSFPDB_SA_PASSWORD};TrustServerCertificate=True
+    build:
+      context: ../Dfe.ManageFreeSchoolProjects
+      dockerfile: Dfe.ManageFreeSchoolProjects.Data/Dockerfile
+    depends_on:
+         mfspsqldb.configurator:
+            condition: service_completed_successfully
+    networks:
+      - local-dev
+      
+networks:
+  local-dev:
+    

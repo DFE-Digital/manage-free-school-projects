@@ -2,13 +2,10 @@ services:
   dfe.managefreeschoolprojects:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=test
+      - ASPNETCORE_HTTP_PORTS=5000
+      - ASPNETCORE_HTTPS_PORTS=5003
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=5c781eb6-5b10-428d-953e-4b390c1e7f02
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-    ports:
-      - 8080
-      - 8081
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
@@ -19,7 +16,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=3000
       - ASPNETCORE_HTTPS_PORTS=3001
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=test
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=5c781eb6-5b10-428d-953e-4b390c1e7f02
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro

@@ -23,6 +23,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfe.ManageFreeSchoolProject
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfe.ManageFreeSchoolProjects.Tests", "Dfe.ManageFreeSchoolProjects.Tests\Dfe.ManageFreeSchoolProjects.Tests.csproj", "{169507DC-02F7-43D0-805B-F729C2369696}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stack", "Stack", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		..\Stack\database.config = ..\Stack\database.config
+		..\Stack\docker-compose.yml = ..\Stack\docker-compose.yml
+	EndProjectSection
+EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
 Global

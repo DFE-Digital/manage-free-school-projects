@@ -24,11 +24,10 @@
       <PackageReference Include="System.Net.Http.Json" Version="8.0.1" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\Dfe.ManageFreeSchoolProjects.API.Contracts\Dfe.ManageFreeSchoolProjects.API.Contracts.csproj" />
-      <ProjectReference Include="..\Dfe.ManageFreeSchoolProjects.UserContext\Dfe.ManageFreeSchoolProjects.UserContext.csproj" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Migrations\" />
+      <ProjectReference Include="..\Dfe.ManageFreeSchoolProjects.API.Contracts\Dfe.ManageFreeSchoolProjects.API.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

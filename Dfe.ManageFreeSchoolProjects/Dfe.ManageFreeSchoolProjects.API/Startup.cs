@@ -74,7 +74,7 @@ namespace Dfe.ManageFreeSchoolProjects.API
             app.UseMiddleware<CorrelationIdMiddleware>();
 			app.UseMiddleware<UserContextReceiverMiddleware>();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 
