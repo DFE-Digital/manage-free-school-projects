@@ -12,10 +12,11 @@
 @if (match != null && match.Tags != null)
 {
     @* Use structured Tags to avoid XSS risks instead of Html.Raw() *@
-    @foreach (var tag in match.Tags)
+    @for (var i = 0; i < match.Tags.Count; i++)
     {
+        var tag = match.Tags[i];
         <strong class="govuk-tag @tag.CssClass">@tag.Text</strong>
-        @if (tag != match.Tags.Last())
+        @if (i < match.Tags.Count - 1)
         {
             @:&nbsp;
         }

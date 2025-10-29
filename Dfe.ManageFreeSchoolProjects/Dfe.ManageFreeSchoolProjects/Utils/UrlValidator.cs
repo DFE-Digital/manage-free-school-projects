@@ -33,10 +33,7 @@ namespace Dfe.ManageFreeSchoolProjects.Utils
                 return false;
             }
 
-            if (urlHelper == null)
-            {
-                throw new ArgumentNullException(nameof(urlHelper));
-            }
+            ArgumentNullException.ThrowIfNull(urlHelper);
 
             // Decode the URL to catch encoded attacks like javascript%3Aalert(1)
             var decodedUrl = System.Web.HttpUtility.UrlDecode(url);

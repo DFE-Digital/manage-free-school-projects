@@ -169,10 +169,10 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Utils
         [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
-        public void IsValidReturnUrl_ShouldReject_NullOrWhiteSpace(string url)
+        public void IsValidReturnUrl_ShouldReject_NullOrWhiteSpace(string? url)
         {
             // Act
-            var result = UrlValidator.IsValidReturnUrl(url, _urlHelper);
+            var result = UrlValidator.IsValidReturnUrl(url!, _urlHelper);
 
             // Assert
             result.Should().BeFalse("null or whitespace URLs should be rejected");
