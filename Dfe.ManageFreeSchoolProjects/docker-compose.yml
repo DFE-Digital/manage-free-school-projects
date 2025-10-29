@@ -13,8 +13,6 @@ services:
       - local-dev
  
   dfe.managefreeschoolprojects.api:
-    environment:
-      ConnectionStrings__DefaultConnection: "Server=${MSFPDB_DB_SERVER};Database=mfspdb;User Id=sa;Password=${MSFPDB_SA_PASSWORD};TrustServerCertificate=true"
     image: ${DOCKER_REGISTRY-}dfemanagefreeschoolprojects.api
     build:
       context: .

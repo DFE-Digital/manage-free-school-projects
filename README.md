@@ -7,6 +7,20 @@ Internal service for managing free schools projects
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/ "Download Docker Desktop")
 - SQL Server Management Studio or Azure Data Studio
 
+## Development Setup - Docker compose :star2: (NEW) :star2: 
+ 
+1 - Bring up the dev stack:
+  - Navigate to the root of the project `managefreeschoolprojects`
+  - Run the command `docker-compose -f Stack/docker-compose.yml up -d`.
+
+        - This will bring up the sql sever with a username and password set.
+        - Create an empty database.
+        - Apply migrations.
+
+
+2 - Open the project in Visual studio :rocket:
+
+
 ## Development Setup
 
 - Run `npm install; npm run build` from the `Dfe.ManageFreeSchoolProjects/wwwroot` directory to build the styles.
