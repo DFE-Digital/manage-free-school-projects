@@ -5,7 +5,6 @@
 FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
 USER $APP_UID
 WORKDIR /app
-ARG PROJECT_NAME="Dfe.ManageFreeSchoolProjects"
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -13,11 +12,11 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copy project files in correct order (dependencies first)
-COPY ["${PROJECT_NAME}.API.Contracts/${PROJECT_NAME}.API.Contracts.csproj", "${PROJECT_NAME}.API.Contracts/"]
-COPY ["${PROJECT_NAME}.Data/${PROJECT_NAME}.Data.csproj", "${PROJECT_NAME}.Data/"]
-RUN dotnet restore "${PROJECT_NAME}.Data/${PROJECT_NAME}.Data.csproj"
-COPY ./${PROJECT_NAME}/ .
-WORKDIR "/src/${PROJECT_NAME}.Data"
+COPY ["Dfe.ManageFreeSchoolProjects.API.Contracts/Dfe.ManageFreeSchoolProjects.API.Contracts.csproj", "Dfe.ManageFreeSchoolProjects.API.Contracts/"]
+COPY ["Dfe.ManageFreeSchoolProjects.Data/Dfe.ManageFreeSchoolProjects.Data.csproj", "Dfe.ManageFreeSchoolProjects.Data/"]
+RUN dotnet restore "Dfe.ManageFreeSchoolProjects.Data/Dfe.ManageFreeSchoolProjects.Data.csproj"
+COPY ./Dfe.ManageFreeSchoolProjects/ .
+WORKDIR "/src/Dfe.ManageFreeSchoolProjects.Data"
 
 ## Run migrations
 RUN dotnet tool install --version 8.0.14 --global dotnet-ef
