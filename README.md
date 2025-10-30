@@ -2,12 +2,12 @@
 Internal service for managing free schools projects
 
 ## Requirements
-- .NET 6.0
+- .NET 8.0
 - NodeJS (for frontend build tools)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/ "Download Docker Desktop")
 - SQL Server Management Studio or Azure Data Studio
 
-## Development Setup - Docker compose :star2: (NEW) :star2: 
+## Development Setup - Docker compose :star2: NEW :star2: 
  
 1 - Bring up the dev stack:
   - Navigate to the root of the project `managefreeschoolprojects`
@@ -19,6 +19,7 @@ Internal service for managing free schools projects
 
 
 2 - Open the project in Visual studio :rocket:
+3 - Run `npm install; npm run build` from the `Dfe.ManageFreeSchoolProjects/wwwroot` directory to build the styles.
 
 
 ## Development Setup
