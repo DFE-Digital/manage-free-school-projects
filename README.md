@@ -11,8 +11,8 @@ Internal service for managing free schools projects
  
 1 - Bring up the dev stack:
   - Navigate to the root of the project `managefreeschoolprojects`
-  - Run the command `docker-compose -f Stack/docker-compose.yml up -d  --force-recreate`. ** Important to add --force-recreate if you have added migrations
-
+  - Run the command `docker-compose -f Stack/docker-compose.yml up -d --build`. 
+  
         - This will bring up the sql sever with a username and password set.
         - Create an empty database.
         - Apply migrations.
