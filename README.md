@@ -21,9 +21,10 @@ Internal service for managing free schools projects
 3 - Run `npm install; npm run build` from the `Dfe.ManageFreeSchoolProjects/wwwroot` directory to build the styles.
 
 # Adding migrations
-1 - In command line navigate to Dfe.ManageFreeSchoolProjects.Data
-2 - Issue the command `dotnet ef migrations add <MigrationName>`
-3 - After making changes to run the migration run the command `dotnet ef database update --context MfspContext --connection "<db connection string>"`
+
+- In command line navigate to Dfe.ManageFreeSchoolProjects.Data
+- Issue the command `dotnet ef migrations add <MigrationName>`
+- After making changes to run the migration run the command `dotnet ef database update --context MfspContext --connection "<db connection string>"`
 
 ## Development Setup
 
