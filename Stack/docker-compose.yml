@@ -29,7 +29,7 @@ services:
       echo "All done!";
       '
 
-   dfe.managefreeschoolprojects.data: 
+   dfe.managefreeschoolprojects.datamigration: 
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - CONNECTION_STRING=Server=host.docker.internal,1433;Database=mfspdb;User Id=sa;Password=mySuperStrong_pa55word!!!;TrustServerCertificate=True
