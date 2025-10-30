@@ -12,12 +12,13 @@ Internal service for managing free schools projects
 1 - Bring up the dev stack:
   - Navigate to the root of the project `managefreeschoolprojects`
   - Run the command `docker-compose -f Stack/docker-compose.yml up -d --build`. 
-  
+
         - This will bring up the sql sever with a username and password set.
         - Create an empty database.
         - Apply migrations.
 
 2 - Open the project in Visual studio :rocket:
+
 3 - Run `npm install; npm run build` from the `Dfe.ManageFreeSchoolProjects/wwwroot` directory to build the styles.
 
 # Adding migrations
