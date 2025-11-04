@@ -363,6 +363,14 @@ else
 <partial name="./Pagination/_Pagination" model="Model.Pagination" />
 
 <script type="application/javascript" asp-add-nonce>
+    // HTML encoding function to prevent XSS attacks
+    function htmlEncode(value) {
+        if (!value) return '';
+        const element = document.createElement('div');
+        element.textContent = value;
+        return element.innerHTML;
+    }
+
     $(function () {
         const regionCheckboxes = getRegionCheckboxes();
 
@@ -407,15 +415,19 @@ else
                     const existingCheckedLas = @Html.Raw(Json.Serialize(Model.LocalAuthoritySearchTerm));
 
                     checkboxHtml = $.map(data, function (region) {
+                        // HTML encode to prevent XSS attacks
+                        const encodedRegionName = htmlEncode(region.regionName);
 
-                        return `<div class="govuk-checkboxes__divider govuk-!-font-weight-bold">${region.regionName}</div>` +
+                        return `<div class="govuk-checkboxes__divider govuk-!-font-weight-bold">${encodedRegionName}</div>` +
                         $.map(region.localAuthorities, function (localAuthority) {
+                            // HTML encode to prevent XSS attacks
+                            const encodedName = htmlEncode(localAuthority.name);
                             const laIsChecked = existingCheckedLas.includes(localAuthority.name) ? 'checked' : '';
 
                             return `
                                 <div class="govuk-checkboxes__item">
-                                <input class="govuk-checkboxes__input" id="${localAuthority.name}" data-testid="${localAuthority.name}-option" name="search-by-local-authority" type="checkbox" value="${localAuthority.name}" ${laIsChecked}>
-                                <label class="govuk-label govuk-checkboxes__label" for="${localAuthority.name}">${localAuthority.name}</label>
+                                <input class="govuk-checkboxes__input" id="${encodedName}" data-testid="${encodedName}-option" name="search-by-local-authority" type="checkbox" value="${encodedName}" ${laIsChecked}>
+                                <label class="govuk-label govuk-checkboxes__label" for="${encodedName}">${encodedName}</label>
                                 </div>
                             `
                             }).join('');

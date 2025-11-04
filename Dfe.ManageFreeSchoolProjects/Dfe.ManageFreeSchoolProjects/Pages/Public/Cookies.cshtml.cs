@@ -1,6 +1,7 @@
 using Dfe.ManageFreeSchoolProjects.Configuration;
 using Dfe.ManageFreeSchoolProjects.Models;
 using Dfe.ManageFreeSchoolProjects.Services;
+using Dfe.ManageFreeSchoolProjects.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -28,7 +29,16 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 
 		public ActionResult OnGet(bool? consent, string returnUrl)
 		{
-			returnPath = returnUrl;
+			// Validate and sanitize returnUrl to prevent XSS and Open Redirect attacks
+			var sanitizedReturnUrl = UrlValidator.SanitizeReturnUrl(returnUrl, "/", Url);
+			
+			// Log suspicious attempts for security monitoring
+			if (!string.IsNullOrEmpty(returnUrl) && returnUrl != sanitizedReturnUrl)
+			{
+				_logger.LogWarning("Suspicious returnUrl detected and blocked: {ReturnUrl}", returnUrl);
+			}
+			
+			returnPath = sanitizedReturnUrl;
 
 			Consent = _analyticsConsentService.ConsentValue();
 
@@ -38,9 +48,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 
 				ApplyCookieConsent(consent.Value);
 
-				if (!string.IsNullOrEmpty(returnUrl))
+				if (!string.IsNullOrEmpty(sanitizedReturnUrl))
 				{
-					return Redirect(returnUrl);
+					return Redirect(sanitizedReturnUrl);
 				}
 
 				return RedirectToPage(Links.Public.CookiePreferences);
@@ -51,7 +61,16 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 
 		public IActionResult OnPost(bool? consent, string returnUrl)
 		{
-			returnPath = returnUrl;
+			// Validate and sanitize returnUrl to prevent XSS and Open Redirect attacks
+			var sanitizedReturnUrl = UrlValidator.SanitizeReturnUrl(returnUrl, "/", Url);
+			
+			// Log suspicious attempts for security monitoring
+			if (!string.IsNullOrEmpty(returnUrl) && returnUrl != sanitizedReturnUrl)
+			{
+				_logger.LogWarning("Suspicious returnUrl detected and blocked in POST: {ReturnUrl}", returnUrl);
+			}
+			
+			returnPath = sanitizedReturnUrl;
 
             Consent = _analyticsConsentService.ConsentValue();
 
