@@ -9,9 +9,12 @@
 }
 
 @section BeforeMain {
-    <div role="navigation" class="govuk-extra-width-container">
-        <a href="@Model.returnPath" class="govuk-back-link">Back</a>
-    </div>
+    @if (!string.IsNullOrEmpty(Model.returnPath))
+    {
+        <div role="navigation" class="govuk-extra-width-container">
+            <a href="@Model.returnPath" class="govuk-back-link">Back</a>
+        </div>
+    }
 }
 
 @if (Model.PreferencesSet)
@@ -25,9 +28,12 @@
         </div>
         <div class="govuk-notification-banner__content">
             <p class="govuk-notification-banner__heading">
-                You’ve set your cookie preferences. <a class="govuk-notification-banner__link"
-                    data-test="success-banner-return-link" href="@Model.returnPath">Go back to the page you were looking
-                    at</a>.
+                You've set your cookie preferences. @if (!string.IsNullOrEmpty(Model.returnPath))
+                {
+                    <a class="govuk-notification-banner__link"
+                        data-test="success-banner-return-link" href="@Model.returnPath">Go back to the page you were looking
+                        at</a><text>.</text>
+                }
             </p>
         </div>
     </div>

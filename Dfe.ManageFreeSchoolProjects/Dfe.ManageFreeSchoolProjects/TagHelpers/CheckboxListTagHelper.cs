@@ -86,6 +86,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 		public bool XLHeadingLabel { get; set; }
 		public string[] CheckboxLabels { get; set; }
 		public string[] HtmlLabels { get; set; }
+		
 		public string ErrorMessage { get; set; }
 		public string LeadingParagraph { get; set; }
 		public string[] Hints { get; set; }
