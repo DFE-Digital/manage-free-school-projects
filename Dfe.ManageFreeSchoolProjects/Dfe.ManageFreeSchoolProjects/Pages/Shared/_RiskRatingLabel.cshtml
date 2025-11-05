@@ -9,9 +9,18 @@
     var match = riskRatingLabels.FirstOrDefault(x => x.RiskRating == Model.RiskRating);
 }
 
-@if (match != null)
+@if (match != null && match.Tags != null)
 {
-    @Html.Raw(match.Label)
+    @* Use structured Tags to avoid XSS risks instead of Html.Raw() *@
+    @for (var i = 0; i < match.Tags.Count; i++)
+    {
+        var tag = match.Tags[i];
+        <strong class="govuk-tag @tag.CssClass">@tag.Text</strong>
+        @if (i < match.Tags.Count - 1)
+        {
+            @:&nbsp;
+        }
+    }
 }
 else
 {

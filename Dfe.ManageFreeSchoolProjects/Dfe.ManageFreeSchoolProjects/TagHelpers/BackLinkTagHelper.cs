@@ -47,11 +47,18 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
         {
             if (_httpContextAccessor.HttpContext.Request.Query.ContainsKey("back"))
             {
-                var backQuery = _httpContextAccessor.HttpContext.Request.Query["back"];
+                var backQuery = _httpContextAccessor.HttpContext.Request.Query["back"].ToString();
 
-                Enum.TryParse(backQuery, out BackBehaviour backBehaviourEnum);
-
-                return backBehaviourEnum;
+                // Validate the query parameter before parsing to prevent injection
+                if (!string.IsNullOrWhiteSpace(backQuery) && 
+                    Enum.TryParse<BackBehaviour>(backQuery, true, out BackBehaviour backBehaviourEnum) &&
+                    Enum.IsDefined(typeof(BackBehaviour), backBehaviourEnum))
+                {
+                    return backBehaviourEnum;
+                }
+                
+                // If validation fails, return safe default
+                return BackBehaviour.DirectLink;
             }
 
             return BackBehaviour.DirectLink;
