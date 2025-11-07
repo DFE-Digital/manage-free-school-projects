@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "launchBrowser": true,
+      "composeLaunchServiceName": "dfe.managefreeschoolprojects",
+      "composeLaunchUrl": "https://localhost:5001",
+      "serviceActions": {
+        "dfe.managefreeschoolprojects": "StartDebugging",
+        "dfe.managefreeschoolprojects.api": "StartDebugging"
+      }
+    }
+  }
+}
