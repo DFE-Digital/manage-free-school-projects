@@ -18,7 +18,7 @@
 }
 
 <!DOCTYPE html>
-<html class="govuk-template" lang="en">
+<html class="govuk-template govuk-template--rebranded" lang="en">
 <head>
     @if (showAnalytics)
     {
@@ -71,19 +71,20 @@
     <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/images/favicon.ico" type="image/x-icon">
-    <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c">
+    <link rel="manifest" href="/assets/rebrand/manifest.json?v=5.10.0">
+
+    <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/rebrand/images/favicon.ico" type="image/x-icon">
+    <link rel="mask-icon" href="/assets/rebrand/images/govuk-icon-mask.svg" color="#1d70b8">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png">
     <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png">
     <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png">
 
     <title>@ViewData["Title"] @titleDescription</title>
-    <link rel="stylesheet" href="~/dist/site.css" />
+    <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/dist/accessible-autocomplete.min.css" asp-add-nonce />
 </head>
 <body class="govuk-template__body govuk-frontend-supported @widePage">
-
     @if (showAnalytics)
     {
         <!-- Google Tag Manager (noscript) -->
@@ -93,38 +94,47 @@
         <!-- End Google Tag Manager (noscript) -->
     }
 
-
     <script asp-add-nonce>
         document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
 
     <script src="~/dist/jquery.min.js" asp-add-nonce></script>
 
-
     <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
-
     <partial name="_CookieBanner" />
+
     <partial name="_NotificationBanner" />
-    <partial name="_BetaBanner" />
-    <header class="dfe-header" role="banner">
-        <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
-        <div class="dfe-width-container dfe-header__container">
-            <div class="dfe-header__logo">
-                <a class="dfe-header__link dfe-header__link--service " href="/?handler=clearFilters">
-                    <img src="~/assets/dfe-logo.png" class="dfe-logo" alt="Department for Education">
-                    <img src="~/assets/dfe-logo-alt.png" class="dfe-logo-hover" alt="Department for Education">
+
+    <header class="govuk-header" role="banner" data-module="govuk-header" data-govuk-header-init="">
+        <div class="govuk-header__container govuk-extra-width-container">
+            <div class="govuk-header__logo">
+                <a class="govuk-header__link govuk-header__link--homepage" href="/?handler=clearFilters">
+                    <img src="/assets/department-for-education_white.png" alt="Department for Education" class="govuk-header__logotype">
                 </a>
             </div>
         </div>
-        <div class="dfe-width-container dfe-header__service-name">
-            <a href="/?handler=clearFilters" class="dfe-header__link--service">Manage free school projects</a>
-        </div>
-        @await RenderSectionAsync("AfterHeader", required: false)
     </header>
+
+    <section aria-label="Service information" class="govuk-service-navigation" data-module="govuk-service-navigation" data-govuk-service-navigation-init="">
+        <div class="govuk-extra-width-container">
+            <div class="govuk-service-navigation__container">
+                <span class="govuk-service-navigation__service-name" data-testid="go-to-home">
+                    <a href="/" class="govuk-service-navigation__link">
+                        Manage free school projects
+                    </a>
+                </span>
+                @await RenderSectionAsync("AfterHeader", required: false)
+            </div>
+        </div>
+    </section>
+
+    <partial name="_BetaBanner" />
+
     @await RenderSectionAsync("BeforeMain", required: false)
+
     <div class="govuk-main-wrapper">
-        <main id="main-content" role="main" class="govuk-width-container @widePage">
+        <main id="main-content" role="main" class="govuk-extra-width-container @widePage">
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-full">
                     <partial name="_NotificationSummary" />
@@ -133,18 +143,8 @@
             </div>
         </main>
     </div>
-    @{var useLatestFooter = await _featureManager.IsEnabledAsync("UseLatestFooter");
 
-        if (useLatestFooter)
-        {
-            <partial name="Footer/_Footer20241017" />
-        }
-
-        else
-        {
-            <partial name="Footer/_Footer" />
-        }
-    }
+    <partial name="Footer/_Footer" />
 
     <script src="~/dist/accessible-autocomplete.min.js" asp-add-nonce></script>
     <script src="~/dist/site.js" asp-add-nonce></script>

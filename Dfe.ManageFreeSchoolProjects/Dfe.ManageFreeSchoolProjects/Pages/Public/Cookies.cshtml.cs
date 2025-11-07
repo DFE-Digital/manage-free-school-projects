@@ -1,4 +1,3 @@
-using Dfe.ManageFreeSchoolProjects.Configuration;
 using Dfe.ManageFreeSchoolProjects.Models;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Utils;
@@ -6,8 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 {
@@ -25,7 +22,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 			_analyticsConsentService = analyticsConsentService;
 		}
 
-		public string TransfersCookiesUrl { get; set; }
+        public string TransfersCookiesUrl { get; set; }
 
 		public ActionResult OnGet(bool? consent, string returnUrl)
 		{
@@ -42,7 +39,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 
 			Consent = _analyticsConsentService.ConsentValue();
 
-            if (consent.HasValue)
+			if (consent.HasValue)
 			{
 				PreferencesSet = true;
 
@@ -86,7 +83,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Public
 			return Page();
 		}
 
-		private void ApplyCookieConsent(bool consent)
+        private void ApplyCookieConsent(bool consent)
 		{
 			if (consent) { 
 				_analyticsConsentService.AllowConsent();

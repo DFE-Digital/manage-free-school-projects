@@ -6,10 +6,9 @@ module.exports = {
 	plugins: [
 		new CopyPlugin({
 			patterns: [
-				{ from: path.join(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'), to: path.join(__dirname, 'assets') },
-				{ from: path.join(__dirname, 'node_modules/accessible-autocomplete/dist'), to: path.join(__dirname, 'dist') },
-				{ from: path.resolve(__dirname, 'node_modules/dfe-frontend/packages/assets'), to: path.resolve(__dirname, 'assets') },
+				{ from: path.resolve(__dirname, 'node_modules/govuk-frontend/dist/govuk/assets'), to: path.resolve(__dirname, 'assets') },
 				{ from: path.resolve(__dirname, 'node_modules/dfe-frontend/dist'), to: path.resolve(__dirname, 'dist') },
+				{ from: path.resolve(__dirname, 'node_modules/accessible-autocomplete/dist'), to: path.resolve(__dirname, 'dist') },
 				{ from: path.resolve(__dirname, 'node_modules/jquery/dist'), to: path.resolve(__dirname, 'dist') },
 			],
 		})
