@@ -1,0 +1,27 @@
+services:
+  dfe.managefreeschoolprojects:
+    environment:
+      Mfsp__ApiEndpoint: "http://dfe.managefreeschoolprojects.api:3000" 
+    image: ${DOCKER_REGISTRY-}dfemanagefreeschoolprojects
+    build:
+      context: .
+      dockerfile: Dfe.ManageFreeSchoolProjects/Dockerfile
+    ports:
+       - 5001:5001
+       - 5000:5000
+    networks:
+      - local-dev
+ 
+  dfe.managefreeschoolprojects.api:
+    image: ${DOCKER_REGISTRY-}dfemanagefreeschoolprojects.api
+    build:
+      context: .
+      dockerfile: Dfe.ManageFreeSchoolProjects.API/Dockerfile
+    ports:
+       - 3001:3001
+       - 3000:3000
+    networks:
+      - local-dev
+
+networks:
+  local-dev:

@@ -17,6 +17,7 @@ COPY ./${PROJECT_NAME}/${PROJECT_NAME}.Tests/${PROJECT_NAME}.Tests.csproj       
 COPY ./${PROJECT_NAME}/${PROJECT_NAME}.UserContext.Tests/${PROJECT_NAME}.UserContext.Tests.csproj     ./${PROJECT_NAME}.UserContext.Tests/
 COPY ./${PROJECT_NAME}/${PROJECT_NAME}.UserContext/${PROJECT_NAME}.UserContext.csproj                 ./${PROJECT_NAME}.UserContext/
 COPY ./${PROJECT_NAME}/${PROJECT_NAME}/${PROJECT_NAME}.csproj                                         ./${PROJECT_NAME}/
+COPY ./${PROJECT_NAME}/docker-compose.dcproj                                          				  ./
 
 # Copy solution file
 COPY ./${PROJECT_NAME}/${PROJECT_NAME}.sln .

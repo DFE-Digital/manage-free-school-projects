@@ -19,6 +19,13 @@ namespace Dfe.ManageFreeSchoolProjects.API
 					c.ClearProviders();
 					c.AddConsole();
 				})
-				.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+				.ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel(options =>
+                    {
+                        options.AddServerHeader = false;
+                    });
+                });
 	}
 }
