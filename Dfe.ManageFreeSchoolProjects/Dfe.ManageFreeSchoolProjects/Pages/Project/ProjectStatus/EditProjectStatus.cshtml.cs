@@ -85,8 +85,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectStatus
 
             var isReferred = Enum.TryParse(referrerQuery, out Referrer referrer);
 
-            if (ProjectStatus == ProjectStatusType.Cancelled)
+            if (ProjectStatus == ProjectStatusType.Cancelled || ProjectStatus == ProjectStatusType.CancelledTrustCompetition)
             {
+                TempData["SelectedCancelledStatus"] = (int)ProjectStatus;
                 return Redirect(string.Format(RouteConstants.EditProjectStatusCancelled, projectId) + (isReferred ? $"?referrer={referrer}" : ""));
             }
 

@@ -12,7 +12,7 @@
 
     var isPresumptionProject = Model.Project.ProjectType.Contains("Presumption");
 
-    ProjectStatus[] presumptionStatuses = [ProjectStatus.Cancelled, ProjectStatus.Closed, ProjectStatus.Open, ProjectStatus.Preopening, ProjectStatus.WithdrawnInPreOpening];
+    ProjectStatus[] presumptionStatuses = [ProjectStatus.Cancelled, ProjectStatus.CancelledTrustCompetition, ProjectStatus.Closed, ProjectStatus.Open, ProjectStatus.Preopening, ProjectStatus.WithdrawnInPreOpening];
 
     var projectStatusOptions = new List<ProjectStatusOption>
     {
@@ -23,6 +23,8 @@
             ProjectStatus.ApplicationStage.ToDescription(), "The school's application is being considered.", false),
 
         new("project-status-cancelled", ProjectStatus.Cancelled, ProjectStatus.Cancelled.ToDescription(), "The project was cancelled in pre-opening.", false),
+
+        new("project-status-cancelled-trust-competition", ProjectStatus.CancelledTrustCompetition, ProjectStatus.CancelledTrustCompetition.ToDescription(), "The project was cancelled without ever having identified a trust.", false),
 
         new("project-status-closed", ProjectStatus.Closed, ProjectStatus.Closed.ToDescription(), "The school has closed.", true,
             "year-closed", "year-closed", "Date the school was closed", "For example, 23 2 2021", Model.ClosedYear),

@@ -59,11 +59,19 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectCancelledReason
         [ValidText(500)]
         public string Notes { get; set; }
 
+        public ProjectStatusType SelectedProjectStatus { get; set; } = ProjectStatusType.Cancelled;
+
         public async Task<IActionResult> OnGet()
         {
             try
             {
                 var projectId = RouteData.Values["projectId"] as string;
+
+                if (TempData.ContainsKey("SelectedCancelledStatus") && TempData["SelectedCancelledStatus"] is int statusValue)
+                {
+                    SelectedProjectStatus = (ProjectStatusType)statusValue;
+                    TempData.Keep("SelectedCancelledStatus");
+                }
 
                 Project = await getProjectOverviewService.Execute(projectId);
                 CancelledYear = Project.ProjectStatus.ProjectCancelledDate;
@@ -98,9 +106,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectCancelledReason
                 return Page();
             }
 
+            var projectStatus = ProjectStatusType.Cancelled;
+            if (TempData.ContainsKey("SelectedCancelledStatus") && TempData["SelectedCancelledStatus"] is int statusValue)
+            {
+                projectStatus = (ProjectStatusType)statusValue;
+            }
+
             UpdateProjectStatusRequest request = new UpdateProjectStatusRequest()
             {
-                ProjectStatus = ProjectStatusType.Cancelled,
+                ProjectStatus = projectStatus,
 
                 CancelledDate = CancelledYear,
                 ProjectCancelledReason = ProjectCancelledReason,

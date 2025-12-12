@@ -16,6 +16,9 @@ public enum ProjectStatus
     [Description("Cancelled")]
     Cancelled,
 
+    [Description("Cancelled trust competition")]
+    CancelledTrustCompetition,
+
     //Possible legacy value
     [Description("Cancelled during pre-opening")]
     CancelledDuringPreOpening,
