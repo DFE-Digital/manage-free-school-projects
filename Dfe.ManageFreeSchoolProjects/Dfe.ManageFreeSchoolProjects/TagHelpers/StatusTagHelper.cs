@@ -24,6 +24,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
                 ProjectStatus.ApplicationStage => "purple",
                 ProjectStatus.ApplicationCompetitionStage => "purple",
                 ProjectStatus.Cancelled => "orange",
+                ProjectStatus.CancelledTrustCompetition => "orange",
                 ProjectStatus.Closed => "blue",
                 ProjectStatus.Open => "turquoise",
                 ProjectStatus.OpenNotIncludedInFigures => "turquoise",

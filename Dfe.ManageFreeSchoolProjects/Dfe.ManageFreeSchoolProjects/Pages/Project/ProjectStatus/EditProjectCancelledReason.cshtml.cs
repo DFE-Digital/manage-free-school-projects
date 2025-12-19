@@ -30,6 +30,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectCancelledReason
         : PageModel
     {
         public const string CancelledYearId = "year-cancelled";
+        public const string SelectedCancelledStatus = "SelectedCancelledStatus";
 
         public ProjectOverviewResponse Project { get; set; }
         
@@ -59,11 +60,19 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectCancelledReason
         [ValidText(500)]
         public string Notes { get; set; }
 
+        public ProjectStatusType SelectedProjectStatus { get; set; } = ProjectStatusType.Cancelled;
+
         public async Task<IActionResult> OnGet()
         {
             try
             {
                 var projectId = RouteData.Values["projectId"] as string;
+
+                if (TempData.TryGetValue(SelectedCancelledStatus, out object statusValue))
+                {
+                    SelectedProjectStatus = (ProjectStatusType)statusValue;
+                    TempData.Keep(SelectedCancelledStatus);
+                }
 
                 Project = await getProjectOverviewService.Execute(projectId);
                 CancelledYear = Project.ProjectStatus.ProjectCancelledDate;
@@ -98,9 +107,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectCancelledReason
                 return Page();
             }
 
+            var projectStatus = ProjectStatusType.Cancelled;
+            if (TempData.TryGetValue(SelectedCancelledStatus, out object statusValue))
+            {
+                projectStatus = (ProjectStatusType)statusValue;
+            }
+
             UpdateProjectStatusRequest request = new UpdateProjectStatusRequest()
             {
-                ProjectStatus = ProjectStatusType.Cancelled,
+                ProjectStatus = projectStatus,
 
                 CancelledDate = CancelledYear,
                 ProjectCancelledReason = ProjectCancelledReason,
