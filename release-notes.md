@@ -1,5 +1,8 @@
 ## 1.0.3
-*236524 - Update External expert visit wording (MFSP)
+* 250907 Assign ‘Cancelled trust competition’ Status to Pre-Pipeline Project
+
+## 1.0.3
+* 236524 - Update External expert visit wording (MFSP)
 
 ## 1.0.2
 * 202346 - Build: Add 'Voluntary Aided' school type option for Presumption and Central route projects
