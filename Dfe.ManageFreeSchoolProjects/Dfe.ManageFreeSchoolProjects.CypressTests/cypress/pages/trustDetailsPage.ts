@@ -10,7 +10,19 @@ class TrustDetailsPage {
     
     
     public selectSaveAndContinue(): this {
-        cy.getByClass("govuk-button").click();
+        cy.get("body").then(($body) => {
+            if ($body.find('[data-testid="continue"]').length) {
+                cy.getByTestId("continue").click();
+                return;
+            }
+
+            if ($body.find('button.govuk-button:contains("Save and continue")').length) {
+                cy.contains("button.govuk-button", "Save and continue").click();
+                return;
+            }
+
+            cy.contains("button.govuk-button", "Continue").click();
+        });
         return this;
     }
 
