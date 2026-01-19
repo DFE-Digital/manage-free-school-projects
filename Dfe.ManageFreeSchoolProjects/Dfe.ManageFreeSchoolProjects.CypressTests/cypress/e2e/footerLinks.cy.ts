@@ -18,10 +18,11 @@ describe("Navigate through footer links", () => {
         cy.contains('a', 'Suggest a change to a Regions Group system (opens in a new tab)').should('be.visible')
 
         Logger.log("Get accessibility and cookies link");
-        cy.contains('a', 'Accessibility statement').should('be.visible').click()
-        cy.url().then(href => {
-            expect(href).includes('accessibility-statement')
-        });
+        cy.contains('a', 'Accessibility statement')
+            .should('be.visible')
+            .should('have.attr', 'href', 'https://accessibility-statements.education.gov.uk/s/32')
+            .should('have.attr', 'target', '_blank');
+
         cy.contains('a', 'Cookies').should('be.visible').click()
         cy.url().then(href => {
             expect(href).includes('cookies')
