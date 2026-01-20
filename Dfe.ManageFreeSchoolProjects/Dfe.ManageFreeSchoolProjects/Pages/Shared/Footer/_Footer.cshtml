@@ -1,4 +1,5 @@
-﻿@inject Microsoft.Extensions.Configuration.IConfiguration _configuration
+﻿@using Dfe.ManageFreeSchoolProjects.Constants;
+@inject Microsoft.Extensions.Configuration.IConfiguration _configuration
 
 <footer class="govuk-footer" role="contentinfo">
     <div class="govuk-extra-width-container">
@@ -50,11 +51,11 @@
                 <h2 class="govuk-visually-hidden">Support links</h2>
                 <ul class="govuk-footer__inline-list">
                     <li class="govuk-footer__inline-list-item">
-                        <a class="govuk-footer__link" href="/accessibility-statement">
+                        <a class="govuk-footer__link" href="@RouteConstants.AccessibilityStatement" target="_blank" rel="noopener noreferrer">
                             Accessibility statement
                         </a>
                     </li>
-                    <li class="govuk-footer__inline-list-item">
+                    <li class="govuk-footer__inline-list-item"">
                         <a class="govuk-footer__link" href="/public/cookies?returnUrl=%2f">
                             Cookies
                         </a>

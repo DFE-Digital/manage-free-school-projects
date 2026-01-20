@@ -190,5 +190,7 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
 
         public const string BulkEditFileUpload = "/bulk-edit-file-upload";
         public const string BulkEditFileComplete = "/bulk-edit-file-complete";
+
+        public const string AccessibilityStatement = "https://accessibility-statements.education.gov.uk/s/32";
     }
 }
