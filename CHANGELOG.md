@@ -16,7 +16,7 @@ Security in case of vulnerabilities.
 
 ## Unreleased
 
-See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/main...production-2025-12-19.1234...main) for everything awaiting release
+See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/production-2025-12-19.1234...HEAD) for everything awaiting release
 
 
 ## [2.1.0](https://github.com/DFE-Digital/manage-free-school-projects/releases/tag/production-2025-12-19.1234) - 2025-12-19
