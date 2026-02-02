@@ -54,7 +54,7 @@ jobs:
       - name: Wait for application to be ready
         run: |
           echo "Waiting for ${{ secrets.AZURE_WEB_ENDPOINT }} to be ready..."
-          timeout=300
+          timeout=600
           elapsed=0
           interval=10
           until curl --output /dev/null --silent --head --fail "${{ secrets.AZURE_WEB_ENDPOINT }}" || [ $elapsed -ge $timeout ]; do
@@ -152,7 +152,7 @@ jobs:
       - name: Wait for application to be ready
         run: |
           echo "Waiting for ${{ secrets.AZURE_WEB_ENDPOINT }} to be ready..."
-          timeout=300
+          timeout=600
           elapsed=0
           interval=10
           until curl --output /dev/null --silent --head --fail "${{ secrets.AZURE_WEB_ENDPOINT }}" || [ $elapsed -ge $timeout ]; do
