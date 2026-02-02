@@ -51,22 +51,10 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - name: Wait for application to be ready
+      - name: Check endpoint availability
         run: |
-          echo "Waiting for ${{ secrets.AZURE_WEB_ENDPOINT }} to be ready..."
-          timeout=600
-          elapsed=0
-          interval=10
-          until curl --output /dev/null --silent --head --fail "${{ secrets.AZURE_WEB_ENDPOINT }}" || [ $elapsed -ge $timeout ]; do
-            echo "Waiting... ($elapsed seconds elapsed)"
-            sleep $interval
-            elapsed=$((elapsed + interval))
-          done
-          if [ $elapsed -ge $timeout ]; then
-            echo "Timeout waiting for endpoint after $timeout seconds"
-            exit 1
-          fi
-          echo "Endpoint is ready after $elapsed seconds"
+          echo "Waiting for endpoint to be available..."
+          echo "AZURE_ENDPOINT is set: ${{ secrets.AZURE_ENDPOINT != '' }}"
 
       - name: Run Cypress smoke tests
         uses: cypress-io/github-action@v6
@@ -74,6 +62,8 @@ jobs:
           browser: ${{ env.BROWSER }}
           spec: cypress/e2e/smoke/**/*.cy.ts
           working-directory: ${{ env.WORKING_DIRECTORY }}
+          wait-on: ${{ secrets.AZURE_ENDPOINT }}
+          wait-on-timeout: 300
         env:
           CYPRESS_username: ${{ secrets.USERNAME }}
           CYPRESS_url: ${{ secrets.AZURE_WEB_ENDPOINT }}
@@ -149,22 +139,10 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - name: Wait for application to be ready
+      - name: Check endpoint availability
         run: |
-          echo "Waiting for ${{ secrets.AZURE_WEB_ENDPOINT }} to be ready..."
-          timeout=600
-          elapsed=0
-          interval=10
-          until curl --output /dev/null --silent --head --fail "${{ secrets.AZURE_WEB_ENDPOINT }}" || [ $elapsed -ge $timeout ]; do
-            echo "Waiting... ($elapsed seconds elapsed)"
-            sleep $interval
-            elapsed=$((elapsed + interval))
-          done
-          if [ $elapsed -ge $timeout ]; then
-            echo "Timeout waiting for endpoint after $timeout seconds"
-            exit 1
-          fi
-          echo "Endpoint is ready after $elapsed seconds"
+          echo "Waiting for endpoint to be available..."
+          echo "AZURE_ENDPOINT is set: ${{ secrets.AZURE_ENDPOINT != '' }}"
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
@@ -172,6 +150,8 @@ jobs:
           browser: ${{ env.BROWSER }}
           spec: ${{ matrix.spec }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
+          wait-on: ${{ secrets.AZURE_ENDPOINT }}
+          wait-on-timeout: 300
         env:
           CYPRESS_username: ${{ secrets.USERNAME }}
           CYPRESS_grepTags: '-smoke'
