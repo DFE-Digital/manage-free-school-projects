@@ -3,11 +3,7 @@ import bulkCreateProjectPage from "cypress/pages/bulkCreateProjectPage";
 import { v4 } from "uuid";
 import { stringify } from "csv-stringify/sync";
 
-// Problem with importing the xlsx with the latest cypress
-// if you want typings, just remove /xlsx, you will have to add it back in to work with cypress
-// This is a webpack 5 issue, but the library itself is incompatible
-// Tried to override the webpack config in cypress, but didn't have much luck
-import { utils, write } from "xlsx/xlsx";
+import ExcelJS from "exceljs";
 
 describe("Creating a bulk project", () => {
     beforeEach(() => {
@@ -35,7 +31,7 @@ describe("Creating a bulk project", () => {
         bulkCreateProjectPage.upload(csv, "file.csv").continue();
     });
 
-    it("Should validate an uploaded Excel file", () => {
+    it("Should validate an uploaded Excel file", async () => {
         const completeRow: BulkProjectRow = {
             projectId: v4(),
             projectTitle: v4(),
@@ -50,7 +46,7 @@ describe("Creating a bulk project", () => {
             projectId: v4(),
         };
 
-        const buffer = createExcel([completeRow, emptyRow]);
+        const buffer = await createExcel([completeRow, emptyRow]);
 
         bulkCreateProjectPage.upload(buffer, "file.xlsx").continue();
     });
@@ -83,22 +79,23 @@ describe("Creating a bulk project", () => {
         return Buffer.from(result);
     }
 
-    function createExcel(rows: Array<BulkProjectRow>): Buffer {
+    async function createExcel(rows: Array<BulkProjectRow>): Promise<Buffer> {
         const table = createTable(rows);
 
-        const worksheet = utils.json_to_sheet(table.rows, {
-            header: table.headers,
-        });
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet("Sheet1");
 
-        const workbook = utils.book_new();
-        utils.book_append_sheet(workbook, worksheet);
+        // Add header row
+        worksheet.addRow(table.headers);
 
-        const buffer = write(workbook, {
-            type: "buffer",
-            bookType: "xlsx",
-            compression: true,
-        });
+        for (const row of table.rows) {
+            const rowData = table.headers.map(
+                (header) => row[header as keyof BulkProjectRow] ?? "",
+            );
+            worksheet.addRow(rowData);
+        }
 
-        return buffer;
+        const buffer = await workbook.xlsx.writeBuffer();
+        return Buffer.from(buffer);
     }
 });
