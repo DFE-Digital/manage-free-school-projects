@@ -51,18 +51,13 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - name: Check endpoint availability
-        run: |
-          echo "Waiting for endpoint to be available..."
-          echo "AZURE_ENDPOINT is set: ${{ secrets.AZURE_ENDPOINT != '' }}"
-
       - name: Run Cypress smoke tests
         uses: cypress-io/github-action@v6
         with:
           browser: ${{ env.BROWSER }}
           spec: cypress/e2e/smoke/**/*.cy.ts
           working-directory: ${{ env.WORKING_DIRECTORY }}
-          wait-on: ${{ secrets.AZURE_ENDPOINT }}
+          wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
           wait-on-timeout: 300
         env:
           CYPRESS_username: ${{ secrets.USERNAME }}
@@ -139,18 +134,13 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - name: Check endpoint availability
-        run: |
-          echo "Waiting for endpoint to be available..."
-          echo "AZURE_ENDPOINT is set: ${{ secrets.AZURE_ENDPOINT != '' }}"
-
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           browser: ${{ env.BROWSER }}
           spec: ${{ matrix.spec }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
-          wait-on: ${{ secrets.AZURE_ENDPOINT }}
+          wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
           wait-on-timeout: 300
         env:
           CYPRESS_username: ${{ secrets.USERNAME }}
