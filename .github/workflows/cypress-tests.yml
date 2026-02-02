@@ -57,7 +57,7 @@ jobs:
           browser: ${{ env.BROWSER }}
           spec: cypress/e2e/smoke/**/*.cy.ts
           working-directory: ${{ env.WORKING_DIRECTORY }}
-          wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
+          wait-on: ${{ secrets.AZURE_ENDPOINT }}
         env:
           CYPRESS_username: ${{ secrets.USERNAME }}
           CYPRESS_url: ${{ secrets.AZURE_WEB_ENDPOINT }}
@@ -139,7 +139,7 @@ jobs:
           browser: ${{ env.BROWSER }}
           spec: ${{ matrix.spec }}
           working-directory: ${{ env.WORKING_DIRECTORY }}
-          wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
+          wait-on: ${{ secrets.AZURE_ENDPOINT }}
         env:
           CYPRESS_username: ${{ secrets.USERNAME }}
           CYPRESS_grepTags: '-smoke'
