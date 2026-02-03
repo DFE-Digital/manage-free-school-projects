@@ -1,4 +1,4 @@
-import { ProjectRow } from "./projectRow";
+import { ProjectRow } from './projectRow';
 
 class ProjectTable {
     public getRowByProjectId(projectId: string): Cypress.Chainable<ProjectRow> {
@@ -16,7 +16,7 @@ class ProjectTable {
         const result: Array<string> = [];
 
         return cy
-            .containsByTestId("row-")
+            .containsByTestId('row-')
             .each(($el) => {
                 result.push($el.text());
 

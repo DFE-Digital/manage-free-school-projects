@@ -1,12 +1,11 @@
 class ConstituencyEditPage {
-
     titleIs(title: string): this {
-        cy.getByTestId("title").should("contains.text", title)
+        cy.getByTestId('title').should('contains.text', title);
         return this;
     }
 
     schoolNameIs(school: string) {
-        cy.getByTestId("school-name").should("contains.text", school);
+        cy.getByTestId('school-name').should('contains.text', school);
         return this;
     }
 
@@ -15,36 +14,36 @@ class ConstituencyEditPage {
         return this;
     }
 
-    hasNoneOption() : this {
-        cy.contains("None of the above - I want to search again");
-        return this;
-    } 
-    
-    selectNoneOption() : this {
-        cy.contains("None of the above - I want to search again")
-            .invoke('attr', 'for')
-            .then((id) => {
-            cy.get('#' + id).click();
-        });
+    hasNoneOption(): this {
+        cy.contains('None of the above - I want to search again');
         return this;
     }
 
-    selectOption(option: string) : this {
+    selectNoneOption(): this {
+        cy.contains('None of the above - I want to search again')
+            .invoke('attr', 'for')
+            .then((id) => {
+                cy.get('#' + id).click();
+            });
+        return this;
+    }
+
+    selectOption(option: string): this {
         cy.contains(option)
             .invoke('attr', 'for')
             .then((id) => {
-            cy.get('#' + id).click();
-        });
+                cy.get('#' + id).click();
+            });
         return this;
     }
 
-    clickContinue() : this {
-        cy.getByTestId("continue").click();
+    clickContinue(): this {
+        cy.getByTestId('continue').click();
         return this;
     }
 
-    clickSearchAgain() : this {
-        cy.getByTestId("search-again").click();
+    clickSearchAgain(): this {
+        cy.getByTestId('search-again').click();
         return this;
     }
 }

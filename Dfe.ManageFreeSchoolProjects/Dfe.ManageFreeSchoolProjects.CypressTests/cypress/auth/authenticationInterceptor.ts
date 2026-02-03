@@ -1,17 +1,10 @@
-import {
-    EnvUrl,
-    EnvAuthKey,
-    TeamLeaderClaim,
-    ProjectRecordCreator,
-    EnvUsername,
-} from "../constants/cypressConstants";
+import { EnvUrl, EnvAuthKey, TeamLeaderClaim, ProjectRecordCreator, EnvUsername } from '../constants/cypressConstants';
 
 export class AuthenticationInterceptor {
-    
     register(params?: AuthenticationInterceptorParams) {
         cy.intercept(
             {
-                url: Cypress.env(EnvUrl) + "/**",
+                url: Cypress.env(EnvUrl) + '/**',
                 middleware: true,
             },
             (req) => {
@@ -19,15 +12,11 @@ export class AuthenticationInterceptor {
                 req.headers = {
                     ...req.headers,
                     Authorization: `Bearer ${Cypress.env(EnvAuthKey)}`,
-                    "x-user-context-role-0": params?.role
-                        ? params.role
-                    : ProjectRecordCreator,
-                    "x-user-context-name": params?.username
-                        ? params.username
-                        : Cypress.env(EnvUsername),
+                    'x-user-context-role-0': params?.role ? params.role : ProjectRecordCreator,
+                    'x-user-context-name': params?.username ? params.username : Cypress.env(EnvUsername),
                 };
-            },
-        ).as("AuthInterceptor");
+            }
+        ).as('AuthInterceptor');
     }
 }
 

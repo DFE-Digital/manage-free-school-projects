@@ -1,5 +1,5 @@
-import { defineConfig } from "cypress";
-import { generateZapReport } from "cypress/plugins/generateZapReport";
+import { defineConfig } from 'cypress';
+import { generateZapReport } from 'cypress/plugins/generateZapReport';
 
 export default defineConfig({
     defaultCommandTimeout: 30000,
@@ -11,11 +11,11 @@ export default defineConfig({
         runMode: 1,
     },
     userAgent: 'ManageFreeSchoolProjects/1.0 Cypress',
-    reporter: "cypress-multi-reporters",
+    reporter: 'cypress-multi-reporters',
     reporterOptions: {
-        reporterEnabled: "mochawesome",
+        reporterEnabled: 'mochawesome',
         mochawesomeReporterOptions: {
-            reportDir: "cypress/reports/mocha",
+            reportDir: 'cypress/reports/mocha',
             quite: true,
             overwrite: false,
             html: false,
@@ -26,17 +26,17 @@ export default defineConfig({
         // We've imported your old cypress plugins here.
         // You may want to clean this up later by importing these.
         setupNodeEvents(on, config) {
-            on("before:run", () => {
+            on('before:run', () => {
                 // Map cypress env vars to process env vars for usage outside of Cypress run environment
                 process.env = config.env;
             });
-            on("after:run", async () => {
+            on('after:run', async () => {
                 if (process.env.zapReport) {
                     await generateZapReport();
                 }
             });
 
-            on("task", {
+            on('task', {
                 log(message) {
                     console.log(message);
 

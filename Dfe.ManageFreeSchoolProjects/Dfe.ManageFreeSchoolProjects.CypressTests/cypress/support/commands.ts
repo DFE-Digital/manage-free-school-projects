@@ -1,55 +1,55 @@
-import "cypress-localstorage-commands";
-import "cypress-axe";
-import { AuthenticationInterceptor } from "../auth/authenticationInterceptor";
-import { Logger } from "../common/logger";
-import { RuleObject } from "axe-core";
+import 'cypress-localstorage-commands';
+import 'cypress-axe';
+import { AuthenticationInterceptor } from '../auth/authenticationInterceptor';
+import { Logger } from '../common/logger';
+import { RuleObject } from 'axe-core';
 
-Cypress.Commands.add("getByTestId", (id) => {
+Cypress.Commands.add('getByTestId', (id) => {
     cy.get(`[data-testid="${id}"]`);
 });
 
-Cypress.Commands.add("containsByTestId", (id) => {
+Cypress.Commands.add('containsByTestId', (id) => {
     cy.get(`[data-testid*="${id}"]`);
 });
 
-Cypress.Commands.add("getById", (id) => {
+Cypress.Commands.add('getById', (id) => {
     cy.get(`[id="${id}"]`);
 });
 
-Cypress.Commands.add("getByClass", (className) => {
+Cypress.Commands.add('getByClass', (className) => {
     cy.get(`[class="${className}"]`);
 });
 
-Cypress.Commands.add("getByName", (name) => {
+Cypress.Commands.add('getByName', (name) => {
     cy.get(`[name="${name}"]`);
 });
 
-Cypress.Commands.add("getByRole", (role) => {
+Cypress.Commands.add('getByRole', (role) => {
     cy.get(`[role="${role}"]`);
 });
 
-Cypress.Commands.add("getByLabelFor", (labelFor) => {
+Cypress.Commands.add('getByLabelFor', (labelFor) => {
     cy.get(`[for="${labelFor}"]`);
-})
+});
 
-Cypress.Commands.add("getByRadioOption", (radioText: string) => {
+Cypress.Commands.add('getByRadioOption', (radioText: string) => {
     cy.contains(radioText)
         .invoke('attr', 'for')
         .then((id) => {
             cy.get('#' + id);
         });
-})
+});
 
-Cypress.Commands.add("assertChildList", (selector: string, values: string[]) => {
+Cypress.Commands.add('assertChildList', (selector: string, values: string[]) => {
     cy.getByTestId(selector)
         .children()
-        .should("have.length", values.length)
+        .should('have.length', values.length)
         .each((el, i) => {
             expect(el.text()).to.equal(values[i]);
         });
 });
 
-Cypress.Commands.add("login", (params) => {
+Cypress.Commands.add('login', (params) => {
     cy.clearCookies();
     cy.clearLocalStorage();
 
@@ -57,25 +57,25 @@ Cypress.Commands.add("login", (params) => {
     // Means we don't have to use azure to authenticate
     new AuthenticationInterceptor().register(params);
 
-    cy.visit("/");
+    cy.visit('/');
 });
 
-Cypress.Commands.add("executeAccessibilityTests", () => {
-    Logger.log("Executing the command");
-    const wcagStandards = ["wcag22aa"];
-    const impactLevel = ["critical", "minor", "moderate", "serious"];
+Cypress.Commands.add('executeAccessibilityTests', () => {
+    Logger.log('Executing the command');
+    const wcagStandards = ['wcag22aa'];
+    const impactLevel = ['critical', 'minor', 'moderate', 'serious'];
     const continueOnFail = false;
 
     // Ensure that the axe dependency is available in the browser
-    Logger.log("Inject Axe");
+    Logger.log('Inject Axe');
     cy.injectAxe();
 
-    Logger.log("Checking accessibility");
+    Logger.log('Checking accessibility');
     cy.checkA11y(
         undefined,
         {
             runOnly: {
-                type: "tag",
+                type: 'tag',
                 values: wcagStandards,
             },
             includedImpacts: impactLevel,
@@ -87,10 +87,9 @@ Cypress.Commands.add("executeAccessibilityTests", () => {
 
 Cypress.Commands.add('typeFast', { prevSubject: 'element' }, (subject: JQuery<HTMLElement>, text: string) => {
     cy.wrap(subject).invoke('val', text);
-  });
+});
 
-Cypress.Commands.add("enterDate", (idPrefix: string, day: string, month: string, year: string) => {
-
+Cypress.Commands.add('enterDate', (idPrefix: string, day: string, month: string, year: string) => {
     if (day.length > 0) {
         cy.getById(`${idPrefix}-day`).typeFast(day);
     }
@@ -104,20 +103,20 @@ Cypress.Commands.add("enterDate", (idPrefix: string, day: string, month: string,
     }
 });
 
-Cypress.Commands.add("checkDate", (idPrefix: string, day: string, month: string, year: string) => {
-    cy.getById(`${idPrefix}-day`).should("have.value", day);
-    cy.getById(`${idPrefix}-month`).should("have.value", month);
-    cy.getById(`${idPrefix}-year`).should("have.value", year);
+Cypress.Commands.add('checkDate', (idPrefix: string, day: string, month: string, year: string) => {
+    cy.getById(`${idPrefix}-day`).should('have.value', day);
+    cy.getById(`${idPrefix}-month`).should('have.value', month);
+    cy.getById(`${idPrefix}-year`).should('have.value', year);
 });
 
-Cypress.Commands.add("hasAddress", (id: string, line1: string, line2: string, line3: string) => {
-    if (line1 === "Empty") {
-        cy.getByTestId(id).should("contain.text", "Empty");
+Cypress.Commands.add('hasAddress', (id: string, line1: string, line2: string, line3: string) => {
+    if (line1 === 'Empty') {
+        cy.getByTestId(id).should('contain.text', 'Empty');
 
         return;
     }
 
-    cy.getByTestId(id).find("[data-testid='address-line1']").should("contain.text", line1);
-    cy.getByTestId(id).find("[data-testid='address-line2']").should("contain.text", line2);
-    cy.getByTestId(id).find("[data-testid='address-line3']").should("contain.text", line3);
+    cy.getByTestId(id).find("[data-testid='address-line1']").should('contain.text', line1);
+    cy.getByTestId(id).find("[data-testid='address-line2']").should('contain.text', line2);
+    cy.getByTestId(id).find("[data-testid='address-line3']").should('contain.text', line3);
 });
