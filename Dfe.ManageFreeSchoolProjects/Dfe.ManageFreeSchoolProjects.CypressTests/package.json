@@ -42,6 +42,7 @@
         "cypress-slack-reporter": "1.5.4",
         "eslint": "9.27.0",
         "eslint-plugin-cypress": "4.2.0",
+        "eslint-plugin-unused-imports": "^4.3.0",
         "exceljs": "4.4.0",
         "mocha": "10.8.2",
         "mochawesome": "7.1.4",
