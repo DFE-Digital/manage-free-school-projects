@@ -1,4 +1,3 @@
-
 class TaskListPage {
     public onTasklistTab(): this {
         cy.getById(`header-contacts`).should('contain.text', 'Task list');

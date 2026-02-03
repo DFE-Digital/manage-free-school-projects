@@ -1,4 +1,3 @@
-
 class ProjectOverviewPage {
     public selectTaskListTab(): this {
         cy.contains('Task list').click();
