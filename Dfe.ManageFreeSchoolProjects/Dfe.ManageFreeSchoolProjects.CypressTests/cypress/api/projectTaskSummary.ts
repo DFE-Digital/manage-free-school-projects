@@ -1,16 +1,14 @@
-import { ApiClient } from "./apiClient";
-import {CreateProjectRiskRequest, ProjectTaskSummaryResponse, ResponseWrapper} from "./domain";
+import { ApiClient } from './apiClient';
+import { ProjectTaskSummaryResponse, ResponseWrapper } from './domain';
 
 class ProjectTaskSummaryApi {
-    public constructor(private apiClient: ApiClient) { }
+    public constructor(private apiClient: ApiClient) {}
 
-    public get(
-        projectId: { projectId: string },
-    ): Cypress.Chainable {
+    public get(projectId: { projectId: string }): Cypress.Chainable {
         return this.apiClient
-            .get<ResponseWrapper<ProjectTaskSummaryResponse>>(
-                `/api/v1/client/projects/${projectId.projectId}/tasks/summary`,
-            )
+            .get<
+                ResponseWrapper<ProjectTaskSummaryResponse>
+            >(`/api/v1/client/projects/${projectId.projectId}/tasks/summary`)
             .then((response) => {
                 return response;
             });

@@ -1,30 +1,30 @@
 class EditPre16PublishedAdmissionNumberPage {
     public withReception(value: string) {
-        cy.getById("reception").clear().type(value);
+        cy.getById('reception').clear().type(value);
 
         return this;
     }
 
     public withYear7(value: string) {
-        cy.getById("year7").clear().type(value);
+        cy.getById('year7').clear().type(value);
 
         return this;
     }
 
     public withYear10(value: string) {
-        cy.getById("year10").clear().type(value);
+        cy.getById('year10').clear().type(value);
 
         return this;
     }
 
     public withOtherPre16(value: string) {
-        cy.getById("other-pre16").clear().type(value);
+        cy.getById('other-pre16').clear().type(value);
 
         return this;
     }
 
     public saveAndContinue() {
-        cy.getByTestId("save-and-continue").click();
+        cy.getByTestId('save-and-continue').click();
 
         return this;
     }

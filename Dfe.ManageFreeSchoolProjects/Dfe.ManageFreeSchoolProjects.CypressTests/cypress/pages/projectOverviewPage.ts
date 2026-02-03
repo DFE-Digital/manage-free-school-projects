@@ -1,36 +1,34 @@
-import { Logger } from "cypress/common/logger";
 
 class ProjectOverviewPage {
-
     public selectTaskListTab(): this {
-        cy.contains("Task list").click()
+        cy.contains('Task list').click();
 
         return this;
     }
 
     public selectRiskRatingAndSummaryTab(): this {
-        cy.contains("Risk rating and summary").click()
+        cy.contains('Risk rating and summary').click();
         return this;
     }
 
     public selectContactsTab(): this {
-        cy.contains("Contacts").click()
+        cy.contains('Contacts').click();
 
         return this;
     }
 
     public selectSiteInformationTab(): this {
-        cy.contains("Site information").click()
+        cy.contains('Site information').click();
         return this;
     }
 
     public selectPupilNumbersTab(): this {
-        cy.contains("Pupil numbers").click()
+        cy.contains('Pupil numbers').click();
         return this;
     }
 
     public hasProjectTitleHeader(value: string): this {
-        cy.getByTestId("project-title-header").should("contain.text", value);
+        cy.getByTestId('project-title-header').should('contain.text', value);
 
         return this;
     }
@@ -48,7 +46,7 @@ class ProjectOverviewPage {
     }
 
     public clickChangeProjectStatus(): this {
-        cy.getById("change-project-status").click();
+        cy.getById('change-project-status').click();
         return this;
     }
 
@@ -65,53 +63,53 @@ class ProjectOverviewPage {
     }
 
     public hasReasonForWithdrawal(value: string): this {
-        cy.getByTestId(`reason-for-withdrawal`).contains(value)
+        cy.getByTestId(`reason-for-withdrawal`).contains(value);
         return this;
     }
 
     public hasProjectWithdrawnAsPartOfThePipelineReview(value: string): this {
-        cy.getByTestId(`project-withdrawn-as-a-result-of-national-review-of-pipeline`).contains(value)
+        cy.getByTestId(`project-withdrawn-as-a-result-of-national-review-of-pipeline`).contains(value);
         return this;
     }
 
     public hasCommentaryForWithdrawal(value: string): this {
-        cy.getByTestId(`commentary-for-withdrawal`).contains(value)
+        cy.getByTestId(`commentary-for-withdrawal`).contains(value);
         return this;
     }
 
     public hasReasonForCancellation(value: string): this {
-        cy.getByTestId(`reason-for-cancellation`).contains(value)
+        cy.getByTestId(`reason-for-cancellation`).contains(value);
         return this;
     }
 
     public hasProjectCancelledAsPartOfThePipelineReview(value: string): this {
-        cy.getByTestId(`project-cancelled-as-a-result-of-national-review-of-pipeline`).contains(value)
+        cy.getByTestId(`project-cancelled-as-a-result-of-national-review-of-pipeline`).contains(value);
         return this;
     }
 
     public hasCommentaryForCancellation(value: string): this {
-        cy.getByTestId(`commentary-for-cancellation`).contains(value)
+        cy.getByTestId(`commentary-for-cancellation`).contains(value);
         return this;
     }
 
     public hasWithdrawnDate(value: string): this {
         cy.getById(`overview-withdrawn-date`).should(`be.visible`);
-        cy.getByTestId("date-of-termination").contains(value)
+        cy.getByTestId('date-of-termination').contains(value);
         return this;
     }
 
     public hasCancelledDate(value: string): this {
         cy.getById(`overview-cancelled-date`).should(`be.visible`);
-        cy.getByTestId("date-of-termination").contains(value)
+        cy.getByTestId('date-of-termination').contains(value);
         return this;
     }
 
     public hasClosedDate(value: string): this {
         cy.getById(`overview-closed-date`).should(`be.visible`);
-        cy.getByTestId("date-of-termination").contains(value)
+        cy.getByTestId('date-of-termination').contains(value);
         return this;
     }
-    
+
     public hasUrn(value: string): this {
         cy.getByTestId(`urn`).should(`contain.text`, value);
 
@@ -125,28 +123,19 @@ class ProjectOverviewPage {
     }
 
     public hasRealisticYearOfOpening(value: string): this {
-        cy.getByTestId(`realistic-year-of-opening`).should(
-            `contain.text`,
-            value,
-        );
+        cy.getByTestId(`realistic-year-of-opening`).should(`contain.text`, value);
 
         return this;
     }
 
     public hasDateOfEntryIntoPreopening(value: string): this {
-        cy.getByTestId(`date-of-entry-into-preopening`).should(
-            `contain.text`,
-            value,
-        );
+        cy.getByTestId(`date-of-entry-into-preopening`).should(`contain.text`, value);
 
         return this;
     }
 
     public hasProvisionalOpeningDateAgreedWithTrust(value: string): this {
-        cy.getByTestId(`provisional-opening-date-agreed-with-trust`).should(
-            `contain.text`,
-            value,
-        );
+        cy.getByTestId(`provisional-opening-date-agreed-with-trust`).should(`contain.text`, value);
 
         return this;
     }
@@ -182,10 +171,7 @@ class ProjectOverviewPage {
     }
 
     public hasNumberOfFormsOfEntry(value: string): this {
-        cy.getByTestId(`number-of-forms-of-entry`).should(
-            `contain.text`,
-            value,
-        );
+        cy.getByTestId(`number-of-forms-of-entry`).should(`contain.text`, value);
 
         return this;
     }
@@ -233,10 +219,7 @@ class ProjectOverviewPage {
     }
 
     public hasSpecialistResourceProvision(value: string): this {
-        cy.getByTestId(`specalist-resource-provision`).should(
-            `contain.text`,
-            value,
-        );
+        cy.getByTestId(`specalist-resource-provision`).should(`contain.text`, value);
 
         return this;
     }
@@ -272,13 +255,13 @@ class ProjectOverviewPage {
     }
 
     public changeProjectRisk(): this {
-        cy.getByTestId("change-project-risk").click();
+        cy.getByTestId('change-project-risk').click();
 
         return this;
     }
 
     public changeContacts(): this {
-        cy.getByTestId("change-contacts").click();
+        cy.getByTestId('change-contacts').click();
 
         return this;
     }
@@ -290,68 +273,68 @@ class ProjectOverviewPage {
     }
 
     public hasProjectRiskSummary(value: string): this {
-        cy.getByTestId("project-risk-summary").should("contain.text", value);
+        cy.getByTestId('project-risk-summary').should('contain.text', value);
 
         return this;
     }
 
     public hasProjectRiskDate(value: string): this {
-        cy.getByTestId("project-risk-date").should("contain.text", value);
+        cy.getByTestId('project-risk-date').should('contain.text', value);
 
         return this;
     }
 
     public hasSchoolChairOfGovernors(value: string): this {
-        cy.getByTestId("school-chair-of-governors").should("contain.text", value);
+        cy.getByTestId('school-chair-of-governors').should('contain.text', value);
 
         return this;
     }
 
     public hasProjectManagedBy(value: string): this {
-        cy.getByTestId("project-managed-by").should("contain.text", value);
+        cy.getByTestId('project-managed-by').should('contain.text', value);
 
         return this;
     }
 
     public hasTemporarySiteAddress(line1: string, line2: string, city: string): this {
-
-        cy.hasAddress("temporary-site-address", line1, line2, city);
+        cy.hasAddress('temporary-site-address', line1, line2, city);
 
         return this;
     }
 
     public hasTemporarySitePostcode(postcode: string): this {
-        cy.getByTestId("temporary-site-postcode").should("contain.text", postcode);
+        cy.getByTestId('temporary-site-postcode').should('contain.text', postcode);
 
         return this;
     }
 
     public hasPermanentSiteAddress(line1: string, line2: string, city): this {
-        cy.hasAddress("permanent-site-address", line1, line2, city);
+        cy.hasAddress('permanent-site-address', line1, line2, city);
 
         return this;
     }
 
     public hasPermanentSitePostcode(postcode: string): this {
-        cy.getByTestId("permanent-site-postcode").should("contain.text", postcode);
+        cy.getByTestId('permanent-site-postcode').should('contain.text', postcode);
 
         return this;
     }
 
-    public hasProjectType() { 
-        cy.getByTestId("application-wave").invoke('text').then((applicationWave) => { 
-            let projectType = applicationWave.includes("FS - Presumption") ? "Presumption" : "Central Route"; 
-            cy.getByTestId("project-type").should('contain.text', projectType);
-        }); 
+    public hasProjectType() {
+        cy.getByTestId('application-wave')
+            .invoke('text')
+            .then((applicationWave) => {
+                const projectType = applicationWave.includes('FS - Presumption') ? 'Presumption' : 'Central Route';
+                cy.getByTestId('project-type').should('contain.text', projectType);
+            });
 
         return this;
     }
 
     public changeSiteInformation(): this {
-        cy.getByTestId("change-site-information").click();
+        cy.getByTestId('change-site-information').click();
 
         return this;
-
     }
 
     public backToProjectDashboard(): this {
@@ -359,7 +342,6 @@ class ProjectOverviewPage {
 
         return this;
     }
-
 
     private checkRagRating(selector: string, values: string[]): void {
         cy.assertChildList(selector, values);

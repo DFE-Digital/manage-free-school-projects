@@ -1,11 +1,10 @@
 class ContactsPage {
-
     public selectAboutTheProjectTab(): this {
-        cy.contains("About the project").click()
+        cy.contains('About the project').click();
         return this;
     }
     public onContactsTab(): this {
-        cy.getById(`header-contacts`).should("be.visible")
+        cy.getById(`header-contacts`).should('be.visible');
         return this;
     }
     public isEmpty(value: string): this {
@@ -20,7 +19,7 @@ class ContactsPage {
     }
 
     public clickChangeProjectStatus(): this {
-        cy.getById("change-project-status").click();
+        cy.getById('change-project-status').click();
         return this;
     }
 
@@ -179,11 +178,10 @@ class ContactsPage {
     }
 
     public hasProjectTitleHeader(value: string): this {
-        cy.getByTestId("project-title-header").should("contain.text", value);
+        cy.getByTestId('project-title-header').should('contain.text', value);
 
         return this;
     }
-    
 }
 
 const contactsPage = new ContactsPage();

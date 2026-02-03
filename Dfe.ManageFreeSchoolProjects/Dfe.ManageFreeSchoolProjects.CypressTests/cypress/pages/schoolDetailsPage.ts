@@ -1,22 +1,21 @@
 class SchoolDetailsPage {
-
     public titleIs(title: string): this {
-        cy.getByTestId("title").should("contains.text", title)
+        cy.getByTestId('title').should('contains.text', title);
         return this;
     }
 
     public schoolNameIs(school: string) {
-        cy.getByTestId("school-name").should("contains.text", school);
+        cy.getByTestId('school-name').should('contains.text', school);
         return this;
     }
 
     public withSchoolName(school: string): this {
-        cy.getByTestId("current-free-school-name").typeFast(school);
+        cy.getByTestId('current-free-school-name').typeFast(school);
         return this;
     }
 
     public withSchoolNameExceedingMaxLength(): this {
-        cy.getByTestId("current-free-school-name").invoke("val", "a".repeat(101));
+        cy.getByTestId('current-free-school-name').invoke('val', 'a'.repeat(101));
         return this;
     }
 
@@ -31,18 +30,18 @@ class SchoolDetailsPage {
     }
 
     public withAgeRange(from: string, to: string): this {
-        cy.getByTestId("age-range-from").typeFast(from);
-        cy.getByTestId("age-range-to").typeFast(to);
+        cy.getByTestId('age-range-from').typeFast(from);
+        cy.getByTestId('age-range-to').typeFast(to);
         return this;
     }
 
     public withFormsOfEntry(value: string): this {
-        cy.getByTestId("forms-of-entry").typeFast(value);
+        cy.getByTestId('forms-of-entry').typeFast(value);
         return this;
     }
 
     public withFormsOfEntryExceedingLimit(): this {
-        cy.getByTestId("forms-of-entry").invoke("val", "a".repeat(101));
+        cy.getByTestId('forms-of-entry').invoke('val', 'a'.repeat(101));
         return this;
     }
 
@@ -61,7 +60,7 @@ class SchoolDetailsPage {
         return this;
     }
 
-    public withResidentialOrBoarding(option: "Yes" | "No"): this {
+    public withResidentialOrBoarding(option: 'Yes' | 'No'): this {
         cy.getByTestId(`residential-or-boarding-${option}`).check();
         return this;
     }
@@ -72,7 +71,7 @@ class SchoolDetailsPage {
     }
 
     public hasNoAlternativeProvision(): this {
-        cy.containsByTestId(`alternative-provision`).should("not.be.visible");
+        cy.containsByTestId(`alternative-provision`).should('not.be.visible');
         return this;
     }
 
@@ -82,7 +81,7 @@ class SchoolDetailsPage {
     }
 
     public hasNoSpecialEducationNeeds(): this {
-        cy.containsByTestId(`special-education-needs`).should("not.be.visible");
+        cy.containsByTestId(`special-education-needs`).should('not.be.visible');
 
         return this;
     }
@@ -99,7 +98,7 @@ class SchoolDetailsPage {
     }
 
     public faithTypeSectionIsNotVisible(): this {
-        this.getFaithTypeSection().should("not.be.visible");
+        this.getFaithTypeSection().should('not.be.visible');
         return this;
     }
 
@@ -109,26 +108,26 @@ class SchoolDetailsPage {
     }
 
     public withFaithTypeOtherDescriptionExceedingMaxLength(): this {
-        this.getFaithTypeOtherDescription().invoke("val", "a".repeat(101));
+        this.getFaithTypeOtherDescription().invoke('val', 'a'.repeat(101));
         return this;
     }
 
     public faithTypeOtherDescriptionIsNotVisible() {
-        this.getFaithTypeOtherDescription().should("not.be.visible");
+        this.getFaithTypeOtherDescription().should('not.be.visible');
         return this;
     }
 
     public clickContinue(): this {
-        cy.getByTestId("continue").click();
+        cy.getByTestId('continue').click();
         return this;
     }
 
     private getFaithTypeOtherDescription() {
-        return cy.getByTestId("other-faith-type");
+        return cy.getByTestId('other-faith-type');
     }
 
     private getFaithTypeSection() {
-        return cy.getById("faith-type-group");
+        return cy.getById('faith-type-group');
     }
 }
 

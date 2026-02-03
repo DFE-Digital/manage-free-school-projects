@@ -1,53 +1,53 @@
 class ConfirmTrustPage {
     public verifyConfirmTrustElementsVisible(schoolName: string, validTrustId: string): this {
-        cy.getByClass("govuk-back-link").contains("Back");
-        cy.getByClass("govuk-heading-xl").getByClass("govuk-caption-l").contains(schoolName);
-        cy.getByClass("govuk-heading-xl").contains("Confirm the trust");
+        cy.getByClass('govuk-back-link').contains('Back');
+        cy.getByClass('govuk-heading-xl').getByClass('govuk-caption-l').contains(schoolName);
+        cy.getByClass('govuk-heading-xl').contains('Confirm the trust');
 
-        cy.getByClass("govuk-summary-list__key").eq(0).contains("Trust ID:");
-        cy.getByClass("govuk-summary-list__value").eq(0).contains(validTrustId);
+        cy.getByClass('govuk-summary-list__key').eq(0).contains('Trust ID:');
+        cy.getByClass('govuk-summary-list__value').eq(0).contains(validTrustId);
 
-        cy.getByClass("govuk-summary-list__key").eq(1).contains("Trust name:");
-        cy.getByClass("govuk-summary-list__value").eq(1).contains("Neat Idea Trust");
+        cy.getByClass('govuk-summary-list__key').eq(1).contains('Trust name:');
+        cy.getByClass('govuk-summary-list__value').eq(1).contains('Neat Idea Trust');
 
-        cy.getByClass("govuk-summary-list__key").eq(2).contains("Trust type:");
-        cy.getByClass("govuk-summary-list__value").eq(2).contains("MAT (multi-academy trust)");
+        cy.getByClass('govuk-summary-list__key').eq(2).contains('Trust type:');
+        cy.getByClass('govuk-summary-list__value').eq(2).contains('MAT (multi-academy trust)');
 
-        cy.getByClass("govuk-heading-s").contains("Is this the correct trust?");
+        cy.getByClass('govuk-heading-s').contains('Is this the correct trust?');
 
-        cy.getByTestId("true").should("not.be.selected");
-        cy.getByTestId("false").should("not.be.selected");
+        cy.getByTestId('true').should('not.be.selected');
+        cy.getByTestId('false').should('not.be.selected');
 
-        cy.getByClass("govuk-button").should("be.visible").contains("Save and continue");
+        cy.getByClass('govuk-button').should('be.visible').contains('Save and continue');
 
         return this;
     }
 
     public selectYes(): this {
-        cy.getByTestId("true").click();
+        cy.getByTestId('true').click();
 
         return this;
     }
 
     public selectNo(): this {
-        cy.getByTestId("false").click();
+        cy.getByTestId('false').click();
 
         return this;
     }
 
     public selectSaveAndContinue(): this {
-    cy.get("body").then(($body) => {
+        cy.get('body').then(($body) => {
             if ($body.find('[data-testid="continue"]').length) {
-                cy.getByTestId("continue").click();
+                cy.getByTestId('continue').click();
                 return;
             }
 
             if ($body.find('button.govuk-button:contains("Save and continue")').length) {
-                cy.contains("button.govuk-button", "Save and continue").click();
+                cy.contains('button.govuk-button', 'Save and continue').click();
                 return;
             }
 
-            cy.contains("button.govuk-button", "Continue").click();
+            cy.contains('button.govuk-button', 'Continue').click();
         });
         return this;
     }

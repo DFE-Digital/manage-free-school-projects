@@ -1,18 +1,15 @@
-import { ApiClient } from "./apiClient";
-import { CreatePDGGrantLettersRequest, ResponseWrapper } from "./domain";
+import { ApiClient } from './apiClient';
+import { CreatePDGGrantLettersRequest, ResponseWrapper } from './domain';
 
 class GrantLettersApi {
-    public constructor(private readonly apiClient: ApiClient) { }
+    public constructor(private readonly apiClient: ApiClient) {}
 
-    public put(
-        projectId: string,
-        request: CreatePDGGrantLettersRequest,
-    ): Cypress.Chainable {
+    public put(projectId: string, request: CreatePDGGrantLettersRequest): Cypress.Chainable {
         return this.apiClient
-            .put<CreatePDGGrantLettersRequest, ResponseWrapper<never>>(
-                `/api/v1/client/projects/${projectId}/grant-letters`,
-                request,
-            )
+            .put<
+                CreatePDGGrantLettersRequest,
+                ResponseWrapper<never>
+            >(`/api/v1/client/projects/${projectId}/grant-letters`, request)
             .then((response) => {
                 return response.data;
             });
