@@ -52,8 +52,6 @@ describe('Testing the External expert visit task', () => {
 
         cy.executeAccessibilityTests();
 
-        cy.executeAccessibilityTests;
-
         externalExpertVisitEditPage
             .checkCommissionedExternalExpertVisit()
             .withVisitDate('21', '1', '2049')

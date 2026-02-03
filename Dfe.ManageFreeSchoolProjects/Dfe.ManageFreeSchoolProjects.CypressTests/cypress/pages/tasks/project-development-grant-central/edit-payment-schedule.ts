@@ -31,13 +31,6 @@ class editPaymentSchedule {
         return this;
     }
 
-    public paymentSummaryHasValue(paymentIndex: string, name: string, value: string): this {
-        const paymentSummaryCardID = `payment-${paymentIndex}`;
-        const paymentSummaryCard = cy.getByTestId(paymentSummaryCardID);
-        paymentSummaryCard.contains('.govuk-summary-list__key').contains(name).parent().should('contains.text', value);
-        return this;
-    }
-
     selectAddPayment() {
         cy.getByTestId('add-payment').click();
     }

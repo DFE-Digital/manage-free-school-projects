@@ -15,12 +15,9 @@ import editPrincipalDesignatePage from 'cypress/pages/contacts/editPrincipalDesi
 
 describe('Testing that we can add contacts', () => {
     let project: ProjectDetailsRequest;
-    let now: Date;
 
     beforeEach(() => {
         cy.login();
-
-        now = new Date();
 
         project = RequestBuilder.createProjectDetails();
 

@@ -63,7 +63,7 @@ describe('Testing gias', () => {
 
         summaryPage.clickChange();
 
-        cy.executeAccessibilityTests;
+        cy.executeAccessibilityTests();
 
         giasEditPage
             .checkCheckTrustInformation()
@@ -94,7 +94,7 @@ describe('Testing gias', () => {
 
         summaryPage.clickChange();
 
-        cy.executeAccessibilityTests;
+        cy.executeAccessibilityTests();
 
         giasEditPage
             .unCheckCheckTrustInformation()

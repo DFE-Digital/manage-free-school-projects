@@ -39,7 +39,7 @@ describe('Testing the home page', () => {
             projectTable.getRowByProjectId(firstProject.projectId).then((row) => {
                 row.hasProjectId(firstProject.projectId);
                 row.hasProjectTitle(firstProject.schoolName);
-                row.hasProjectType('Presumption' || 'Central Route');
+                row.hasProjectType('Presumption');
                 row.hasStatus('Pre-opening');
             });
 
@@ -314,6 +314,6 @@ describe('Testing the home page', () => {
 
         const match = second.some((e) => firstSet.has(e));
 
-        expect(match).to.be.false;
+        expect(match).to.equal(false);
     }
 });

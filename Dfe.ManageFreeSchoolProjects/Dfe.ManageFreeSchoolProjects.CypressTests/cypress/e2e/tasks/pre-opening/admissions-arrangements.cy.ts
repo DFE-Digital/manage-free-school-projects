@@ -62,8 +62,6 @@ describe('Testing the admissions arragements task', () => {
 
         cy.executeAccessibilityTests();
 
-        cy.executeAccessibilityTests;
-
         admissionsArrangementsEditPage
             .withExpectedDate('15', '1', '2049')
             .checkTrustConfirmedAdmissionsArrangementsTemplate()
