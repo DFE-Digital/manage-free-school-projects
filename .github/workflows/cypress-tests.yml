@@ -17,8 +17,9 @@ on:
         required: true
       CYPRESS_TEST_SECRET:
         required: true
-      SLACK_WEBHOOK_URL:
+      TEAMS_WEBHOOK_URL:
         required: true
+
   workflow_dispatch:
     inputs:
       environment:
@@ -27,38 +28,122 @@ on:
         type: environment
 
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  BROWSER: 'edge'
+  WORKING_DIRECTORY: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests
 
 jobs:
-  cypress-tests:
-    name: Run Cypress Tests
+  # Smoke tests - run in isolation for test environment
+  cypress-smoke:
+    name: Cypress (smoke)
+    if: inputs.environment == 'test'
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-    strategy:
-      matrix:
-        browser: [
-          "edge"
-        ]
     container:
       image: cypress/browsers:22.13.1@sha256:914c9814a9567f32660203db7ecd610b8f8fede6e9103885728b3bd3f6dca4ff
-    defaults:
-      run:
-        working-directory: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests
+
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
-      - name: Prepare Cypress cache
+      - name: Run Cypress smoke tests
         uses: cypress-io/github-action@v6
         with:
-          runTests: false
-          browser: ${{ matrix.browser }}
-          working-directory: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests
+          browser: ${{ env.BROWSER }}
+          spec: cypress/e2e/smoke/**/*.cy.ts
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+          wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
+          wait-on-timeout: 300
+        env:
+          CYPRESS_username: ${{ secrets.USERNAME }}
+          CYPRESS_url: ${{ secrets.AZURE_WEB_ENDPOINT }}
+          CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
+          CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
+          CYPRESS_api: ${{ secrets.AZURE_API_ENDPOINT }}
 
-      - name: Run (dev)
-        if: inputs.environment == 'development'
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-${{ inputs.environment }}-smoke
+          path: ${{ env.WORKING_DIRECTORY }}/cypress/screenshots
+          retention-days: 5
+          if-no-files-found: ignore
+
+      - name: Prepare test results
+        id: prepare-results
+        if: always()
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          mkdir -p cypress/reports/merged
+          if [ -d "cypress/reports/mocha" ] && [ "$(find cypress/reports/mocha -name '*.json' 2>/dev/null | wc -l)" -gt 0 ]; then
+            for file in cypress/reports/mocha/*.json; do
+              filename=$(basename "$file")
+              cp "$file" "cypress/reports/merged/smoke-$filename"
+            done
+            echo "results_found=true" >> $GITHUB_OUTPUT
+          else
+            echo '{"stats":{"suites":0,"tests":0,"passes":0,"pending":0,"failures":0,"start":"","end":"","duration":0}}' > "cypress/reports/merged/smoke-placeholder.json"
+            echo "results_found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-smoke
+          path: ${{ env.WORKING_DIRECTORY }}/cypress/reports/merged/*.json
+          retention-days: 1
+
+  # Parallel test groups - run for development environment
+  cypress-tests:
+    name: Cypress (${{ matrix.group }})
+    if: inputs.environment == 'development'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - group: project-creation
+            spec: cypress/e2e/create-*.cy.ts
+          - group: project-config
+            spec: cypress/e2e/project-contacts.cy.ts,cypress/e2e/project-pupil-numbers.cy.ts,cypress/e2e/project-risk.cy.ts
+          - group: navigation-misc
+            spec: cypress/e2e/homepage.cy.ts,cypress/e2e/project-overview.cy.ts,cypress/e2e/project-tasks-completed-count.cy.ts,cypress/e2e/cookie-consent.cy.ts,cypress/e2e/footerLinks.cy.ts,cypress/e2e/project-sites.cy.ts
+          - group: setting-up
+            spec: cypress/e2e/tasks/setting-up/**/*.cy.ts,cypress/e2e/project-status.cy.ts
+          - group: pre-opening-tasklist
+            spec: cypress/e2e/tasks/pre-opening/tasklist-*.cy.ts
+          - group: pre-opening-other
+            spec: cypress/e2e/tasks/pre-opening/admissions-arrangements.cy.ts,cypress/e2e/tasks/pre-opening/due-diligence-checks.cy.ts,cypress/e2e/tasks/pre-opening/finance-plan.cy.ts,cypress/e2e/tasks/pre-opening/governance-plan-central.cy.ts,cypress/e2e/tasks/pre-opening/governance-plan-presumption.cy.ts,cypress/e2e/tasks/pre-opening/pre-funding-agreement-checkpoint-meeting.cy.ts,cypress/e2e/tasks/pre-opening/principal-designate.cy.ts
+          - group: grants
+            spec: cypress/e2e/tasks/project-development-grant-central/**/*.cy.ts,cypress/e2e/tasks/project-development-grant-presumption/**/*.cy.ts
+          - group: getting-ready-to-open
+            spec: cypress/e2e/tasks/Getting-ready-to-open/**/*.cy.ts,cypress/e2e/tasks/After-opening/**/*.cy.ts
+
+    container:
+      image: cypress/browsers:22.13.1@sha256:914c9814a9567f32660203db7ecd610b8f8fede6e9103885728b3bd3f6dca4ff
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Run Cypress tests
         uses: cypress-io/github-action@v6
+        with:
+          browser: ${{ env.BROWSER }}
+          spec: ${{ matrix.spec }}
+          working-directory: ${{ env.WORKING_DIRECTORY }}
+          wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
+          wait-on-timeout: 300
         env:
           CYPRESS_username: ${{ secrets.USERNAME }}
           CYPRESS_grepTags: '-smoke'
@@ -66,148 +151,141 @@ jobs:
           CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
           CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
           CYPRESS_api: ${{ secrets.AZURE_API_ENDPOINT }}
-        with:
-          browser: ${{ matrix.browser }}
-          working-directory: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests
-          wait-on: ${{ secrets.AZURE_ENDPOINT }}
-          install: false
 
-      - name: Run (test)
-        if: inputs.environment == 'test'
-        uses: cypress-io/github-action@v6
-        env:
-          CYPRESS_username: ${{ secrets.USERNAME }}
-          CYPRESS_url: ${{ secrets.AZURE_WEB_ENDPOINT }}
-          CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
-          CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
-          CYPRESS_api: ${{ secrets.AZURE_API_ENDPOINT }}
+      - name: Upload screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
         with:
-          browser: ${{ matrix.browser }}
-          working-directory: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests
-          wait-on: ${{ secrets.AZURE_ENDPOINT }}
-          spec: cypress/e2e/smoke/*
-          install: false
+          name: screenshots-${{ inputs.environment }}-${{ matrix.group }}
+          path: ${{ env.WORKING_DIRECTORY }}/cypress/screenshots
+          retention-days: 5
+          if-no-files-found: ignore
 
-      - name: Upload screenshots
-        if: ${{ failure() }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: screenshots-${{ inputs.environment }}-${{ matrix.browser }}
-          path: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests/cypress/screenshots
-
-      - name: Generate report
+      - name: Prepare test results
+        id: prepare-results
         if: always()
+        working-directory: ${{ env.WORKING_DIRECTORY }}
         run: |
-          mkdir mochareports
+          mkdir -p cypress/reports/merged
+          if [ -d "cypress/reports/mocha" ] && [ "$(find cypress/reports/mocha -name '*.json' 2>/dev/null | wc -l)" -gt 0 ]; then
+            for file in cypress/reports/mocha/*.json; do
+              filename=$(basename "$file")
+              cp "$file" "cypress/reports/merged/${{ matrix.group }}-$filename"
+            done
+            echo "results_found=true" >> $GITHUB_OUTPUT
+          else
+            echo '{"stats":{"suites":0,"tests":0,"passes":0,"pending":0,"failures":0,"start":"","end":"","duration":0}}' > "cypress/reports/merged/${{ matrix.group }}-placeholder.json"
+            echo "results_found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.group }}
+          path: ${{ env.WORKING_DIRECTORY }}/cypress/reports/merged/*.json
+          retention-days: 1
+
+  # Generate combined report for development environment
+  generate-report-dev:
+    name: Generate Combined Report
+    needs: cypress-tests
+    if: always() && inputs.environment == 'development'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci --ignore-scripts
+
+      - name: Download all test results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: test-results-*
+          path: ${{ env.WORKING_DIRECTORY }}/cypress/reports/mocha
+          merge-multiple: true
+
+      - name: Generate combined HTML report
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          mkdir -p mochareports
           npm run generate:html:report
 
-      - name: Upload report
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - name: Upload combined report
+        uses: actions/upload-artifact@v4
         with:
-          name: reports-${{ inputs.environment }}-${{ matrix.browser }}
-          path: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests/mochareports
-      
+          name: cypress-report-${{ inputs.environment }}
+          path: ${{ env.WORKING_DIRECTORY }}/mochareports
+          retention-days: 30
+
       - name: Report results to Teams
         if: always()
-        run: |
-          # Create a Node script to send test results to Teams
-          node <<EOF
-          const axios = require('axios');
-          const fs = require('fs');
-          const path = require('path');
-          
-          async function sendTeamsNotification() {
-            try {
-              // Read the combined report JSON to get test statistics
-              let reportStats = { tests: 0, passes: 0, failures: 0 };
-              const reportPath = path.join(process.cwd(), 'mochareports', 'report.json');
-          
-              if (fs.existsSync(reportPath)) {
-                const reportData = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-                if (reportData && reportData.stats) {
-                  reportStats = {
-                    tests: reportData.stats.tests || 0,
-                    passes: reportData.stats.passes || 0,
-                    failures: reportData.stats.failures || 0
-                  };
-                }
-              } else {
-                console.warn('Report file not found at:', reportPath);
-              }
-          
-              // Define card style based on test results
-              const hasFailures = reportStats.failures > 0;
-              const style = hasFailures ? "attention" : "good";
-              const statusText = hasFailures ? "**Cypress Test Run Failed** ❌" : "**Cypress Test Run Passed** ✅";
-          
-              // Create Teams message card
-              const message = {
-                type: "message",
-                attachments: [{
-                  contentType: "application/vnd.microsoft.card.adaptive",
-                  contentUrl: null,
-                  content: {
-                    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                    type: "AdaptiveCard",
-                    version: "1.2",
-                    body: [{
-                      type: "Container",
-                      style: style,
-                      items: [
-                        {
-                          type: "TextBlock",
-                          wrap: true,
-                          text: statusText,
-                          size: "large",
-                          horizontalAlignment: "center"
-                        },
-                        {
-                          type: "TextBlock",
-                          wrap: true,
-                          text: "**Branch:** " + process.env.GITHUB_REF
-                        },
-                        {
-                          type: "TextBlock",
-                          wrap: true,
-                          text: "**Workflow:** " + process.env.GITHUB_WORKFLOW
-                        },
-                        {
-                          type: "TextBlock",
-                          wrap: true,
-                          text: "**Environment:** " + process.env.ENVIRONMENT
-                        },
-                        {
-                          type: "FactSet",
-                          facts: [
-                            { title: "Total Tests:", value: reportStats.tests.toString() },
-                            { title: "Passed:", value: reportStats.passes.toString() },
-                            { title: "Failed:", value: reportStats.failures.toString() }
-                          ]
-                        },
-                        {
-                          type: "TextBlock",
-                          wrap: true,
-                          text: "**See more information:** [" + process.env.INFORMATION_LINK + "](" + process.env.INFORMATION_LINK + ")"
-                        }
-                      ]
-                    }]
-                  }
-                }]
-              };
-          
-              // Send the notification
-              await axios.post(process.env.TEAMS_WEBHOOK_URL, message);
-              console.log("Message sent to Teams successfully");
-            } catch (error) {
-              console.error("Error sending notification to Teams:", error);
-              process.exit(1);
-            }
-          }
-          
-          sendTeamsNotification();
-          EOF
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: node scripts/send-teams-notification.js
         env:
           TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
           ENVIRONMENT: ${{ inputs.environment }}
-          INFORMATION_LINK: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"     
+          INFORMATION_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  # Generate report for smoke tests (test environment)
+  generate-report-smoke:
+    name: Generate Smoke Report
+    needs: cypress-smoke
+    if: always() && inputs.environment == 'test'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci --ignore-scripts
+
+      - name: Download test results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: test-results-smoke
+          path: ${{ env.WORKING_DIRECTORY }}/cypress/reports/mocha
+          merge-multiple: true
+
+      - name: Generate HTML report
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          mkdir -p mochareports
+          npm run generate:html:report
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-report-${{ inputs.environment }}
+          path: ${{ env.WORKING_DIRECTORY }}/mochareports
+          retention-days: 30
+
+      - name: Report results to Teams
+        if: always()
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: node scripts/send-teams-notification.js
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          ENVIRONMENT: ${{ inputs.environment }}
+          INFORMATION_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

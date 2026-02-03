@@ -18,6 +18,9 @@ Security in case of vulnerabilities.
 
 See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/production-2025-12-19.1234...HEAD) for everything awaiting release
 
+### Fixed
+- 261286 - Improved query performance for fetching projects, fixes SQL timeout error seen when running Cypress tests
+
 
 ## [2.1.0](https://github.com/DFE-Digital/manage-free-school-projects/releases/tag/production-2025-12-19.1234) - 2025-12-19
 

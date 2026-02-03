@@ -72,7 +72,7 @@ Cypress.Commands.add("executeAccessibilityTests", () => {
 
     Logger.log("Checking accessibility");
     cy.checkA11y(
-        null,
+        undefined,
         {
             runOnly: {
                 type: "tag",
@@ -80,7 +80,7 @@ Cypress.Commands.add("executeAccessibilityTests", () => {
             },
             includedImpacts: impactLevel,
         },
-        null,
+        undefined,
         continueOnFail
     );
 });
