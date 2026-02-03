@@ -234,7 +234,7 @@ describe('Testing that we can add a project risk', () => {
 
             editProjectRiskPage
                 .hasRiskAppraisalFormSharePointLink('https://www.google.co.uk')
-                .withRiskAppraisalFormSharePointLink('http://www.yahoo.com')
+                .withRiskAppraisalFormSharePointLink('https://www.yahoo.com')
                 .continue();
 
             Logger.log('Enter a valid overall risk');
@@ -257,7 +257,7 @@ describe('Testing that we can add a project risk', () => {
                 .hasEducationRiskSummary('This is another of my education risk summary')
                 .hasFinanceRiskRating(['Red'])
                 .hasFinanceRiskSummary('This is another of my finance risk summary')
-                .hasRiskAppraisalFormSharePointLink('http://www.yahoo.com');
+                .hasRiskAppraisalFormSharePointLink('https://www.yahoo.com');
 
             projectRiskSummaryPage.markRiskAsReviewed().createRiskEntry().goToRiskSummary();
 
@@ -270,7 +270,7 @@ describe('Testing that we can add a project risk', () => {
                 .hasEducationRiskSummary('This is another of my education risk summary')
                 .hasFinanceRiskRating(['Red'])
                 .hasFinanceRiskSummary('This is another of my finance risk summary')
-                .hasRiskAppraisalFormSharePointLink('http://www.yahoo.com');
+                .hasRiskAppraisalFormSharePointLink('https://www.yahoo.com');
 
             Logger.log('Should show the history of the project risk');
             projectRiskHistoryTable
