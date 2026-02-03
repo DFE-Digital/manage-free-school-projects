@@ -1,17 +1,17 @@
-import { BulkProjectTable, BulkProjectRow } from 'cypress/api/domain';
-import bulkCreateProjectPage from 'cypress/pages/bulkCreateProjectPage';
-import { v4 } from 'uuid';
-import { stringify } from 'csv-stringify/sync';
+import { BulkProjectTable, BulkProjectRow } from "cypress/api/domain";
+import bulkCreateProjectPage from "cypress/pages/bulkCreateProjectPage";
+import { v4 } from "uuid";
+import { stringify } from "csv-stringify/sync";
 
-import ExcelJS from 'exceljs';
+import ExcelJS from "exceljs";
 
-describe('Creating a bulk project', () => {
+describe("Creating a bulk project", () => {
     beforeEach(() => {
         cy.login();
-        cy.visit('/project/create/bulk');
+        cy.visit("/project/create/bulk");
     });
 
-    it('Should validate an uploaded CSV file', () => {
+    it("Should validate an uploaded CSV file", () => {
         const completeRow: BulkProjectRow = {
             projectId: v4(),
             projectTitle: v4(),
@@ -28,10 +28,10 @@ describe('Creating a bulk project', () => {
 
         const csv = createCsv([completeRow, emptyRow]);
 
-        bulkCreateProjectPage.upload(csv, 'file.csv').continue();
+        bulkCreateProjectPage.upload(csv, "file.csv").continue();
     });
 
-    it('Should validate an uploaded Excel file', async () => {
+    it("Should validate an uploaded Excel file", async () => {
         const completeRow: BulkProjectRow = {
             projectId: v4(),
             projectTitle: v4(),
@@ -48,19 +48,19 @@ describe('Creating a bulk project', () => {
 
         const buffer = await createExcel([completeRow, emptyRow]);
 
-        bulkCreateProjectPage.upload(buffer, 'file.xlsx').continue();
+        bulkCreateProjectPage.upload(buffer, "file.xlsx").continue();
     });
 
     function createTable(rows: Array<BulkProjectRow>) {
         const result: BulkProjectTable<BulkProjectRow> = {
             headers: [
-                'projectTitle',
-                'projectId',
-                'trustName',
-                'region',
-                'localAuthority',
-                'realisticOpeningDate',
-                'status',
+                "projectTitle",
+                "projectId",
+                "trustName",
+                "region",
+                "localAuthority",
+                "realisticOpeningDate",
+                "status",
             ],
             rows: rows,
         };
@@ -83,13 +83,15 @@ describe('Creating a bulk project', () => {
         const table = createTable(rows);
 
         const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet('Sheet1');
+        const worksheet = workbook.addWorksheet("Sheet1");
 
         // Add header row
         worksheet.addRow(table.headers);
 
         for (const row of table.rows) {
-            const rowData = table.headers.map((header) => row[header as keyof BulkProjectRow] ?? '');
+            const rowData = table.headers.map(
+                (header) => row[header as keyof BulkProjectRow] ?? "",
+            );
             worksheet.addRow(rowData);
         }
 

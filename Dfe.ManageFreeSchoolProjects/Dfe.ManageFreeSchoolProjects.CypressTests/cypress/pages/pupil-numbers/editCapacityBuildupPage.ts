@@ -1,6 +1,7 @@
 class EditCapacityBuildupPage {
+
     public hasSchoolName(schoolName: string): this {
-        cy.getByTestId('school-name').should('contain.text', schoolName);
+        cy.getByTestId("school-name").should("contain.text", schoolName);
 
         return this;
     }
@@ -13,19 +14,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRow(
-            'nursery',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRow("nursery", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -38,19 +29,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'reception',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("reception", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -63,19 +44,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year1',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year1", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -88,19 +59,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year2',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year2", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -113,19 +74,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year3',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year3", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -138,19 +89,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year4',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year4", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -163,19 +104,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year5',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year5", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -188,19 +119,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year6',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year6", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -213,19 +134,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year7',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year7", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -238,19 +149,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year8',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year8", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -263,19 +164,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year9',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year9", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -288,19 +179,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year10',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year10", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -313,19 +194,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year11',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year11", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -338,19 +209,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRow(
-            'year12',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRow("year12", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -363,19 +224,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year13',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year13", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -388,19 +239,9 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
-        this.withRowSetDirectly(
-            'year14',
-            currentCapacity,
-            firstYear,
-            secondYear,
-            thirdYear,
-            fourthYear,
-            fifthYear,
-            sixthYear,
-            seventhYear
-        );
+        seventhYear: string): this {
+
+        this.withRowSetDirectly("year14", currentCapacity, firstYear, secondYear, thirdYear, fourthYear, fifthYear, sixthYear, seventhYear);
 
         return this;
     }
@@ -414,8 +255,8 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
+        seventhYear: string): this {
+
         cy.getByTestId(`${idPrefix}-current-capacity-field`).clear().type(currentCapacity);
         cy.getByTestId(`${idPrefix}-first-year-field`).clear().type(firstYear);
         cy.getByTestId(`${idPrefix}-second-year-field`).clear().type(secondYear);
@@ -442,8 +283,8 @@ class EditCapacityBuildupPage {
         fourthYear: string,
         fifthYear: string,
         sixthYear: string,
-        seventhYear: string
-    ): this {
+        seventhYear: string): this {
+
         cy.getByTestId(`${idPrefix}-current-capacity-field`).invoke('val', currentCapacity);
         cy.getByTestId(`${idPrefix}-first-year-field`).invoke('val', firstYear);
         cy.getByTestId(`${idPrefix}-second-year-field`).invoke('val', secondYear);
@@ -457,7 +298,8 @@ class EditCapacityBuildupPage {
     }
 
     public saveAndContinue(): this {
-        cy.getByTestId('save-and-continue').click();
+
+        cy.getByTestId("save-and-continue").click();
 
         return this;
     }

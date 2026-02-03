@@ -1,13 +1,13 @@
-import { EnvApi, EnvApiKey } from 'cypress/constants/cypressConstants';
+import { EnvApi, EnvApiKey } from "cypress/constants/cypressConstants";
 
 export class ApiClient {
     public put<TRequest extends object, TResponse extends object>(
         endpoint: string,
-        request: TRequest
+        request: TRequest,
     ): Cypress.Chainable<TResponse> {
         return cy
             .request<TResponse>({
-                method: 'PUT',
+                method: "PUT",
                 url: Cypress.env(EnvApi) + endpoint,
                 headers: this.getHeaders(),
                 body: request,
@@ -19,11 +19,11 @@ export class ApiClient {
 
     public post<TRequest extends object, TResponse extends object>(
         endpoint: string,
-        request: TRequest
+        request: TRequest,
     ): Cypress.Chainable<TResponse> {
         return cy
             .request<TResponse>({
-                method: 'POST',
+                method: "POST",
                 url: Cypress.env(EnvApi) + endpoint,
                 headers: this.getHeaders(),
                 body: request,
@@ -33,10 +33,12 @@ export class ApiClient {
             });
     }
 
-    public get<TResponse extends object>(endpoint: string): Cypress.Chainable<TResponse> {
+    public get<TResponse extends object>(
+        endpoint: string,
+    ): Cypress.Chainable<TResponse> {
         return cy
             .request<TResponse>({
-                method: 'GET',
+                method: "GET",
                 url: Cypress.env(EnvApi) + endpoint,
                 headers: this.getHeaders(),
             })
@@ -47,8 +49,8 @@ export class ApiClient {
 
     protected getHeaders(): object {
         const result = {
-            'Content-type': 'application/json',
-            ApiKey: Cypress.env(EnvApiKey),
+            "Content-type": "application/json",
+            ApiKey: Cypress.env(EnvApiKey)
         };
         return result;
     }

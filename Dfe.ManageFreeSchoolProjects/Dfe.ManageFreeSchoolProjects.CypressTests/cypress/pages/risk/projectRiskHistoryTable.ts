@@ -1,10 +1,11 @@
-import { ProjectRiskHistoryRow } from './projectRiskHistoryRow';
+import { ProjectRiskHistoryRow } from "./projectRiskHistoryRow";
 
 class ProjectRiskHistoryTable {
     public getRowByIndex(index: number): Cypress.Chainable<ProjectRiskHistoryRow> {
-        return cy.getByTestId(`risk-history-row-${index}`).then((el) => {
-            return new ProjectRiskHistoryRow(el);
-        });
+        return cy.getByTestId(`risk-history-row-${index}`)
+            .then((el) => {
+                return new ProjectRiskHistoryRow(el);
+            })
     }
 }
 

@@ -1,13 +1,14 @@
-import { ProjectDetailsRequest } from 'cypress/api/domain';
-import projectApi from 'cypress/api/projectApi';
-import { RequestBuilder } from 'cypress/api/requestBuilder';
-import { Logger } from 'cypress/common/logger';
-import summaryPage from 'cypress/pages/task-summary-base';
-import taskListPage from 'cypress/pages/taskListPage';
-import applicationsEvidenceEditPage from '../../../pages/tasks/Getting-ready-to-open/edit-applications-evidence-cy';
-import schoolDetailsPage from '../../../pages/schoolDetailsPage';
+import { ProjectDetailsRequest } from "cypress/api/domain";
+import projectApi from "cypress/api/projectApi";
+import { RequestBuilder } from "cypress/api/requestBuilder";
+import { Logger } from "cypress/common/logger";
+import summaryPage from "cypress/pages/task-summary-base";
+import taskListPage from "cypress/pages/taskListPage";
+import applicationsEvidenceEditPage from "../../../pages/tasks/Getting-ready-to-open/edit-applications-evidence-cy";
+import schoolDetailsPage from "../../../pages/schoolDetailsPage";
 
-describe('Testing the applications evidence task', () => {
+describe("Testing the applications evidence task", () => {
+
     let project: ProjectDetailsRequest;
 
     beforeEach(() => {
@@ -24,158 +25,123 @@ describe('Testing the applications evidence task', () => {
             });
     });
 
-    it('Should be able to applications evidence', () => {
-        Logger.log('Select applications evidence');
-        taskListPage.isTaskStatusIsNotStarted('ApplicationsEvidence').selectApplicationsEvidenceFromTaskList();
+    it("Should be able to applications evidence", () => {
+        Logger.log("Select applications evidence");
+        taskListPage.isTaskStatusIsNotStarted("ApplicationsEvidence")
+            .selectApplicationsEvidenceFromTaskList();
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs('Applications evidence')
+            .titleIs("Applications evidence")
             .inOrder()
-            .summaryShows('Confirmed that the trust has provided minimum viable pupil numbers')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Comments')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Saved the pupil place build-up form in Workplaces folder')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows(
-                'Saved the underwriting agreement from the local authority in Workplaces folder (if applicable)'
-            )
-            .IsEmpty()
-            .HasChangeLink()
+            .summaryShows("Confirmed that the trust has provided minimum viable pupil numbers").IsEmpty().HasChangeLink()
+            .summaryShows("Comments").IsEmpty().HasChangeLink()
+            .summaryShows("Saved the pupil place build-up form in Workplaces folder").IsEmpty().HasChangeLink()
+            .summaryShows("Saved the underwriting agreement from the local authority in Workplaces folder (if applicable)").IsEmpty().HasChangeLink()
             .isNotMarkedAsComplete();
 
-        Logger.log('Go back to task list');
+        Logger.log("Go back to task list");
         summaryPage.clickBack();
 
         taskListPage.selectApplicationsEvidenceFromTaskList();
         summaryPage.clickChange();
 
-        Logger.log('Applications evidence can save null values');
+        Logger.log("Applications evidence can save null values");
 
-        applicationsEvidenceEditPage.clickContinue();
+        applicationsEvidenceEditPage
+            .clickContinue()
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs('Applications evidence')
+            .titleIs("Applications evidence")
             .inOrder()
-            .summaryShows('Confirmed that the trust has provided minimum viable pupil numbers')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Comments')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Saved the pupil place build-up form in Workplaces folder')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows(
-                'Saved the underwriting agreement from the local authority in Workplaces folder (if applicable)'
-            )
-            .IsEmpty()
-            .HasChangeLink()
+            .summaryShows("Confirmed that the trust has provided minimum viable pupil numbers").IsEmpty().HasChangeLink()
+            .summaryShows("Comments").IsEmpty().HasChangeLink()
+            .summaryShows("Saved the pupil place build-up form in Workplaces folder").IsEmpty().HasChangeLink()
+            .summaryShows("Saved the underwriting agreement from the local authority in Workplaces folder (if applicable)").IsEmpty().HasChangeLink()
             .isNotMarkedAsComplete()
             .clickChange();
 
         cy.executeAccessibilityTests();
 
-        Logger.log('Applications evidence can be edited');
+        Logger.log("Applications evidence can be edited");
+
+
 
         applicationsEvidenceEditPage
-            .withComments('!')
+            .withComments("!")
             .clickContinue()
-            .errorForComments()
-            .showsError("Comments must not include special characters other than , ( ) '")
-            .withComments('Valid text')
+            .errorForComments().showsError("Comments must not include special characters other than , ( ) '")
+            .withComments("Valid text")
             .checkConfirmedPupilNumbers()
             .checkBuildUpFormSavedToWorkplaces()
             .checkUnderWritingAgreementSavedToWorkplaces()
-            .clickContinue();
+            .clickContinue()
 
-        Logger.log('Should update the task status');
+
+        Logger.log("Should update the task status");
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs('Applications evidence')
+            .titleIs("Applications evidence")
             .inOrder()
-            .summaryShows('Confirmed that the trust has provided minimum viable pupil numbers')
-            .HasValue('Yes')
-            .HasChangeLink()
-            .summaryShows('Comments')
-            .HasValue('Valid text')
-            .HasChangeLink()
-            .summaryShows('Saved the pupil place build-up form in Workplaces folder')
-            .HasValue('Yes')
-            .HasChangeLink()
-            .summaryShows(
-                'Saved the underwriting agreement from the local authority in Workplaces folder (if applicable)'
-            )
-            .HasValue('Yes')
-            .HasChangeLink()
+            .summaryShows("Confirmed that the trust has provided minimum viable pupil numbers").HasValue("Yes").HasChangeLink()
+            .summaryShows("Comments").HasValue("Valid text").HasChangeLink()
+            .summaryShows("Saved the pupil place build-up form in Workplaces folder").HasValue("Yes").HasChangeLink()
+            .summaryShows("Saved the underwriting agreement from the local authority in Workplaces folder (if applicable)").HasValue("Yes").HasChangeLink()
             .isNotMarkedAsComplete()
-            .clickConfirmAndContinue();
+            .clickConfirmAndContinue()
 
-        taskListPage.isTaskStatusInProgress('ApplicationsEvidence');
+        taskListPage.isTaskStatusInProgress("ApplicationsEvidence");
 
         taskListPage.selectApplicationsEvidenceFromTaskList();
         summaryPage.clickChange();
 
-        Logger.log('Should be able to clear all values');
+        Logger.log("Should be able to clear all values");
 
         applicationsEvidenceEditPage
             .uncheckConfirmedPupilNumbers()
             .clearComments()
             .uncheckBuildUpFormSavedToWorkplaces()
             .uncheckUnderWritingAgreementSavedToWorkplaces()
-            .clickContinue();
+            .clickContinue()
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs('Applications evidence')
+            .titleIs("Applications evidence")
             .inOrder()
-            .summaryShows('Confirmed that the trust has provided minimum viable pupil numbers')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Comments')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Saved the pupil place build-up form in Workplaces folder')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows(
-                'Saved the underwriting agreement from the local authority in Workplaces folder (if applicable)'
-            )
-            .IsEmpty()
-            .HasChangeLink()
+            .summaryShows("Confirmed that the trust has provided minimum viable pupil numbers").IsEmpty().HasChangeLink()
+            .summaryShows("Comments").IsEmpty().HasChangeLink()
+            .summaryShows("Saved the pupil place build-up form in Workplaces folder").IsEmpty().HasChangeLink()
+            .summaryShows("Saved the underwriting agreement from the local authority in Workplaces folder (if applicable)").IsEmpty().HasChangeLink()
             .isNotMarkedAsComplete()
             .MarkAsComplete()
-            .clickConfirmAndContinue();
+            .clickConfirmAndContinue()
 
-        Logger.log('Should not be able to see task if school type special');
+        Logger.log("Should not be able to see task if school type special");
 
-        taskListPage.isTaskStatusIsCompleted('ApplicationsEvidence').selectSchoolFromTaskList();
+        taskListPage.isTaskStatusIsCompleted("ApplicationsEvidence")
+            .selectSchoolFromTaskList()
 
-        summaryPage.clickChange();
+        summaryPage.clickChange()
 
         schoolDetailsPage
-            .withSchoolName('Test School')
-            .withSchoolType('Special')
-            .withSchoolPhase('Secondary')
-            .withAgeRange('11', '16')
-            .withFormsOfEntry('3')
-            .withGender('Mixed')
-            .withNursery('Yes')
-            .withSixthForm('No')
-            .withResidentialOrBoarding('No')
-            .withFaithStatus('Designation')
-            .withFaithType('faith-type-Jewish')
+            .withSchoolName("Test School")
+            .withSchoolType("Special")
+            .withSchoolPhase("Secondary")
+            .withAgeRange("11", "16")
+            .withFormsOfEntry("3")
+            .withGender("Mixed")
+            .withNursery("Yes")
+            .withSixthForm("No")
+            .withResidentialOrBoarding("No")
+            .withFaithStatus("Designation")
+            .withFaithType("faith-type-Jewish")
             .clickContinue();
 
-        summaryPage.clickConfirmAndContinue();
+        summaryPage.clickConfirmAndContinue()
 
-        Logger.log('Should not be able to see applications evidence task if school type is not special');
+        Logger.log("Should not be able to see applications evidence task if school type is not special")
         taskListPage.assertApplicationsEvidenceIsNotVisibleTaskList();
     });
 });

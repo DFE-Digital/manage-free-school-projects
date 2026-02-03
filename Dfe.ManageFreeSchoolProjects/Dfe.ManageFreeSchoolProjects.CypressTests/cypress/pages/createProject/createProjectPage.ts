@@ -1,5 +1,5 @@
-import dateComponent from '../dateComponent';
-import validationComponent from '../validationComponent';
+import dateComponent from "../dateComponent";
+import validationComponent from "../validationComponent";
 
 class CreateProjectPage {
     public errorMessage(error: string): this {
@@ -14,52 +14,53 @@ class CreateProjectPage {
     }
 
     public isOptionChecked(method: string): this {
-        cy.getByRadioOption(method).should('be.checked');
+        cy.getByRadioOption(method).should("be.checked");
         return this;
     }
 
     public titleIs(title: string) {
-        cy.getByTestId('title-heading').should('contain.text', title);
+        cy.getByTestId("title-heading").should("contain.text", title);
         return this;
     }
 
     public enterProjectId(value: string) {
-        cy.getByTestId('projectid').clear().type(value);
+        cy.getByTestId("projectid").clear().type(value);
         return this;
     }
 
     public enterApplicationNumber(value: string) {
-        cy.getByTestId('application-number').clear().type(value);
+        cy.getByTestId("application-number").clear().type(value);
         return this;
     }
 
     public enterApplicationWave(value: string) {
-        cy.getByTestId('application-wave').clear().type(value);
+        cy.getByTestId("application-wave").clear().type(value);
         return this;
     }
 
     public hasProjectId(value: string) {
-        cy.getByTestId('projectid').should('have.value', value);
+        cy.getByTestId("projectid").should("have.value", value);
         return this;
     }
 
     public projectIDErrorMessage(error: string): this {
-        cy.getById('projectid-error').should('contain.text', error);
+        cy.getById("projectid-error").should("contain.text", error);
         return this;
     }
 
+
     public enterSchoolName(value: string): this {
-        cy.getByTestId('school').clear().type(value);
+        cy.getByTestId("school").clear().type(value);
         return this;
     }
 
     public hasSchoolName(value: string): this {
-        cy.getByTestId('school').should('have.value', value);
+        cy.getByTestId("school").should("have.value", value);
         return this;
     }
 
     public enterTRN(value: string): this {
-        cy.getByTestId('trn').clear().type(value);
+        cy.getByTestId("trn").clear().type(value);
         return this;
     }
 
@@ -70,7 +71,7 @@ class CreateProjectPage {
     }
 
     public hasSchoolType(value: string): this {
-        cy.getByTestId(value).should('be.checked');
+        cy.getByTestId(value).should("be.checked");
 
         return this;
     }
@@ -81,68 +82,68 @@ class CreateProjectPage {
         return this;
     }
 
-    public setNurseryTo(option: 'Yes' | 'No'): this {
+    public setNurseryTo(option: "Yes" | "No"): this {
         cy.getByTestId(`nursery-${option}`).check();
         return this;
     }
 
     public hasNursery(value: string): this {
-        cy.getByTestId(`nursery-${value}`).should('be.checked');
+        cy.getByTestId(`nursery-${value}`).should("be.checked");
         return this;
     }
 
-    public setSixthFormTo(option: 'Yes' | 'No'): this {
+    public setSixthFormTo(option: "Yes" | "No"): this {
         cy.getByTestId(`sixth-form-${option}`).check();
         return this;
     }
 
     public hasSixthForm(value: string): this {
-        cy.getByTestId(`sixth-form-${value}`).should('be.checked');
+        cy.getByTestId(`sixth-form-${value}`).should("be.checked");
         return this;
     }
 
-    public setAlternativeProvisionTo(option: 'Yes' | 'No'): this {
+    public setAlternativeProvisionTo(option: "Yes" | "No"): this {
         cy.getByTestId(`alternative-provision-${option}`).check();
         return this;
     }
 
     public hasAlternativeProvision(value: string): this {
-        cy.getByTestId(`alternative-provision-${value}`).should('be.checked');
+        cy.getByTestId(`alternative-provision-${value}`).should("be.checked");
         return this;
     }
 
-    public setSpecialEducationNeedsTo(option: 'Yes' | 'No'): this {
+    public setSpecialEducationNeedsTo(option: "Yes" | "No"): this {
         cy.getByTestId(`special-education-needs-${option}`).check();
         return this;
     }
 
-    public setResidentialOrBoarding(option: 'Yes' | 'No'): this {
+    public setResidentialOrBoarding(option: "Yes" | "No"): this {
         cy.getByTestId(`residential-or-boarding-${option}`).check();
         return this;
     }
 
     public hasSpecialEducationNeeds(value: string): this {
-        cy.getByTestId(`special-education-needs-${value}`).should('be.checked');
+        cy.getByTestId(`special-education-needs-${value}`).should("be.checked");
         return this;
     }
 
     public enterAgeRangeFrom(value: string): this {
-        cy.getByTestId('age-range-from').clear().type(value);
+        cy.getByTestId("age-range-from").clear().type(value)
         return this;
     }
 
     public enterAgeRangeTo(value: string): this {
-        cy.getByTestId('age-range-to').clear().type(value);
+        cy.getByTestId("age-range-to").clear().type(value)
         return this;
     }
 
     public hasAgeRangeFrom(value: string): this {
-        cy.getByTestId('age-range-from').should('have.value', value);
+        cy.getByTestId("age-range-from").should("have.value", value);
         return this;
     }
 
     public hasAgeRangeTo(value: string): this {
-        cy.getByTestId('age-range-to').should('have.value', value);
+        cy.getByTestId("age-range-to").should("have.value", value);
         return this;
     }
 
@@ -153,150 +154,153 @@ class CreateProjectPage {
     }
 
     public hasNurseryCapacity(value: string): this {
-        this.getNurseryCapacity().should('have.value', value);
+        this.getNurseryCapacity().should("have.value", value);
         return this;
     }
 
     public hasNoNurseryCapacity(): this {
-        this.getNurseryCapacity().should('not.exist');
+        this.getNurseryCapacity().should("not.exist");
         return this;
     }
 
     public enterReceptionToYear6(value: string): this {
-        if (value == '') {
-            cy.getByTestId('yr-y6-capacity').clear();
-        } else {
-            cy.getByTestId('yr-y6-capacity').clear().type(value);
+        if (value == "") {
+            cy.getByTestId("yr-y6-capacity").clear();
+        }
+        else {
+            cy.getByTestId("yr-y6-capacity").clear().type(value);
         }
         return this;
     }
 
     public hasReceptionToYear6(value: string): this {
-        cy.getByTestId('yr-y6-capacity').should('have.value', value);
+        cy.getByTestId("yr-y6-capacity").should("have.value", value);
         return this;
     }
 
     public enterYear7ToYear11(value: string): this {
-        if (value == '') {
-            cy.getByTestId('y7-y11-capacity').clear();
-        } else {
-            cy.getByTestId('y7-y11-capacity').clear().type(value);
+        if (value == "") {
+            cy.getByTestId("y7-y11-capacity").clear();
+        }
+        else {
+            cy.getByTestId("y7-y11-capacity").clear().type(value);
         }
         return this;
     }
 
     public hasYear7ToYear11(value: string): this {
-        cy.getByTestId('y7-y11-capacity').should('have.value', value);
+        cy.getByTestId("y7-y11-capacity").should("have.value", value);
         return this;
     }
 
     public enterYear12ToYear14(value: string): this {
-        if (value == '') {
-            cy.getByTestId('y12-y14-capacity').clear();
-        } else {
-            cy.getByTestId('y12-y14-capacity').clear().type(value);
+        if (value == "") {
+            cy.getByTestId("y12-y14-capacity").clear();
+        }
+        else {
+            cy.getByTestId("y12-y14-capacity").clear().type(value);
         }
         return this;
     }
 
     public hasYear12ToYear14(value: string): this {
-        cy.getByTestId('y12-y14-capacity').should('have.value', value);
+        cy.getByTestId("y12-y14-capacity").should("have.value", value);
         return this;
     }
 
     public enterFormsOfEntry(value: string): this {
-        cy.get('#forms-of-entry').clear().type(value);
+        cy.get("#forms-of-entry").clear().type(value)
         return this;
     }
 
     public hasFormsOfEntry(value: string): this {
-        cy.get('#forms-of-entry').should('have.value', value);
+        cy.get("#forms-of-entry").should("have.value", value);
         return this;
     }
 
     public enterOtherFaith(value: string): this {
-        cy.getByTestId('other-faith-type').clear().type(value);
+        cy.getByTestId("other-faith-type").clear().type(value)
         return this;
     }
 
     public hasOtherFaith(value: string): this {
-        cy.getByTestId('other-faith-type').should('have.value', value);
+        cy.getByTestId("other-faith-type").should("have.value", value);
         return this;
     }
 
     public setProvisionalOpeningDate(day: string, month: string, year: string): this {
-        const key = 'provisional-opening-date';
+        const key = "provisional-opening-date";
         dateComponent.setDate(key, day, month, year);
-        return this;
+        return this
     }
 
     public hasProvisionalOpeningDate(day: string, month: string, year: string): this {
-        const key = 'provisional-opening-date';
+        const key = "provisional-opening-date";
         dateComponent.checkDate(key, day, month, year);
-        return this;
+        return this
     }
 
     public hasFaithStatus(value: string): this {
-        cy.getByTestId(value).should('be.checked');
+        cy.getByTestId(value).should("be.checked");
         return this;
     }
 
     public enterProjectAssignedToName(value: string) {
-        cy.getByTestId('name').clear().type(value);
+        cy.getByTestId("name").clear().type(value)
         return this;
     }
 
     public enterProjectAssignedToEmail(value: string) {
-        cy.getByTestId('email').clear().type(value);
+        cy.getByTestId("email").clear().type(value)
         return this;
     }
 
     public hasProjectAssignedToName(value: string) {
-        cy.getByTestId('email').should('have.value', value);
+        cy.getByTestId("email").should("have.value", value);
         return this;
     }
 
     public hasProjectAssignedEmail(value: string) {
-        cy.getByTestId('email').should('have.value', value);
+        cy.getByTestId("email").should("have.value", value);
         return this;
     }
 
     public continue(): this {
-        cy.getByTestId('continue').click();
+        cy.getByTestId("continue").click();
         return this;
     }
 
     public back(): this {
-        cy.getByTestId('back').click();
+        cy.getByTestId("back").click();
         return this;
     }
 
     public clickCreateProject() {
-        cy.getByTestId('create-project').click();
+        cy.getByTestId("create-project").click();
         return this;
     }
 
     public hasConfirmedProjectId(projectId: string) {
-        cy.getByTestId('created-project-id').should('contain.text', projectId);
+        cy.getByTestId("created-project-id").should("contain.text", projectId);
         return this;
     }
 
     public hasCorrectTrustName(trustName: string) {
-        cy.getByTestId('trust-name').should('contain.text', trustName);
+        cy.getByTestId("trust-name").should("contain.text", trustName);
         return this;
     }
     public hasCorrectTrustType(trustType: string) {
-        cy.getByTestId('trust-type').should('contain.text', trustType);
+        cy.getByTestId("trust-type").should("contain.text", trustType);
         return this;
     }
 
     public hasConfirmedEmailMessage(value: string) {
-        cy.getByTestId('confirmation-email').should('contain.text', value);
+        cy.getByTestId("confirmation-email").should("contain.text", value);
         return this;
     }
 
     private getNurseryCapacity() {
-        return cy.getByTestId('nursery-capacity');
+        return cy.getByTestId("nursery-capacity");
     }
 }
 

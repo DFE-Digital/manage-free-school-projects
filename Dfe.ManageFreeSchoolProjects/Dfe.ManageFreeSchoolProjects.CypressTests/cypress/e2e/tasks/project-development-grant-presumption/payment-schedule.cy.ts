@@ -1,13 +1,13 @@
-import { ProjectDetailsRequest } from 'cypress/api/domain';
-import projectApi from 'cypress/api/projectApi';
-import { RequestBuilder } from 'cypress/api/requestBuilder';
-import { GrantManagers } from 'cypress/constants/cypressConstants';
-import summaryPage from 'cypress/pages/task-summary-base';
-import taskListPage from 'cypress/pages/taskListPage';
-import pdgDashboard from 'cypress/pages/tasks/project-development-grant-presumption/dashboard';
-import paymentSchedule from 'cypress/pages/tasks/project-development-grant-presumption/edit-payment-schedule';
+import { ProjectDetailsRequest } from "cypress/api/domain";
+import projectApi from "cypress/api/projectApi";
+import { RequestBuilder } from "cypress/api/requestBuilder";
+import { GrantManagers } from "cypress/constants/cypressConstants";
+import summaryPage from "cypress/pages/task-summary-base";
+import taskListPage from "cypress/pages/taskListPage";
+import pdgDashboard from "cypress/pages/tasks/project-development-grant-presumption/dashboard";
+import paymentSchedule from "cypress/pages/tasks/project-development-grant-presumption/edit-payment-schedule";
 
-describe('Payment Schedule Task', () => {
+describe("Payment Schedule Task", () => {
     let project: ProjectDetailsRequest;
 
     beforeEach(() => {
@@ -23,161 +23,143 @@ describe('Payment Schedule Task', () => {
                 cy.visit(`/projects/${project.projectId}/tasks/`);
             });
     });
-    it('Should successfully set payment schedule', () => {
-        cy.log('Select Project development grant (PDG)');
-        taskListPage.isTaskStatusIsNotStarted('PDG').selectPDGFromTaskList();
+    it("Should successfully set payment schedule", () => {
 
-        cy.log('Confirm empty dashboard');
+        cy.log("Select Project development grant (PDG)");
+        taskListPage.isTaskStatusIsNotStarted("PDG")
+            .selectPDGFromTaskList();
+
+        cy.log("Confirm empty dashboard");
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs('Project development grant (PDG)')
+            .titleIs("Project development grant (PDG)")
             .inOrder()
-            .summaryShows('Amount')
-            .IsEmpty()
-            .summaryShows('Actual payment date')
-            .IsEmpty()
-            .summaryShows('Payment due date')
-            .IsEmpty()
-            .summaryShows('Payment due amount')
-            .IsEmpty()
-            .summaryShows('Actual payment date')
-            .IsEmpty()
-            .summaryShows('Actual payment amount')
-            .IsEmpty()
+            .summaryShows("Amount").IsEmpty()
+            .summaryShows("Actual payment date").IsEmpty()
+            .summaryShows("Payment due date").IsEmpty()
+            .summaryShows("Payment due amount").IsEmpty()
+            .summaryShows("Actual payment date").IsEmpty()
+            .summaryShows("Actual payment amount").IsEmpty()
             .isNotMarkedAsComplete();
 
         cy.executeAccessibilityTests();
-        cy.log('Go back to task list');
+        cy.log("Go back to task list");
         summaryPage.clickBack();
 
-        cy.log('Confirm not started and open project development grant (PDG)');
-        taskListPage.isTaskStatusIsNotStarted('PDG').selectPDGFromTaskList();
+        cy.log("Confirm not started and open project development grant (PDG)");
+        taskListPage.isTaskStatusIsNotStarted("PDG")
+            .selectPDGFromTaskList();
 
-        cy.log('Check confirm puts project in In Progress');
+        cy.log("Check confirm puts project in In Progress");
         summaryPage.clickConfirmAndContinue();
 
-        taskListPage.isTaskStatusInProgress('PDG').selectPDGFromTaskList();
+        taskListPage.isTaskStatusInProgress("PDG")
+            .selectPDGFromTaskList();
 
         pdgDashboard.selectChangePaymentSchedule();
 
         cy.executeAccessibilityTests();
 
-        cy.log('All fields are optional');
-        paymentSchedule.titleIs('Edit Payment schedule').schoolNameIs(project.schoolName).clickContinue();
+        cy.log("All fields are optional");
+        paymentSchedule
+            .titleIs("Edit Payment schedule")
+            .schoolNameIs(project.schoolName)
+            .clickContinue();
 
-        cy.log('Confirm empty dashboard');
+        cy.log("Confirm empty dashboard");
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs('Project development grant (PDG)')
+            .titleIs("Project development grant (PDG)")
             .inOrder()
-            .summaryShows('Amount')
-            .IsEmpty()
-            .summaryShows('Actual payment date')
-            .IsEmpty()
-            .summaryShows('Payment due date')
-            .IsEmpty()
-            .summaryShows('Payment due amount')
-            .IsEmpty()
-            .summaryShows('Actual payment date')
-            .IsEmpty()
-            .summaryShows('Actual payment amount')
-            .IsEmpty()
+            .summaryShows("Amount").IsEmpty()
+            .summaryShows("Actual payment date").IsEmpty()
+            .summaryShows("Payment due date").IsEmpty()
+            .summaryShows("Payment due amount").IsEmpty()
+            .summaryShows("Actual payment date").IsEmpty()
+            .summaryShows("Actual payment amount").IsEmpty()
             .isNotMarkedAsComplete();
 
         pdgDashboard.selectChangePaymentSchedule();
 
-        cy.log('Check Payment Due Date validation');
+        cy.log("Check Payment Due Date validation");
         paymentSchedule
-            .titleIs('Edit Payment schedule')
+            .titleIs("Edit Payment schedule")
             .schoolNameIs(project.schoolName)
-            .withPaymentDueDate('a', '12', '2025')
+            .withPaymentDueDate("a", "12", "2025")
             .clickContinue()
-            .errorForPaymentDueDate()
-            .showsError('Day must be a number, like 12');
+            .errorForPaymentDueDate().showsError("Day must be a number, like 12")
 
         cy.executeAccessibilityTests();
 
-        cy.log('Check Payment Actual Date');
+        cy.log("Check Payment Actual Date");
         paymentSchedule
             .schoolNameIs(project.schoolName)
-            .withPaymentActualDate('a', '12', '2025')
+            .withPaymentActualDate("a", "12", "2025")
             .clickContinue()
-            .errorForPaymentActualDate()
-            .showsError('Day must be a number, like 12');
+            .errorForPaymentActualDate().showsError("Day must be a number, like 12")
 
         cy.executeAccessibilityTests();
 
-        cy.log('Check Payment Due Amount');
+        cy.log("Check Payment Due Amount");
         paymentSchedule
             .schoolNameIs(project.schoolName)
-            .withPaymentDueAmount('a')
+            .withPaymentDueAmount("a")
             .clickContinue()
-            .errorForPaymentDueAmount()
-            .showsError('Amount of 1st payment due must be a number')
-            .withPaymentDueAmount('-1')
+            .errorForPaymentDueAmount().showsError("Amount of 1st payment due must be a number")
+            .withPaymentDueAmount("-1")
             .clickContinue()
-            .errorForPaymentDueAmount()
-            .showsError('Amount of 1st payment due must be between 0 and 25000')
-            .withPaymentDueAmount('250.256')
+            .errorForPaymentDueAmount().showsError("Amount of 1st payment due must be between 0 and 25000")
+            .withPaymentDueAmount("250.256")
             .clickContinue()
-            .errorForPaymentDueAmount()
-            .showsError('Amount of 1st payment due must be two decimal places')
-            .withPaymentDueAmount('250000')
+            .errorForPaymentDueAmount().showsError("Amount of 1st payment due must be two decimal places")
+            .withPaymentDueAmount("250000")
             .clickContinue()
-            .errorForPaymentDueAmount()
-            .showsError('Amount of 1st payment due must be between 0 and 25000');
+            .errorForPaymentDueAmount().showsError("Amount of 1st payment due must be between 0 and 25000")
 
         cy.executeAccessibilityTests();
 
-        cy.log('Check Payment Actual Amount');
+        cy.log("Check Payment Actual Amount");
         paymentSchedule
             .schoolNameIs(project.schoolName)
-            .withPaymentActualAmount('a')
+            .withPaymentActualAmount("a")
             .clickContinue()
-            .errorForPaymentActualAmount()
-            .showsError('What is the payment amount? must be a number')
-            .withPaymentActualAmount('-1')
+            .errorForPaymentActualAmount().showsError("What is the payment amount? must be a number")
+            .withPaymentActualAmount("-1")
             .clickContinue()
-            .errorForPaymentActualAmount()
-            .showsError('What is the payment amount? must be between 0 and 25000')
-            .withPaymentActualAmount('250.256')
+            .errorForPaymentActualAmount().showsError("What is the payment amount? must be between 0 and 25000")
+            .withPaymentActualAmount("250.256")
             .clickContinue()
-            .errorForPaymentActualAmount()
-            .showsError('What is the payment amount? must be two decimal places')
-            .withPaymentActualAmount('250000')
+            .errorForPaymentActualAmount().showsError("What is the payment amount? must be two decimal places")
+            .withPaymentActualAmount("250000")
             .clickContinue()
-            .errorForPaymentActualAmount()
-            .showsError('What is the payment amount? must be between 0 and 25000');
+            .errorForPaymentActualAmount().showsError("What is the payment amount? must be between 0 and 25000")
 
         cy.executeAccessibilityTests();
 
-        cy.log('Confirm all set');
+        cy.log('Confirm all set')
 
         paymentSchedule
             .schoolNameIs(project.schoolName)
-            .withPaymentDueDate('1', '2', '2021')
-            .withPaymentActualDate('1', '2', '2021')
-            .withPaymentDueAmount('100.25')
-            .withPaymentActualAmount('200.36')
-            .clickContinue();
+            .withPaymentDueDate("1", "2", "2021")
+            .withPaymentActualDate("1", "2", "2021")
+            .withPaymentDueAmount("100.25")
+            .withPaymentActualAmount("200.36")
+            .clickContinue()
 
         summaryPage
             .inOrder()
-            .summaryShows('Amount')
-            .HasValue('£200.36')
-            .summaryShows('Actual payment date')
-            .HasValue('1 February 2021')
-            .summaryShows('Payment due date')
-            .HasValue('1 February 2021')
-            .summaryShows('Payment due amount')
-            .HasValue('£100.25')
-            .summaryShows('Actual payment date')
-            .HasValue('1 February 2021')
-            .summaryShows('Actual payment amount')
-            .HasValue('£200.36');
+            .summaryShows("Amount").HasValue("£200.36")
+            .summaryShows("Actual payment date").HasValue("1 February 2021")
+            .summaryShows("Payment due date").HasValue("1 February 2021")
+            .summaryShows("Payment due amount").HasValue("£100.25")
+            .summaryShows("Actual payment date").HasValue("1 February 2021")
+            .summaryShows("Actual payment amount").HasValue("£200.36")
 
-        summaryPage.MarkAsComplete().clickConfirmAndContinue();
+        summaryPage.MarkAsComplete()
+            .clickConfirmAndContinue();
 
-        taskListPage.isTaskStatusIsCompleted('PDG');
+        taskListPage.isTaskStatusIsCompleted("PDG");
+
     });
+
 });

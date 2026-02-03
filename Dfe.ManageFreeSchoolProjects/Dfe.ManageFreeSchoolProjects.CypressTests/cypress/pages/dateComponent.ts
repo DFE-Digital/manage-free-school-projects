@@ -6,9 +6,9 @@ class DateComponent {
     }
 
     public checkDate(key: string, day: string, month: string, year: string) {
-        cy.get('#' + `${key}-day`).should('have.value', day);
-        cy.get('#' + `${key}-month`).should('have.value', month);
-        cy.get('#' + `${key}-year`).should('have.value', year);
+        cy.get('#' + `${key}-day`).should("have.value", day);
+        cy.get('#' + `${key}-month`).should("have.value", month);
+        cy.get('#' + `${key}-year`).should("have.value", year);
     }
 }
 

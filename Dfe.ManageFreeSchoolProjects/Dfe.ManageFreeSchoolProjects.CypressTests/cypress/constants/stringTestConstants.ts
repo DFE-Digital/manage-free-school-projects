@@ -1,1 +1,1 @@
-export const specialCharsTestString = ',"(){}<>,!@£$%^&*+-';
+export const specialCharsTestString = ",\"(){}<>,!@£$%^&*+-";

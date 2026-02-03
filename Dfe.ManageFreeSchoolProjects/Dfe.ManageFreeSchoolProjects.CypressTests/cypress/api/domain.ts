@@ -35,9 +35,9 @@ export type ProjectDetailsRequest = {
     region?: string;
     localAuthority?: string;
     createdBy: string;
-    TRN: string;
-    projectAssignedToName: string;
-    projectAssignedToEmail: string;
+    TRN: string; 
+    projectAssignedToName: string,
+    projectAssignedToEmail: string
 };
 
 export type CreateProjectResponse = {
@@ -63,34 +63,37 @@ export type CreateProjectRiskRequest = {
     finance?: ProjectRiskEntryRequest;
     overall?: ProjectRiskEntryRequest;
     riskAppraisalFormSharepointLink?: string;
-};
+}
 
 export type CreatePDGPaymentScheduleRequest = {
     paymentScheduleAmount: number;
     paymentScheduleDate: string;
     paymentActualAmount: number;
     paymentActualDate: string;
-};
+}
 
-export type CreatePDGGrantLettersRequest = {
-    initialGrantLetterDate: string;
-    finalGrantLetterDate: string;
-    initialGrantLetterSavedToWorkplaces: boolean;
-    finalGrantLetterSavedToWorkplaces: boolean;
-};
+export type CreatePDGGrantLettersRequest = 
+{
+    initialGrantLetterDate: string,
+    finalGrantLetterDate: string,
+    initialGrantLetterSavedToWorkplaces: boolean,
+    finalGrantLetterSavedToWorkplaces: boolean
+}
 
-export type CreatePDGGrantVariationLetterRequest = {
-    variation: number;
-    letterDate: string;
-    savedToWorkplacesFolder: boolean;
-};
+export type CreatePDGGrantVariationLetterRequest =
+{
+    variation: number,
+    letterDate: string,
+    savedToWorkplacesFolder: boolean
+}
 
 export type ProjectRiskEntryRequest = {
     riskRating?: number;
     summary?: string;
-};
+}
 
 export type ProjectTaskSummaryResponse = {
     taskCount?: number;
     CompletedTasks?: number;
-};
+}
+

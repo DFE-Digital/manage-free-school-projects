@@ -1,5 +1,5 @@
 export class PaginationComponent {
-    constructor(private prefix: string = '') {}
+    constructor(private prefix: string = "") {}
 
     public next(): this {
         cy.getByTestId(`${this.prefix}next-page`).click();
@@ -23,7 +23,7 @@ export class PaginationComponent {
         // Used to check that we have navigated to the next page with ajax
         cy.getByTestId(`${this.prefix}page-${pageNumber}`)
             .parent()
-            .should('have.class', 'govuk-pagination__item--current');
+            .should("have.class", "govuk-pagination__item--current");
 
         return this;
     }

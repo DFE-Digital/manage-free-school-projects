@@ -1,14 +1,14 @@
-import { ProjectDetailsRequest } from 'cypress/api/domain';
-import projectApi from 'cypress/api/projectApi';
-import { RequestBuilder } from 'cypress/api/requestBuilder';
-import { Logger } from 'cypress/common/logger';
-import trustDetailsPage from 'cypress/pages/trustDetailsPage';
-import trustSummaryPage from 'cypress/pages/trustSummaryPage';
-import projectOverviewPage from 'cypress/pages/projectOverviewPage';
-import taskListPage from 'cypress/pages/taskListPage';
-import confirmTrustPage from 'cypress/pages/confirmTrustPage';
+import { ProjectDetailsRequest } from "cypress/api/domain";
+import projectApi from "cypress/api/projectApi";
+import { RequestBuilder } from "cypress/api/requestBuilder";
+import { Logger } from "cypress/common/logger";
+import trustDetailsPage from "cypress/pages/trustDetailsPage";
+import trustSummaryPage from "cypress/pages/trustSummaryPage";
+import projectOverviewPage from "cypress/pages/projectOverviewPage";
+import taskListPage from "cypress/pages/taskListPage";
+import confirmTrustPage from "cypress/pages/confirmTrustPage";
 
-describe('Testing project overview', () => {
+describe("Testing project overview", () => {
     let project: ProjectDetailsRequest;
 
     beforeEach(() => {
@@ -25,20 +25,20 @@ describe('Testing project overview', () => {
             });
     });
 
-    it('Should successfully set Tasklist-trust information', () => {
-        const validTrustId = 'TR90123';
+    it("Should successfully set Tasklist-trust information", () => {
+        const validTrustId = "TR90123";
 
-        Logger.log('Clicking on Task list tab');
+        Logger.log("Clicking on Task list tab");
         projectOverviewPage.selectTaskListTab();
 
         cy.executeAccessibilityTests();
 
-        Logger.log('Selecting Trust link from Tasklist');
+        Logger.log("Selecting Trust link from Tasklist");
         taskListPage.selectTrustFromTaskList();
 
         cy.executeAccessibilityTests();
 
-        Logger.log('Checking Trust Summary page elements present');
+        Logger.log("Checking Trust Summary page elements present");
         trustSummaryPage.verifyTrustSummaryElementsVisible();
 
         Logger.log("Selecting first Change link from first 'TRN' line");
@@ -46,12 +46,13 @@ describe('Testing project overview', () => {
 
         cy.executeAccessibilityTests();
 
-        Logger.log("Attempting to save 'Search for a trust by TRN' with no values");
-        trustDetailsPage.selectSaveAndContinue();
 
+        Logger.log("Attempting to save 'Search for a trust by TRN' with no values");
+        trustDetailsPage.selectSaveAndContinue()
+        
         cy.executeAccessibilityTests();
 
-        Logger.log('Check we get the correct validation messages coming back when no data entered');
+        Logger.log("Check we get the correct validation messages coming back when no data entered");
         trustDetailsPage.verifyValidationMessagesWhenNoDataSet();
 
         Logger.log("Attempting to save 'Search for a trust by TRN' with an invalid string e.g. 'POTATO'");
@@ -63,9 +64,7 @@ describe('Testing project overview', () => {
 
         trustDetailsPage.verifyValidationMessagesWhenInvalidTRNFormatEntered();
 
-        Logger.log(
-            "Attempting to save 'Search for a trust by TRN' with an invalid string with spaces e.g. 'P O T A T O'"
-        );
+        Logger.log("Attempting to save 'Search for a trust by TRN' with an invalid string with spaces e.g. 'P O T A T O'");
         trustDetailsPage.enterInvalidTRNStringWithSpacesInTRNPage();
 
         trustDetailsPage.selectSaveAndContinue();
@@ -92,6 +91,8 @@ describe('Testing project overview', () => {
 
         trustDetailsPage.verifyValidationMessagesWhenNonExistentTRNEntered();
 
+
+
         Logger.log("Attempting to save 'Search for a trust by TRN' with SQL injection attempt");
         trustDetailsPage.enterSQLInjectionAttemptInTRNPage();
 
@@ -101,6 +102,8 @@ describe('Testing project overview', () => {
 
         trustDetailsPage.verifyValidationMessagesWhenTRNTooLongEntered();
 
+
+
         Logger.log("Attempting to save 'Search for a trust by TRN' with Cross-site Scripting Attack");
         trustDetailsPage.enterCrossSiteScriptingAttemptInTRNPage();
 
@@ -109,6 +112,8 @@ describe('Testing project overview', () => {
         cy.executeAccessibilityTests();
 
         trustDetailsPage.verifyValidationMessagesWhenTRNTooLongEntered();
+
+
 
         Logger.log("Attempting to save 'Search for a trust by TRN' with valid Trust ID that exists");
         trustDetailsPage.enterValidTrustId(validTrustId);
@@ -147,14 +152,16 @@ describe('Testing project overview', () => {
 
         cy.executeAccessibilityTests();
 
-        taskListPage.isTaskStatusIsCompleted('Trust');
+        taskListPage.isTaskStatusIsCompleted("Trust");
 
+        
         taskListPage.selectAboutTheProjectTab();
 
         cy.executeAccessibilityTests();
 
-        projectOverviewPage.hasTrustId('TR90123');
-        projectOverviewPage.hasTrustName('Neat Idea Trust');
-        projectOverviewPage.hasTrustType('MAT (multi-academy trust)');
+        projectOverviewPage.hasTrustId("TR90123");
+        projectOverviewPage.hasTrustName("Neat Idea Trust");
+        projectOverviewPage.hasTrustType("MAT (multi-academy trust)");
+
     });
 });

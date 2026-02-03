@@ -54,8 +54,8 @@ npm run cy:run
 
 We have set up [eslint](https://eslint.org) and [prettier](https://prettier.io/) on the Cypress tests to encourage code quality. This can be run by using the script `npm run lint`
 
-- Prettier will format all code files
-- Eslint checks will run
+-   Prettier will format all code files
+-   Eslint checks will run
 
 All the default rules have been setup
 
@@ -67,9 +67,9 @@ These can be run using the configured `docker-compose.yml`, which will spin up c
 
 Create a `.env` file for docker, this file needs to include
 
-- all of your required cypress configuration
-- HTTP_PROXY e.g. http://zap:8080
-- ZAP_API_KEY, can be any random guid
+-   all of your required cypress configuration
+-   HTTP_PROXY e.g. http://zap:8080
+-   ZAP_API_KEY, can be any random guid
 
 Example env:
 
@@ -116,7 +116,7 @@ The `executeAccessibilityTests` command is implemented in Cypress and is used to
 To use this command, simply call `executeAccessibilityTests()` in your Cypress test code. Here's an example:
 
 ```javascript
-it('should perform accessibility tests', () => {
+it("should perform accessibility tests", () => {
     // Perform actions and assertions on your web application
     // ...
 

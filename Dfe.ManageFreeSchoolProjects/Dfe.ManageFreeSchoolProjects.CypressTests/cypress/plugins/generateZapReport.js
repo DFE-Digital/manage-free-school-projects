@@ -1,4 +1,4 @@
-import { zaproxy as ZapClient } from 'zaproxy';
+import { zaproxy as ZapClient } from "zaproxy";
 
 export async function generateZapReport() {
     const zapOptions = {
@@ -21,7 +21,7 @@ export async function generateZapReport() {
                     if (err instanceof Error) {
                         console.log(`Error converting result: ${err.message}`);
                     } else {
-                        console.log('Unknown error during results conversion');
+                        console.log("Unknown error during results conversion");
                     }
                     recordsRemaining = 0;
                 }
@@ -34,10 +34,10 @@ export async function generateZapReport() {
 
     await zaproxy.reports
         .generate({
-            title: 'Report',
-            template: 'traditional-html',
-            reportfilename: 'ZAP-Report.html',
-            reportdir: '/zap/wrk',
+            title: "Report",
+            template: "traditional-html",
+            reportfilename: "ZAP-Report.html",
+            reportdir: "/zap/wrk",
         })
         .then((resp) => {
             console.log(`${JSON.stringify(resp)}`);

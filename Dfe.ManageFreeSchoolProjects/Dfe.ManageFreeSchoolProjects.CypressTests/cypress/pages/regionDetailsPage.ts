@@ -1,12 +1,13 @@
 class RegionDetailsPage {
+
     public selectContinue(): this {
-        cy.contains('Save and continue').click();
+        cy.contains("Save and continue").click();
 
         return this;
     }
 
     public hasSchoolName(school: string): this {
-        cy.getByTestId('school-name').should('contains.text', school);
+        cy.getByTestId("school-name").should("contains.text", school);
 
         return this;
     }

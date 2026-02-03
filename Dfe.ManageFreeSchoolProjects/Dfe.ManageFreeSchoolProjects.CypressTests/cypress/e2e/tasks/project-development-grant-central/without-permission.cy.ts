@@ -1,23 +1,18 @@
-import {
-    CreatePDGGrantLettersRequest,
-    CreatePDGGrantVariationLetterRequest,
-    CreatePDGPaymentScheduleRequest,
-    ProjectDetailsRequest,
-} from 'cypress/api/domain';
-import grantLettersApi from 'cypress/api/grantLettersApi';
-import grantVariationLetterApi from 'cypress/api/grantVariationLetterApi';
-import paymentScheduleApi from 'cypress/api/paymentScheduleApi';
-import projectApi from 'cypress/api/projectApi';
-import { RequestBuilder } from 'cypress/api/requestBuilder';
-import root from 'cypress/pages/root';
-import summaryPage from 'cypress/pages/task-summary-base';
-import taskListPage from 'cypress/pages/taskListPage';
-import editGrantLetter from 'cypress/pages/tasks/project-development-grant-central/edit-grant-letter';
-import paymentSchedule from 'cypress/pages/tasks/project-development-grant-central/edit-payment-schedule';
-import pdgDashboard from 'cypress/pages/tasks/project-development-grant-central/pdgDashboard';
+import { CreatePDGGrantLettersRequest, CreatePDGGrantVariationLetterRequest, CreatePDGPaymentScheduleRequest, ProjectDetailsRequest } from "cypress/api/domain";
+import grantLettersApi from "cypress/api/grantLettersApi";
+import grantVariationLetterApi from "cypress/api/grantVariationLetterApi";
+import paymentScheduleApi from "cypress/api/paymentScheduleApi";
+import projectApi from "cypress/api/projectApi";
+import { RequestBuilder } from "cypress/api/requestBuilder";
+import root from "cypress/pages/root";
+import summaryPage from "cypress/pages/task-summary-base";
+import taskListPage from "cypress/pages/taskListPage";
+import editGrantLetter from "cypress/pages/tasks/project-development-grant-central/edit-grant-letter";
+import paymentSchedule from "cypress/pages/tasks/project-development-grant-central/edit-payment-schedule";
+import pdgDashboard from "cypress/pages/tasks/project-development-grant-central/pdgDashboard";
 
-describe('View PDG dashboard', () => {
-    describe('with no data', () => {
+describe("View PDG dashboard", () => {
+    describe("with no data", () => {
         let project: ProjectDetailsRequest;
 
         beforeEach(() => {
@@ -34,87 +29,99 @@ describe('View PDG dashboard', () => {
                 });
         });
 
-        it('Should hide all links', () => {
-            cy.log('Select Project development grant (PDG)');
-            taskListPage.isTaskStatusHidden('PDG').selectPDGFromTaskList();
+        it("Should hide all links", () => {
 
-            cy.log('Confirm empty dashboard');
+            cy.log("Select Project development grant (PDG)");
+            taskListPage.isTaskStatusHidden("PDG")
+                .selectPDGFromTaskList();
+
+            cy.log("Confirm empty dashboard");
             summaryPage
                 .schoolNameIs(project.schoolName)
-                .titleIs('Project development grant (PDG)')
+                .titleIs("Project development grant (PDG)")
                 .HasNoMarkAsComplete()
                 .hasNoConfirmAndContinue();
 
             pdgDashboard
                 .changePaymentScheduleNotShown()
                 .changeTotalGrantScheduleNotShown()
-                .changeTrustLetterNotShown()
+                .changeTrustLetterNotShown() 
                 .changeStopPaymentsNotShown()
-                .changeRefundsNotShown()
-                .changeWriteOffNotShown();
+                .changeRefundsNotShown() 
+                .changeWriteOffNotShown()
 
             summaryPage.clickBack();
 
-            taskListPage.isTaskStatusHidden('PDG');
+            taskListPage.isTaskStatusHidden("PDG")
 
             cy.executeAccessibilityTests();
+
         });
+
     });
 
-    describe('with data', () => {
+    describe("with data", () => {
         let project: ProjectDetailsRequest;
 
         beforeEach(() => {
             cy.login();
 
             project = RequestBuilder.createProjectDetailsNonPresumption();
-
-            const payment: CreatePDGPaymentScheduleRequest = {
-                paymentScheduleAmount: 100,
-                paymentScheduleDate: '2025-01-01T00:00:00.000Z',
+                
+            const payment : CreatePDGPaymentScheduleRequest =
+            {
+                paymentScheduleAmount : 100,
+                paymentScheduleDate: "2025-01-01T00:00:00.000Z",
                 paymentActualAmount: 101,
-                paymentActualDate: '2025-01-02T00:00:00.000Z',
-            };
+                paymentActualDate: "2025-01-02T00:00:00.000Z"
+            }
 
-            const grantLetter: CreatePDGGrantLettersRequest = {
-                initialGrantLetterDate: '2024-01-01T00:00:00.000Z',
-                finalGrantLetterDate: '2024-01-02T00:00:00.000Z',
-                initialGrantLetterSavedToWorkplaces: true,
-                finalGrantLetterSavedToWorkplaces: true,
-            };
+            const grantLetter : CreatePDGGrantLettersRequest =
+            {
+                initialGrantLetterDate: "2024-01-01T00:00:00.000Z",
+                finalGrantLetterDate: "2024-01-02T00:00:00.000Z",
+                initialGrantLetterSavedToWorkplaces : true,
+                finalGrantLetterSavedToWorkplaces : true
+            }
 
-            const grantVariationLetter: CreatePDGGrantVariationLetterRequest = {
+            const grantVariationLetter : CreatePDGGrantVariationLetterRequest =
+            {
                 variation: 1,
-                letterDate: '2024-01-01T00:00:00.000Z',
-                savedToWorkplacesFolder: true,
-            };
+                letterDate: "2024-01-01T00:00:00.000Z",
+                savedToWorkplacesFolder: true
+            }
+
+
 
             projectApi
                 .post({
                     projects: [project],
                 })
                 .then(() => {
-                    paymentScheduleApi.post(project.projectId, payment);
+                    paymentScheduleApi.post(project.projectId, payment)
+                })
+                .then(() => 
+                {
+                    grantLettersApi.put(project.projectId, grantLetter)
                 })
                 .then(() => {
-                    grantLettersApi.put(project.projectId, grantLetter);
-                })
-                .then(() => {
-                    grantVariationLetterApi.put(project.projectId, grantVariationLetter);
+                    grantVariationLetterApi.put(project.projectId, grantVariationLetter)
                 })
                 .then(() => {
                     cy.visit(`/projects/${project.projectId}/tasks/`);
                 });
         });
 
-        it('Should hide most links but allow Payment schedule and Grant letters to be viewed read-only', () => {
-            cy.log('Select Project development grant (PDG)');
-            taskListPage.isTaskStatusHidden('PDG').selectPDGFromTaskList();
+        it("Should hide most links but allow Payment schedule and Grant letters to be viewed read-only", () => {
 
-            cy.log('Confirm empty dashboard');
+            cy.log("Select Project development grant (PDG)");
+            taskListPage.isTaskStatusHidden("PDG")
+                .selectPDGFromTaskList();
+
+            cy.log("Confirm empty dashboard");
             summaryPage
                 .schoolNameIs(project.schoolName)
-                .titleIs('Project development grant (PDG)')
+                .titleIs("Project development grant (PDG)")
                 .HasNoMarkAsComplete()
                 .hasNoConfirmAndContinue();
 
@@ -122,37 +129,41 @@ describe('View PDG dashboard', () => {
 
             pdgDashboard
                 .changeTotalGrantScheduleNotShown()
-                .changeTrustLetterNotShown()
+                .changeTrustLetterNotShown() 
                 .changeStopPaymentsNotShown()
-                .changeRefundsNotShown()
-                .changeWriteOffNotShown();
+                .changeRefundsNotShown() 
+                .changeWriteOffNotShown()
 
-            pdgDashboard.selectViewDetailsPaymentSchedule();
+
+
+            pdgDashboard
+                .selectViewDetailsPaymentSchedule()
 
             cy.executeAccessibilityTests();
 
             paymentSchedule
-                .titleIs('Payment schedule')
+                .titleIs("Payment schedule")
                 .schoolNameIs(project.schoolName)
                 .checkAddPaymentDoesNotExist()
-                .editPaymentLinkNotShown('1')
-                .clickBack();
+                .editPaymentLinkNotShown("1")
+                .clickBack()
 
-            pdgDashboard.selectViewDetailsGrantLetter();
+            pdgDashboard
+                .selectViewDetailsGrantLetter()
 
             cy.executeAccessibilityTests();
-
+                
             editGrantLetter
-                .grantTitleIs('Grant letters')
+                .grantTitleIs("Grant letters")
                 .schoolNameIs(project.schoolName)
                 .addGrantLetterNotShown()
                 .changeGrantLetterNotShown()
-                .changeVariationLetterNotShown('1')
-                .clickBack();
-
+                .changeVariationLetterNotShown("1")
+                .clickBack()
+                
             summaryPage.clickBack();
 
-            taskListPage.isTaskStatusHidden('PDG');
+            taskListPage.isTaskStatusHidden("PDG")
 
             cy.executeAccessibilityTests();
 
@@ -166,7 +177,10 @@ describe('View PDG dashboard', () => {
                 .checkAccessToPage(`/projects/${project.projectId}/tasks/pdg/central/edit-variation-letter/1`)
                 .checkAccessToPage(`/projects/${project.projectId}/tasks/pdg/central/edit-refunds`)
                 .checkAccessToPage(`/projects/${project.projectId}/tasks/pdg/central/edit-stop-payment`)
-                .checkAccessToPage(`/projects/${project.projectId}/tasks/pdg/central/edit-write-off`);
+                .checkAccessToPage(`/projects/${project.projectId}/tasks/pdg/central/edit-write-off`)
+       
+
         });
+
     });
 });
