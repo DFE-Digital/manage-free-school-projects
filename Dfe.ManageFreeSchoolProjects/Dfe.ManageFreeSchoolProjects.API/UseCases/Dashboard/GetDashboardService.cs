@@ -1,4 +1,4 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Dashboard;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Dashboard;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Extensions;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project;
@@ -35,14 +35,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
 
             query = ApplyFilters(query, parameters);
 
-            var count = query.Count();
-            
-            var projectRecords = await 
-                query
+            var countTask = query.CountAsync();
+            var projectRecordsTask = query
                     .OrderByDescending(kpi => kpi.ProjectStatusProvisionalOpeningDateAgreedWithTrust)
                     .ThenBy(kpi => kpi.ProjectStatusCurrentFreeSchoolName)
                     .Paginate(parameters.Page, parameters.Count)
                     .ToListAsync();
+
+            await Task.WhenAll(countTask, projectRecordsTask);
+            
+            var count = countTask.Result;
+            var projectRecords = projectRecordsTask.Result;
 
             var result = projectRecords.Select(record => new GetDashboardResponse
             {
@@ -108,14 +111,12 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
 
             query = ApplyFilters(query, parameters);
 
-            await query
-                    .OrderByDescending(kpi => kpi.ProjectStatusProvisionalOpeningDateAgreedWithTrust)
-                    .ThenBy(kpi => kpi.ProjectStatusCurrentFreeSchoolName)
-                    .ToListAsync();
+            var totalListOfIds = await query
+                .Select(x => x.ProjectStatusProjectId)
+                .Distinct()
+                .ToListAsync();
 
-            var totalListOfIds = query.Select(x => x.ProjectStatusProjectId).Distinct();
-
-            return await totalListOfIds.ToListAsync();
+            return totalListOfIds;
         }
     }
 }
