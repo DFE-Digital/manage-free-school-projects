@@ -113,11 +113,11 @@ jobs:
           - group: project-creation
             spec: cypress/e2e/create-*.cy.ts
           - group: project-config
-            spec: cypress/e2e/project-contacts.cy.ts,cypress/e2e/project-pupil-numbers.cy.ts,cypress/e2e/project-risk.cy.ts,cypress/e2e/project-sites.cy.ts,cypress/e2e/project-status.cy.ts
+            spec: cypress/e2e/project-contacts.cy.ts,cypress/e2e/project-pupil-numbers.cy.ts,cypress/e2e/project-risk.cy.ts
           - group: navigation-misc
-            spec: cypress/e2e/homepage.cy.ts,cypress/e2e/project-overview.cy.ts,cypress/e2e/project-tasks-completed-count.cy.ts,cypress/e2e/cookie-consent.cy.ts,cypress/e2e/footerLinks.cy.ts
+            spec: cypress/e2e/homepage.cy.ts,cypress/e2e/project-overview.cy.ts,cypress/e2e/project-tasks-completed-count.cy.ts,cypress/e2e/cookie-consent.cy.ts,cypress/e2e/footerLinks.cy.ts,cypress/e2e/project-sites.cy.ts
           - group: setting-up
-            spec: cypress/e2e/tasks/setting-up/**/*.cy.ts
+            spec: cypress/e2e/tasks/setting-up/**/*.cy.ts,cypress/e2e/project-status.cy.ts
           - group: pre-opening-tasklist
             spec: cypress/e2e/tasks/pre-opening/tasklist-*.cy.ts
           - group: pre-opening-other
