@@ -110,8 +110,8 @@ describe('Testing the home page', () => {
         it('Should be able to View the filtered project from the project list', () => {
             homePage.openFilter().withRegionFilter('North West').applyFilters();
             projectTable.allRowsHaveViewLink();
-            projectTable.getRowByProjectType(firstProject.projectType).then((row) => {
-                row.viewFirstProject();
+            projectTable.getRows().then((rows) => {
+                rows.viewFirstProject();
             });
 
             //opens the project details page

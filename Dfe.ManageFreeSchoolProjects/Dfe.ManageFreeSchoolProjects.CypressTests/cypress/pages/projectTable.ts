@@ -7,8 +7,8 @@ class ProjectTable {
         });
     }
 
-    public getRowByProjectType(projectType: string): Cypress.Chainable<ProjectRow> {
-        return cy.getByTestId(`project-type`).then((el) => {
+    public getRows(): Cypress.Chainable<ProjectRow> {
+        return cy.containsByTestId(`row-`).then((el) => {
             return new ProjectRow(el);
         });
     }
