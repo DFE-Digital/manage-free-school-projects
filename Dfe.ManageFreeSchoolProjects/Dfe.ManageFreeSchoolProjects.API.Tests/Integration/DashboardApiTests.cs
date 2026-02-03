@@ -1,4 +1,4 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.ResponseModels;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.ResponseModels;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Dashboard;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Users;
 using Dfe.ManageFreeSchoolProjects.API.Tests.Fixtures;
@@ -335,6 +335,79 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             var result = await firstUserDashboardResponse.Content.ReadFromJsonAsync<ApiListWrapper<GetDashboardResponse>>();
 
             result.Data.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task When_GetProjectIds_Returns_FilteredProjectIds_200()
+        {
+            var user = await CreateUser();
+
+            using var context = _testFixture.GetContext();
+            var projectOne = DatabaseModelBuilder.BuildProject();
+            var projectTwo = DatabaseModelBuilder.BuildProject();
+            var projectThree = DatabaseModelBuilder.BuildProject();
+
+            var presumptionRoute = "FS - Presumption";
+            projectOne.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectOne.Wave = presumptionRoute;
+            projectTwo.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectTwo.Wave = presumptionRoute;
+            projectThree.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectThree.Wave = presumptionRoute;
+
+            context.Kpi.AddRange(projectOne, projectTwo, projectThree);
+
+            await context.SaveChangesAsync();
+
+            var dbUser = context.Users.First(u => u.Email == user.Email);
+            dbUser.Projects.Add(projectOne);
+            dbUser.Projects.Add(projectTwo);
+
+            await context.SaveChangesAsync();
+
+            var projectIdsResponse = await _client.GetAsync($"/api/v1/client/dashboard/project-ids?userId={user.Email}");
+            projectIdsResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = await projectIdsResponse.Content.ReadFromJsonAsync<List<string>>();
+
+            result.Should().HaveCount(2);
+            result.Should().Contain(projectOne.ProjectStatusProjectId);
+            result.Should().Contain(projectTwo.ProjectStatusProjectId);
+            result.Should().NotContain(projectThree.ProjectStatusProjectId);
+        }
+
+        [Fact]
+        public async Task When_GetProjectIds_WithRegion_Returns_FilteredProjectIds_200()
+        {
+            using var context = _testFixture.GetContext();
+            var projectOne = DatabaseModelBuilder.BuildProject();
+            var projectTwo = DatabaseModelBuilder.BuildProject();
+            projectTwo.SchoolDetailsGeographicalRegion = projectOne.SchoolDetailsGeographicalRegion;
+            var firstRegion = projectOne.SchoolDetailsGeographicalRegion;
+
+            var projectThree = DatabaseModelBuilder.BuildProject();
+
+            var presumptionRoute = "FS - Presumption";
+            projectOne.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectOne.Wave = presumptionRoute;
+            projectTwo.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectTwo.Wave = presumptionRoute;
+            projectThree.ProjectStatusFreeSchoolApplicationWave = presumptionRoute;
+            projectThree.Wave = presumptionRoute;
+
+            context.Kpi.AddRange(projectOne, projectTwo, projectThree);
+
+            await context.SaveChangesAsync();
+
+            var projectIdsResponse = await _client.GetAsync($"/api/v1/client/dashboard/project-ids?regions={firstRegion}");
+            projectIdsResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = await projectIdsResponse.Content.ReadFromJsonAsync<List<string>>();
+
+            result.Should().HaveCount(2);
+            result.Should().Contain(projectOne.ProjectStatusProjectId);
+            result.Should().Contain(projectTwo.ProjectStatusProjectId);
+            result.Should().NotContain(projectThree.ProjectStatusProjectId);
         }
 
         [Fact]
