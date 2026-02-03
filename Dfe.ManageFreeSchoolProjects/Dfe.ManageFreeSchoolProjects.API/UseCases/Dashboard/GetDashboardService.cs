@@ -35,17 +35,13 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
 
             query = ApplyFilters(query, parameters);
 
-            var countTask = query.CountAsync();
-            var projectRecordsTask = query
+            var count = await query.CountAsync();
+            
+            var projectRecords = await query
                     .OrderByDescending(kpi => kpi.ProjectStatusProvisionalOpeningDateAgreedWithTrust)
                     .ThenBy(kpi => kpi.ProjectStatusCurrentFreeSchoolName)
                     .Paginate(parameters.Page, parameters.Count)
                     .ToListAsync();
-
-            await Task.WhenAll(countTask, projectRecordsTask);
-            
-            var count = countTask.Result;
-            var projectRecords = projectRecordsTask.Result;
 
             var result = projectRecords.Select(record => new GetDashboardResponse
             {
