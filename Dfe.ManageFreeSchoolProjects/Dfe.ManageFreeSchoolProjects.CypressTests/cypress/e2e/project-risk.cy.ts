@@ -123,7 +123,7 @@ describe('Testing that we can add a project risk', () => {
             Logger.log('Enter a valid risk appraisal form sharepoint link');
             editProjectRiskPage
                 .hasSchoolName(project.schoolName)
-                .withRiskAppraisalFormSharePointLink('http://www.google.co.uk')
+                .withRiskAppraisalFormSharePointLink('https://www.google.co.uk')
                 .continue();
 
             Logger.log('Validate overall risk');
@@ -151,7 +151,7 @@ describe('Testing that we can add a project risk', () => {
                 .hasEducationRiskSummary('This is my education risk summary')
                 .hasFinanceRiskRating(['Amber', 'Red'])
                 .hasFinanceRiskSummary('This is my finance risk summary')
-                .hasRiskAppraisalFormSharePointLink('http://www.google.co.uk');
+                .hasRiskAppraisalFormSharePointLink('https://www.google.co.uk');
 
             cy.executeAccessibilityTests();
 
@@ -173,7 +173,7 @@ describe('Testing that we can add a project risk', () => {
                 .hasEducationRiskSummary('This is my education risk summary')
                 .hasFinanceRiskRating(['Amber', 'Red'])
                 .hasFinanceRiskSummary('This is my finance risk summary')
-                .hasRiskAppraisalFormSharePointLink('http://www.google.co.uk');
+                .hasRiskAppraisalFormSharePointLink('https://www.google.co.uk');
 
             cy.executeAccessibilityTests();
 
@@ -233,7 +233,7 @@ describe('Testing that we can add a project risk', () => {
             projectRiskSummaryPage.changeRiskAppraisalFormSharePointLink();
 
             editProjectRiskPage
-                .hasRiskAppraisalFormSharePointLink('http://www.google.co.uk')
+                .hasRiskAppraisalFormSharePointLink('https://www.google.co.uk')
                 .withRiskAppraisalFormSharePointLink('http://www.yahoo.com')
                 .continue();
 
@@ -297,7 +297,7 @@ describe('Testing that we can add a project risk', () => {
                         .hasEducationRiskSummary('This is my education risk summary')
                         .hasFinanceRiskRating(['Amber', 'Red'])
                         .hasFinanceRiskSummary('This is my finance risk summary')
-                        .hasRiskAppraisalFormSharePointLink('http://www.google.co.uk')
+                        .hasRiskAppraisalFormSharePointLink('https://www.google.co.uk')
                         .cannotAddRiskEntry();
 
                     Logger.log('Checking the change links are updated');
@@ -446,7 +446,7 @@ function fillProjectRisk(): void {
     Logger.log('Enter a valid risk appraisal form sharepoint link');
     projectRiskSummaryPage.changeRiskAppraisalFormSharePointLink();
 
-    editProjectRiskPage.withRiskAppraisalFormSharePointLink('http://www.google.co.uk').continue();
+    editProjectRiskPage.withRiskAppraisalFormSharePointLink('https://www.google.co.uk').continue();
 
     Logger.log('Enter a valid overall risk');
     projectRiskSummaryPage.changeOverallRisk();
