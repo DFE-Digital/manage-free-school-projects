@@ -38,17 +38,15 @@ describe('Testing cookie preferences', () => {
             .should('exist')
             .getCookie('.ManageFreeSchoolProjects.Consent')
             .should('not.exist')
-            .wait(2000)
             .getByTestId('cookie-banner-reject')
             .click()
-            .wait(2000)
             .getCookie('_ga')
             .should('not.exist')
             .getCookie('.ManageFreeSchoolProjects.Consent')
             .should('exist');
     });
 
-    it.only('Should be able to View cookies page ', () => {
+    it('Should be able to View cookies page ', () => {
         cy.getByTestId('cookie-banner-link-2')
             .click()
             .url()
