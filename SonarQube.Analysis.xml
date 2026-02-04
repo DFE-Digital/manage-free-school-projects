@@ -3,7 +3,11 @@
     <Property Name="sonar.host.url">https://sonarcloud.io</Property>
     <Property Name="sonar.qualitygate.wait">true</Property>
     <Property Name="sonar.scanner.skipJreProvisioning">true</Property>
-    <Property Name="sonar.coverageReportPaths">./src/CoverageReport/SonarQube.xml</Property>
+    <Property Name="sonar.coverageReportPaths">./Dfe.ManageFreeSchoolProjects/CoverageReport/SonarQube.xml</Property>
+
+    <!-- coverage exclusions -->
+    <Property Name="sonar.coverage.exclusions">**/Dfe.ManageFreeSchoolProjects.CypressTests/**,**/cypress/**</Property>
+
     <!-- duplication exclusions -->
     <Property Name="sonar.cpd.exclusions">**/Dfe.ManageFreeSchoolProjects.CypressTests/cypress/e2e/**</Property>
 </SonarQubeAnalysisProperties>
