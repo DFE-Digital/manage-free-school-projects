@@ -14,12 +14,12 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import { AuthenticationInterceptorParams } from "cypress/auth/authenticationInterceptor";
-import "./commands";
-import { RuleObject } from "axe-core";
-import {EnvAuthKey} from "../constants/cypressConstants";
-const registerCypressGrep = require('@cypress/grep')
-registerCypressGrep()
+import { AuthenticationInterceptorParams } from 'cypress/auth/authenticationInterceptor';
+import './commands';
+import { RuleObject } from 'axe-core';
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const registerCypressGrep = require('@cypress/grep');
+registerCypressGrep();
 
 declare global {
     namespace Cypress {

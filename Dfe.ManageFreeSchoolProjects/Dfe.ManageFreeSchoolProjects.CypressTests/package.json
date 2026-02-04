@@ -14,9 +14,10 @@
         "create:html:report": "marge  mochareports/report.json -f report -o mochareports",
         "generate:html:report": "npm run combine:reports && npm run create:html:report",
         "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
         "prettier:check": "prettier . --check",
         "prettier:write": "prettier . --write",
-        "format": "npm run prettier:write && npm run lint",
+        "format": "npm run prettier:write && npm run lint:fix",
         "format:check": "npm run prettier:check && npm run lint",
         "cy:cache": "cypress cache clear"
     },
@@ -29,6 +30,7 @@
     "license": "ISC",
     "devDependencies": {
         "@cypress/grep": "4.1.0",
+        "@eslint/js": "^9.39.2",
         "@types/node": "20.17.19",
         "@typescript-eslint/eslint-plugin": "8.24.1",
         "axe-core": "4.11.1",
@@ -40,14 +42,16 @@
         "cypress-slack-reporter": "1.5.4",
         "eslint": "9.27.0",
         "eslint-plugin-cypress": "4.2.0",
+        "eslint-plugin-unused-imports": "^4.3.0",
+        "exceljs": "4.4.0",
         "mocha": "10.8.2",
         "mochawesome": "7.1.4",
         "mochawesome-merge": "5.1.0",
         "mochawesome-report-generator": "6.3.2",
         "prettier": "3.8.1",
         "typescript": "5.7.3",
+        "typescript-eslint": "^8.54.0",
         "uuid": "11.1.0",
-        "exceljs": "4.4.0",
         "zaproxy": "2.0.0-rc.7"
     },
     "dependencies": {

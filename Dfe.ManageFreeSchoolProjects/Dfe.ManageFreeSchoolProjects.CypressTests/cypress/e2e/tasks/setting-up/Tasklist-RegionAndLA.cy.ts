@@ -1,13 +1,13 @@
-import { ProjectDetailsRequest } from "cypress/api/domain";
-import projectApi from "cypress/api/projectApi";
-import { RequestBuilder } from "cypress/api/requestBuilder";
-import { Logger } from "cypress/common/logger";
-import taskListPage from "cypress/pages/taskListPage";
-import regionDetailsPage from "cypress/pages/regionDetailsPage";
-import validationComponent from "cypress/pages/validationComponent";
-import summaryPage from "cypress/pages/task-summary-base";
+import { ProjectDetailsRequest } from 'cypress/api/domain';
+import projectApi from 'cypress/api/projectApi';
+import { RequestBuilder } from 'cypress/api/requestBuilder';
+import { Logger } from 'cypress/common/logger';
+import taskListPage from 'cypress/pages/taskListPage';
+import regionDetailsPage from 'cypress/pages/regionDetailsPage';
+import validationComponent from 'cypress/pages/validationComponent';
+import summaryPage from 'cypress/pages/task-summary-base';
 
-describe("Testing project overview", () => {
+describe('Testing project overview', () => {
     let project: ProjectDetailsRequest;
 
     beforeEach(() => {
@@ -24,92 +24,81 @@ describe("Testing project overview", () => {
             });
     });
 
-    it("Should successfully set Tasklist-Region And LA information", () => {
+    it('Should successfully set Tasklist-Region And LA information', () => {
+        Logger.log('Select region and local authority task');
+        taskListPage.isTaskStatusIsNotStarted('RegionAndLocalAuthority').selectRegionAndLAFromTaskList();
 
-        Logger.log("Select region and local authority task");
-        taskListPage
-            .isTaskStatusIsNotStarted("RegionAndLocalAuthority")
-            .selectRegionAndLAFromTaskList();
-
-        Logger.log("Go back to task list");
+        Logger.log('Go back to task list');
         summaryPage.clickBack();
 
         taskListPage.selectRegionAndLAFromTaskList();
 
-        Logger.log("Region and local authority should be empty")
+        Logger.log('Region and local authority should be empty');
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs("Region and local authority")
+            .titleIs('Region and local authority')
             .inOrder()
-            .summaryShows("Region").IsEmpty().HasChangeLink()
-            .summaryShows("Local authority").IsEmpty().HasChangeLink()
+            .summaryShows('Region')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Local authority')
+            .IsEmpty()
+            .HasChangeLink()
             .isNotMarkedAsComplete();
 
         cy.executeAccessibilityTests();
 
         summaryPage.clickChange();
 
-        Logger.log("Configuring region and local authority task")
-        regionDetailsPage
-            .hasSchoolName(project.schoolName)
-            .selectContinue();
+        Logger.log('Configuring region and local authority task');
+        regionDetailsPage.hasSchoolName(project.schoolName).selectContinue();
 
-        validationComponent.hasValidationError("Select the region");
+        validationComponent.hasValidationError('Select the region');
 
         cy.executeAccessibilityTests();
 
-        regionDetailsPage
-            .hasSchoolName(project.schoolName)
-            .withRegion("South West")
-            .selectContinue();
+        regionDetailsPage.hasSchoolName(project.schoolName).withRegion('South West').selectContinue();
 
-        regionDetailsPage
-            .hasSchoolName(project.schoolName)
-            .selectContinue();
+        regionDetailsPage.hasSchoolName(project.schoolName).selectContinue();
 
-        validationComponent.hasValidationError("Select the local authority");
+        validationComponent.hasValidationError('Select the local authority');
 
         cy.executeAccessibilityTests();
 
-        regionDetailsPage
-            .hasSchoolName(project.schoolName)
-            .withLocalAuthority("Gloucestershire")
-            .selectContinue();
+        regionDetailsPage.hasSchoolName(project.schoolName).withLocalAuthority('Gloucestershire').selectContinue();
 
-        Logger.log("Region and local authority should be set")
+        Logger.log('Region and local authority should be set');
         summaryPage
             .inOrder()
-            .summaryShows("Region").HasValue("South West")
-            .summaryShows("Local authority").HasValue("Gloucestershire");
+            .summaryShows('Region')
+            .HasValue('South West')
+            .summaryShows('Local authority')
+            .HasValue('Gloucestershire');
 
-        Logger.log("Edit the region and local authority");
+        Logger.log('Edit the region and local authority');
         summaryPage.clickChange();
 
-        regionDetailsPage
-            .withRegion("North West")
-            .selectContinue();
+        regionDetailsPage.withRegion('North West').selectContinue();
 
-        regionDetailsPage
-            .withLocalAuthority("Liverpool")
-            .selectContinue();
+        regionDetailsPage.withLocalAuthority('Liverpool').selectContinue();
 
-        Logger.log("Region and local authority should be set")
+        Logger.log('Region and local authority should be set');
         summaryPage
             .inOrder()
-            .summaryShows("Region").HasValue("North West")
-            .summaryShows("Local authority").HasValue("Liverpool");
+            .summaryShows('Region')
+            .HasValue('North West')
+            .summaryShows('Local authority')
+            .HasValue('Liverpool');
 
-        Logger.log("Should update the task status");
+        Logger.log('Should update the task status');
         summaryPage.clickConfirmAndContinue();
 
-        taskListPage.isTaskStatusInProgress("RegionAndLocalAuthority");
+        taskListPage.isTaskStatusInProgress('RegionAndLocalAuthority');
 
         taskListPage.selectRegionAndLAFromTaskList();
 
-        summaryPage
-            .MarkAsComplete()
-            .clickConfirmAndContinue();
+        summaryPage.MarkAsComplete().clickConfirmAndContinue();
 
-        taskListPage.isTaskStatusIsCompleted("RegionAndLocalAuthority");
+        taskListPage.isTaskStatusIsCompleted('RegionAndLocalAuthority');
     });
 });

@@ -6,13 +6,13 @@ export class ProjectRiskSummaryComponent {
     }
 
     public hasProjectRiskSummary(value: string): this {
-        cy.getByTestId("project-risk-summary").should("contain.text", value);
+        cy.getByTestId('project-risk-summary').should('contain.text', value);
 
         return this;
     }
 
     public hasProjectRiskDate(value: string): this {
-        cy.getByTestId("project-risk-date").should("contain.text", value);
+        cy.getByTestId('project-risk-date').should('contain.text', value);
 
         return this;
     }

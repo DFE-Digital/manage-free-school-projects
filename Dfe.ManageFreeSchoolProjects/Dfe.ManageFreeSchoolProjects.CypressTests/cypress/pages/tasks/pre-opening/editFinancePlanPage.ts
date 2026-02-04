@@ -1,33 +1,19 @@
-class EditFinancePlanPage {
-    public titleIs(title: string): this {
-        cy.getByTestId("title").should("contains.text", title)
-        return this;
-    }
+import { BasePage } from '../../basePage';
 
-    public schoolNameIs(school: string) {
-        cy.getByTestId("school-name").should("contains.text", school);
-        return this;
-    }
-
-    public clickContinue(): this {
-        cy.getByTestId("continue").click();
-        return this;
-    }
-
+class EditFinancePlanPage extends BasePage {
     public checkFinancePlanAgreed(): this {
-        cy.getById("finance-plan-agreed").click();
+        cy.getById('finance-plan-agreed').click();
         return this;
     }
 
     public withDateAgreed(day: string, month: string, year: string): this {
-
-        cy.enterDate("date-agreed", day, month, year);
+        cy.enterDate('date-agreed', day, month, year);
 
         return this;
     }
 
     public checkPlanSavedInWorkplacesFolder(): this {
-        cy.getById("plan-saved-in-workplaces-folder").click();
+        cy.getById('plan-saved-in-workplaces-folder').click();
         return this;
     }
 
@@ -37,12 +23,12 @@ class EditFinancePlanPage {
     }
 
     public withComments(value: string): this {
-        cy.getByTestId("comments").typeFast(value);
+        cy.getByTestId('comments').typeFast(value);
         return this;
     }
 
     public withCommentsExceedingMaxLength(): this {
-        cy.getByTestId("comments").clear().invoke("val", "a".repeat(1000));
+        cy.getByTestId('comments').clear().invoke('val', 'a'.repeat(1000));
         return this;
     }
 
@@ -52,14 +38,14 @@ class EditFinancePlanPage {
     }
 
     public withRpaStartDate(day: string, month: string, year: string): this {
-        cy.enterDate("rpa-start-date", day, month, year);
+        cy.enterDate('rpa-start-date', day, month, year);
         return this;
     }
 
     public hasRpaStartDate(day: string, month: string, year: string): this {
-        cy.getById("rpa-start-date-day").should("have.value", day);
-        cy.getById("rpa-start-date-month").should("have.value", month);
-        cy.getById("rpa-start-date-year").should("have.value", year);
+        cy.getById('rpa-start-date-day').should('have.value', day);
+        cy.getById('rpa-start-date-month').should('have.value', month);
+        cy.getById('rpa-start-date-year').should('have.value', year);
 
         return this;
     }
@@ -70,12 +56,12 @@ class EditFinancePlanPage {
     }
 
     public withCoverTypeExceedingMaxLength(): this {
-        cy.getByTestId("rpa-cover-type").clear().invoke("val", "a".repeat(101));
+        cy.getByTestId('rpa-cover-type').clear().invoke('val', 'a'.repeat(101));
         return this;
     }
 
     public hasCoverType(value: string): this {
-        cy.getByTestId("rpa-cover-type").should("have.value", value);
+        cy.getByTestId('rpa-cover-type').should('have.value', value);
         return this;
     }
 }

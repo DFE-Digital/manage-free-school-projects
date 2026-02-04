@@ -24,3 +24,7 @@ terraform.rc*
 backend.vars
 
 .vs
+
+# JetBrains Rider
+.idea/
+*.sln.iml

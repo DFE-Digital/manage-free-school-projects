@@ -1,16 +1,16 @@
-import { ProjectDetailsRequest } from "cypress/api/domain";
-import projectApi from "cypress/api/projectApi";
-import projectRiskApi from "cypress/api/projectRiskApi";
-import { RequestBuilder } from "cypress/api/requestBuilder";
-import { Logger } from "cypress/common/logger";
-import projectRiskSummaryComponent from "cypress/pages/risk/projectRiskSummaryComponent";
-import summaryPage from "cypress/pages/task-summary-base";
-import taskListPage from "cypress/pages/taskListPage";
-import editDraftGovernancePlanPage from "cypress/pages/tasks/pre-opening/editDraftGovernancePlanPage";
-import validationComponent from "cypress/pages/validationComponent";
-import { toDisplayDate } from "cypress/support/formatDate";
+import { ProjectDetailsRequest } from 'cypress/api/domain';
+import projectApi from 'cypress/api/projectApi';
+import projectRiskApi from 'cypress/api/projectRiskApi';
+import { RequestBuilder } from 'cypress/api/requestBuilder';
+import { Logger } from 'cypress/common/logger';
+import projectRiskSummaryComponent from 'cypress/pages/risk/projectRiskSummaryComponent';
+import summaryPage from 'cypress/pages/task-summary-base';
+import taskListPage from 'cypress/pages/taskListPage';
+import editDraftGovernancePlanPage from 'cypress/pages/tasks/pre-opening/editDraftGovernancePlanPage';
+import validationComponent from 'cypress/pages/validationComponent';
+import { toDisplayDate } from 'cypress/support/formatDate';
 
-describe("Testing draft governance plan task", () => {
+describe('Testing draft governance plan task', () => {
     let project: ProjectDetailsRequest;
     let now: string;
 
@@ -31,124 +31,141 @@ describe("Testing draft governance plan task", () => {
             });
     });
 
-    it("Should be able to set a draft governance plan", () => {
-
+    it('Should be able to set a draft governance plan', () => {
         cy.visit(`/projects/${project.projectId}/tasks`);
 
-        Logger.log("Select governance plan");
-        taskListPage.isTaskStatusIsNotStarted("GovernancePlan")
-            .selectGovernancePlanFromTaskList();
+        Logger.log('Select governance plan');
+        taskListPage.isTaskStatusIsNotStarted('GovernancePlan').selectGovernancePlanFromTaskList();
 
-        Logger.log("Go back to task list");
+        Logger.log('Go back to task list');
         summaryPage.clickBack();
 
         taskListPage.selectGovernancePlanFromTaskList();
 
-        Logger.log("Confirm empty draft governance plan");
+        Logger.log('Confirm empty draft governance plan');
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs("Governance plan")
+            .titleIs('Governance plan')
             .inOrder()
-            .summaryShows("Received draft governance plan from trust").IsEmpty().HasChangeLink()
-            .summaryShows("Assessed plan using assessment template").IsEmpty().HasChangeLink()
-            .summaryShows("Shared plan and assessment with external expert - if applicable").IsEmpty().HasChangeLink()
-            .summaryShows("Shared plan and assessment with ESFA (Education and Skills Funding Agency) - if applicable").IsEmpty().HasChangeLink()
-            .summaryShows("Fed back to trust on plan").IsEmpty().HasChangeLink()
-            .summaryShows("Final governance plan agreed").IsEmpty().HasChangeLink()
-            .summaryShows("Saved final governance plan in Workplaces").IsEmpty().HasChangeLink()
-            .summaryShows("Comments").IsEmpty().HasChangeLink()
+            .summaryShows('Received draft governance plan from trust')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Assessed plan using assessment template')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Shared plan and assessment with external expert - if applicable')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Shared plan and assessment with ESFA (Education and Skills Funding Agency) - if applicable')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Fed back to trust on plan')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Final governance plan agreed')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Saved final governance plan in Workplaces')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Comments')
+            .IsEmpty()
+            .HasChangeLink()
             .isNotMarkedAsComplete();
 
         cy.executeAccessibilityTests();
 
-        Logger.log("Check that the risk rating is displayed");
+        Logger.log('Check that the risk rating is displayed');
         projectRiskSummaryComponent
             .hasProjectRiskDate(now)
-            .hasProjectRiskRating(["Green"])
-            .hasProjectRiskSummary("This is my risk summary");
+            .hasProjectRiskRating(['Green'])
+            .hasProjectRiskSummary('This is my risk summary');
 
         summaryPage.clickChange();
 
-        Logger.log("Check all the fields are optional");
-        editDraftGovernancePlanPage
-            .titleIs("Edit Governance plan")
-            .schoolNameIs(project.schoolName)
-            .clickContinue();
+        Logger.log('Check all the fields are optional');
+        editDraftGovernancePlanPage.titleIs('Edit Governance plan').schoolNameIs(project.schoolName).clickContinue();
 
         summaryPage.clickChange();
 
-        Logger.log("Testing validation");
+        Logger.log('Testing validation');
         editDraftGovernancePlanPage
             .checkPlanReceivedFromTrust()
-            .withDatePlanReceived("44", "", "")
+            .withDatePlanReceived('44', '', '')
             .withCommentsExceedingMaxLength()
             .clickContinue();
 
         validationComponent
-            .hasValidationError("Date received must include a month and year")
-            .hasValidationError("Comments must be 999 characters or less");
+            .hasValidationError('Date received must include a month and year')
+            .hasValidationError('Comments must be 999 characters or less');
 
         // The conditional checkboxes break "aria-allowed-attr"
         // This is a gov component so we can't fix it, for now just disable the check
-        cy.executeAccessibilityTests({ "aria-allowed-attr": { enabled: false } });
+        cy.executeAccessibilityTests({ 'aria-allowed-attr': { enabled: false } });
 
-        Logger.log("Add new values");
+        Logger.log('Add new values');
         editDraftGovernancePlanPage
             .schoolNameIs(project.schoolName)
-            .withDatePlanReceived("25", "08", "2025")
+            .withDatePlanReceived('25', '08', '2025')
             .checkPlanAssessedUsingTemplate()
             .checkPlanAndAssessmentSharedWithExpert()
             .checkPlanAndAssessmentSharedWithEsfa()
             .checkFedBackToTrustOnPlan()
             .checkFinalGovernancePlanAgreed()
             .checkDocumentsSavedInWorkplacesFolder()
-            .withComments("This is my comments")
+            .withComments('This is my comments')
             .clickContinue();
 
         summaryPage
             .inOrder()
-            .summaryShows("Received draft governance plan from trust").HasValue("Yes")
-            .summaryShows("Date received").HasValue("25 August 2025")
-            .summaryShows("Assessed plan using assessment template").HasValue("Yes")
-            .summaryShows("Shared plan and assessment with external expert - if applicable").HasValue("Yes")
-            .summaryShows("Shared plan and assessment with ESFA (Education and Skills Funding Agency) - if applicable").HasValue("Yes")
-            .summaryShows("Fed back to trust on plan").HasValue("Yes")
-            .summaryShows("Final governance plan agreed").HasValue("Yes")
-            .summaryShows("Saved final governance plan in Workplaces").HasValue("Yes")
-            .summaryShows("Comments").HasValue("This is my comments")
+            .summaryShows('Received draft governance plan from trust')
+            .HasValue('Yes')
+            .summaryShows('Date received')
+            .HasValue('25 August 2025')
+            .summaryShows('Assessed plan using assessment template')
+            .HasValue('Yes')
+            .summaryShows('Shared plan and assessment with external expert - if applicable')
+            .HasValue('Yes')
+            .summaryShows('Shared plan and assessment with ESFA (Education and Skills Funding Agency) - if applicable')
+            .HasValue('Yes')
+            .summaryShows('Fed back to trust on plan')
+            .HasValue('Yes')
+            .summaryShows('Final governance plan agreed')
+            .HasValue('Yes')
+            .summaryShows('Saved final governance plan in Workplaces')
+            .HasValue('Yes')
+            .summaryShows('Comments')
+            .HasValue('This is my comments');
 
-        Logger.log("Should clear the date if Received draft governance plan from trust is unchecked");
+        Logger.log('Should clear the date if Received draft governance plan from trust is unchecked');
         summaryPage.clickChange();
 
-        editDraftGovernancePlanPage
-            .withDatePlanReceived("01", "", "")
-            .checkPlanReceivedFromTrust()
-            .clickContinue();
+        editDraftGovernancePlanPage.withDatePlanReceived('01', '', '').checkPlanReceivedFromTrust().clickContinue();
 
         summaryPage.clickChange();
 
-        editDraftGovernancePlanPage
-            .checkPlanReceivedFromTrust()
-            .clickContinue();
+        editDraftGovernancePlanPage.checkPlanReceivedFromTrust().clickContinue();
 
         summaryPage
             .inOrder()
-            .summaryShows("Received draft governance plan from trust").HasValue("Yes")
-            .summaryShows("Date received").IsEmpty();
+            .summaryShows('Received draft governance plan from trust')
+            .HasValue('Yes')
+            .summaryShows('Date received')
+            .IsEmpty();
 
-        Logger.log("Should be able to update the date received");
+        Logger.log('Should be able to update the date received');
         summaryPage.clickChange();
 
-        editDraftGovernancePlanPage
-            .withDatePlanReceived("01", "01", "2026")
-            .clickContinue();
+        editDraftGovernancePlanPage.withDatePlanReceived('01', '01', '2026').clickContinue();
 
         summaryPage
             .inOrder()
-            .summaryShows("Received draft governance plan from trust").HasValue("Yes")
-            .summaryShows("Date received").HasValue("1 January 2026")
+            .summaryShows('Received draft governance plan from trust')
+            .HasValue('Yes')
+            .summaryShows('Date received')
+            .HasValue('1 January 2026');
 
-        Logger.log("Should be able to update values");
+        Logger.log('Should be able to update values');
         summaryPage.clickChange();
 
         editDraftGovernancePlanPage
@@ -159,31 +176,37 @@ describe("Testing draft governance plan task", () => {
             .checkFedBackToTrustOnPlan()
             .checkFinalGovernancePlanAgreed()
             .checkDocumentsSavedInWorkplacesFolder()
-            .withComments("This is my updated comments that I have written")
+            .withComments('This is my updated comments that I have written')
             .clickContinue();
 
         summaryPage
             .inOrder()
-            .summaryShows("Received draft governance plan from trust").IsEmpty()
-            .summaryShows("Assessed plan using assessment template").IsEmpty()
-            .summaryShows("Shared plan and assessment with external expert - if applicable").IsEmpty()
-            .summaryShows("Shared plan and assessment with ESFA (Education and Skills Funding Agency) - if applicable").IsEmpty()
-            .summaryShows("Fed back to trust on plan").IsEmpty()
-            .summaryShows("Final governance plan agreed").IsEmpty()
-            .summaryShows("Saved final governance plan in Workplaces").IsEmpty()
-            .summaryShows("Comments").HasValue("This is my updated comments that I have written");
+            .summaryShows('Received draft governance plan from trust')
+            .IsEmpty()
+            .summaryShows('Assessed plan using assessment template')
+            .IsEmpty()
+            .summaryShows('Shared plan and assessment with external expert - if applicable')
+            .IsEmpty()
+            .summaryShows('Shared plan and assessment with ESFA (Education and Skills Funding Agency) - if applicable')
+            .IsEmpty()
+            .summaryShows('Fed back to trust on plan')
+            .IsEmpty()
+            .summaryShows('Final governance plan agreed')
+            .IsEmpty()
+            .summaryShows('Saved final governance plan in Workplaces')
+            .IsEmpty()
+            .summaryShows('Comments')
+            .HasValue('This is my updated comments that I have written');
 
-        Logger.log("Should update the task status");
+        Logger.log('Should update the task status');
         summaryPage.clickConfirmAndContinue();
 
-        taskListPage.isTaskStatusInProgress("GovernancePlan");
+        taskListPage.isTaskStatusInProgress('GovernancePlan');
 
         taskListPage.selectGovernancePlanFromTaskList();
 
-        summaryPage
-            .MarkAsComplete()
-            .clickConfirmAndContinue();
+        summaryPage.MarkAsComplete().clickConfirmAndContinue();
 
-        taskListPage.isTaskStatusIsCompleted("GovernancePlan");
+        taskListPage.isTaskStatusIsCompleted('GovernancePlan');
     });
 });

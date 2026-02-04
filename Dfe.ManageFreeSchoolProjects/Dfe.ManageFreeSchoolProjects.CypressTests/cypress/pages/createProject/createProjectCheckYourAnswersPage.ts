@@ -1,12 +1,12 @@
 class CreateProjectCheckYourAnswersPage {
     public hasSchoolType(value: string): this {
-        cy.getByTestId("school-type").should("contain.text", value);
+        cy.getByTestId('school-type').should('contain.text', value);
 
         return this;
     }
 
     public changeSchoolType(): this {
-        cy.getByTestId("change-school-type").click();
+        cy.getByTestId('change-school-type').click();
 
         return this;
     }

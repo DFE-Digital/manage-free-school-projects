@@ -1,12 +1,11 @@
-import { ProjectDetailsRequest } from "cypress/api/domain";
-import projectApi from "cypress/api/projectApi";
-import { RequestBuilder } from "cypress/api/requestBuilder";
-import summaryPage from "cypress/pages/task-summary-base";
-import taskListPage from "cypress/pages/taskListPage";
-import fundingAgreementHealthCheckEditPage from "../../../pages/tasks/pre-opening/edit-funding-agreement-health-check.cy";
+import { ProjectDetailsRequest } from 'cypress/api/domain';
+import projectApi from 'cypress/api/projectApi';
+import { RequestBuilder } from 'cypress/api/requestBuilder';
+import summaryPage from 'cypress/pages/task-summary-base';
+import taskListPage from 'cypress/pages/taskListPage';
+import fundingAgreementHealthCheckEditPage from '../../../pages/tasks/pre-opening/edit-funding-agreement-health-check.cy';
 
-describe("Testing Funding agreement health check Task", () => {
-
+describe('Testing Funding agreement health check Task', () => {
     let project: ProjectDetailsRequest;
 
     beforeEach(() => {
@@ -23,94 +22,120 @@ describe("Testing Funding agreement health check Task", () => {
             });
     });
 
-    it("Should successfully set funding agreement health check task", () => {
-
-        cy.log("Select funding agreement heakth check");
-        taskListPage.isTaskStatusIsNotStarted("FundingAgreementHealthCheck")
+    it('Should successfully set funding agreement health check task', () => {
+        cy.log('Select funding agreement heakth check');
+        taskListPage
+            .isTaskStatusIsNotStarted('FundingAgreementHealthCheck')
             .selectFundingAgreementHealthCheckFromTaskList();
 
-        cy.log("Confirm empty funding agreement health check");
+        cy.log('Confirm empty funding agreement health check');
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs("Funding agreement health check")
+            .titleIs('Funding agreement health check')
             .inOrder()
-            .summaryShows("Drafted a funding agreement (FA) health check").IsEmpty().HasChangeLink()
-            .summaryShows("Regional Director has signed-off the FA health check (if applicable)").IsEmpty().HasChangeLink()
-            .summaryShows("Minister has signed-off the FA health check (if applicable)").IsEmpty().HasChangeLink()
-            .summaryShows("Included a signed-off impact assessment in the health check").IsEmpty().HasChangeLink()
-            .summaryShows("Saved the health check in Workplaces folder").IsEmpty().HasChangeLink()
+            .summaryShows('Drafted a funding agreement (FA) health check')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Regional Director has signed-off the FA health check (if applicable)')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Minister has signed-off the FA health check (if applicable)')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Included a signed-off impact assessment in the health check')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Saved the health check in Workplaces folder')
+            .IsEmpty()
+            .HasChangeLink()
             .isNotMarkedAsComplete();
 
-
         cy.executeAccessibilityTests();
-        cy.log("Go back to task list");
+        cy.log('Go back to task list');
         summaryPage.clickBack();
 
-        cy.log("Confirm not started and open funding agreement health check");
-        taskListPage.isTaskStatusIsNotStarted("FundingAgreementHealthCheck")
+        cy.log('Confirm not started and open funding agreement health check');
+        taskListPage
+            .isTaskStatusIsNotStarted('FundingAgreementHealthCheck')
             .selectFundingAgreementHealthCheckFromTaskList();
 
-        cy.log("Check confirm puts project in In Progress");
+        cy.log('Check confirm puts project in In Progress');
         summaryPage.clickConfirmAndContinue();
 
-        taskListPage.isTaskStatusInProgress("FundingAgreementHealthCheck")
+        taskListPage
+            .isTaskStatusInProgress('FundingAgreementHealthCheck')
             .selectFundingAgreementHealthCheckFromTaskList();
 
-        cy.log("Check search page");
+        cy.log('Check search page');
 
         summaryPage.clickChange();
 
-        cy.executeAccessibilityTests({ "aria-allowed-attr": { enabled: false } });
+        cy.executeAccessibilityTests({ 'aria-allowed-attr': { enabled: false } });
 
-        cy.log("Fill in funding arrangement health check")
+        cy.log('Fill in funding arrangement health check');
 
         fundingAgreementHealthCheckEditPage
             .checkDraftedFAHealthCheck()
             .checkMinisterSignedOffFAHealthCheck()
             .checkIncludedSignedOffImpactAssessment()
-            .clickContinue()
+            .clickContinue();
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs("Funding agreement health check")
+            .titleIs('Funding agreement health check')
             .inOrder()
-            .summaryShows("Drafted a funding agreement (FA) health check").HasValue("Yes").HasChangeLink()
-            .summaryShows("Regional Director has signed-off the FA health check (if applicable)").IsEmpty().HasChangeLink()
-            .summaryShows("Minister has signed-off the FA health check (if applicable)").HasValue("Yes").HasChangeLink()
-            .summaryShows("Included a signed-off impact assessment in the health check").HasValue("Yes").HasChangeLink()
-            .summaryShows("Saved the health check in Workplaces folder").IsEmpty().HasChangeLink()
+            .summaryShows('Drafted a funding agreement (FA) health check')
+            .HasValue('Yes')
+            .HasChangeLink()
+            .summaryShows('Regional Director has signed-off the FA health check (if applicable)')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Minister has signed-off the FA health check (if applicable)')
+            .HasValue('Yes')
+            .HasChangeLink()
+            .summaryShows('Included a signed-off impact assessment in the health check')
+            .HasValue('Yes')
+            .HasChangeLink()
+            .summaryShows('Saved the health check in Workplaces folder')
+            .IsEmpty()
+            .HasChangeLink()
             .isNotMarkedAsComplete();
 
-        cy.log("Edit funding agreement health check")
-       
+        cy.log('Edit funding agreement health check');
+
         summaryPage.clickChange();
         fundingAgreementHealthCheckEditPage
             .uncheckMinisterSignedOffFAHealthCheck()
             .checkRegionalDirectorSignedOffFAHealthCheck()
             .checkSavedFAHealthCheckInWorkplacesFolder()
-            .clickContinue()
-            
+            .clickContinue();
 
         summaryPage
             .schoolNameIs(project.schoolName)
-            .titleIs("Funding agreement health check")
+            .titleIs('Funding agreement health check')
             .inOrder()
-            .summaryShows("Drafted a funding agreement (FA) health check").HasValue("Yes").HasChangeLink()
-            .summaryShows("Regional Director has signed-off the FA health check (if applicable)").HasValue("Yes").HasChangeLink()
-            .summaryShows("Minister has signed-off the FA health check (if applicable)").IsEmpty().HasChangeLink()
-            .summaryShows("Included a signed-off impact assessment in the health check").HasValue("Yes").HasChangeLink()
-            .summaryShows("Saved the health check in Workplaces folder").HasValue("Yes").HasChangeLink()
+            .summaryShows('Drafted a funding agreement (FA) health check')
+            .HasValue('Yes')
+            .HasChangeLink()
+            .summaryShows('Regional Director has signed-off the FA health check (if applicable)')
+            .HasValue('Yes')
+            .HasChangeLink()
+            .summaryShows('Minister has signed-off the FA health check (if applicable)')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Included a signed-off impact assessment in the health check')
+            .HasValue('Yes')
+            .HasChangeLink()
+            .summaryShows('Saved the health check in Workplaces folder')
+            .HasValue('Yes')
+            .HasChangeLink()
             .isNotMarkedAsComplete()
             .MarkAsComplete()
-            .clickConfirmAndContinue()
+            .clickConfirmAndContinue();
 
-        taskListPage
-            .selectFundingAgreementHealthCheckFromTaskList()
-        
-        summaryPage.isMarkedAsComplete()
-    })
-    
-    
-    
-})
+        taskListPage.selectFundingAgreementHealthCheckFromTaskList();
+
+        summaryPage.isMarkedAsComplete();
+    });
+});

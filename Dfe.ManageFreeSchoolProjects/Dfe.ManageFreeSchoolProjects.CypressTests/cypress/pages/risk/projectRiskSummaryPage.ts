@@ -1,20 +1,17 @@
 class ProjectRiskSummaryPage {
-
     public hasSchoolName(value: string): this {
-
-        cy.getByTestId(`school-name`).should("contain.text", value);
+        cy.getByTestId(`school-name`).should('contain.text', value);
 
         return this;
     }
 
     public hasTitle(value: string): this {
-        cy.getByTestId(`risk-date`).should("contain.text", value);
+        cy.getByTestId(`risk-date`).should('contain.text', value);
 
         return this;
     }
 
     public hasOverallRiskRating(values: string[]): this {
-
         this.checkRagRating(`overall-risk-rating`, values);
 
         return this;
@@ -33,7 +30,7 @@ class ProjectRiskSummaryPage {
     }
 
     public changeOverallRisk(): this {
-        cy.getByTestId("change-overall-risk").click();
+        cy.getByTestId('change-overall-risk').click();
 
         return this;
     }
@@ -51,68 +48,62 @@ class ProjectRiskSummaryPage {
     }
 
     public changeGovernanceAndSuitabilityRisk(): this {
-        cy.getByTestId("change-governance-and-suitability-risk").click();
+        cy.getByTestId('change-governance-and-suitability-risk').click();
 
         return this;
     }
 
     public hasEducationRiskRating(values: string[]): this {
-
         this.checkRagRating(`education-risk-rating`, values);
 
         return this;
     }
 
     public hasEducationRiskSummary(value: string): this {
-
         cy.getByTestId(`education-risk-summary`).should(`contain.text`, value);
 
         return this;
     }
 
     public changeEducationRisk(): this {
-        cy.getByTestId("change-education-risk").click();
+        cy.getByTestId('change-education-risk').click();
 
         return this;
     }
 
     public hasFinanceRiskRating(values: string[]): this {
-
         this.checkRagRating(`finance-risk-rating`, values);
 
         return this;
     }
 
     public hasFinanceRiskSummary(value: string): this {
-
         cy.getByTestId(`finance-risk-summary`).should(`contain.text`, value);
 
         return this;
     }
 
     public changeFinanceRisk(): this {
-        cy.getByTestId("change-finance-risk").click();
+        cy.getByTestId('change-finance-risk').click();
 
         return this;
     }
 
     public hasRiskAppraisalFormSharePointLink(value: string): this {
-
         const selector = `risk-appraisal-form-sharepoint-link`;
 
-        if (value == "Empty")
-        {
-            cy.getByTestId(selector).should("contain.text", value);
+        if (value == 'Empty') {
+            cy.getByTestId(selector).should('contain.text', value);
             return this;
         }
 
-        cy.getByTestId(selector).find("a").should(`have.attr`, `href`, value);
+        cy.getByTestId(selector).find('a').should(`have.attr`, `href`, value);
 
         return this;
     }
 
     public changeRiskAppraisalFormSharePointLink(): this {
-        cy.getByTestId("change-risk-appraisal-form-sharepoint-link").click();
+        cy.getByTestId('change-risk-appraisal-form-sharepoint-link').click();
 
         return this;
     }
@@ -124,31 +115,31 @@ class ProjectRiskSummaryPage {
     }
 
     public cannotAddRiskEntry(): this {
-        this.getAddRiskEntry().should("not.exist");
+        this.getAddRiskEntry().should('not.exist');
 
         return this;
     }
 
     public createRiskEntry(): this {
-        cy.getByTestId("create-risk-entry").click();
+        cy.getByTestId('create-risk-entry').click();
 
         return this;
     }
 
     public markRiskAsReviewed(): this {
-        cy.getByTestId("risk-reviewed").check();
+        cy.getByTestId('risk-reviewed').check();
 
         return this;
     }
 
     public goToRiskSummary(): this {
-        cy.getByTestId("link-risk-summary").click();
+        cy.getByTestId('link-risk-summary').click();
 
         return this;
     }
 
     public goToProjectOverview(): this {
-        cy.getByTestId("link-project-overview").click();
+        cy.getByTestId('link-project-overview').click();
 
         return this;
     }
@@ -158,7 +149,7 @@ class ProjectRiskSummaryPage {
     }
 
     private getAddRiskEntry() {
-        return cy.getByTestId("add-risk-entry");
+        return cy.getByTestId('add-risk-entry');
     }
 }
 
