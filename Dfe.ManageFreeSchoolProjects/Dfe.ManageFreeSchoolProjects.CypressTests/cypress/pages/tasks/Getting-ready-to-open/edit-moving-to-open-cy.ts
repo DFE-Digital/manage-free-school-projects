@@ -1,6 +1,6 @@
-class MovingToOpenEditPage {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
 
+class MovingToOpenEditPage extends BaseEditPage {
     checkSentToSfso(): this {
         cy.getById('project-brief-to-sfso').check();
         return this;
@@ -87,31 +87,8 @@ class MovingToOpenEditPage {
         return this;
     }
 
-    private setDate(key: string, day: string, month: string, year: string) {
-        cy.get('#' + `${key}-day`).typeFast(day);
-        cy.get('#' + `${key}-month`).typeFast(month);
-        cy.get('#' + `${key}-year`).typeFast(year);
-    }
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
-
     errorForActualStartDate(error: string): this {
         cy.getById('actual-opening-date-error').contains(error);
-        return this;
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
         return this;
     }
 }

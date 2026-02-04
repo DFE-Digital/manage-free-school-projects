@@ -1,4 +1,6 @@
-class FundingAgreementHealthCheckPage {
+import { BasePage } from '../../basePage';
+
+class FundingAgreementHealthCheckPage extends BasePage {
     checkDraftedFAHealthCheck(): this {
         cy.getById('drafted-fa-health-check').check();
         return this;
@@ -46,11 +48,6 @@ class FundingAgreementHealthCheckPage {
 
     uncheckSavedFAHealthCheckInWorkplacesFolder(): this {
         cy.getById('saved-fa-health-check-in-workplaces-folder').uncheck();
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

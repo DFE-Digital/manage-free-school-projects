@@ -1,6 +1,6 @@
-class DueDiligenceChecksEditPage {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
 
+class DueDiligenceChecksEditPage extends BaseEditPage {
     checkReceivedChairOfTrusteesDbsCountersignedCertificate(): this {
         cy.getById('received-chair-of-trustees-countersigned-certificate').check();
         return this;
@@ -36,26 +36,8 @@ class DueDiligenceChecksEditPage {
         return this;
     }
 
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
-
     errorForDate(): this {
         this.errorTracking = 'date-when-all-checks-completed';
-        return this;
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
         return this;
     }
 }

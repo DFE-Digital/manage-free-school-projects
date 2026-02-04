@@ -1,4 +1,6 @@
-class EditGrade6Page {
+import { BasePage } from '../basePage';
+
+class EditGrade6Page extends BasePage {
     public hasGrade6Title(value: string): this {
         cy.getByTestId(`edit-grade-6-title`).should('contain.text', value);
 
@@ -21,11 +23,6 @@ class EditGrade6Page {
     }
     errorForGrade6Email(error: string): this {
         cy.getById('grade-6-email-error').contains(error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

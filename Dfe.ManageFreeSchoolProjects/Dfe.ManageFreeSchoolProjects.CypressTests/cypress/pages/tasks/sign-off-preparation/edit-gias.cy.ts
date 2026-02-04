@@ -1,14 +1,6 @@
-class GiasEditPage {
-    titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
+import { BasePage } from '../../basePage';
 
-    schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
+class GiasEditPage extends BasePage {
     checkCheckTrustInformation(): this {
         cy.getById('checked-trust-information').check();
         return this;
@@ -56,11 +48,6 @@ class GiasEditPage {
 
     public clickConfirmAndContinue() {
         cy.getByTestId('confirm').click();
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
     }
 }
 

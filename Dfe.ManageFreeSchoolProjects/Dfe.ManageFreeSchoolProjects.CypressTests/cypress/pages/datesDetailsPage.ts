@@ -1,14 +1,7 @@
-class DatesDetailsPage {
-    public titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
+import { BasePage } from './basePage';
 
-    public schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
+class DatesDetailsPage extends BasePage {
+    // Override the base clickContinue with custom behavior
     public clickContinue(): this {
         cy.get('body').then(($body) => {
             if ($body.find('[data-testid="continue"]').length) {

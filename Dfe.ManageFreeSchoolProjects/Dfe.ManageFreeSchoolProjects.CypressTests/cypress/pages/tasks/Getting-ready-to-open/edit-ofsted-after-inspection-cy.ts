@@ -1,4 +1,6 @@
-class AfterInspectionEditPage {
+import { BasePage } from '../../basePage';
+
+class AfterInspectionEditPage extends BasePage {
     checkSharedOutcomeWithTrust(): this {
         cy.getById('shared-outcome-with-trust').check();
         return this;
@@ -38,13 +40,7 @@ class AfterInspectionEditPage {
     }
 
     selectAnyActionsToMeetConditionCompletedOption(option: 'Yes' | 'No' | 'Not applicable'): this {
-        // cy.getById("inspection-conditions-met").select(option)
         cy.getByRadioOption(option).check();
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

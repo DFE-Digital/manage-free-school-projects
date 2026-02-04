@@ -1,4 +1,6 @@
-class EditProjectManagerPage {
+import { BasePage } from '../basePage';
+
+class EditProjectManagerPage extends BasePage {
     public hasProjectManagerTitle(value: string): this {
         cy.getByTestId(`edit-project-manager-title`).should('contain.text', value);
 
@@ -21,11 +23,6 @@ class EditProjectManagerPage {
     }
     errorForProjectManagerEmail(error: string): this {
         cy.getById('project-manager-email-error').contains(error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

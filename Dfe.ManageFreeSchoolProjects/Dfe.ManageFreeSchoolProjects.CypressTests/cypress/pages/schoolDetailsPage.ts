@@ -1,14 +1,6 @@
-class SchoolDetailsPage {
-    public titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
+import { BasePage } from './basePage';
 
-    public schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
+class SchoolDetailsPage extends BasePage {
     public withSchoolName(school: string): this {
         cy.getByTestId('current-free-school-name').typeFast(school);
         return this;
@@ -114,11 +106,6 @@ class SchoolDetailsPage {
 
     public faithTypeOtherDescriptionIsNotVisible() {
         this.getFaithTypeOtherDescription().should('not.be.visible');
-        return this;
-    }
-
-    public clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 

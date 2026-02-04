@@ -1,4 +1,6 @@
-class EditPrincipalDesignatePage {
+import { BasePage } from '../basePage';
+
+class EditPrincipalDesignatePage extends BasePage {
     public hasPrincipalDesignateTitle(value: string): this {
         cy.getByTestId(`edit-principal-designate-title`).should('contain.text', value);
 
@@ -21,11 +23,6 @@ class EditPrincipalDesignatePage {
     }
     errorForPrincipalDesignateEmail(error: string): this {
         cy.getById('principal-designate-email-error').contains(error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

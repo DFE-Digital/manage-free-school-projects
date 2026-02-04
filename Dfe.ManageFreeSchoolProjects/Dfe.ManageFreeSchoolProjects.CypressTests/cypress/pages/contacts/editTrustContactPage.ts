@@ -1,4 +1,6 @@
-class EditTrustContactPage {
+import { BasePage } from '../basePage';
+
+class EditTrustContactPage extends BasePage {
     public hasTrustContactTitle(value: string): this {
         cy.getByTestId(`edit-trust-contact-title`).should('contain.text', value);
 
@@ -40,11 +42,6 @@ class EditTrustContactPage {
     }
     errorForTrustContactRole(error: string): this {
         cy.getById('trust-contact-role-error').contains(error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

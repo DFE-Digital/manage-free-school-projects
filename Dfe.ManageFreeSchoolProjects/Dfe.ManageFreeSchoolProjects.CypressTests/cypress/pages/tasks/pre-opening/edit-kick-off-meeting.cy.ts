@@ -1,16 +1,6 @@
-class KickOffMeetingEditPage {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
 
-    titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
-
-    schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
+class KickOffMeetingEditPage extends BaseEditPage {
     withComments(comment: string): this {
         cy.getById('funding-arrangement-details-agreed').typeFast(comment);
         return this;
@@ -48,24 +38,6 @@ class KickOffMeetingEditPage {
 
     errorForProvisionalOpeningDate(): this {
         this.errorTracking = 'provisional-opening-date';
-        return this;
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

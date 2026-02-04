@@ -1,4 +1,6 @@
-export class SummaryPage {
+import { BasePage } from './basePage';
+
+export class SummaryPage extends BasePage {
     private summaryCounter = -1;
 
     public inOrder(): this {
@@ -13,16 +15,6 @@ export class SummaryPage {
 
     public startFromRow(row: number): this {
         this.summaryCounter = row - 1;
-        return this;
-    }
-
-    public titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
-
-    public schoolNameIs(school: string): this {
-        cy.getByTestId('school-name').should('contains.text', school);
         return this;
     }
 
@@ -94,10 +86,6 @@ export class SummaryPage {
     public HasNoMarkAsComplete() {
         cy.getById('mark-as-completed').should('not.exist');
         return this;
-    }
-
-    public clickBack() {
-        cy.get('.govuk-back-link').click();
     }
 
     public clickConfirmAndContinue() {

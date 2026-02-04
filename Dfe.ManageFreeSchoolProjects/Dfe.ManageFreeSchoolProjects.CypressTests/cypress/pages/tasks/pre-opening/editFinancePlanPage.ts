@@ -1,19 +1,6 @@
-class EditFinancePlanPage {
-    public titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
+import { BasePage } from '../../basePage';
 
-    public schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
-    public clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
-
+class EditFinancePlanPage extends BasePage {
     public checkFinancePlanAgreed(): this {
         cy.getById('finance-plan-agreed').click();
         return this;

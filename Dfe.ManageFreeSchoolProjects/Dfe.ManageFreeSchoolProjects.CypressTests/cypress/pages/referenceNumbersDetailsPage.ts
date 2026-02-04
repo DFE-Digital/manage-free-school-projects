@@ -1,13 +1,21 @@
-class ReferenceNumbersDetailsPage {
-    private errorTracking = '';
+import { BaseEditPage } from './baseEditPage';
 
-    public titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
+class ReferenceNumbersDetailsPage extends BaseEditPage {
+    // Override the base clickContinue with custom behavior
+    public clickContinue(): this {
+        cy.get('body').then(($body) => {
+            if ($body.find('[data-testid="continue"]').length) {
+                cy.getByTestId('continue').click();
+                return;
+            }
 
-    public schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
+            if ($body.find('button.govuk-button:contains("Save and continue")').length) {
+                cy.contains('button.govuk-button', 'Save and continue').click();
+                return;
+            }
+
+            cy.contains('button.govuk-button', 'Continue').click();
+        });
         return this;
     }
 
@@ -33,36 +41,6 @@ class ReferenceNumbersDetailsPage {
 
     errorForUrn(): this {
         this.errorTracking = 'urn';
-        return this;
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
-        return this;
-    }
-
-    public clickContinue(): this {
-        cy.get('body').then(($body) => {
-            if ($body.find('[data-testid="continue"]').length) {
-                cy.getByTestId('continue').click();
-                return;
-            }
-
-            if ($body.find('button.govuk-button:contains("Save and continue")').length) {
-                cy.contains('button.govuk-button', 'Save and continue').click();
-                return;
-            }
-
-            cy.contains('button.govuk-button', 'Continue').click();
-        });
         return this;
     }
 }

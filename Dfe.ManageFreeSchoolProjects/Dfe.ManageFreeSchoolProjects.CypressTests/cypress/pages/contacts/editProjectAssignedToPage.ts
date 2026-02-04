@@ -1,4 +1,6 @@
-class EditProjectAssignedToPage {
+import { BasePage } from '../basePage';
+
+class EditProjectAssignedToPage extends BasePage {
     public hasProjectAssignedToTitle(value: string): this {
         cy.getByTestId(`edit-project-assigned-to-title`).should('contain.text', value);
 
@@ -31,11 +33,6 @@ class EditProjectAssignedToPage {
     }
     errorForProjectAssignedToEmail(error: string): this {
         cy.getById('project-assigned-to-email-error').contains(error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

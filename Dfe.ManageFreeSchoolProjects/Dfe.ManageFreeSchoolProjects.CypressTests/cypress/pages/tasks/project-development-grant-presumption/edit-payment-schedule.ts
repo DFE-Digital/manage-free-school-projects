@@ -1,16 +1,6 @@
-class editPaymentSchedule {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
 
-    public titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
-
-    public schoolNameIs(school: string): this {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
+class EditPaymentSchedule extends BaseEditPage {
     public withPaymentDueDate(day: string, month: string, year: string): this {
         const key = 'payment-due-date';
         this.setDate(key, day, month, year);
@@ -33,17 +23,6 @@ class editPaymentSchedule {
         return this;
     }
 
-    private setDate(key: string, day: string, month: string, year: string) {
-        cy.get('#' + `${key}-day`).typeFast(day);
-        cy.get('#' + `${key}-month`).typeFast(month);
-        cy.get('#' + `${key}-year`).typeFast(year);
-    }
-
-    // public HasValue(value): this {
-    //     cy.get(".govuk-summary-list__value").eq(this.summaryCounter).should("contains.text", value);
-    //     return this;
-    // }
-
     errorForPaymentDueDate(): this {
         this.errorTracking = 'payment-due-date';
         return this;
@@ -63,25 +42,7 @@ class editPaymentSchedule {
         this.errorTracking = 'payment-actual-amount';
         return this;
     }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
-        return this;
-    }
-
-    public clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
 }
 
-const paymentSchedule = new editPaymentSchedule();
-export default paymentSchedule;
+const editPaymentSchedule = new EditPaymentSchedule();
+export default editPaymentSchedule;

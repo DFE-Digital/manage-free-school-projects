@@ -1,14 +1,6 @@
-class ConstituencyEditPage {
-    titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
+import { BasePage } from './basePage';
 
-    schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
+class ConstituencyEditPage extends BasePage {
     hasResult(result: string): this {
         cy.contains(result);
         return this;
@@ -34,11 +26,6 @@ class ConstituencyEditPage {
             .then((id) => {
                 cy.get('#' + id).click();
             });
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 

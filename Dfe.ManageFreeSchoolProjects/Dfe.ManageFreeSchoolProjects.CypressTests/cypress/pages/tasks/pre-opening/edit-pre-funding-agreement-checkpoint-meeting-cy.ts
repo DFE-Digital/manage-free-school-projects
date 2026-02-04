@@ -1,6 +1,6 @@
-class PreFundingAgreementCheckpointMeetingEditPage {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
 
+class PreFundingAgreementCheckpointMeetingEditPage extends BaseEditPage {
     selectFormalCheckpointMeeting(): this {
         cy.getById('formal-checkpoint-meeting-option').click();
         return this;
@@ -63,16 +63,6 @@ class PreFundingAgreementCheckpointMeetingEditPage {
         return this;
     }
 
-    private setDate(key: string, day: string, month: string, year: string) {
-        cy.get('#' + `${key}-day`).typeFast(day);
-        cy.get('#' + `${key}-month`).typeFast(month);
-        cy.get('#' + `${key}-year`).typeFast(year);
-    }
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
-
     errorForFormalCheckpointMeetingDate(error: string): this {
         cy.getById('date-of-the-formal-meeting-error').contains(error);
         return this;
@@ -80,19 +70,6 @@ class PreFundingAgreementCheckpointMeetingEditPage {
 
     errorForInternalReviewMeetingDate(error: string): this {
         cy.getById('date-of-the-internal-review-meeting-error').contains(error);
-        return this;
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
         return this;
     }
 }

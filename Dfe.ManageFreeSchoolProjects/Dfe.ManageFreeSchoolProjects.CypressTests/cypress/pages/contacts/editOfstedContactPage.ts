@@ -1,4 +1,6 @@
-class EditOfstedContactPage {
+import { BasePage } from '../basePage';
+
+class EditOfstedContactPage extends BasePage {
     public hasOfstedContactTitle(value: string): this {
         cy.getByTestId(`edit-ofsted-contact-title`).should('contain.text', value);
 
@@ -40,11 +42,6 @@ class EditOfstedContactPage {
     }
     errorForOfstedContactRole(error: string): this {
         cy.getById('ofsted-contact-role-error').contains(error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

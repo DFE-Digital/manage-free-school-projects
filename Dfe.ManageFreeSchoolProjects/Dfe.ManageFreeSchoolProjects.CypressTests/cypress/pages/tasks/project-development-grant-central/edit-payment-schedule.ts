@@ -1,16 +1,6 @@
-class editPaymentSchedule {
-    private errorTracking = '';
+import { BasePage } from '../../basePage';
 
-    public titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
-
-    public schoolNameIs(school: string): this {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
+class EditPaymentSchedule extends BasePage {
     public checkNoPayments(): this {
         cy.getByTestId('payments-list').should('not.contain.class', 'govuk-summary-card');
         return this;
@@ -52,12 +42,7 @@ class editPaymentSchedule {
         cy.getByTestId(`change-payment-${index}`).should('not.exist');
         return this;
     }
-
-    public clickBack(): this {
-        cy.getByClass('govuk-back-link').click();
-        return this;
-    }
 }
 
-const paymentSchedule = new editPaymentSchedule();
-export default paymentSchedule;
+const editPaymentSchedule = new EditPaymentSchedule();
+export default editPaymentSchedule;

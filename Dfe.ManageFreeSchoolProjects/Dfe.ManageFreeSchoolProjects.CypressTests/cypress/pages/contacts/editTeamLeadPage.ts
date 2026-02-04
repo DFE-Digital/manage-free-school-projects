@@ -1,4 +1,6 @@
-class EditTeamLeadPage {
+import { BasePage } from '../basePage';
+
+class EditTeamLeadPage extends BasePage {
     public hasTeamLeadTitle(value: string): this {
         cy.getByTestId(`edit-team-lead-title`).should('contain.text', value);
 
@@ -21,11 +23,6 @@ class EditTeamLeadPage {
     }
     errorForTeamLeadEmail(error: string): this {
         cy.getById('team-lead-email-error').contains(error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

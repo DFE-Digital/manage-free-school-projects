@@ -1,6 +1,6 @@
-class ReadinessToOpenMeetingEditPage {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
 
+class ReadinessToOpenMeetingEditPage extends BaseEditPage {
     selectAROMIsExpectedToHappenYes(): this {
         cy.getById('a-rom-is-expected-to-happen-yes').click();
         return this;
@@ -89,16 +89,6 @@ class ReadinessToOpenMeetingEditPage {
         return this;
     }
 
-    private setDate(key: string, day: string, month: string, year: string) {
-        cy.get('#' + `${key}-day`).typeFast(day);
-        cy.get('#' + `${key}-month`).typeFast(month);
-        cy.get('#' + `${key}-year`).typeFast(year);
-    }
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
-
     errorForExpectedMeetingDate(error: string): this {
         cy.getById('expected-date-of-the-meeting-error').contains(error);
         return this;
@@ -111,19 +101,6 @@ class ReadinessToOpenMeetingEditPage {
 
     errorForInformalMeetingDate(error: string): this {
         cy.getById('date-of-the-informal-meeting-error').contains(error);
-        return this;
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
         return this;
     }
 }

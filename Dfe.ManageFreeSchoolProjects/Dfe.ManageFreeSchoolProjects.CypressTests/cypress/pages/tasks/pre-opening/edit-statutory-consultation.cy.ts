@@ -1,19 +1,6 @@
-class StatutoryConsultationEditPage {
-    titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
+import { BasePage } from '../../basePage';
 
-    schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
-    public clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
-
+class StatutoryConsultationEditPage extends BasePage {
     withExpectedDateForReceivingFindingsFromTrust(day: string, month: string, year: string): this {
         const key = 'expected-date-for-receiving-findings-from-trust';
         cy.enterDate(key, day, month, year);

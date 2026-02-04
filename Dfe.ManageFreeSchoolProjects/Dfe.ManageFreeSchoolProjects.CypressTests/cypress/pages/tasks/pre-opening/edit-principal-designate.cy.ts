@@ -1,6 +1,6 @@
-class PrincipalDesignateEditPage {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
 
+class PrincipalDesignateEditPage extends BaseEditPage {
     checkYesForPrincipleDesignate(): this {
         cy.getById('principal-designate-appointed').check();
         return this;
@@ -26,11 +26,6 @@ class PrincipalDesignateEditPage {
         return this;
     }
 
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
-
     errorForPrincipleDesignateAppointedDate(): this {
         this.errorTracking = 'actual-date-that-principal-designate-was-appointed';
         return this;
@@ -50,25 +45,6 @@ class PrincipalDesignateEditPage {
     withExpectedPrincipleDesignateAppointedDate(day: string, month: string, year: string): this {
         const key = 'expected-date-that-principal-designate-will-be-appointed';
         this.setDate(key, day, month, year);
-        return this;
-    }
-
-    private setDate(key: string, day: string, month: string, year: string) {
-        cy.get('#' + `${key}-day`).typeFast(day);
-        cy.get('#' + `${key}-month`).typeFast(month);
-        cy.get('#' + `${key}-year`).typeFast(year);
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
         return this;
     }
 }

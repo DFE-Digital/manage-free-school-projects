@@ -1,4 +1,6 @@
-class EditProjectDirectorPage {
+import { BasePage } from '../basePage';
+
+class EditProjectDirectorPage extends BasePage {
     public hasProjectDirectorTitle(value: string): this {
         cy.getByTestId(`edit-project-director-title`).should('contain.text', value);
 
@@ -21,11 +23,6 @@ class EditProjectDirectorPage {
     }
     errorForProjectDirectorEmail(error: string): this {
         cy.getById('project-director-email-error').contains(error);
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

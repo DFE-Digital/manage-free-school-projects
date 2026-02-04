@@ -1,11 +1,7 @@
-class AdmissionsArrangementsEditPage {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
+
+class AdmissionsArrangementsEditPage extends BaseEditPage {
     private summaryCounter = -1;
-    private setDate(key: string, day: string, month: string, year: string) {
-        cy.get('#' + `${key}-day`).typeFast(day);
-        cy.get('#' + `${key}-month`).typeFast(month);
-        cy.get('#' + `${key}-year`).typeFast(year);
-    }
 
     withExpectedDate(day: string, month: string, year: string): this {
         const key = 'expected-date-that-trust-will-confirm-arrangements';
@@ -61,23 +57,6 @@ class AdmissionsArrangementsEditPage {
 
     errorForConfirmedDate(): this {
         this.errorTracking = 'actual-date-that-trust-confirmed-arrangements';
-        return this;
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
-        return this;
-    }
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

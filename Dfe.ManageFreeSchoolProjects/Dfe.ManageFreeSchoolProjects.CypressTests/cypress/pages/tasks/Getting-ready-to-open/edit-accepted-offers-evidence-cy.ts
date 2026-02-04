@@ -1,6 +1,6 @@
-class AcceptedOffersEvidenceEditPage {
-    private errorTracking = '';
+import { BaseEditPage } from '../../baseEditPage';
 
+class AcceptedOffersEvidenceEditPage extends BaseEditPage {
     checkSeenAcceptedOffersEvidence(): this {
         cy.getById('seen-accepted-offers-evidence').check();
         return this;
@@ -30,26 +30,9 @@ class AcceptedOffersEvidenceEditPage {
         cy.getById('comments').clear();
         return this;
     }
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
 
     errorForComments(): this {
         this.errorTracking = 'comments';
-        return this;
-    }
-
-    showsError(error: string) {
-        cy.get(`#${this.errorTracking}-error-link`).should('contain.text', error);
-
-        cy.get(`#${this.errorTracking}-error-link`)
-            .invoke('attr', 'href')
-            .then((href) => {
-                cy.get(href as string).should('exist');
-            });
-
-        cy.get(`#${this.errorTracking}-error`).should('contain.text', error);
         return this;
     }
 }

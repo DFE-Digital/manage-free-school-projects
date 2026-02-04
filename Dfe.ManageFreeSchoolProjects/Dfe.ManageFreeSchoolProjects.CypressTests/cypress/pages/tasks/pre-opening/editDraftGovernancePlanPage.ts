@@ -1,19 +1,6 @@
-class EditDraftGovernancePlanPage {
-    public titleIs(title: string): this {
-        cy.getByTestId('title').should('contains.text', title);
-        return this;
-    }
+import { BasePage } from '../../basePage';
 
-    public schoolNameIs(school: string) {
-        cy.getByTestId('school-name').should('contains.text', school);
-        return this;
-    }
-
-    public clickContinue(): this {
-        cy.getByTestId('continue').click();
-        return this;
-    }
-
+class EditDraftGovernancePlanPage extends BasePage {
     public checkPlanReceivedFromTrust(): this {
         cy.getById('plan-received-from-trust').click();
         return this;

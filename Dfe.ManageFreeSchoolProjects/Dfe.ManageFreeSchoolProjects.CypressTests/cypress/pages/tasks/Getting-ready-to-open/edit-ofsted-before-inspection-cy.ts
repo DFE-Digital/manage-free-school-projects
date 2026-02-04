@@ -1,4 +1,6 @@
-class BeforeInspectionEditPage {
+import { BasePage } from '../../basePage';
+
+class BeforeInspectionEditPage extends BasePage {
     checkProcessDetailsProvided(): this {
         cy.getById('process-details-provided').check();
         return this;
@@ -34,11 +36,6 @@ class BeforeInspectionEditPage {
 
     uncheckBlockAndContentDetailsToOpenersSpreadsheet(): this {
         cy.getById('block-and-content-details-to-openers-spreadsheet').uncheck();
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }

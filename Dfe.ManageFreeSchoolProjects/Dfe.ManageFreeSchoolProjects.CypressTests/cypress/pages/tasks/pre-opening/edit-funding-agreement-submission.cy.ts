@@ -1,4 +1,6 @@
-class FundingAgreementSubmissionPage {
+import { BasePage } from '../../basePage';
+
+class FundingAgreementSubmissionPage extends BasePage {
     checkDraftedFASubmission(): this {
         cy.getById('drafted-fa-submission').check();
         return this;
@@ -46,11 +48,6 @@ class FundingAgreementSubmissionPage {
 
     uncheckSavedFASubmissionInWorkplacesFolder(): this {
         cy.getById('saved-fa-submission-in-workplaces-folder').uncheck();
-        return this;
-    }
-
-    clickContinue(): this {
-        cy.getByTestId('continue').click();
         return this;
     }
 }
