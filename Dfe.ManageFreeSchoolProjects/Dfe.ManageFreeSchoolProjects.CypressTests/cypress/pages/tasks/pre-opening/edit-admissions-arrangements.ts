@@ -1,7 +1,7 @@
 import { BaseEditPage } from '../../baseEditPage';
 
 class AdmissionsArrangementsEditPage extends BaseEditPage {
-    private summaryCounter = -1;
+    private readonly summaryCounter = -1;
 
     withExpectedDate(day: string, month: string, year: string): this {
         const key = 'expected-date-that-trust-will-confirm-arrangements';

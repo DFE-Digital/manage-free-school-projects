@@ -1,7 +1,7 @@
 import { BaseEditPage } from '../../baseEditPage';
 
 class FinalFinancePlanEditPage extends BaseEditPage {
-    private summaryCounter = -1;
+    private readonly summaryCounter = -1;
 
     withExpectedDateGrade6WillSignOffFinalPlan(day: string, month: string, year: string): this {
         const key = 'expected-date-grade6-will-signoff-final-plan';

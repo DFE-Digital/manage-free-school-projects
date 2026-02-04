@@ -1,7 +1,7 @@
 import { BaseEditPage } from '../../baseEditPage';
 
 class ExternalExpertVisitEditPage extends BaseEditPage {
-    private summaryCounter = -1;
+    private readonly summaryCounter = -1;
 
     withVisitDate(day: string, month: string, year: string): this {
         const key = 'external-expert-visit-date';

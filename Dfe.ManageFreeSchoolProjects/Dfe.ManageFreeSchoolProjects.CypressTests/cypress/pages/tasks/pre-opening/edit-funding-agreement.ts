@@ -1,7 +1,7 @@
 import { BaseEditPage } from '../../baseEditPage';
 
 class FundingAgreementEditPage extends BaseEditPage {
-    private summaryCounter = -1;
+    private readonly summaryCounter = -1;
 
     checkTailoredTheFundingAgreement(): this {
         cy.getById('tailored-the-funding-agreement').check();
