@@ -3,7 +3,7 @@ import projectApi from 'cypress/api/projectApi';
 import { RequestBuilder } from 'cypress/api/requestBuilder';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import fundingAgreementHealthCheckEditPage from '../../../pages/tasks/pre-opening/edit-funding-agreement-health-check.cy';
+import fundingAgreementHealthCheckEditPage from '../../../pages/tasks/pre-opening/edit-funding-agreement-health-check';
 
 describe('Testing Funding agreement health check Task', () => {
     let project: ProjectDetailsRequest;

@@ -4,7 +4,7 @@ import { RequestBuilder } from 'cypress/api/requestBuilder';
 import { Logger } from 'cypress/common/logger';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import editPrincipalDesignatePage from '../../../pages/tasks/pre-opening/edit-principal-designate.cy';
+import editPrincipalDesignatePage from '../../../pages/tasks/pre-opening/edit-principal-designate';
 
 describe('Testing Principal designate task', () => {
     let project: ProjectDetailsRequest;

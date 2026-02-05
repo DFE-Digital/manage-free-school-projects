@@ -3,7 +3,7 @@ import projectApi from 'cypress/api/projectApi';
 import { RequestBuilder } from 'cypress/api/requestBuilder';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import fundingAgreementSubmissionEditPage from '../../../pages/tasks/pre-opening/edit-funding-agreement-submission.cy';
+import fundingAgreementSubmissionEditPage from '../../../pages/tasks/pre-opening/edit-funding-agreement-submission';
 
 describe('Testing Funding agreement submission Task', () => {
     let project: ProjectDetailsRequest;

@@ -4,7 +4,7 @@ import { RequestBuilder } from 'cypress/api/requestBuilder';
 import dataGenerator from 'cypress/fixtures/dataGenerator';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import articlesOfAssociationEditPage from 'cypress/pages/tasks/pre-opening/edit-articles-of-association.cy';
+import articlesOfAssociationEditPage from 'cypress/pages/tasks/pre-opening/edit-articles-of-association';
 
 describe('Testing articles of association Task', () => {
     let project: ProjectDetailsRequest;

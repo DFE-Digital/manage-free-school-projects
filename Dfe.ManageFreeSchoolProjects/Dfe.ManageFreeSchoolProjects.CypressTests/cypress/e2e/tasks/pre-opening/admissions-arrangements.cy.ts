@@ -4,7 +4,7 @@ import { RequestBuilder } from 'cypress/api/requestBuilder';
 import { Logger } from 'cypress/common/logger';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import admissionsArrangementsEditPage from '../../../pages/tasks/pre-opening/edit-admissions-arrangements.cy';
+import admissionsArrangementsEditPage from '../../../pages/tasks/pre-opening/edit-admissions-arrangements';
 
 describe('Testing the admissions arragements task', () => {
     let project: ProjectDetailsRequest;

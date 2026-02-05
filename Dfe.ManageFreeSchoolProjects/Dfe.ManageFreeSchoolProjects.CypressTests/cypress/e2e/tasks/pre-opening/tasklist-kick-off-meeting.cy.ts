@@ -4,7 +4,7 @@ import { RequestBuilder } from 'cypress/api/requestBuilder';
 import dataGenerator from 'cypress/fixtures/dataGenerator';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import kickOffMeetingEditPage from '../../../pages/tasks/pre-opening/edit-kick-off-meeting.cy';
+import kickOffMeetingEditPage from '../../../pages/tasks/pre-opening/edit-kick-off-meeting';
 
 describe('Testing kick off meeting Task', () => {
     let project: ProjectDetailsRequest;
