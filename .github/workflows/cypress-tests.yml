@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     container:
-      image: cypress/browsers:22.13.1@sha256:914c9814a9567f32660203db7ecd610b8f8fede6e9103885728b3bd3f6dca4ff
+      image: cypress/browsers:22.21.0@sha256:1b0e8df630f819b84ae8f46e39746ac79e3e1666208a1d0716b2e07ccafd19a9
 
     steps:
       - name: Checkout code
@@ -128,7 +128,7 @@ jobs:
             spec: cypress/e2e/tasks/Getting-ready-to-open/**/*.cy.ts,cypress/e2e/tasks/After-opening/**/*.cy.ts
 
     container:
-      image: cypress/browsers:22.13.1@sha256:914c9814a9567f32660203db7ecd610b8f8fede6e9103885728b3bd3f6dca4ff
+      image: cypress/browsers:22.21.0@sha256:1b0e8df630f819b84ae8f46e39746ac79e3e1666208a1d0716b2e07ccafd19a9
 
     steps:
       - name: Checkout code
