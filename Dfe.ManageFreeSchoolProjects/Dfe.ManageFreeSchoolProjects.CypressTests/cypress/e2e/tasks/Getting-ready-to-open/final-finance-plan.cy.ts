@@ -3,7 +3,7 @@ import projectApi from 'cypress/api/projectApi';
 import { RequestBuilder } from 'cypress/api/requestBuilder';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import finalFinancePlanEditPage from '../../../pages/tasks/Getting-ready-to-open/edit-final-finance-plan.cy';
+import finalFinancePlanEditPage from '../../../pages/tasks/Getting-ready-to-open/edit-final-finance-plan';
 
 describe('Testing Final finance plan Task', () => {
     let project: ProjectDetailsRequest;

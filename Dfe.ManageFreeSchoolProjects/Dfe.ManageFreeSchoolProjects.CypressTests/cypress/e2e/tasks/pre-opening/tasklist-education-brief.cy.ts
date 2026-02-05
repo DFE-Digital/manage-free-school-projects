@@ -3,7 +3,7 @@ import projectApi from 'cypress/api/projectApi';
 import { RequestBuilder } from 'cypress/api/requestBuilder';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import educationBriefEditPage from '../../../pages/tasks/sign-off-preparation/edit-education-brief.cy';
+import educationBriefEditPage from '../../../pages/tasks/sign-off-preparation/edit-education-brief';
 import riskPage from 'cypress/pages/risk/projectRiskSummaryPage';
 
 describe('Testing education plans and policies - presumption', () => {

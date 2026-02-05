@@ -4,7 +4,7 @@ import { RequestBuilder } from 'cypress/api/requestBuilder';
 import { Logger } from 'cypress/common/logger';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import externalExpertVisitEditPage from '../../../pages/tasks/After-opening/edit-external-expert-visit.cy';
+import externalExpertVisitEditPage from '../../../pages/tasks/After-opening/edit-external-expert-visit';
 
 describe('Testing the External expert visit task', () => {
     let project: ProjectDetailsRequest;

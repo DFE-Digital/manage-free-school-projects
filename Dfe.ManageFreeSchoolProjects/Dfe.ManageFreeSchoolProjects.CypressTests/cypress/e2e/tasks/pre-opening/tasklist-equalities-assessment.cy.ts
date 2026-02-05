@@ -3,7 +3,7 @@ import projectApi from 'cypress/api/projectApi';
 import { RequestBuilder } from 'cypress/api/requestBuilder';
 import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
-import equalitiesAssessmentEditPage from '../../../pages/tasks/pre-opening/edit-equalities-assessment.cy';
+import equalitiesAssessmentEditPage from '../../../pages/tasks/pre-opening/edit-equalities-assessment';
 
 describe('Testing equalities assessment', () => {
     let project: ProjectDetailsRequest;
