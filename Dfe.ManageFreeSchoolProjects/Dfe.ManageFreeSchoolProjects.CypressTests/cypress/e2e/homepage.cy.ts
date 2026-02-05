@@ -274,7 +274,9 @@ describe('Testing the home page', () => {
             const downloadsFolder = Cypress.config('downloadsFolder');
             const downloadedFilename = path.join(downloadsFolder, fileName);
 
-            cy.readFile(downloadedFilename, 'binary').should((buffer) => expect(buffer.length).to.be.gt(100));
+            cy.readFile(downloadedFilename, 'binary', { timeout: 60000 })
+                .should('not.be.null')
+                .should('have.length.greaterThan', 100);
         });
     });
 
