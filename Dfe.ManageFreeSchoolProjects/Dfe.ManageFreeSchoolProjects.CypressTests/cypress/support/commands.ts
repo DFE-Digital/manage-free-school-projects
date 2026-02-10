@@ -2,6 +2,24 @@ import 'cypress-localstorage-commands';
 import 'cypress-axe';
 import { AuthenticationInterceptor } from '../auth/authenticationInterceptor';
 import { Logger } from '../common/logger';
+import { Result } from 'axe-core';
+
+function formatViolation(violation: Result): string {
+    const nodes = violation.nodes.map((node) => node.target.join(', ')).join('\n    ');
+    return (
+        `\n[${violation.impact?.toUpperCase()}] ${violation.id}: ${violation.description}\n` +
+        `  Help: ${violation.helpUrl}\n` +
+        `  Affected nodes:\n    ${nodes}`
+    );
+}
+
+function logViolations(violations: Result[]): void {
+    cy.url().then((url) => {
+        violations.forEach((violation) => {
+            Logger.log(`A11y violation on ${url}: ${formatViolation(violation)}`);
+        });
+    });
+}
 
 Cypress.Commands.add('getByTestId', (id) => {
     cy.get(`[data-testid="${id}"]`);
@@ -65,11 +83,9 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
     const impactLevel = ['critical', 'minor', 'moderate', 'serious'];
     const continueOnFail = false;
 
-    // Ensure that the axe dependency is available in the browser
-    Logger.log('Inject Axe');
+    Logger.log('Injecting Axe and checking accessibility');
     cy.injectAxe();
 
-    Logger.log('Checking accessibility');
     cy.checkA11y(
         undefined,
         {
@@ -79,7 +95,7 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
             },
             includedImpacts: impactLevel,
         },
-        undefined,
+        logViolations,
         continueOnFail
     );
 });
