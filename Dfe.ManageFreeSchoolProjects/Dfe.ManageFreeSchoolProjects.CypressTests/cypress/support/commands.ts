@@ -82,7 +82,7 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
     const wcagStandards = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
     const impactLevel = ['critical', 'minor', 'moderate', 'serious'];
     const continueOnFail = false;
-    let ruleConfiguration: RuleObject = {
+    const ruleConfiguration: RuleObject = {
         // govuk-frontend v5.x adds aria-expanded to radio inputs with conditional
         // reveals, which is not yet permitted by the ARIA spec on the radio role.
         // Tracked upstream: https://github.com/w3c/aria/issues/1404
