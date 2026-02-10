@@ -61,7 +61,7 @@ Cypress.Commands.add('login', (params) => {
 
 Cypress.Commands.add('executeAccessibilityTests', () => {
     Logger.log('Executing the command');
-    const wcagStandards = ['wcag22aa'];
+    const wcagStandards = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
     const impactLevel = ['critical', 'minor', 'moderate', 'serious'];
     const continueOnFail = false;
 
