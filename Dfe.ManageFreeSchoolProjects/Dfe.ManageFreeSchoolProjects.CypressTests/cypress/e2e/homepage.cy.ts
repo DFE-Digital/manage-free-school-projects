@@ -6,7 +6,7 @@ import { Logger } from 'cypress/common/logger';
 import homePage from 'cypress/pages/homePage';
 import paginationComponent from 'cypress/pages/paginationComponent';
 import projectTable from 'cypress/pages/projectTable';
-import path from 'path';
+
 import projectOverviewPage from 'cypress/pages/projectOverviewPage';
 
 describe('Testing the home page', () => {
@@ -266,17 +266,18 @@ describe('Testing the home page', () => {
 
     describe('Checking the project data export', () => {
         it('Should be able to download a file of the project data export', () => {
+            const now = new Date().toISOString().split('T')[0];
+            const expectedFileName = `${now}-mfsp-all-projects-export.xlsx`;
+
+            cy.intercept({ method: 'GET', url: /handler=DownloadFile/ }).as('downloadFile');
+
             homePage.downloadProjectDataExport();
 
-            const now = new Date().toISOString().split('T')[0];
-            const fileName = `${now}-mfsp-all-projects-export.xlsx`;
-
-            const downloadsFolder = Cypress.config('downloadsFolder');
-            const downloadedFilename = path.join(downloadsFolder, fileName);
-
-            cy.readFile(downloadedFilename, 'binary', { timeout: 60000 })
-                .should('not.be.null')
-                .should('have.length.greaterThan', 100);
+            cy.wait('@downloadFile', { timeout: 60000 }).then((interception) => {
+                expect(interception.response).to.not.equal(undefined);
+                expect(interception.response!.statusCode).to.equal(200);
+                expect(interception.response!.headers['content-disposition']).to.include(expectedFileName);
+            });
         });
     });
 
