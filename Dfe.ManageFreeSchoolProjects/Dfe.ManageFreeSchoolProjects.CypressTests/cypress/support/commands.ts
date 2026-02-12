@@ -2,6 +2,24 @@ import 'cypress-localstorage-commands';
 import 'cypress-axe';
 import { AuthenticationInterceptor } from '../auth/authenticationInterceptor';
 import { Logger } from '../common/logger';
+import { Result, RuleObject } from 'axe-core';
+
+function formatViolation(violation: Result): string {
+    const nodes = violation.nodes.map((node) => node.target.join(', ')).join('\n    ');
+    return (
+        `\n[${violation.impact?.toUpperCase()}] ${violation.id}: ${violation.description}\n` +
+        `  Help: ${violation.helpUrl}\n` +
+        `  Affected nodes:\n    ${nodes}`
+    );
+}
+
+function logViolations(violations: Result[]): void {
+    cy.url().then((url) => {
+        violations.forEach((violation) => {
+            Logger.log(`A11y violation on ${url}: ${formatViolation(violation)}`);
+        });
+    });
+}
 
 Cypress.Commands.add('getByTestId', (id) => {
     cy.get(`[data-testid="${id}"]`);
@@ -61,15 +79,19 @@ Cypress.Commands.add('login', (params) => {
 
 Cypress.Commands.add('executeAccessibilityTests', () => {
     Logger.log('Executing the command');
-    const wcagStandards = ['wcag22aa'];
+    const wcagStandards = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
     const impactLevel = ['critical', 'minor', 'moderate', 'serious'];
     const continueOnFail = false;
+    const ruleConfiguration: RuleObject = {
+        // govuk-frontend v5.x adds aria-expanded to radio inputs with conditional
+        // reveals, which is not yet permitted by the ARIA spec on the radio role.
+        // Tracked upstream: https://github.com/w3c/aria/issues/1404
+        'aria-allowed-attr': { enabled: false },
+    };
 
-    // Ensure that the axe dependency is available in the browser
-    Logger.log('Inject Axe');
+    Logger.log('Injecting Axe and checking accessibility');
     cy.injectAxe();
 
-    Logger.log('Checking accessibility');
     cy.checkA11y(
         undefined,
         {
@@ -77,9 +99,10 @@ Cypress.Commands.add('executeAccessibilityTests', () => {
                 type: 'tag',
                 values: wcagStandards,
             },
+            rules: ruleConfiguration,
             includedImpacts: impactLevel,
         },
-        undefined,
+        logViolations,
         continueOnFail
     );
 });
