@@ -6,7 +6,7 @@ import { Logger } from 'cypress/common/logger';
 import homePage from 'cypress/pages/homePage';
 import paginationComponent from 'cypress/pages/paginationComponent';
 import projectTable from 'cypress/pages/projectTable';
-import path from "path";
+import path from 'path';
 
 import projectOverviewPage from 'cypress/pages/projectOverviewPage';
 
