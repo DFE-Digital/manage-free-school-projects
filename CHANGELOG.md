@@ -16,7 +16,16 @@ Security in case of vulnerabilities.
 
 ## Unreleased
 
-See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/production-2026-02-04.1269...HEAD) for everything awaiting release
+See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/production-2026-02-12.1289...HEAD) for everything awaiting release
+
+---
+
+## [2.3.1](https://github.com/DFE-Digital/manage-free-school-projects/releases/tag/production-2026-02-12.1289) - 2026-02-12
+
+### Changed
+- 263397 - minor accessibility update for view pdg page
+
+---
 
 ## [2.3.0](https://github.com/DFE-Digital/manage-free-school-projects/releases/tag/production-2026-02-04.1269) - 2026-02-04
 
