@@ -153,7 +153,7 @@ class HomePage {
     }
 
     public clickHeader(): this {
-        cy.getByClass('dfe-header__link--service').click();
+        cy.getByClass('govuk-header').find('a').click();
 
         return this;
     }
@@ -198,8 +198,18 @@ class HomePage {
         return this;
     }
 
-    public downloadProjectDataExport() {
-        cy.getByTestId('download-data-export').click();
+    public hasProjectDataExport(): void {
+        cy.getByTestId('download-data-export')
+            .should('have.attr', 'href')
+            .then((href) => {
+                cy.request({
+                    url: href as unknown as string,
+                    encoding: 'binary',
+                }).then((response) => {
+                    expect(response.status).to.eq(200);
+                    expect(response.body.length).to.be.gt(100);
+                });
+            });
     }
 }
 

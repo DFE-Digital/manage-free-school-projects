@@ -6,8 +6,6 @@ import { Logger } from 'cypress/common/logger';
 import homePage from 'cypress/pages/homePage';
 import paginationComponent from 'cypress/pages/paginationComponent';
 import projectTable from 'cypress/pages/projectTable';
-import path from 'path';
-
 import projectOverviewPage from 'cypress/pages/projectOverviewPage';
 
 describe('Testing the home page', () => {
@@ -267,32 +265,25 @@ describe('Testing the home page', () => {
 
     describe('Checking the project data export', () => {
         it('Should be able to download a file of the project data export', () => {
-            homePage.downloadProjectDataExport();
-
-            const now = new Date().toISOString().split('T')[0];
-            const fileName = `${now}-mfsp-all-projects-export.xlsx`;
-
-            const downloadsFolder = Cypress.config('downloadsFolder');
-            const downloadedFilename = path.join(downloadsFolder, fileName);
-
-            cy.readFile(downloadedFilename, 'binary').should((buffer) => expect(buffer.length).to.be.gt(100));
+            homePage.hasProjectDataExport();
         });
     });
 
-    describe.skip('Filter cache', () => {
+    describe('Filter cache', () => {
         it('Should retain filter values after navigating away from the page and back again', () => {
             homePage.openFilter().tryViewProjectWithFilters();
 
             projectOverviewPage.backToProjectDashboard();
 
-            const filterData = homePage.FilterData;
+            cy.then(() => {
+                const filterData = homePage.FilterData;
 
-            homePage
-                .hasProjectFilter(filterData.projectId)
-                .hasRegionFilter(filterData.regionName)
-                .hasLocalAuthorityFilter(filterData.localAuthority)
-                .hasProjectManagedByFilter(filterData.projectManagedBy);
-            // .hasProjectStatusFilter(filterData.status);
+                homePage
+                    .hasProjectFilter(filterData.projectId)
+                    .hasRegionFilter(filterData.regionName)
+                    .hasLocalAuthorityFilter(filterData.localAuthority)
+                    .hasProjectManagedByFilter(filterData.projectManagedBy);
+            });
         });
 
         it('Should clear filters when clicking header link', () => {
