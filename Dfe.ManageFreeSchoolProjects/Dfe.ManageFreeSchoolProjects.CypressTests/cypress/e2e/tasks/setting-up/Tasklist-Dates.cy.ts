@@ -181,7 +181,7 @@ describe('Testing project overview', () => {
 
         datesDetailsPage
             .withEntryIntoPreOpening('30', '9', '2026')
-            .withProvisionalOpeningDateAgreedWithTrust('28', '2', '2026')
+            .withProvisionalOpeningDateAgreedWithTrust('28', '2', '2028')
             .withRealisticYearOfOpeningStartDate('1234')
             .clickContinue()
             .errorForRealisticStartDate('Start year must begin with 20')
@@ -195,6 +195,6 @@ describe('Testing project overview', () => {
 
         summaryPage.SummaryHasValue('Entry into pre-opening', '30 September 2026');
         summaryPage.SummaryHasValue('Realistic year of opening', '2049/50');
-        summaryPage.SummaryHasValue('Provisional opening date agreed with trust', '28 February 2026');
+        summaryPage.SummaryHasValue('Provisional opening date agreed with trust', '28 February 2028');
     });
 });
