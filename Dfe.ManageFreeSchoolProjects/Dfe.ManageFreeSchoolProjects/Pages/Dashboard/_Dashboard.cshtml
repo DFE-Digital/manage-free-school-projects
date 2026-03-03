@@ -103,7 +103,7 @@
                                     var checkedStatus = Model.RegionSearchTerm.Contains(region) ? "checked" : "";
 
                                     <div class="govuk-checkboxes__item">
-                                        <input class="govuk-checkboxes__input" id="@region" data-testid="@region-option" name="search-by-region" type="checkbox" value="@region" @checkedStatus>
+                                        <input class="govuk-checkboxes__input" id="@region" data-testid="@region-option" name="search-by-region" type="checkbox" value="@region" @checkedStatus aria-describedby="filter-regions-hint">
                                         <label class="govuk-label govuk-checkboxes__label" for="@region">
                                             @region
                                         </label>
@@ -164,7 +164,7 @@
                                             var checkedStatus = Model.ProjectManagedBySearchTerm.Contains(manager) ? "checked" : "";
 
                                             <div class="govuk-checkboxes__item">
-                                                <input class="govuk-checkboxes__input" id="@manager" data-testid="@manager-option" name="search-by-pmb" type="checkbox" value="@manager" @checkedStatus>
+                                                <input class="govuk-checkboxes__input" id="@manager" data-testid="@manager-option" name="search-by-pmb" type="checkbox" value="@manager" @checkedStatus aria-describedby="filter-pmb-hint">
                                                 <label class="govuk-label govuk-checkboxes__label" for="@manager">
                                                     @manager
                                                 </label>
@@ -208,7 +208,7 @@
                                             var checkedStatus = Model.ProjectStatusSearchTerm.Contains(status) ? "checked" : "";
 
                                             <div class="govuk-checkboxes__item">
-                                                <input class="govuk-checkboxes__input" id="@status" data-testid="@status-option" name="search-by-project-status" type="checkbox" value="@status" @checkedStatus>
+                                                <input class="govuk-checkboxes__input" id="@status" data-testid="@status-option" name="search-by-project-status" type="checkbox" value="@status" @checkedStatus aria-describedby="filter-project-status-hint">
                                                 <label class="govuk-label govuk-checkboxes__label" for="@status">
                                                     @status
                                                 </label>
@@ -426,7 +426,7 @@ else
 
                             return `
                                 <div class="govuk-checkboxes__item">
-                                <input class="govuk-checkboxes__input" id="${encodedName}" data-testid="${encodedName}-option" name="search-by-local-authority" type="checkbox" value="${encodedName}" ${laIsChecked}>
+                                <input class="govuk-checkboxes__input" id="${encodedName}" data-testid="${encodedName}-option" name="search-by-local-authority" type="checkbox" value="${encodedName}" ${laIsChecked} aria-describedby="filter-la-hint">
                                 <label class="govuk-label govuk-checkboxes__label" for="${encodedName}">${encodedName}</label>
                                 </div>
                             `
