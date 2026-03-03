@@ -32,7 +32,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
             output.TagName = "div";
             output.Attributes.SetAttribute("class", "govuk-radios__item");
 
-            output.PreContent.SetHtmlContent(RadiosListItemBuilder.BuildRadioInput(Id, Value, For, Name, conditionallink));
+            output.PreContent.SetHtmlContent(RadiosListItemBuilder.BuildRadioInput(Id, Value, For, Name, conditionallink, !string.IsNullOrEmpty(Hint)));
             output.PreContent.AppendHtml(RadiosListItemBuilder.BuildLabel(Id, Description));
             output.PreContent.AppendHtml(RadiosListItemBuilder.BuildHint(Id, Hint));
             output.PreContent.AppendHtml("</div>");
