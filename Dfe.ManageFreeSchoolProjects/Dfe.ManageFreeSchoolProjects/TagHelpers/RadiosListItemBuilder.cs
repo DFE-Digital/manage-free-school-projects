@@ -17,17 +17,12 @@ internal static class RadiosListItemBuilder
                      </label>";
     }
 
-    public static string BuildRadioInput(string id, string value, ModelExpression aspfor, string name = null, string conditionallink = null, bool hasHint = false, string additionalDescribedBy = null)
+    public static string BuildRadioInput(string id, string value, ModelExpression aspfor, string name = null, string conditionallink = null, bool hasHint = false)
     {
         var radioChecked = value == aspfor.Model?.ToString() ? "checked=\"checked\"" : "";
-        var conditional = conditionallink != null ? $@"data-aria-controls=""{conditionallink}"" aria-expanded=""{(string.IsNullOrEmpty(radioChecked) ? "false" : "true")}"" aria-controls=""{conditionallink}""" : "";
+        var conditional = conditionallink != null ? $@"data-aria-controls=""{conditionallink}""" : "";
         var nameAttributeAndValue = !string.IsNullOrEmpty(name) ? $@"name=""{name}""" : ""; 
         var ariaDescribedBy = hasHint ? $@"aria-describedby=""{id.ToLower()}-hint""" : "";
-
-        if (!string.IsNullOrEmpty(additionalDescribedBy))
-        {
-            ariaDescribedBy = string.IsNullOrEmpty(ariaDescribedBy) ? $@"aria-describedby=""{additionalDescribedBy}""" : ariaDescribedBy.Insert(ariaDescribedBy.Length - 1, $" {additionalDescribedBy}");
-        }
         
         return $@"<input class=""govuk-radios__input"" id=""{id}""  type=""radio"" value=""{value}"" {nameAttributeAndValue} {radioChecked} {conditional} {ariaDescribedBy}/>";
     }
