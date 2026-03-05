@@ -11,7 +11,7 @@
 			return $"{id}-{position + 1}";
 		}
 
-		void RenderHint(string hint)
+		void RenderHint(string hint, string id)
 		{
 			if(string.IsNullOrEmpty(hint))
 			{
@@ -22,13 +22,13 @@
 
 			if(splitHint.Length == 1)
 			{
-				<div class="govuk-hint govuk-radios__hint">
+				<div id="@id" class="govuk-hint govuk-radios__hint">
 					@hint
 				</div>
 			}
 			else
 			{
-				<div class="govuk-hint govuk-radios__hint govuk-!-margin-bottom-6">
+				<div id="@id" class="govuk-hint govuk-radios__hint govuk-!-margin-bottom-6">
 					@for (var i = 0; i < splitHint.Length; i++)
 					{
 						@splitHint[i]
@@ -90,8 +90,9 @@
 		<div class="govuk-radios">
 			@for (var i = 0; i < Model.Values.Length; i++)
 			{
+				var hintId = string.IsNullOrEmpty(Model.Hints?[i]) ? "" : $"{Id(Model.Id, i)}-hint";
 				<div class="govuk-radios__item">
-					<input class="govuk-radios__input" id="@Id(Model.Id, i)" name="@Model.Name" type="radio" value="@Model.Values[i]" checked="@(Model.Values[i].Equals(Model.Value, StringComparison.OrdinalIgnoreCase))" data-testid="@testIds.ElementAtOrDefault(i)">
+					<input class="govuk-radios__input" id="@Id(Model.Id, i)" name="@Model.Name" type="radio" value="@Model.Values[i]" checked="@(Model.Values[i].Equals(Model.Value, StringComparison.OrdinalIgnoreCase))" data-testid="@testIds.ElementAtOrDefault(i)" aria-describedby="@hintId">
 					<label class="govuk-label govuk-radios__label" id="@Id(Model.Id, i)-label" for="@Id(Model.Id, i)">
 						@if (Model.HtmlLabels.Any())
 						{
@@ -105,7 +106,7 @@
 					</label>
 					@if (Model.Hints != null)
 					{
-						RenderHint(Model.Hints[i]);
+						RenderHint(Model.Hints[i], hintId);
 					}
 				</div>
 			}
