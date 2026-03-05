@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 {
-    internal static class RadiosListItemBuilder
+    public static class RadiosListItemBuilder
     {
         public static string BuildHint(string id, string hint)
         {
@@ -36,7 +36,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
         }
     }
 
-    internal class RadioInputOptions
+    public class RadioInputOptions
     {
         public string Id { get; set; }
         public string Value { get; set; }
