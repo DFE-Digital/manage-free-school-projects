@@ -25,18 +25,34 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
         [HtmlAttributeName("name")]
         public string Name { get; set; }
 
+        [HtmlAttributeName("revealed-field-id")]
+        public string RevealedFieldId { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var conditionallink = Id + "-conditional";
 
-            output.TagName = "div";
-            output.Attributes.SetAttribute("class", "govuk-radios__item");
+            output.TagName = null;
 
-            output.PreContent.SetHtmlContent(RadiosListItemBuilder.BuildRadioInput(Id, Value, For, Name, conditionallink, !string.IsNullOrEmpty(Hint)));
+            var additionalAriaDescribedBy = !string.IsNullOrEmpty(RevealedFieldId) ? $"{RevealedFieldId}-label" : null;
+
+            output.PreContent.SetHtmlContent($@"<div class=""govuk-radios__item"">");
+            output.PreContent.AppendHtml(RadiosListItemBuilder.BuildRadioInput(new RadioInputOptions
+            {
+                Id = Id,
+                Value = Value,
+                For = For,
+                Name = Name,
+                ConditionalLink = conditionallink,
+                HasHint = !string.IsNullOrEmpty(Hint),
+                AdditionalAriaDescribedBy = additionalAriaDescribedBy
+            }));
             output.PreContent.AppendHtml(RadiosListItemBuilder.BuildLabel(Id, Description));
             output.PreContent.AppendHtml(RadiosListItemBuilder.BuildHint(Id, Hint));
             output.PreContent.AppendHtml("</div>");
             output.PreContent.AppendHtml(BuildConditionalArea(conditionallink));
+
+            output.PostContent.SetHtmlContent("</div>");
 
             output.TagMode = TagMode.StartTagAndEndTag;
         }

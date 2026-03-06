@@ -29,7 +29,14 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
             output.TagName = "div";
             output.Attributes.SetAttribute("class", "govuk-radios__item");
             
-            output.PreContent.SetHtmlContent(RadiosListItemBuilder.BuildRadioInput(Id, Value, For, Name, hasHint: !string.IsNullOrEmpty(Hint)));
+            output.PreContent.SetHtmlContent(RadiosListItemBuilder.BuildRadioInput(new RadioInputOptions
+            {
+                Id = Id,
+                Value = Value,
+                For = For,
+                Name = Name,
+                HasHint = !string.IsNullOrEmpty(Hint)
+            }));
             output.PreContent.AppendHtml(RadiosListItemBuilder.BuildLabel(Id, Description));
             output.PreContent.AppendHtml(RadiosListItemBuilder.BuildHint(Id, Hint));
 

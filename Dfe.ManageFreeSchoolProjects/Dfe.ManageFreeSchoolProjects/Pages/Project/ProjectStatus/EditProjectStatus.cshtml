@@ -70,7 +70,7 @@
                         {
                             if (option.IsConditional)
                             {
-                                <govuk-radios-list-conditional-item id="@option.Id" value="@option.Value" description="@option.Description" hint="@option.Hint" asp-for="@Model.ProjectStatus" name="project-status">
+                                <govuk-radios-list-conditional-item id="@option.Id" value="@option.Value" description="@option.Description" hint="@option.Hint" asp-for="@Model.ProjectStatus" name="project-status" revealed-field-id="@option.DateInputId">
                                     <govuk-date-input id="@option.DateInputId" name="@option.DateInputName" asp-for="@option.DateInputValueAspFor" label="@option.DateInputLabel" hint="@option.DateInputHint"/>
                                 </govuk-radios-list-conditional-item>
                             }
