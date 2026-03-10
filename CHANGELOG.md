@@ -16,7 +16,16 @@ Security in case of vulnerabilities.
 
 ## Unreleased
 
-See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/production-2026-02-12.1289...HEAD) for everything awaiting release
+See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/production-2026-03-06.1301...HEAD) for everything awaiting release
+
+---
+
+## [2.4.0](https://github.com/DFE-Digital/manage-free-school-projects/releases/tag/production-2026-03-06.1301) - 2026-03-06
+
+### Changed
+- 257502 - accessibility - update project status radio buttons announcement
+- 257491 - accessibility - update filter labels to be announced
+- 257508 - accessibility - update project status to announce new element
 
 ---
 
