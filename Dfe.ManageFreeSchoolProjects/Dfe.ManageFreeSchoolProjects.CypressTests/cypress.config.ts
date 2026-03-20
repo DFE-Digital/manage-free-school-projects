@@ -2,6 +2,7 @@ import { defineConfig } from 'cypress';
 import { generateZapReport } from 'cypress/plugins/generateZapReport';
 
 export default defineConfig({
+    allowCypressEnv: false,
     defaultCommandTimeout: 45000,
     pageLoadTimeout: 45000,
     watchForFileChanges: false,
@@ -45,6 +46,12 @@ export default defineConfig({
             });
             require('@cypress/grep/plugin').plugin(config);
             config.baseUrl = config.env.url;
+            config.expose = {
+                url: config.env.url,
+                api: config.env.api,
+                username: config.env.username,
+            };
+
             return config;
         },
     },

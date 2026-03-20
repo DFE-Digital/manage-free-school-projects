@@ -7,7 +7,7 @@ export class RequestBuilder {
         return {
             projectId: dataGenerator.generateTemporaryId(25),
             projectType: 'Presumption',
-            createdBy: Cypress.env(EnvUsername),
+            createdBy: Cypress.expose(EnvUsername),
             schoolName: dataGenerator.generateSchoolName(),
             TRN: 'TR90111',
             applicationWave: 'FS - Presumption',

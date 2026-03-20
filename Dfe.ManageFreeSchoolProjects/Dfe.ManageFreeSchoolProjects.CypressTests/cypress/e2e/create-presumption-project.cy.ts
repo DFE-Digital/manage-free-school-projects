@@ -1,5 +1,5 @@
 import { Logger } from 'cypress/common/logger';
-import { ProjectRecordCreator } from 'cypress/constants/cypressConstants';
+import { EnvUrl, ProjectRecordCreator } from 'cypress/constants/cypressConstants';
 import dataGenerator from 'cypress/fixtures/dataGenerator';
 import createProjectPage from 'cypress/pages/createProject/createProjectPage';
 import homePage from 'cypress/pages/homePage';
@@ -8,7 +8,7 @@ import summaryPage from 'cypress/pages/task-summary-base';
 describe('Testing the presumption route project creation journey', () => {
     beforeEach(() => {
         cy.login({ role: 'POTATO' });
-        cy.visit(Cypress.env('url'));
+        cy.visit(Cypress.expose(EnvUrl));
     });
 
     it('Should NOT allow a NON-projectrecordcreator user to access certain URLs', () => {

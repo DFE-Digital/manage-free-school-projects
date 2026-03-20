@@ -8,7 +8,7 @@ export class ApiClient {
         return cy
             .request<TResponse>({
                 method: 'PUT',
-                url: Cypress.env(EnvApi) + endpoint,
+                url: Cypress.expose(EnvApi) + endpoint,
                 headers: this.getHeaders(),
                 body: request,
             })
@@ -24,7 +24,7 @@ export class ApiClient {
         return cy
             .request<TResponse>({
                 method: 'POST',
-                url: Cypress.env(EnvApi) + endpoint,
+                url: Cypress.expose(EnvApi) + endpoint,
                 headers: this.getHeaders(),
                 body: request,
             })
@@ -37,7 +37,7 @@ export class ApiClient {
         return cy
             .request<TResponse>({
                 method: 'GET',
-                url: Cypress.env(EnvApi) + endpoint,
+                url: Cypress.expose(EnvApi) + endpoint,
                 headers: this.getHeaders(),
             })
             .then((response) => {
@@ -46,10 +46,11 @@ export class ApiClient {
     }
 
     protected getHeaders(): object {
-        const result = {
-            'Content-type': 'application/json',
-            ApiKey: Cypress.env(EnvApiKey),
-        };
-        return result;
+        return cy.env([EnvApiKey]).then(({ apiKey }) => {
+            return {
+                'Content-type': 'application/json',
+                ApiKey: apiKey,
+            };
+        });
     }
 }
