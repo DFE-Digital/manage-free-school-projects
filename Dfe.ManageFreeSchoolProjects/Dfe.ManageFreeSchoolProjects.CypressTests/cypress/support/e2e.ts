@@ -18,7 +18,8 @@ import { AuthenticationInterceptorParams } from 'cypress/auth/authenticationInte
 import './commands';
 import { RuleObject } from 'axe-core';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const registerCypressGrep = require('@cypress/grep');
+const { register: registerCypressGrep } = require('@cypress/grep');
+
 registerCypressGrep();
 
 declare global {

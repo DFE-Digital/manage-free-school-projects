@@ -4,14 +4,10 @@ class DataGenerator {
     generateTemporaryId(length: number): string {
         const values: string = 'abcdefghijklmnopqrstuvwxyz0123456789';
         let tempId: string = '';
-        let temp: string = '';
 
         for (let i = 0; i < length; i++) {
-            temp = values.charAt(Math.round(values.length * Math.random()));
-            tempId += temp;
+            tempId += values.charAt(Math.round(values.length * Math.random()));
         }
-
-        temp = '';
 
         return tempId;
     }
@@ -19,14 +15,10 @@ class DataGenerator {
     generateAlphaNumeric(length: number): string {
         const values: string = 'abcdefghijklmnopqrstuvwxyz0123456789';
         let tempId: string = '';
-        let temp: string = '';
 
         for (let i = 0; i < length; i++) {
-            temp = values.charAt(i % values.length);
-            tempId += temp;
+            tempId += values.charAt(i % values.length);
         }
-
-        temp = '';
 
         return tempId;
     }
@@ -34,14 +26,10 @@ class DataGenerator {
     generateAlpha(length: number): string {
         const values: string = 'abcdefghijklmnopqrstuvwxyz';
         let tempId: string = '';
-        let temp: string = '';
 
         for (let i = 0; i < length; i++) {
-            temp = values.charAt(i % values.length);
-            tempId += temp;
+            tempId += values.charAt(i % values.length);
         }
-
-        temp = '';
 
         return tempId;
     }

@@ -4,8 +4,9 @@ import dataGenerator from 'cypress/fixtures/dataGenerator';
 
 export class RequestBuilder {
     public static createNewProjectDetails(): ProjectDetailsRequest {
-        const result: ProjectDetailsRequest = {
+        return {
             projectId: dataGenerator.generateTemporaryId(25),
+            projectType: 'Presumption',
             createdBy: Cypress.env(EnvUsername),
             schoolName: dataGenerator.generateSchoolName(),
             TRN: 'TR90111',
@@ -13,7 +14,6 @@ export class RequestBuilder {
             projectAssignedToName: 'Test Person',
             projectAssignedToEmail: 'test.person.education.gov.uk',
         };
-        return result;
     }
 
     public static createProjectDetails(): ProjectDetailsRequest {
@@ -34,13 +34,11 @@ export class RequestBuilder {
     }
 
     public static CreateProjectRiskRequest(): CreateProjectRiskRequest {
-        const result: CreateProjectRiskRequest = {
+        return {
             overall: {
                 riskRating: 1,
                 summary: 'This is my risk summary',
             },
         };
-
-        return result;
     }
 }
