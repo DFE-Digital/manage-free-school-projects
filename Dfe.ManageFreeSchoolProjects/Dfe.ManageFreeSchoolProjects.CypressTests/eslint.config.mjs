@@ -1,6 +1,6 @@
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
-import cypressPlugin from 'eslint-plugin-cypress/flat';
+import cypressPlugin from 'eslint-plugin-cypress';
 import unusedImports from 'eslint-plugin-unused-imports';
 import globals from 'globals';
 

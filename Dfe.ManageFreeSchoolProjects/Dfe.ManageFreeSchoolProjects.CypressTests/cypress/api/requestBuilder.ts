@@ -4,16 +4,16 @@ import dataGenerator from 'cypress/fixtures/dataGenerator';
 
 export class RequestBuilder {
     public static createNewProjectDetails(): ProjectDetailsRequest {
-        const result: ProjectDetailsRequest = {
+        return {
             projectId: dataGenerator.generateTemporaryId(25),
-            createdBy: Cypress.env(EnvUsername),
+            projectType: 'Presumption',
+            createdBy: Cypress.expose(EnvUsername),
             schoolName: dataGenerator.generateSchoolName(),
             TRN: 'TR90111',
             applicationWave: 'FS - Presumption',
             projectAssignedToName: 'Test Person',
             projectAssignedToEmail: 'test.person.education.gov.uk',
         };
-        return result;
     }
 
     public static createProjectDetails(): ProjectDetailsRequest {
@@ -34,13 +34,11 @@ export class RequestBuilder {
     }
 
     public static CreateProjectRiskRequest(): CreateProjectRiskRequest {
-        const result: CreateProjectRiskRequest = {
+        return {
             overall: {
                 riskRating: 1,
                 summary: 'This is my risk summary',
             },
         };
-
-        return result;
     }
 }
