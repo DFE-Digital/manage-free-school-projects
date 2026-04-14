@@ -2,7 +2,7 @@
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Email;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Dfe.ManageFreeSchoolProjects.API.Extensions;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Controllers;
 
@@ -25,13 +25,13 @@ public class EmailController : ControllerBase
      {
          _logger.LogMethodEntered();
 
-         if (request.Email.IsNullOrEmpty()) 
+         if (request.Email.IsNullOrEmpty())
              return BadRequest("Email is required.");
 
          if (!_emailService.IsEmailValid(request.Email)) 
              return BadRequest("Email is not valid.");
          
-         if (string.IsNullOrEmpty(request.ProjectUrl))
+         if (request.ProjectUrl.IsNullOrEmpty())
              return BadRequest("Project Url is required.");
          
          try

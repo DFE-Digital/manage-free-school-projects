@@ -47,7 +47,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 
         private string GetChangeLink()
         {
-            if (!href.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(href))
                 return $@"<a class=""govuk-link"" href=""{href}"" data-testid=""change-{Id}"">
                                 {LinkLabel ?? "Change"}<span class=""govuk-visually-hidden"">{Label}</span>
                       </a>
