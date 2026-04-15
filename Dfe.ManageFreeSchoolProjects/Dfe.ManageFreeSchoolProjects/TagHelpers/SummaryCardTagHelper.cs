@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 {
     [HtmlTargetElement("govuk-summary-card", TagStructure = TagStructure.NormalOrSelfClosing)]
+    [ExcludeFromCodeCoverage]
     public class SummaryCardTagHelper: TagHelper
     {
         [HtmlAttributeName("label")]

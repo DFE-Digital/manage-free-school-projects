@@ -1,14 +1,16 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Email;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Dfe.ManageFreeSchoolProjects.API.Extensions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Controllers;
 
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/email")]
 [ApiController]
+[ExcludeFromCodeCoverage]
 public class EmailController : ControllerBase
 {
     private readonly IEmailService _emailService;
