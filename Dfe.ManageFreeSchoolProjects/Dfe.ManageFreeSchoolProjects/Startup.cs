@@ -167,10 +167,14 @@ public class Startup
                }
            });
 
-        services.AddApplicationInsightsTelemetry(options =>
+        var aiConnectionString = Configuration["ApplicationInsights:ConnectionString"];
+        if (!string.IsNullOrEmpty(aiConnectionString))
         {
-            options.ConnectionString = Configuration["ApplicationInsights:ConnectionString"];
-        });
+            services.AddApplicationInsightsTelemetry(options =>
+            {
+                options.ConnectionString = aiConnectionString;
+            });
+        }
 
         var mfspClientBuilder = services.AddHttpClient("MfspClient", (_, client) =>
         {
