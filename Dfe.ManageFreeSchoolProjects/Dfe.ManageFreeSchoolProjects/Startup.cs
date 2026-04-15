@@ -34,8 +34,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using Dfe.BuildFreeSchools.Pages;
 using Microsoft.AspNetCore.Localization;
-using Dfe.ManageFreeSchoolProjects.Data;
-
 namespace Dfe.ManageFreeSchoolProjects;
 
 public class Startup
@@ -66,15 +64,6 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<Dfe.ManageFreeSchoolProjects.Data.AuditInterceptor>();
-
-        services.AddDbContext<Dfe.ManageFreeSchoolProjects.Data.MfspContext>((provider, options) =>
-        {
-            var auditInterceptor = provider.GetRequiredService<Dfe.ManageFreeSchoolProjects.Data.AuditInterceptor>();
-            options.UseMfspSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            options.AddInterceptors(auditInterceptor);
-        });
-
         services.AddHttpClient();
         services.AddFeatureManagement();
         services
