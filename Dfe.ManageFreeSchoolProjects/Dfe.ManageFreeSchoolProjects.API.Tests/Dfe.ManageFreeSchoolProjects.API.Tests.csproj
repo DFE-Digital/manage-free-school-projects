@@ -22,7 +22,7 @@
         <PackageReference Include="AutoFixture.Idioms" Version="5.0.0-preview0012" />
         <PackageReference Include="AutoFixture.Xunit2" Version="5.0.0-preview0012" />
         <PackageReference Include="Castle.Core" Version="5.2.1" />
-        <PackageReference Include="FluentAssertions" Version="8.9.0" />
+        <PackageReference Include="FluentAssertions" Version="7.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.5" />
         <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="10.0.5" />
         <PackageReference Include="Microsoft.CodeCoverage" Version="18.4.0" />
