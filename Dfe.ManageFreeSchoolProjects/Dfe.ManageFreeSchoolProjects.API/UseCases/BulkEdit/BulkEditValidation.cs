@@ -1,6 +1,5 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.BulkEdit;
-using Microsoft.IdentityModel.Tokens;
-using System.Data.Common;
+using Dfe.ManageFreeSchoolProjects.API.Extensions;
 
 namespace Dfe.ManageFreeSchoolProjects.API.UseCases.BulkEdit
 {

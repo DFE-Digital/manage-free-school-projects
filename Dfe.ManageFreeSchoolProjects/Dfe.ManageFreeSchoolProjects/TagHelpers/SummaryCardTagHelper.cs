@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 {
     [HtmlTargetElement("govuk-summary-card", TagStructure = TagStructure.NormalOrSelfClosing)]
+    [ExcludeFromCodeCoverage]
     public class SummaryCardTagHelper: TagHelper
     {
         [HtmlAttributeName("label")]
@@ -47,7 +49,7 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 
         private string GetChangeLink()
         {
-            if (!href.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(href))
                 return $@"<a class=""govuk-link"" href=""{href}"" data-testid=""change-{Id}"">
                                 {LinkLabel ?? "Change"}<span class=""govuk-visually-hidden"">{Label}</span>
                       </a>
