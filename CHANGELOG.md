@@ -16,7 +16,17 @@ Security in case of vulnerabilities.
 
 ## Unreleased
 
-See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/production-2026-03-13.1305...HEAD) for everything awaiting release
+See the [full commit history](https://github.com/DFE-Digital/manage-free-school-projects/compare/production-2026-04-21.1322...HEAD) for everything awaiting release
+
+---
+
+## [2.5.0](https://github.com/DFE-Digital/manage-free-school-projects/releases/tag/production-2026-04-21.1322) - 2026-04-21
+
+### Security
+- remove local docker details
+
+### Changed
+- 266675 - .NET 10 upgrade
 
 ---
 
