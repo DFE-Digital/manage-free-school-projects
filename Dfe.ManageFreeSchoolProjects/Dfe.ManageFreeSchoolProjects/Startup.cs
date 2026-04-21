@@ -26,6 +26,7 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Security.Claims;
 using Dfe.ManageFreeSchoolProjects.Services.Reports;
 using Dfe.ManageFreeSchoolProjects.Services.BulkEdit;
@@ -33,21 +34,22 @@ using System.Collections.Generic;
 using System.Globalization;
 using Dfe.BuildFreeSchools.Pages;
 using Microsoft.AspNetCore.Localization;
-
 namespace Dfe.ManageFreeSchoolProjects;
 
 public class Startup
 {
     private readonly TimeSpan _authenticationExpiration;
 
-    public Startup(IConfiguration configuration)
+    public Startup(IConfiguration configuration, IWebHostEnvironment environment)
     {
         Configuration = configuration;
+        Environment = environment;
 
         _authenticationExpiration = TimeSpan.FromMinutes(int.Parse(Configuration["AuthenticationExpirationInMinutes"] ?? "60"));
     }
 
     private IConfiguration Configuration { get; }
+    private IWebHostEnvironment Environment { get; }
 
     private IConfigurationSection GetConfigurationSectionFor<T>()
     {
@@ -165,18 +167,30 @@ public class Startup
                }
            });
 
-        services.AddApplicationInsightsTelemetry(options =>
+        var aiConnectionString = Configuration["ApplicationInsights:ConnectionString"];
+        if (!string.IsNullOrEmpty(aiConnectionString))
         {
-            options.ConnectionString = Configuration["ApplicationInsights:ConnectionString"];
-        });
+            services.AddApplicationInsightsTelemetry(options =>
+            {
+                options.ConnectionString = aiConnectionString;
+            });
+        }
 
-        services.AddHttpClient("MfspClient", (_, client) =>
+        var mfspClientBuilder = services.AddHttpClient("MfspClient", (_, client) =>
         {
             MfspOptions mfspOptions = GetTypedConfigurationFor<MfspOptions>();
             client.BaseAddress = new Uri(mfspOptions.ApiEndpoint);
             client.DefaultRequestHeaders.Add("ApiKey", mfspOptions.ApiKey);
             client.DefaultRequestHeaders.Add("User-Agent", "ManageFreeSchoolProjects/1.0");
         });
+
+        if (Environment.IsDevelopment())
+        {
+            mfspClientBuilder.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+            });
+        }
 
         services.AddScoped<ErrorService>();
         services.AddSingleton<IAuthorizationHandler, HeaderRequirementHandler>();

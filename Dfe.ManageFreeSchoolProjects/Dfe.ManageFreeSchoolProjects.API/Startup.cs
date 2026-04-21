@@ -17,7 +17,11 @@ namespace Dfe.ManageFreeSchoolProjects.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetry();
+            var aiConnectionString = Configuration["ApplicationInsights:ConnectionString"];
+            if (!string.IsNullOrEmpty(aiConnectionString))
+            {
+                services.AddApplicationInsightsTelemetry();
+            }
 
             services.AddMfspApiProject(Configuration);
 

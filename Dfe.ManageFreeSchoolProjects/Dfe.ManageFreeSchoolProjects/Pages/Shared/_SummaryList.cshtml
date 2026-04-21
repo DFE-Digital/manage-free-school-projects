@@ -8,7 +8,7 @@
 
 <div class="govuk-summary-list__row">
     <dt class="govuk-summary-list__key">@Model.Label</dt>
-    @if (!Model.List.IsNullOrEmpty())
+    @if (Model.List != null && Model.List.Any())
     {
         <dd class="govuk-summary-list__value" data-testid="projectid">
             @foreach (string value in @Model.List)

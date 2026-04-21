@@ -1,5 +1,5 @@
 ﻿# Set the major version of dotnet
-ARG DOTNET_VERSION=8.0
+ARG DOTNET_VERSION=10.0
 
 # Build the app using the dotnet SDK
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-azurelinux3.0 AS build
@@ -41,7 +41,7 @@ RUN dotnet build --no-restore -c Release && \
 WORKDIR /build/${PROJECT_NAME}.Data
 RUN mkdir -p /app/SQL && \
     dotnet new tool-manifest && \
-    dotnet tool install dotnet-ef --version 8.0.13 && \
+    dotnet tool install dotnet-ef --version 10.0.5 && \
     dotnet restore && \
     dotnet build --no-restore && \
     dotnet ef migrations script \

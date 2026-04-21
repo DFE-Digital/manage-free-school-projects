@@ -37,5 +37,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.Extensions
 
             throw new ArgumentException("Unable to parse enum from description: ", nameof(description));
         }
+        public static bool IsNullOrEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
     }
 }

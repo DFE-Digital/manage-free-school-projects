@@ -26,20 +26,23 @@ public static class Program
 
    public static IHostBuilder CreateHostBuilder(string[] args)
    {
-        return Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((_, configuration) => configuration.AddEnvironmentVariables())
-            .UseSerilog((hostContext, configureLogger) =>
+      return Host.CreateDefaultBuilder(args)
+         .ConfigureAppConfiguration((_, configuration) => configuration.AddEnvironmentVariables())
+         .UseSerilog((hostContext, configureLogger) =>
+         {
+            var connectionString = hostContext.Configuration["ApplicationInsights:ConnectionString"];
+            configureLogger.WriteTo.ApplicationInsights(
+               connectionString,
+               TelemetryConverter.Traces
+            );
+         })
+         .ConfigureWebHostDefaults(webBuilder =>
+         {
+            webBuilder.UseStartup<Startup>();
+            webBuilder.UseKestrel(options =>
             {
-                var connectionString = hostContext.Configuration["ApplicationInsights:ConnectionString"];
-                configureLogger.WriteTo.ApplicationInsights(TelemetryConfiguration.CreateFromConfiguration(connectionString), TelemetryConverter.Traces);
-            })
-             .ConfigureWebHostDefaults(webBuilder =>
-             {
-                webBuilder.UseStartup<Startup>();
-                webBuilder.UseKestrel(options =>
-                {
-                   options.AddServerHeader = false;
-                });
-             });
+               options.AddServerHeader = false;
+            });
+         });
    }
 }
