@@ -1,6 +1,12 @@
 ﻿@using Dfe.ManageFreeSchoolProjects.Constants;
 @inject Microsoft.Extensions.Configuration.IConfiguration _configuration
 
+@{
+    var unifiedIntakeBaseUrl = _configuration["UnifiedIntake:baseUrl"];
+    var unifiedIntakeServiceCode = _configuration["UnifiedIntake:code"];
+    var unifiedIntakeUrl = $"{unifiedIntakeBaseUrl}?serviceCode={unifiedIntakeServiceCode}";
+}
+
 <footer class="govuk-footer" role="contentinfo">
     <div class="govuk-extra-width-container">
         <div class="mfsp-footer-intake">
@@ -55,7 +61,7 @@
                     <div>
                         <h2 class="govuk-heading-s govuk-!-margin-bottom-1">Get started</h2>
                         <p class="govuk-body-s">Use this service to suggest an improvement and report a problem.</p>
-                        <a href="/" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
+                        <a href="@unifiedIntakeUrl" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
                             Continue
                             <svg class="govuk-button__start-icon"
                                  xmlns="http://www.w3.org/2000/svg"
