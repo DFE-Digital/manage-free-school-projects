@@ -46,7 +46,7 @@ jobs:
     needs: [ set-env ]
     steps:
       - name: Validate Packages
-        uses: DFE-Digital/rsd-github-actions/.github/actions/validate-packages@v1
+        uses: DFE-Digital/rsd-github-actions/.github/actions/validate-packages@1b3e9b9db584f9af44fcc592a9c24a4a66bd7b19 # v1
         with:
           environment: ${{ needs.set-env.outputs.environment }}
 
@@ -73,7 +73,7 @@ jobs:
             tag-prefix: "api-"
             aca_name_secret: "ACA_CONTAINERAPP_API_NAME"
     steps:
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@v5.2.1
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/build@8e72e403f05ff9da09668207eef1d79e1ce9d1a7 # v5.2.1
         with:
           image-name: ${{ needs.set-env.outputs.image-name }}
           build-args: CI=true
@@ -81,7 +81,7 @@ jobs:
           tag-prefix: ${{ matrix.tag-prefix }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@v5.2.1
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/import@8e72e403f05ff9da09668207eef1d79e1ce9d1a7 # v5.2.1
         with:
           image-name: ${{ needs.set-env.outputs.image-name }}
           tag-prefix: ${{ matrix.tag-prefix }}
@@ -98,7 +98,7 @@ jobs:
       - id: annotate
         run: echo "ANNOTATE_RELEASE=${{ matrix.image == 'web' && 'yes' || 'no' }}" >> $GITHUB_ENV
 
-      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@v5.2.1
+      - uses: DFE-Digital/deploy-azure-container-apps-action/.github/actions/deploy@8e72e403f05ff9da09668207eef1d79e1ce9d1a7 # v5.2.1
         with:
           image-name: ${{ needs.set-env.outputs.image-name }}
           tag-prefix: ${{ matrix.tag-prefix }}
