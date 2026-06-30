@@ -36,74 +36,10 @@ env:
   WORKING_DIRECTORY: Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects.CypressTests
 
 jobs:
-  # Smoke tests - run in isolation for test environment
-  cypress-smoke:
-    name: Cypress (smoke)
-    if: inputs.environment == 'test'
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-    container:
-      image: cypress/browsers:22.21.0@sha256:1b0e8df630f819b84ae8f46e39746ac79e3e1666208a1d0716b2e07ccafd19a9
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-        with:
-          ref: ${{ github.ref }}
-
-      - name: Run Cypress smoke tests
-        uses: cypress-io/github-action@8d89af9addfc8a23501c9e8581d517caa7010719
-        with:
-          browser: ${{ env.BROWSER }}
-          spec: cypress/e2e/smoke/**/*.cy.ts
-          working-directory: ${{ env.WORKING_DIRECTORY }}
-          wait-on: ${{ secrets.AZURE_WEB_ENDPOINT }}
-          wait-on-timeout: 300
-        env:
-          CYPRESS_username: ${{ secrets.USERNAME }}
-          CYPRESS_url: ${{ secrets.AZURE_WEB_ENDPOINT }}
-          CYPRESS_apiKey: ${{ secrets.AZURE_API_KEY }}
-          CYPRESS_authKey: ${{ secrets.CYPRESS_TEST_SECRET }}
-          CYPRESS_api: ${{ secrets.AZURE_API_ENDPOINT }}
-
-      - name: Upload screenshots on failure
-        if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: screenshots-${{ inputs.environment }}-smoke
-          path: ${{ env.WORKING_DIRECTORY }}/cypress/screenshots
-          retention-days: 5
-          if-no-files-found: ignore
-
-      - name: Prepare test results
-        id: prepare-results
-        if: always()
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: |
-          mkdir -p cypress/reports/merged
-          if [ -d "cypress/reports/mocha" ] && [ "$(find cypress/reports/mocha -name '*.json' 2>/dev/null | wc -l)" -gt 0 ]; then
-            for file in cypress/reports/mocha/*.json; do
-              filename=$(basename "$file")
-              cp "$file" "cypress/reports/merged/smoke-$filename"
-            done
-            echo "results_found=true" >> $GITHUB_OUTPUT
-          else
-            echo '{"stats":{"suites":0,"tests":0,"passes":0,"pending":0,"failures":0,"start":"","end":"","duration":0}}' > "cypress/reports/merged/smoke-placeholder.json"
-            echo "results_found=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: test-results-smoke
-          path: ${{ env.WORKING_DIRECTORY }}/cypress/reports/merged/*.json
-          retention-days: 1
-
   # Parallel test groups - run for development environment
   cypress-tests:
     name: Cypress (${{ matrix.group }})
-    if: inputs.environment == 'development'
+    if: inputs.environment == 'development' || inputs.environment == 'test'
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     strategy:
@@ -190,7 +126,7 @@ jobs:
   generate-report-dev:
     name: Generate Combined Report
     needs: cypress-tests
-    if: always() && inputs.environment == 'development'
+    if: always() && inputs.environment == 'development' || inputs.environment == 'test'
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
 
@@ -223,58 +159,6 @@ jobs:
           npm run generate:html:report
 
       - name: Upload combined report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: cypress-report-${{ inputs.environment }}
-          path: ${{ env.WORKING_DIRECTORY }}/mochareports
-          retention-days: 30
-
-      - name: Report results to Teams
-        if: always()
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: node scripts/send-teams-notification.js
-        env:
-          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
-          ENVIRONMENT: ${{ inputs.environment }}
-          INFORMATION_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-  # Generate report for smoke tests (test environment)
-  generate-report-smoke:
-    name: Generate Smoke Report
-    needs: cypress-smoke
-    if: always() && inputs.environment == 'test'
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-
-      - name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
-        with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
-
-      - name: Install dependencies
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: npm ci --ignore-scripts
-
-      - name: Download test results
-        uses: actions/download-artifact@v8
-        with:
-          pattern: test-results-smoke
-          path: ${{ env.WORKING_DIRECTORY }}/cypress/reports/mocha
-          merge-multiple: true
-
-      - name: Generate HTML report
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-        run: |
-          mkdir -p mochareports
-          npm run generate:html:report
-
-      - name: Upload report
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: cypress-report-${{ inputs.environment }}
