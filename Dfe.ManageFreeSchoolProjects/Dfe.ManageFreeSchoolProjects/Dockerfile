@@ -25,6 +25,8 @@ RUN dotnet build "./Dfe.ManageFreeSchoolProjects.csproj" -c $BUILD_CONFIGURATION
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./Dfe.ManageFreeSchoolProjects.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+# Remove package-lock.json so it isn't served as a static file in the running container
+RUN find /app/publish/wwwroot -type f -name 'package-lock.json' -delete
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
