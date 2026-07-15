@@ -548,3 +548,15 @@ variable "enable_monitoring_traces" {
   type        = bool
   default     = true
 }
+
+variable "mssql_private_endpoint_subnet_cidr" {
+  description = "Specify a subnet prefix to use for the mssql_private_endpoint subnet"
+  type        = string
+  default     = ""
+}
+
+variable "storage_subnet_cidr" {
+  description = "Specify a subnet prefix to use for the storage subnet"
+  type        = string
+  default     = ""
+}
