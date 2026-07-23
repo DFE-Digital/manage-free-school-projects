@@ -6,7 +6,7 @@
     <Property Name="sonar.coverageReportPaths">./Dfe.ManageFreeSchoolProjects/CoverageReport/SonarQube.xml</Property>
 
     <!-- coverage exclusions -->
-    <Property Name="sonar.coverage.exclusions">**/Dfe.ManageFreeSchoolProjects.CypressTests/**,**/cypress/**</Property>
+    <Property Name="sonar.coverage.exclusions">**/Dfe.ManageFreeSchoolProjects.CypressTests/**,**/cypress/**,**/Pages/Shared/Footer/_Footer.cshtml</Property>
 
     <!-- duplication exclusions -->
     <Property Name="sonar.cpd.exclusions">**/Dfe.ManageFreeSchoolProjects.CypressTests/cypress/e2e/**</Property>
