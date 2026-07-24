@@ -11,8 +11,6 @@ WORKDIR /app
 COPY ./Dfe.ManageFreeSchoolProjects/Dfe.ManageFreeSchoolProjects/wwwroot /app
 RUN npm ci --ignore-scripts && \
     npm run build
-# Remove package-lock.json so it isn't served as a static file in the running container
-RUN find /app -type f -name 'package-lock.json' -delete
 
 # ==============================================
 # .NET SDK Build Stage
@@ -63,6 +61,8 @@ LABEL org.opencontainers.image.source="https://github.com/DFE-Digital/manage-fre
 LABEL org.opencontainers.image.description="Manage Free School Projects - App"
 COPY --from=build /app .
 COPY --from=assets /app ./wwwroot
+# Remove package-lock.json so it isn't served as a static file in the running container
+RUN find /app -type f -name 'package-lock.json' -delete
 
 # Set permissions and user
 RUN chmod +x ./docker-entrypoint.sh
