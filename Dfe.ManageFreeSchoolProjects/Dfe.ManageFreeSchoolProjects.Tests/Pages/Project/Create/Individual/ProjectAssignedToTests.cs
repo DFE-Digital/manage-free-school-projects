@@ -133,12 +133,44 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
             cache.Received(1).Update(cacheItem);
         }
 
+        /// <summary>
+        /// A new school project skips the provisional opening date, so its back link goes to whichever
+        /// faith page the user actually saw.
+        /// </summary>
+        [Theory]
+        [InlineData(FaithStatus.None, RouteConstants.CreateFaithStatus)]
+        [InlineData(FaithStatus.Designation, RouteConstants.CreateFaithType)]
+        [InlineData(FaithStatus.Ethos, RouteConstants.CreateFaithType)]
+        public void OnGet_WhenNewSchool_LinksBackToTheFaithPage(FaithStatus faithStatus, string expectedBackLink)
+        {
+            var model = BuildTestableModel(new CreateProjectCacheItem
+            {
+                ProjectType = ProjectType.LocalAuthority,
+                FaithStatus = faithStatus
+            });
+
+            model.OnGet();
+
+            model.BackLinkValue.Should().Be(expectedBackLink);
+        }
+
+        [Fact]
+        public void OnGet_WhenNotNewSchool_LinksBackToTheProvisionalOpeningDate()
+        {
+            var model = BuildTestableModel(new CreateProjectCacheItem
+            {
+                ProjectType = ProjectType.PresumptionRoute,
+                FaithStatus = FaithStatus.None
+            });
+
+            model.OnGet();
+
+            model.BackLinkValue.Should().Be(RouteConstants.CreateProjectProvisionalOpeningDate);
+        }
+
         private static ProjectAssignedTo BuildModel(
             CreateProjectCacheItem cacheItem, out ICreateProjectCache cache, bool authorised = true)
         {
-            // OnPost derives the back link, which for a new school project needs a faith status.
-            cacheItem.FaithStatus = cacheItem.FaithStatus == default ? FaithStatus.None : cacheItem.FaithStatus;
-
             cache = Substitute.For<ICreateProjectCache>();
             cache.Get().Returns(cacheItem);
 
@@ -146,6 +178,26 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
             {
                 PageContext = CreatePageTestContext.Build(authorised)
             };
+        }
+
+        private static TestableProjectAssignedTo BuildTestableModel(CreateProjectCacheItem cacheItem)
+        {
+            var cache = Substitute.For<ICreateProjectCache>();
+            cache.Get().Returns(cacheItem);
+
+            return new TestableProjectAssignedTo(new ErrorService(), cache)
+            {
+                PageContext = CreatePageTestContext.Build()
+            };
+        }
+
+        /// <summary>
+        /// BackLink is protected internal, so it can only be read from a derived page model.
+        /// </summary>
+        private sealed class TestableProjectAssignedTo(ErrorService errorService, ICreateProjectCache createProjectCache)
+            : ProjectAssignedTo(errorService, createProjectCache)
+        {
+            public string BackLinkValue => BackLink;
         }
     }
 }
