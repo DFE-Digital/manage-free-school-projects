@@ -1,4 +1,5 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Pages.Project.Create;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
@@ -81,6 +82,130 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
             cacheItem.SENResourcedProvisionSENUnit.Should().Be(34);
         }
 
+        [Fact]
+        public void OnGet_WhenUserIsNotProjectRecordCreator_ReturnsUnauthorized()
+        {
+            var model = BuildModel(BuildCacheItem(ProjectType.LocalAuthority, SchoolType.Mainstream),
+                apResourcesProvision: null, senResourcedProvision: null, authorised: false);
+
+            var result = model.OnGet();
+
+            result.Should().BeOfType<UnauthorizedResult>();
+        }
+
+        [Fact]
+        public void OnGet_PopulatesCapacitiesFromTheCache()
+        {
+            var cacheItem = BuildCacheItem(ProjectType.LocalAuthority, SchoolType.Mainstream);
+            cacheItem.Nursery = ClassType.Nursery.Yes;
+            cacheItem.NurseryCapacity = 5;
+            cacheItem.YRY6Capacity = 10;
+            cacheItem.Y7Y11Capacity = 20;
+            cacheItem.Y12Y14Capacity = 30;
+            cacheItem.APResourcesProvision = 12;
+            cacheItem.SENResourcedProvisionSENUnit = 34;
+
+            var model = BuildModel(cacheItem, apResourcesProvision: null, senResourcedProvision: null);
+
+            var result = model.OnGet();
+
+            result.Should().BeOfType<PageResult>();
+            model.NurseryCapacity.Should().Be("5");
+            model.YRY6Capacity.Should().Be("10");
+            model.Y7Y11Capacity.Should().Be("20");
+            model.Y12Y14Capacity.Should().Be("30");
+            model.APResourcesProvision.Should().Be("12");
+            model.SENResourcedProvisionSENUnit.Should().Be("34");
+            model.HasNursery.Should().Be(ClassType.Nursery.Yes);
+            model.IsLocalAuthority.Should().BeTrue();
+            model.IsMainStream.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(ProjectType.CentralRoute, SchoolType.Mainstream, false, true)]
+        [InlineData(ProjectType.LocalAuthority, SchoolType.Special, true, false)]
+        public void OnGet_SetsProvisionFlagsForProjectAndSchoolType(
+            ProjectType projectType, SchoolType schoolType, bool expectedLocalAuthority, bool expectedMainstream)
+        {
+            var model = BuildModel(BuildCacheItem(projectType, schoolType),
+                apResourcesProvision: null, senResourcedProvision: null);
+
+            model.OnGet();
+
+            model.IsLocalAuthority.Should().Be(expectedLocalAuthority);
+            model.IsMainStream.Should().Be(expectedMainstream);
+        }
+
+        [Fact]
+        public void OnPost_WhenProjectHasNurseryAndCapacityMissing_AddsError()
+        {
+            var cacheItem = BuildCacheItem(ProjectType.PresumptionRoute, SchoolType.Mainstream);
+            cacheItem.Nursery = ClassType.Nursery.Yes;
+            var model = BuildModel(cacheItem, apResourcesProvision: null, senResourcedProvision: null);
+            model.NurseryCapacity = null;
+
+            var result = model.OnPost();
+
+            result.Should().BeOfType<PageResult>();
+            model.ModelState["nursery-capacity"]!.Errors.Should().ContainSingle()
+                .Which.ErrorMessage.Should().Be("Enter the nursery capacity");
+        }
+
+        [Fact]
+        public void OnPost_WhenProjectHasNursery_StoresNurseryCapacity()
+        {
+            var cacheItem = BuildCacheItem(ProjectType.PresumptionRoute, SchoolType.Mainstream);
+            cacheItem.Nursery = ClassType.Nursery.Yes;
+            var model = BuildModel(cacheItem, apResourcesProvision: null, senResourcedProvision: null);
+            model.NurseryCapacity = "5";
+
+            var result = model.OnPost();
+
+            result.Should().BeOfType<RedirectResult>();
+            cacheItem.NurseryCapacity.Should().Be(5);
+        }
+
+        [Fact]
+        public void OnPost_WhenProjectHasNoNursery_DefaultsNurseryCapacityToZero()
+        {
+            var cacheItem = BuildCacheItem(ProjectType.PresumptionRoute, SchoolType.Mainstream);
+            var model = BuildModel(cacheItem, apResourcesProvision: null, senResourcedProvision: null);
+            model.NurseryCapacity = null;
+
+            var result = model.OnPost();
+
+            result.Should().BeOfType<RedirectResult>();
+            cacheItem.NurseryCapacity.Should().Be(0);
+        }
+
+        [Fact]
+        public void OnPost_StoresTheYearGroupCapacities()
+        {
+            var cacheItem = BuildCacheItem(ProjectType.PresumptionRoute, SchoolType.Mainstream);
+            var model = BuildModel(cacheItem, apResourcesProvision: null, senResourcedProvision: null);
+
+            model.OnPost();
+
+            cacheItem.YRY6Capacity.Should().Be(10);
+            cacheItem.Y7Y11Capacity.Should().Be(20);
+            cacheItem.Y12Y14Capacity.Should().Be(30);
+        }
+
+        [Theory]
+        [InlineData(false, RouteConstants.CreateFaithStatus)]
+        [InlineData(true, RouteConstants.CreateProjectCheckYourAnswers)]
+        public void OnPost_RedirectsToNextPage(bool reachedCheckYourAnswers, string expectedRoute)
+        {
+            var cacheItem = BuildCacheItem(ProjectType.PresumptionRoute, SchoolType.Mainstream);
+            cacheItem.ReachedCheckYourAnswers = reachedCheckYourAnswers;
+            var model = BuildModel(cacheItem, apResourcesProvision: null, senResourcedProvision: null);
+
+            var result = model.OnPost();
+
+            result.Should().BeOfType<RedirectResult>()
+                .Which.Url.Should().Be(expectedRoute);
+        }
+
         private static CreateProjectCacheItem BuildCacheItem(ProjectType projectType, SchoolType schoolType)
         {
             return new CreateProjectCacheItem
@@ -92,14 +217,17 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         }
 
         private static CapacityModel BuildModel(
-            CreateProjectCacheItem cacheItem, string? apResourcesProvision, string? senResourcedProvision)
+            CreateProjectCacheItem cacheItem,
+            string? apResourcesProvision,
+            string? senResourcedProvision,
+            bool authorised = true)
         {
             var cache = Substitute.For<ICreateProjectCache>();
             cache.Get().Returns(cacheItem);
 
             return new CapacityModel(new ErrorService(), cache)
             {
-                PageContext = CreatePageTestContext.Build(),
+                PageContext = CreatePageTestContext.Build(authorised),
                 YRY6Capacity = "10",
                 Y7Y11Capacity = "20",
                 Y12Y14Capacity = "30",

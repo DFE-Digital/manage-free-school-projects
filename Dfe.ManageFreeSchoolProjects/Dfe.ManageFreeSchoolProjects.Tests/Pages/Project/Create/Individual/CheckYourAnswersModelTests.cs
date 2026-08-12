@@ -25,7 +25,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
             cacheItem.ApplicationWave = cachedApplicationWave;
 
             var createProjectService = Substitute.For<ICreateProjectService>();
-            CreateProjectRequest capturedRequest = null;
+            CreateProjectRequest? capturedRequest = null;
             createProjectService
                 .Execute(Arg.Do<CreateProjectRequest>(request => capturedRequest = request))
                 .Returns(new CreateProjectResponse());
@@ -34,7 +34,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
 
             await model.OnPostAsync();
 
-            capturedRequest.Projects.Should().ContainSingle()
+            capturedRequest!.Projects.Should().ContainSingle()
                 .Which.ApplicationWave.Should().Be(expectedApplicationWave);
         }
 
