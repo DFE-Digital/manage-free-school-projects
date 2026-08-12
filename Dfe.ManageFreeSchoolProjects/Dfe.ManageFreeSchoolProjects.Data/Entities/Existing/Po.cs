@@ -29,6 +29,10 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
 
         public string PupilNumbersAndCapacityY12Y14Post16Capacity { get; set; }
 
+        public string PupilNumbersAndCapacityAPResourcesProvision { get; set; }
+
+        public string PupilNumbersAndCapacitySENResourcedProvisionSENUnit { get; set; }
+
         public string PupilNumbersAndCapacityTotalOfCapacityTotals { get; set; }
 
         public bool? PupilNumbersAndCapacityManualOverwrite { get; set; }

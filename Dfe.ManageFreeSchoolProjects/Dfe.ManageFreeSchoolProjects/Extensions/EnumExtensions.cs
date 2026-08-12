@@ -20,6 +20,20 @@ namespace Dfe.ManageFreeSchoolProjects.Extensions
 				: source.ToString();
 		}
 
+		public static string ToDescriptionOrEmpty<T>(this T source)
+		{
+			if (source == null) return string.Empty;
+
+			FieldInfo fi = source.GetType().GetField(source.ToString());
+
+			var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
+				typeof(DescriptionAttribute), false);
+
+			return attributes.Length > 0
+				? attributes[0].Description
+				: string.Empty;
+		}
+
 		public static string ToIntString(this Enum value)
 		{
 			if (value == null) return string.Empty;

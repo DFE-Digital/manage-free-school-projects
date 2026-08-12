@@ -13,6 +13,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return schoolType switch
             {
                 "FS - AP" => SchoolType.AlternativeProvision,
+                "FS - AP/PRU" => SchoolType.AlternativeProvisionPRU,
                 "FS - Special" => SchoolType.Special,
                 "SS" => SchoolType.StudioSchool,
                 "FS - Mainstream" => SchoolType.Mainstream,
@@ -28,6 +29,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return schoolType switch
             {
                 SchoolType.AlternativeProvision => "FS - AP",
+                SchoolType.AlternativeProvisionPRU => "FS - AP/PRU",
                 SchoolType.Special => "FS - Special",
                 SchoolType.StudioSchool => "SS",
                 SchoolType.Mainstream => "FS - Mainstream",

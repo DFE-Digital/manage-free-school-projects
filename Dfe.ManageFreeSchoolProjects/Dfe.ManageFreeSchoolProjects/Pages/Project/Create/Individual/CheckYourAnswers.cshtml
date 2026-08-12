@@ -77,9 +77,20 @@
             @RenderSummaryRow("Year 7 to year 11 capacity", Model.Project.Y7Y11Capacity.ToString(), RouteConstants.CreateProjectCapacity)
             @RenderSummaryRow("Year 12 to year 14 capacity", Model.Project.Y12Y14Capacity.ToString(), RouteConstants.CreateProjectCapacity)
 
+            @if (Model.IsLocalAuthority && Model.IsMainStream)
+            {
+                @RenderSummaryRow("AP resources provision", Model.Project.APResourcesProvision.ToString(), RouteConstants.CreateProjectCapacity)
+                @RenderSummaryRow("SEN resourced provision / SEN unit", Model.Project.SENResourcedProvisionSENUnit.ToString(), RouteConstants.CreateProjectCapacity)
+            }
+
             @RenderSummaryRow("Faith status", Model.Project.FaithStatus.ToString(), RouteConstants.CreateFaithStatus)
             @RenderSummaryRow("Faith type", faithType, faithTypeLink)
-            @RenderSummaryRow("Provisional opening date", Model.Project.ProvisionalOpeningDate.ToDateString(), RouteConstants.CreateProjectProvisionalOpeningDate)
+
+            @if (Model.Project.ProjectType != ProjectType.LocalAuthority)
+            {
+                @RenderSummaryRow("Provisional opening date", Model.Project.ProvisionalOpeningDate.ToDateString(), RouteConstants.CreateProjectProvisionalOpeningDate)
+            }
+
             @RenderSummaryRow("Project assigned to", Model.Project.ProjectAssignedToName, RouteConstants.CreateProjectAssignedTo)
             @RenderSummaryRow("Email", Model.Project.ProjectAssignedToEmail, RouteConstants.CreateProjectAssignedTo)
 

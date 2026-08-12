@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual;
 using Dfe.ManageFreeSchoolProjects.Utils;
 using static Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ClassType;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
 {
@@ -37,7 +38,25 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
         [ValidNumber(0,9999)]
         public string Y12Y14Capacity { get; set; }
 
+        [BindProperty(Name = "ap-resources-provision")]
+        [Display(Name = "AP resources provision")]
+        [ValidNumber(0, 9999)]
+        public string APResourcesProvision { get; set; }
+
+        [BindProperty(Name = "sen-resourced-provision-sen-unit")]
+        [Display(Name = "SEN resourced provision / SEN unit")]
+        [ValidNumber(0, 9999)]
+        public string SENResourcedProvisionSENUnit { get; set; }
+
         public Nursery HasNursery { get; set; }
+
+        public bool IsLocalAuthority { get; private set; }
+
+        public bool IsMainStream { get; private set; }
+
+        // The AP / SEN provision inputs are only rendered for a new school mainstream project,
+        // so they can only be required when they are actually on the page.
+        private bool ShowProvisionCapacities => IsLocalAuthority && IsMainStream;
 
         private readonly ErrorService _errorService;
 
@@ -59,7 +78,12 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
             YRY6Capacity = project.YRY6Capacity.ToString();
             Y7Y11Capacity = project.Y7Y11Capacity.ToString();
             Y12Y14Capacity = project.Y12Y14Capacity.ToString();
+            APResourcesProvision = project.APResourcesProvision.ToString();
+            SENResourcedProvisionSENUnit = project.SENResourcedProvisionSENUnit.ToString();
+
             HasNursery = project.Nursery;
+            IsLocalAuthority = project.ProjectType == ProjectType.LocalAuthority;
+            IsMainStream = project.SchoolType == SchoolType.Mainstream;
 
             BackLink = GetPreviousPage(CreateProjectPageName.Capacity);
 
@@ -69,12 +93,29 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
         public IActionResult OnPost()
         {
             var project = CreateProjectCache.Get();
+
             BackLink = GetPreviousPage(CreateProjectPageName.Capacity);
+
             HasNursery = project.Nursery;
+            IsLocalAuthority = project.ProjectType == ProjectType.LocalAuthority;
+            IsMainStream = project.SchoolType == SchoolType.Mainstream;
 
             if (HasNursery == Nursery.Yes && string.IsNullOrEmpty(NurseryCapacity))
             {
                 ModelState.AddModelError("nursery-capacity", "Enter the nursery capacity");
+            }
+
+            if (ShowProvisionCapacities)
+            {
+                if (string.IsNullOrEmpty(APResourcesProvision))
+                {
+                    ModelState.AddModelError("ap-resources-provision", "Enter the AP resources provision");
+                }
+
+                if (string.IsNullOrEmpty(SENResourcedProvisionSENUnit))
+                {
+                    ModelState.AddModelError("sen-resourced-provision-sen-unit", "Enter the SEN resourced provision / SEN unit");
+                }
             }
 
             if (!ModelState.IsValid)
@@ -87,6 +128,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
             project.YRY6Capacity = int.Parse(YRY6Capacity);
             project.Y7Y11Capacity = int.Parse(Y7Y11Capacity);
             project.Y12Y14Capacity = int.Parse(Y12Y14Capacity);
+            project.APResourcesProvision = ShowProvisionCapacities ? int.Parse(APResourcesProvision) : 0;
+            project.SENResourcedProvisionSENUnit = ShowProvisionCapacities ? int.Parse(SENResourcedProvisionSENUnit) : 0;
+
+
             CreateProjectCache.Update(project);
 
             return Redirect(GetNextPage(CreateProjectPageName.Capacity));

@@ -9,7 +9,7 @@
     var values = new List<string>();
     var testIds = new List<string>();
 
-    foreach (var schoolType in Enum.GetValues<SchoolType>().Except(new [] { SchoolType.NotSet, SchoolType.FurtherEducation }))
+    foreach (var schoolType in Model.SchoolTypeOptions)
     {
         labels.Add(schoolType.ToDescription());
         values.Add(((int)schoolType).ToString());
