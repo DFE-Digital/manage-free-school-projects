@@ -8,7 +8,7 @@ namespace Dfe.ManageFreeSchoolProjects.Extensions
 	{
 		public static string ToDescription<T>(this T source)
 		{
-			if (source == null) return string.Empty;
+			if (source is null) return string.Empty;
 
 			FieldInfo fi = source.GetType().GetField(source.ToString());
 
@@ -22,7 +22,7 @@ namespace Dfe.ManageFreeSchoolProjects.Extensions
 
 		public static string ToDescriptionOrEmpty<T>(this T source)
 		{
-			if (source == null) return string.Empty;
+			if (source is null) return string.Empty;
 
 			FieldInfo fi = source.GetType().GetField(source.ToString());
 
