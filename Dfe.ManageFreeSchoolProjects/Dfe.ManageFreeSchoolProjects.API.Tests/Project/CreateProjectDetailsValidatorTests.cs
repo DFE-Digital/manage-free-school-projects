@@ -50,7 +50,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
             result.Should().Contain(error => error.PropertyName == nameof(ProjectDetails.CreatedBy));
         }
 
-        private static IEnumerable<FluentValidation.Results.ValidationFailure> Validate(
+        private static List<FluentValidation.Results.ValidationFailure> Validate(
             string applicationWave, string trn)
         {
             var details = new ProjectDetails

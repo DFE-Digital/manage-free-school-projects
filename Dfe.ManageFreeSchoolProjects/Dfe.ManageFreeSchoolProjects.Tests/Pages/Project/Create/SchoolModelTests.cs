@@ -36,7 +36,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
             var result = model.OnPost();
 
             result.Should().BeOfType<PageResult>();
-            model.ModelState["school"].Errors.Should().ContainSingle()
+            model.ModelState["school"]!.Errors.Should().ContainSingle()
                 .Which.ErrorMessage.Should().Be(expectedError);
         }
 
@@ -49,7 +49,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
             var result = model.OnPost();
 
             result.Should().BeOfType<PageResult>();
-            model.ModelState["school"].Errors.Should().ContainSingle()
+            model.ModelState["school"]!.Errors.Should().ContainSingle()
                 .Which.ErrorMessage.Should().Be("Enter the new school name");
         }
 

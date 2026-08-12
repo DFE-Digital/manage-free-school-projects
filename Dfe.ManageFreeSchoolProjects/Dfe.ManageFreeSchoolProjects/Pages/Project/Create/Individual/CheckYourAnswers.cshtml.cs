@@ -45,7 +45,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
             return Page();
         }
 
-        private string GenerateApplicationWave(ProjectType type)
+        private static string GenerateApplicationWave(ProjectType type)
         {
             switch(type)
             {
@@ -95,7 +95,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
                 ProjectAssignedToName = project.ProjectAssignedToName,
                 ProjectAssignedToEmail = project.ProjectAssignedToEmail,
                 ApplicationNumber = project.ApplicationNumber ?? string.Empty,
-                ApplicationWave = GenerateApplicationWave(project.ProjectType) ?? project.ApplicationWave
+                ApplicationWave = GenerateApplicationWave(project.ProjectType) is { Length: > 0 } applicationWave
+                    ? applicationWave
+                    : project.ApplicationWave
             };
             
             createProjectRequest.Projects.Add(projReq);

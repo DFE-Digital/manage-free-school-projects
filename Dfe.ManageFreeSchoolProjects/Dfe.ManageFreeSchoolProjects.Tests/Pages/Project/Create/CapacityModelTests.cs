@@ -62,9 +62,9 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
             var result = model.OnPost();
 
             result.Should().BeOfType<PageResult>();
-            model.ModelState["ap-resources-provision"].Errors.Should().ContainSingle()
+            model.ModelState["ap-resources-provision"]!.Errors.Should().ContainSingle()
                 .Which.ErrorMessage.Should().Be("Enter the AP resources provision");
-            model.ModelState["sen-resourced-provision-sen-unit"].Errors.Should().ContainSingle()
+            model.ModelState["sen-resourced-provision-sen-unit"]!.Errors.Should().ContainSingle()
                 .Which.ErrorMessage.Should().Be("Enter the SEN resourced provision / SEN unit");
         }
 

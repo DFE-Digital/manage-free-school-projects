@@ -87,7 +87,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
             return Redirect(GetNextPage(CreateProjectPageName.SchoolType));
         }
 
-        private static IReadOnlyList<SchoolTypeEnum> OptionsFor(ProjectType projectType)
+        private static SchoolTypeEnum[] OptionsFor(ProjectType projectType)
         {
             return projectType == ProjectType.LocalAuthority ? LocalAuthorityOptions : DefaultOptions;
         }
