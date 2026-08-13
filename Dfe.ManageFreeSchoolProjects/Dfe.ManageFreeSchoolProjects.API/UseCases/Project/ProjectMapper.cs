@@ -114,6 +114,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return projectStatus switch
             {
                 ProjectStatusType.Preopening => "Pre-opening",
+                ProjectStatusType.Prepipeline => "Pre-pipeline",
                 ProjectStatusType.Open => "Open",
                 ProjectStatusType.Closed => "Closed",
                 ProjectStatusType.Cancelled => "Cancelled during pre-opening",

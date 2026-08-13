@@ -91,7 +91,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return new Kpi
             {
                 Rid = rid,
-                ProjectStatusProjectStatus = ProjectMapper.FromProjectStatusType(Contracts.Project.ProjectStatus.Preopening),
+                ProjectStatusProjectStatus = proj.ProjectType == ProjectType.LocalAuthority ? ProjectMapper.FromProjectStatusType(Contracts.Project.ProjectStatus.Prepipeline) : ProjectMapper.FromProjectStatusType(Contracts.Project.ProjectStatus.Preopening),
                 ProjectStatusProjectId = proj.ProjectId,
                 ProjectStatusCurrentFreeSchoolName = proj.SchoolName,
                 ProjectStatusFreeSchoolApplicationWave = proj.ApplicationWave ?? string.Empty,

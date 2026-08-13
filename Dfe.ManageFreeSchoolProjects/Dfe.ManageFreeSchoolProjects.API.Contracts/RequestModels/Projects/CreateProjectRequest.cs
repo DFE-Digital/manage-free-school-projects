@@ -12,6 +12,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Projects
     public class ProjectDetails
     {
         public string ProjectId { get; set; }
+        public ProjectType ProjectType { get; set; }
         public string SchoolName { get; set; }
         public string Region { get; set; }
         public string LocalAuthority { get; set; }
