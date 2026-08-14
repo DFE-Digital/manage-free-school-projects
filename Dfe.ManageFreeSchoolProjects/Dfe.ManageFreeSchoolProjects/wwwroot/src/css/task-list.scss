@@ -106,3 +106,24 @@
 .gem-c-contents-list__title{color:#0b0c0c;font-family:"nta",arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-weight:400;font-size:14px;line-height:1.5;margin:0
 
 }@media print {.gem-c-contents-list__title {color: #000 }}@media print {.gem-c-contents-list__title {font-family: sans-serif }}@media (min-width: 40.0625em) {.gem-c-contents-list__title {font-size: 16px;line-height: 1.5 }}@media print {.gem-c-contents-list__title {font-size: 14pt;line-height: 1.5 }}.gem-c-contents-list__list, .gem-c-contents-list__nested-list {color: #0b0c0c;font-family: "nta", arial, sans-serif;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;font-weight: 400;font-size: 14px;line-height: 1.1428571429;margin: 0;padding: 0;list-style-type: none }@media print {.gem-c-contents-list__list, .gem-c-contents-list__nested-list {color: #000 }}@media print {.gem-c-contents-list__list, .gem-c-contents-list__nested-list {font-family: sans-serif }}@media (min-width: 40.0625em) {.gem-c-contents-list__list, .gem-c-contents-list__nested-list {font-size: 16px;line-height: 1.25 }}@media print {.gem-c-contents-list__list, .gem-c-contents-list__nested-list {font-size: 14pt;line-height: 1.2 }}.gem-c-contents-list__list-item--parent>.gem-c-contents-list__link {font-weight: bold }.gem-c-contents-list__link:focus, .gem-c-contents-list__link:active:focus, .gem-c-contents-list__link:link:focus, .gem-c-contents-list__link:visited:focus {outline: 3px solid transparent;background-color: #fd0;box-shadow: 0 -2px #fd0, 0 4px #0b0c0c;text-decoration: none;color: #0b0c0c !important }.gem-c-contents-list__list-item {padding-top: 10px;line-height: 1.3;list-style-type: none }@media (min-width: 40.0625em) {.gem-c-contents-list__list-item {padding-top: 7.5px }}.gem-c-contents-list__list-item--dashed {position: relative;padding-left: 25px;padding-right: 25px }.gem-c-contents-list__list-item--dashed:before {content: "—";position: absolute;left: 0;width: 20px;overflow: hidden }.direction-rtl .gem-c-contents-list__list-item--dashed:before {left: auto;right: 0 }.lte-ie8 .gem-c-contents-list__list-item--dashed .gem-c-contents-list__link {display: inline-block;vertical-align: top }
+
+
+// Back to top link
+
+.mfsp-back-to-top {
+	@include govuk-responsive-margin(6, "top");
+	@include govuk-responsive-margin(4, "bottom");
+}
+
+.mfsp-back-to-top__link {
+	@include govuk-font($size: 16);
+	display: inline-block;
+}
+
+.mfsp-back-to-top__icon {
+	display: inline-block;
+	width: .8em;
+	height: 1em;
+	margin-right: govuk-spacing(1);
+	vertical-align: middle;
+}
