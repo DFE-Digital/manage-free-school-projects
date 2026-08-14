@@ -110,9 +110,25 @@
 
 // Back to top link
 
+.mfsp-page-row {
+	position: relative;
+}
+
 .mfsp-back-to-top {
 	@include govuk-responsive-margin(6, "top");
 	@include govuk-responsive-margin(4, "bottom");
+	padding: 0 govuk-spacing(3);
+
+	// From tablet up, sit in the left hand column, level with the bottom of the
+	// last section of the task list (which carries a spacing(9) bottom margin).
+	@include govuk-media-query($from: tablet) {
+		position: absolute;
+		left: 0;
+		bottom: govuk-spacing(9);
+		width: 25%;
+		box-sizing: border-box;
+		margin: 0;
+	}
 }
 
 .mfsp-back-to-top__link {
