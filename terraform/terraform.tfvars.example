@@ -7,6 +7,8 @@ enable_mssql_database       = true
 mssql_server_admin_password = "S3crEt"
 mssql_database_name         = "mydatabase"
 container_command           = ["/bin/bash", "-c", "echo hello && sleep 86400"]
+container_health_probe_path  = "/health"
+monitor_endpoint_healthcheck = "/health"
 container_environment_variables = {
   "ASPNETCORE_ENVIRONMENT" = "production"
 }
