@@ -53,13 +53,16 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Condit
             var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolConditions);
             CurrentFreeSchoolName = project.SchoolName;
 
-            ConditionOption = YesNoOption.No;
-            if (!string.IsNullOrWhiteSpace(project.NewSchool.NewSchoolConditions) && project.NewSchool.NewSchoolConditions == "Yes")
+            if (ConditionOption != null)
             {
-                ConditionOption = YesNoOption.Yes;
-            }
+                ConditionOption = YesNoOption.No;
+                if (!string.IsNullOrWhiteSpace(project.NewSchool.NewSchoolConditions) && project.NewSchool.NewSchoolConditions == "Yes")
+                {
+                    ConditionOption = YesNoOption.Yes;
+                }
 
-            ConditionDescription = project.NewSchool.NewSchoolConditionsDescription;
+                ConditionDescription = project.NewSchool.NewSchoolConditionsDescription;
+            }
         }
 
         public async Task<IActionResult> OnGet()
