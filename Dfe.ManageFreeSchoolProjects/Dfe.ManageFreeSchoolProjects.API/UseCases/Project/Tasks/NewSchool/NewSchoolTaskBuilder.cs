@@ -9,14 +9,14 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool
         {
             return new NewSchoolTask
             {
-                //NewSchoolSpecificationPublicationDate = kpi.NewSchoolSpecificationPublicationDate,
-                //NewSchoolClosingDateForProposals = kpi.NewSchoolClosingDateForProposals,
-                //NewSchoolDecisionMaker = kpi.NewSchoolDecisionMaker,
-                //NewSchoolDateOfDecision = kpi.NewSchoolDateOfDecision,
+                NewSchoolSpecificationPublicationDate = kpi.NewSchoolSpecificationPublicationDate,
+                NewSchoolClosingDateForProposals = kpi.NewSchoolClosingDateForProposals,
+                NewSchoolDecisionMaker = kpi.NewSchoolDecisionMaker,
+                NewSchoolDateOfDecision = kpi.NewSchoolDateOfDecision,
 
                 //NewSchoolWasTheDecisionApprovedWithoutConditions = kpi.NewSchoolWasTheDecisionApprovedWithoutConditions,
                 //NewSchoolHaveAnyConditionBeenApplied = kpi.NewSchoolHaveAnyConditionBeenApplied,
-                //NewSchoolDateForConditionsToBeMet = kpi.NewSchoolDateForConditionsToBeMet
+                NewSchoolDateForConditionsToBeMet = kpi.NewSchoolDateForConditionsToBeMet
             };
         }
     }

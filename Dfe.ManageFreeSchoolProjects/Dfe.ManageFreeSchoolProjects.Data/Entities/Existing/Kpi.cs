@@ -436,13 +436,13 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
 
         public string UpperStatus { get; set; }
 
-        //public DateTime? NewSchoolSpecificationPublicationDate { get; set; }
+        public DateTime? NewSchoolSpecificationPublicationDate { get; set; }
 
-        //public DateTime? NewSchoolClosingDateForProposals { get; set; }
+        public DateTime? NewSchoolClosingDateForProposals { get; set; }
 
-        //public string NewSchoolDecisionMaker { get; set; }
+        public string NewSchoolDecisionMaker { get; set; }
 
-        //public DateTime? NewSchoolDateOfDecision { get; set; }
+        public DateTime? NewSchoolDateOfDecision { get; set; }
 
 
 
@@ -451,6 +451,6 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
 
         //public string NewSchoolHaveAnyConditionBeenApplied { get; set; }
         
-        //public DateTime? NewSchoolDateForConditionsToBeMet { get; set; }
+        public DateTime? NewSchoolDateForConditionsToBeMet { get; set; }
     }
 }

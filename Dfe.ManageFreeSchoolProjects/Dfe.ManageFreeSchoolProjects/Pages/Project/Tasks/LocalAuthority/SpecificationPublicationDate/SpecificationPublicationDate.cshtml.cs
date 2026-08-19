@@ -42,15 +42,22 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Specif
             _errorService = errorService;
         }
 
+        private async Task<GetProjectByTaskResponse> ReadAsync()
+        {
+            var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolSpecificationPublicationDate);
+            CurrentFreeSchoolName = project.SchoolName;
+            SpecificationPublicationDate = project.NewSchool.NewSchoolSpecificationPublicationDate;
+
+            return project;
+        }
+
         public async Task<IActionResult> OnGet()
         {
             _logger.LogMethodEntered();
 
             try
             {
-                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolSpecificationPublicationDate);
-                CurrentFreeSchoolName = project.SchoolName;
-                SpecificationPublicationDate = project.NewSchool.NewSchoolSpecificationPublicationDate;
+                var project = await ReadAsync();
             }
             catch (Exception ex)
             {
@@ -58,6 +65,25 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Specif
             }
 
             return Page();
+        }
+
+        public async Task<ActionResult> OnPost()
+        {
+            _logger.LogMethodEntered();
+
+            //var project = await ReadAsync();
+
+            _errorService.AddErrors(ModelState.Keys, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                //_errorService.AddErrors(ModelState.Keys, ModelState);
+
+                return Page();
+            }
+
+            return Page();
+            //return Redirect(string.Format(RouteConstants.TaskList, ProjectId));
         }
 
         //public async Task<ActionResult> OnPost()
