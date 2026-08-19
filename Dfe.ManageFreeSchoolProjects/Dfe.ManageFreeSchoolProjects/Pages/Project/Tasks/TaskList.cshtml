@@ -44,7 +44,14 @@
     var governancePlanCentralLink = string.Format(RouteConstants.ViewGovernancePlanCentralTask, Model.ProjectId);
     var preFundingAgreementCheckpointMeetingLink = string.Format(RouteConstants.ViewPreFundingAgreementCheckpointMeeting, Model.ProjectId);
     var readinessToOpenMeetingLink = string.Format(RouteConstants.ViewReadinessToOpenMeeting, Model.ProjectId); 
-    
+
+    var specificationPublicationDateLink = string.Format(RouteConstants.NewSchoolSpecificationPublicationDate, Model.ProjectId);
+    var closingDateForProposalsLink = string.Format(RouteConstants.NewSchoolClosingDateForProposals, Model.ProjectId);
+    var decisionMakerLink = string.Format(RouteConstants.NewSchoolDecisionMaker, Model.ProjectId);
+    var dateOfDecisionLink = string.Format(RouteConstants.NewSchoolDateOfDecision, Model.ProjectId);
+    var conditionsLink = string.Format(RouteConstants.NewSchoolConditions, Model.ProjectId);
+    var dateForConditionsToBeMetLink = string.Format(RouteConstants.NewSchoolDateForConditionsToBeMet, Model.ProjectId);
+
     var pdgLink = (@Model.ProjectType == "Presumption") ? pdgPresumptionLink : pdgCentralLink;
     var governancePlanLink = (@Model.ProjectType == "Presumption") ? governancePlanPresumptionLink : governancePlanCentralLink;
 
@@ -75,6 +82,22 @@
             <p class="govuk-body govuk-!-margin-bottom-7" id="completed-count">You have completed @Model.ProjectTaskListSummary.CompletedTasks of @Model.ProjectTaskListSummary.TaskCount sections.</p>
             <ol class="app-task-list">
                 <li>
+                    @if(Model.ProjectType == "Local Authority")
+                    {
+                        <h2 class="app-task-list__section">
+                            Local authority invitation specification
+                        </h2>
+                        <ul class="app-task-list__items">
+                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolSpecificationPublicationDate" href="@specificationPublicationDateLink" label="Specification publication date" />
+                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolClosingDateForProposals" href="@closingDateForProposalsLink" label="Closing date for proposals" />
+                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDecisionMaker" href="@decisionMakerLink" label="Decision maker" />
+                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDateOfDecision" href="@dateOfDecisionLink" label="Date of decision" />
+                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolConditions" href="@conditionsLink" label="Conditions" />
+                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDateForConditionsToBeMet" href="@dateForConditionsToBeMetLink" label="Date for conditions to be met" />
+                        </ul>
+                    }
+
+                    <!--
                     <h2 class="app-task-list__section">
                         Setting-up
                     </h2>
@@ -103,26 +126,26 @@
                         <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.PDG" href="@pdgLink" label="Project development grant (PDG)" hide-status="@(!userAuthorisedToChangePDG)" />
                     </ul>
 
-                <h2 class="app-task-list__section">
-                    Pre-opening
-                </h2>
-                <ul class="app-task-list__items">
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.KickOffMeeting" href="@kickOffMeetingLink" label="Kick-off meeting" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.AdmissionsArrangements" href="@admissionsArrangementsLink" label="Admissions arrangements" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.ArticlesOfAssociation" href="@articlesOfAssociationLink" label="Articles of association" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.GovernancePlan" href="@governancePlanLink" label="Governance plan" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.EducationBrief" href="@educationPlansAndPoliciesLink" label="Education plans and policies" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FinancePlan" href="@financePlanLink" label="Finance plan" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.StatutoryConsultation" href="@statutoryConsultationLink" label="Statutory consultation" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.ImpactAssessment" href="@impactAssessmentLink" label="Impact assessment" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.EqualitiesAssessment" href="@equalitiesAssessmentLink" label="Equalities assessment" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.PrincipalDesignate" href="@principalDesignateLink" label="Principal designate" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.DueDiligenceChecks" href="@dueDiligenceChecksLink" label="Due diligence checks" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.PreFundingAgreementCheckpointMeeting" href="@preFundingAgreementCheckpointMeetingLink" label="Pre-funding agreement checkpoint meeting" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FundingAgreementHealthCheck" href="@fundingAgreementHealthCheckLink" label="Funding agreement health check" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FundingAgreementSubmission" href="@fundingAgreementSubmissionLink" label="Funding agreement submission" />
-                    <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FundingAgreement" href="@fundingAgreementLink" label="Funding agreement" />
-                </ul>
+                    <h2 class="app-task-list__section">
+                        Pre-opening
+                    </h2>
+                    <ul class="app-task-list__items">
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.KickOffMeeting" href="@kickOffMeetingLink" label="Kick-off meeting" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.AdmissionsArrangements" href="@admissionsArrangementsLink" label="Admissions arrangements" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.ArticlesOfAssociation" href="@articlesOfAssociationLink" label="Articles of association" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.GovernancePlan" href="@governancePlanLink" label="Governance plan" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.EducationBrief" href="@educationPlansAndPoliciesLink" label="Education plans and policies" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FinancePlan" href="@financePlanLink" label="Finance plan" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.StatutoryConsultation" href="@statutoryConsultationLink" label="Statutory consultation" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.ImpactAssessment" href="@impactAssessmentLink" label="Impact assessment" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.EqualitiesAssessment" href="@equalitiesAssessmentLink" label="Equalities assessment" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.PrincipalDesignate" href="@principalDesignateLink" label="Principal designate" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.DueDiligenceChecks" href="@dueDiligenceChecksLink" label="Due diligence checks" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.PreFundingAgreementCheckpointMeeting" href="@preFundingAgreementCheckpointMeetingLink" label="Pre-funding agreement checkpoint meeting" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FundingAgreementHealthCheck" href="@fundingAgreementHealthCheckLink" label="Funding agreement health check" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FundingAgreementSubmission" href="@fundingAgreementSubmissionLink" label="Funding agreement submission" />
+                        <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.FundingAgreement" href="@fundingAgreementLink" label="Funding agreement" />
+                    </ul>
 
                     <h2 class="app-task-list__section">
                         Getting ready to open
@@ -144,6 +167,7 @@
                     <ul class="app-task-list__items">
                         <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.CommissionedExternalExpert" href="@commissionedExternalExpert" label="External expert visit" />
                     </ul>
+                    -->
                 </li>
             </ol>
         </div>

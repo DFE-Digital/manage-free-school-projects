@@ -1,0 +1,36 @@
+﻿@page "/projects/{projectId}/tasks/local-authority/closing-date-for-proposals"
+@using Dfe.ManageFreeSchoolProjects.Constants;
+
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.ClosingDateForProposals.ClosingDateForProposalsModel
+
+@{
+    ViewData["Title"] = $"Edit Closing date for proposals - {Model.CurrentFreeSchoolName}";
+    var backLink = string.Format(RouteConstants.TaskList, Model.ProjectId);
+}
+
+@section BeforeMain {
+    <div role="navigation" class="govuk-extra-width-container">
+        <a href=@backLink class="govuk-back-link">Back</a>
+    </div>
+}
+
+<partial name="_ErrorSummary" />
+
+<h1 class="govuk-heading-xl" data-testid="title">
+    <span class="govuk-caption-l" data-testid="school-name">
+        @Model.CurrentFreeSchoolName
+    </span>
+    Closing date for proposals
+</h1>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form method="post">
+            <govuk-date-input id="closing-date-for-proposals" name="closing-date-for-proposals" asp-for="@Model.ClosingDateForProposals" data-testid="closing-date-for-proposals" label="Closing date for proposals" hint="For example, 1 9 2023" />
+
+            <button class="govuk-button" data-module="govuk-button">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>

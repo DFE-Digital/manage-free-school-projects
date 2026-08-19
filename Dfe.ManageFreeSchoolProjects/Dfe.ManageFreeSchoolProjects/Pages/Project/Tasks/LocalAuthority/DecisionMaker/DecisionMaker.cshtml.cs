@@ -1,0 +1,71 @@
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+using Dfe.ManageFreeSchoolProjects.Constants;
+using Dfe.ManageFreeSchoolProjects.Logging;
+using Dfe.ManageFreeSchoolProjects.Models;
+using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.Dates;
+using Dfe.ManageFreeSchoolProjects.Services;
+using Dfe.ManageFreeSchoolProjects.Services.Project;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DecisionMaker
+{
+    public class DecisionMakerModel : PageModel
+    {
+        private readonly IGetProjectByTaskService _getProjectService;
+        private readonly IUpdateProjectByTaskService _updateProjectTaskService;
+        private readonly ILogger<DecisionMakerModel> _logger;
+        private readonly ErrorService _errorService;
+
+        [BindProperty(SupportsGet = true, Name = "projectId")]
+        public string ProjectId { get; set; }
+        public string CurrentFreeSchoolName { get; set; }
+
+        //[BindProperty(Name = "decision-maker", BinderType = typeof(DateInputModelBinder))]
+        //[Display(Name = "decision-maker")]
+        //[DateValidation(DateRangeValidationService.DateRange.PastOrFuture)]
+        public string DecisionMaker { get; set; }
+
+        public List<string> Options { get; } =
+        [
+            "Local authority",
+            "Regional Director on behalf of the Secretary of State"
+        ];
+
+        public DecisionMakerModel(
+            IGetProjectByTaskService getProjectService,
+            IUpdateProjectByTaskService updateProjectTaskService,
+            ILogger<DecisionMakerModel> logger,
+            ErrorService errorService)
+        {
+            _getProjectService = getProjectService;
+            _updateProjectTaskService = updateProjectTaskService;
+            _logger = logger;
+            _errorService = errorService;
+        }
+
+        public async Task<IActionResult> OnGet()
+        {
+            _logger.LogMethodEntered();
+
+            try
+            {
+                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecisionMaker);
+                CurrentFreeSchoolName = project.SchoolName;
+                DecisionMaker = project.NewSchool.NewSchoolDecisionMaker;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogErrorMsg(ex);
+            }
+
+            return Page();
+        }
+    }
+}

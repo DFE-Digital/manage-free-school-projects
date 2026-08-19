@@ -64,7 +64,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
         public TaskSummaryResponse PreFundingAgreementCheckpointMeeting { get; set; }
         
         public TaskSummaryResponse ReadinessToOpenMeeting { get; set; }
-        
+
+        public TaskSummaryResponse NewSchoolSpecificationPublicationDate { get; set; }
+        public TaskSummaryResponse NewSchoolClosingDateForProposals { get; set; }
+        public TaskSummaryResponse NewSchoolDecisionMaker { get; set; }
+        public TaskSummaryResponse NewSchoolDateOfDecision { get; set; }
+        //public TaskSummaryResponse NewSchoolWasTheDecisionApprovedWithoutConditions { get; set; }
+        //public TaskSummaryResponse NewSchoolHaveAnyConditionBeenApplied { get; set; }
+
+        public TaskSummaryResponse NewSchoolConditions { get; set; }
+        public TaskSummaryResponse NewSchoolDateForConditionsToBeMet { get; set; }
+
         public int TaskCount { get; set; }
         
         public int CompletedTasks { get; set; }

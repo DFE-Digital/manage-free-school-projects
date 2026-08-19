@@ -51,5 +51,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
 
         public PreFundingAgreementCheckpointMeetingTask PreFundingAgreementCheckpointMeetingTask { get; set; }
         public ReadinessToOpenMeetingTask ReadinessToOpenMeetingTask { get; set; }
+
+        public NewSchoolTask NewSchool { get; set; } 
     }
 }

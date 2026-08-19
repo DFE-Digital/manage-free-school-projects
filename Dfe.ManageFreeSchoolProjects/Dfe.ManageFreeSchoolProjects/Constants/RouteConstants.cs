@@ -188,6 +188,15 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
         public const string ViewReadinessToOpenMeeting = TaskList + "/readiness-to-open-meeting";
         public const string EditReadinessToOpenMeeting = ViewReadinessToOpenMeeting + "/edit";
 
+        public const string NewSchoolSpecificationPublicationDate = TaskList + "/local-authority/specification-publication-date";
+        public const string NewSchoolClosingDateForProposals = TaskList + "/local-authority/closing-date-for-proposals";
+        public const string NewSchoolDecisionMaker = TaskList + "/local-authority/decision-maker";
+        public const string NewSchoolDateOfDecision = TaskList + "/local-authority/date-of-decision";
+        //public const string NewSchoolWasTheDecisionApprovedWithoutConditions = TaskList + "/local-authority/was-decision-approved-without-conditions";
+        //public const string NewSchoolHaveAnyConditionBeenApplied = TaskList + "/local-authority/have-any-condition-applied";
+        public const string NewSchoolConditions = TaskList + "/local-authority/conditions";
+        public const string NewSchoolDateForConditionsToBeMet = TaskList + "/local-authority/date-conditions-met";
+
         public const string BulkEditFileUpload = "/bulk-edit-file-upload";
         public const string BulkEditFileComplete = "/bulk-edit-file-complete";
 
