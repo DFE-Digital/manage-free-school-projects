@@ -45,7 +45,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
         [InlineData("No")]
         [InlineData("")]
         [InlineData(null)]
-        public async Task OnGet_WhenConditionsWereNotApplied_SelectsNo(string storedValue)
+        public async Task OnGet_WhenConditionsWereNotApplied_SelectsNo(string? storedValue)
         {
             var harness = new NewSchoolTaskPageHarness().ReturnsProject(new GetProjectByTaskResponse
             {
