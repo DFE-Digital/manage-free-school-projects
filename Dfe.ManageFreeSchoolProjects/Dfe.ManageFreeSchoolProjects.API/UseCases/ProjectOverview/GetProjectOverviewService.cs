@@ -104,12 +104,19 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.ProjectOverview
                 PupilNumbers = pupilNumbers
             };
 
-            projectOverviewResponse.ProjectType =
-                projectOverviewResponse.ProjectStatus.ApplicationWave == "FS - Presumption"
-                    ? "Presumption"
-                    : "Central Route";
+            projectOverviewResponse.ProjectType = GetProjectType(projectOverviewResponse.ProjectStatus.ApplicationWave);
 
             return projectOverviewResponse;
+        }
+
+        private static string GetProjectType(string wave)
+        {
+            return wave switch
+            {
+                "FS - Presumption" => "Presumption",
+                "LocalAuthority" => "Local Authority",
+                _ => "Central Route"
+            };
         }
 
         private async Task<ProjectRiskOverviewResponse> GetRisk(string rid)

@@ -1,4 +1,5 @@
 using Dfe.ManageFreeSchoolProjects.Services.Project;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
@@ -6,6 +7,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
     public class ConfirmationModel : PageModel
     {
         private readonly ICreateProjectCache _createProjectCache;
+
+        public string PageTitle { get; set; }
 
         public string ProjectID { get; set; }
 
@@ -18,8 +21,11 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
 
         public void OnGet()
         {
-            ProjectID = _createProjectCache.Get().ProjectId;
-            EmailToNotify = _createProjectCache.Get().ProjectAssignedToEmail;
+            var project = _createProjectCache.Get();
+
+            PageTitle = project.ProjectType == API.Contracts.Project.ProjectType.LocalAuthority ? "Local autority project created" : "Free school project created";
+            ProjectID = project.ProjectId;
+            EmailToNotify = project.ProjectAssignedToEmail;
         }
     }
 }

@@ -74,6 +74,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
                     return Redirect(projCache.ReachedCheckYourAnswers && hasApplicationWaveOrApplicationNumber
                         ? RouteConstants.CreateProjectCheckYourAnswers
                         : RouteConstants.CreateApplicationNumber);
+                case ProjectType.LocalAuthority:
+                    return Redirect(projCache.ReachedCheckYourAnswers
+                        ? RouteConstants.CreateProjectCheckYourAnswers
+                        : RouteConstants.CreateProjectId);
                 default:
                     throw new InvalidOperationException($"Unrecognized method {chosenMethod}");
             }

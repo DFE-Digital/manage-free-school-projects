@@ -12,6 +12,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Projects
     public class ProjectDetails
     {
         public string ProjectId { get; set; }
+        public ProjectType ProjectType { get; set; }
         public string SchoolName { get; set; }
         public string Region { get; set; }
         public string LocalAuthority { get; set; }
@@ -30,6 +31,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Projects
         public int YRY6Capacity { get; set; }
         public int Y7Y11Capacity { get; set; }
         public int Y12Y14Capacity { get; set; }
+        public int APResourcesProvision { get; set; }
+        public int SENResourcedProvisionSENUnit { get; set; }
         public string FormsOfEntry { get; set; }
         public FaithStatus FaithStatus { get; set; }
         public FaithType FaithType { get; set; }

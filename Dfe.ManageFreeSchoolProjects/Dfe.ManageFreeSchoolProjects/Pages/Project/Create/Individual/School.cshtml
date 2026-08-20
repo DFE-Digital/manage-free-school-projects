@@ -1,7 +1,7 @@
 ﻿@page "/project/create/school"
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual.SchoolModel
 @{
-    ViewData["Title"] = "What is the current free school name?";
+    ViewData["Title"] = Model.SchoolNameQuestion;
 
 }
 @section BeforeMain {
@@ -16,7 +16,7 @@
         <form class="form" method="post">
 
             <div class="govuk-form-group">
-                <govuk-create-title label="What is the current free school name?" for="school" />
+                <govuk-create-title label="@Model.SchoolNameQuestion" for="school" />
                 <govuk-text-input id="school" name="school" asp-for="@Model.School" data-testid="school" hint="You can still edit it anytime" />
             </div>
 

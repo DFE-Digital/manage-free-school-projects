@@ -8,6 +8,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
     {
         [Theory]
         [InlineData("FS - AP", SchoolType.AlternativeProvision)]
+        [InlineData("FS - AP/PRU", SchoolType.AlternativeProvisionPRU)]
         [InlineData("FS - Special", SchoolType.Special)]
         [InlineData("SS", SchoolType.StudioSchool)]
         [InlineData("UTC", SchoolType.UniversityTechnicalCollege)]
@@ -22,6 +23,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
 
         [Theory]
         [InlineData(SchoolType.AlternativeProvision, "FS - AP")]
+        [InlineData(SchoolType.AlternativeProvisionPRU, "FS - AP/PRU")]
         [InlineData(SchoolType.Special, "FS - Special")]
         [InlineData(SchoolType.StudioSchool, "SS")]
         [InlineData(SchoolType.UniversityTechnicalCollege, "UTC")]

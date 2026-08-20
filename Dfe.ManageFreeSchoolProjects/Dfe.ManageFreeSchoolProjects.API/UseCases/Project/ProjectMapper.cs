@@ -13,6 +13,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return schoolType switch
             {
                 "FS - AP" => SchoolType.AlternativeProvision,
+                "FS - AP/PRU" => SchoolType.AlternativeProvisionPRU,
                 "FS - Special" => SchoolType.Special,
                 "SS" => SchoolType.StudioSchool,
                 "FS - Mainstream" => SchoolType.Mainstream,
@@ -28,6 +29,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return schoolType switch
             {
                 SchoolType.AlternativeProvision => "FS - AP",
+                SchoolType.AlternativeProvisionPRU => "FS - AP/PRU",
                 SchoolType.Special => "FS - Special",
                 SchoolType.StudioSchool => "SS",
                 SchoolType.Mainstream => "FS - Mainstream",
@@ -90,6 +92,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return projectStatus?.ToLower() switch
             {
                 "pre-opening" => ProjectStatusType.Preopening,
+                "pre-pipeline" => ProjectStatusType.Prepipeline,
                 "open" => ProjectStatusType.Open,
                 "closed" => ProjectStatusType.Closed,
                 "cancelled during pre-opening" => ProjectStatusType.Cancelled,
@@ -112,6 +115,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return projectStatus switch
             {
                 ProjectStatusType.Preopening => "Pre-opening",
+                ProjectStatusType.Prepipeline => "Pre-pipeline",
                 ProjectStatusType.Open => "Open",
                 ProjectStatusType.Closed => "Closed",
                 ProjectStatusType.Cancelled => "Cancelled during pre-opening",

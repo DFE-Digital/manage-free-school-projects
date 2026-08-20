@@ -1,10 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual;
 
@@ -53,8 +55,17 @@ public class FaithStatusModel : CreateProjectBaseModel
             project.FaithStatus = FaithStatus;
             project.PreviousFaithStatus = FaithStatus;
             project.FaithType = FaithType.NotSet;
+
             CreateProjectCache.Update(project);
-            return Redirect(GetNextPage(CreateProjectPageName.FaithStatus));
+
+            if (project.ProjectType == ProjectType.LocalAuthority)
+            {
+                return Redirect(RouteConstants.CreateProjectAssignedTo);
+            }
+            else
+            {
+                return Redirect(GetNextPage(CreateProjectPageName.FaithStatus));
+            }
         }
 
         if(!project.ReachedCheckYourAnswers)

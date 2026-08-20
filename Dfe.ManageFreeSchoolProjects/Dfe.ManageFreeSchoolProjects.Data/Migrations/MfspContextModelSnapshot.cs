@@ -17,7 +17,7 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "10.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -4378,6 +4378,30 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)")
                         .HasColumnName("MAT Unit Projects");
+
+                    b.Property<DateTime?>("NewSchoolClosingDateForProposals")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NewSchoolConditions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewSchoolConditionsDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NewSchoolDateForConditionsToBeMet")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NewSchoolDateOfDecision")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NewSchoolDecision")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewSchoolDecisionMaker")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NewSchoolSpecificationPublicationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PRid")
                         .HasMaxLength(11)
@@ -9442,6 +9466,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("Project Development Grant Funding.Underwrite approved by");
 
+                    b.Property<string>("PupilNumbersAndCapacityAPResourcesProvision")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PupilNumbersAndCapacityAcademicYearFifthYear")
                         .HasMaxLength(100)
                         .IsUnicode(false)
@@ -10459,6 +10486,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("Pupil numbers and capacity.% received applications vs viability YR-Y6");
+
+                    b.Property<string>("PupilNumbersAndCapacitySENResourcedProvisionSENUnit")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PupilNumbersAndCapacitySpecialistResourceProvisionAp")
                         .HasMaxLength(100)
