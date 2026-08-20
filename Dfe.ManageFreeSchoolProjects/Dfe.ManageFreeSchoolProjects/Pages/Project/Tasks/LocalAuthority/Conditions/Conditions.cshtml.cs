@@ -1,18 +1,14 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Task;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Logging;
-using Dfe.ManageFreeSchoolProjects.Models;
-using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.Dates;
-using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DateOfDecision;
-using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DecisionMaker;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Dfe.ManageFreeSchoolProjects.Services.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -22,6 +18,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Condit
     {
         private readonly IGetProjectByTaskService _getProjectService;
         private readonly IUpdateProjectByTaskService _updateProjectTaskService;
+        private readonly IUpdateTaskStatusService _updateTaskStatusService;
         private readonly ILogger<ConditionsModel> _logger;
         private readonly ErrorService _errorService;
 
@@ -33,17 +30,19 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Condit
         [Required(ErrorMessage = "Please select an option to confirm the conditions applied")]
         public YesNoOption? ConditionOption { get; set; }
 
-        [BindProperty]
+        [BindProperty(Name = "condition-description")]
         public string ConditionDescription { get; set; }
 
         public ConditionsModel(
             IGetProjectByTaskService getProjectService,
             IUpdateProjectByTaskService updateProjectTaskService,
+            IUpdateTaskStatusService updateTaskStatusService,
             ILogger<ConditionsModel> logger,
             ErrorService errorService)
         {
             _getProjectService = getProjectService;
             _updateProjectTaskService = updateProjectTaskService;
+            _updateTaskStatusService = updateTaskStatusService;
             _logger = logger;
             _errorService = errorService;
         }
@@ -53,15 +52,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Condit
             var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolConditions);
             CurrentFreeSchoolName = project.SchoolName;
 
-            if (ConditionOption != null)
+            if (project.NewSchoolConditions != null)
             {
                 ConditionOption = YesNoOption.No;
-                if (!string.IsNullOrWhiteSpace(project.NewSchool.NewSchoolConditions) && project.NewSchool.NewSchoolConditions == "Yes")
+                if (!string.IsNullOrWhiteSpace(project.NewSchoolConditions.NewSchoolConditions) && project.NewSchoolConditions.NewSchoolConditions == "Yes")
                 {
                     ConditionOption = YesNoOption.Yes;
                 }
 
-                ConditionDescription = project.NewSchool.NewSchoolConditionsDescription;
+                ConditionDescription = project.NewSchoolConditions.NewSchoolConditionsDescription;
             }
         }
 
@@ -79,6 +78,60 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Condit
             }
 
             return Page();
+        }
+
+        public async Task<ActionResult> OnPost()
+        {
+            _logger.LogMethodEntered();
+
+            _errorService.AddErrors(ModelState.Keys, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            try
+            {
+                string hasConditions = ConditionOption == YesNoOption.Yes ? "Yes" : "No";
+                string description = ConditionOption == YesNoOption.Yes ? ConditionDescription : string.Empty;
+
+                var request = new UpdateProjectByTaskRequest()
+                {
+                    NewSchoolConditions = new NewSchoolConditionsTask()
+                    {
+                        NewSchoolConditions = hasConditions,
+                        NewSchoolConditionsDescription = description
+                    }
+                };
+
+                await _updateProjectTaskService.Execute(ProjectId, request);
+
+                if (ConditionOption is not null)
+                {
+                    await UpdateStatusAsync(ProjectTaskStatus.Completed);
+                }
+                else
+                {
+                    await UpdateStatusAsync(ProjectTaskStatus.NotStarted);
+                }
+
+                return Redirect(string.Format(RouteConstants.TaskList, ProjectId));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogErrorMsg(ex);
+                throw;
+            }
+        }
+
+        private async Task UpdateStatusAsync(ProjectTaskStatus status)
+        {
+            await _updateTaskStatusService.Execute(ProjectId, new UpdateTaskStatusRequest
+            {
+                TaskName = TaskName.NewSchoolConditions.ToString(),
+                ProjectTaskStatus = status
+            });
         }
     }
 }

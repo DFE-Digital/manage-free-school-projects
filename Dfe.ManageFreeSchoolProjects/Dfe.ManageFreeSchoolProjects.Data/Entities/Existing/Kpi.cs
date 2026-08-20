@@ -444,13 +444,12 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
 
         public DateTime? NewSchoolDateOfDecision { get; set; }
 
+        public string NewSchoolConditions { get; set; }
 
+        public string NewSchoolConditionsDescription { get; set; }
 
+        public string NewSchoolDecision { get; set; }
 
-        //public string NewSchoolWasTheDecisionApprovedWithoutConditions { get; set; }
-
-        //public string NewSchoolHaveAnyConditionBeenApplied { get; set; }
-        
         public DateTime? NewSchoolDateForConditionsToBeMet { get; set; }
     }
 }

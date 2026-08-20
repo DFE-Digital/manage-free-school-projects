@@ -12,34 +12,34 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DecisionMaker
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision
 {
-    public class DecisionMakerModel : PageModel
+    public class DecisionModel : PageModel
     {
         private readonly IGetProjectByTaskService _getProjectService;
         private readonly IUpdateProjectByTaskService _updateProjectTaskService;
         private readonly IUpdateTaskStatusService _updateTaskStatusService;
-        private readonly ILogger<DecisionMakerModel> _logger;
+        private readonly ILogger<DecisionModel> _logger;
         private readonly ErrorService _errorService;
 
         [BindProperty(SupportsGet = true, Name = "projectId")]
         public string ProjectId { get; set; }
         public string CurrentFreeSchoolName { get; set; }
 
-        [BindProperty(Name = "decision-maker")]
-        public string DecisionMaker { get; set; }
+        [BindProperty(Name = "decision")]
+        public string Decision { get; set; }
 
         public List<string> Options { get; } =
         [
-            "Local authority",
-            "Regional Director on behalf of the Secretary of State"
+            "Approved without conditions",
+            "Approved with conditions"
         ];
 
-        public DecisionMakerModel(
+        public DecisionModel(
             IGetProjectByTaskService getProjectService,
             IUpdateProjectByTaskService updateProjectTaskService,
             IUpdateTaskStatusService updateTaskStatusService,
-            ILogger<DecisionMakerModel> logger,
+            ILogger<DecisionModel> logger,
             ErrorService errorService)
         {
             _getProjectService = getProjectService;
@@ -55,9 +55,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
 
             try
             {
-                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecisionMaker);
+                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
                 CurrentFreeSchoolName = project.SchoolName;
-                DecisionMaker = project.NewSchoolDecisionMaker?.NewSchoolDecisionMaker;
+                Decision = project.NewSchoolDecision?.NewSchoolDecision;
             }
             catch (Exception ex)
             {
@@ -82,15 +82,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
             {
                 var request = new UpdateProjectByTaskRequest
                 {
-                    NewSchoolDecisionMaker = new NewSchoolDecisionMakerTask
+                    NewSchoolDecision = new NewSchoolDecisionTask
                     {
-                        NewSchoolDecisionMaker = DecisionMaker
+                        NewSchoolDecision = Decision
                     }
                 };
 
                 await _updateProjectTaskService.Execute(ProjectId, request);
 
-                if (DecisionMaker is not null)
+                if (Decision is not null)
                 {
                     await UpdateStatusAsync(ProjectTaskStatus.Completed);
                 }
@@ -112,7 +112,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
         {
             await _updateTaskStatusService.Execute(ProjectId, new UpdateTaskStatusRequest
             {
-                TaskName = TaskName.NewSchoolDecisionMaker.ToString(),
+                TaskName = TaskName.NewSchoolDecision.ToString(),
                 ProjectTaskStatus = status
             });
         }

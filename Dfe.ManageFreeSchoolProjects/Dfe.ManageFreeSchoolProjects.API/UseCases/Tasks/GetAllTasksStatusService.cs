@@ -93,8 +93,7 @@ public class GetAllTasksStatusService : IGetTasksService
             NewSchoolClosingDateForProposals = SafeRetrieveTaskSummary(projectTasks, "NewSchoolClosingDateForProposals"),
             NewSchoolDecisionMaker = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDecisionMaker"),
             NewSchoolDateOfDecision = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDateOfDecision"),
-            //NewSchoolWasTheDecisionApprovedWithoutConditions = SafeRetrieveTaskSummary(projectTasks, "NewSchoolWasTheDecisionApprovedWithoutConditions"),
-            //NewSchoolHaveAnyConditionBeenApplied = SafeRetrieveTaskSummary(projectTasks, "NewSchoolHaveAnyConditionBeenApplied"),
+            NewSchoolDecision = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDecision"),
             NewSchoolConditions = SafeRetrieveTaskSummary(projectTasks, "NewSchoolConditions"),
             NewSchoolDateForConditionsToBeMet = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDateForConditionsToBeMet")
         };

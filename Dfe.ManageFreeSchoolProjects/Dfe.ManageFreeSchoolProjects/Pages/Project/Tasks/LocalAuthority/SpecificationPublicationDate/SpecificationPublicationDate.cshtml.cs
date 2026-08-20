@@ -1,10 +1,11 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Task;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Models;
-using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.Dates;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
+using Dfe.ManageFreeSchoolProjects.Services.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Specif
     {
         private readonly IGetProjectByTaskService _getProjectService;
         private readonly IUpdateProjectByTaskService _updateProjectTaskService;
+        private readonly IUpdateTaskStatusService _updateTaskStatusService;
         private readonly ILogger<SpecificationPublicationDateModel> _logger;
         private readonly ErrorService _errorService;
 
@@ -33,22 +35,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Specif
         public SpecificationPublicationDateModel(
             IGetProjectByTaskService getProjectService,
             IUpdateProjectByTaskService updateProjectTaskService,
+            IUpdateTaskStatusService updateTaskStatusService,
             ILogger<SpecificationPublicationDateModel> logger,
             ErrorService errorService)
         {
             _getProjectService = getProjectService;
             _updateProjectTaskService = updateProjectTaskService;
+            _updateTaskStatusService = updateTaskStatusService;
             _logger = logger;
             _errorService = errorService;
-        }
-
-        private async Task<GetProjectByTaskResponse> ReadAsync()
-        {
-            var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolSpecificationPublicationDate);
-            CurrentFreeSchoolName = project.SchoolName;
-            SpecificationPublicationDate = project.NewSchool.NewSchoolSpecificationPublicationDate;
-
-            return project;
         }
 
         public async Task<IActionResult> OnGet()
@@ -57,7 +52,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Specif
 
             try
             {
-                var project = await ReadAsync();
+                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolSpecificationPublicationDate);
+                CurrentFreeSchoolName = project.SchoolName;
+                SpecificationPublicationDate = project.NewSchoolSpecificationPublicationDate.NewSchoolSpecificationPublicationDate;
             }
             catch (Exception ex)
             {
@@ -71,103 +68,50 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Specif
         {
             _logger.LogMethodEntered();
 
-            //var project = await ReadAsync();
-
             _errorService.AddErrors(ModelState.Keys, ModelState);
 
             if (!ModelState.IsValid)
             {
-                //_errorService.AddErrors(ModelState.Keys, ModelState);
-
                 return Page();
             }
 
-            return Page();
-            //return Redirect(string.Format(RouteConstants.TaskList, ProjectId));
+            try
+            {
+                var request = new UpdateProjectByTaskRequest()
+                {
+                    NewSchoolSpecificationPublicationDate = new NewSchoolSpecificationPublicationDateTask()
+                    {
+                        NewSchoolSpecificationPublicationDate = SpecificationPublicationDate
+                    }
+                };
+
+                await _updateProjectTaskService.Execute(ProjectId, request);
+
+                if (SpecificationPublicationDate is not null)
+                {
+                    await UpdateStatusAsync(ProjectTaskStatus.Completed);
+                }
+                else
+                {
+                    await UpdateStatusAsync(ProjectTaskStatus.NotStarted);
+                }
+                
+                return Redirect(string.Format(RouteConstants.TaskList, ProjectId));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogErrorMsg(ex);
+                throw;
+            }
         }
 
-        //public async Task<ActionResult> OnPost()
-        //{
-        //    var project = await _getProjectService.Execute(ProjectId, TaskName.Dates);
-
-        //    ProjectClosedDateHasValue = project.Dates.ProjectClosedDate.HasValue;
-
-        //    ProjectCancelledDateHasValue = project.Dates.ProjectCancelledDate.HasValue;
-
-        //    ProjectWithdrawnDateHasValue = project.Dates.ProjectWithdrawnDate.HasValue;
-
-
-
-        //    if (project.Dates.ProjectClosedDate.HasValue
-        //        && !project.Dates.ProjectCancelledDate.HasValue
-        //        && !project.Dates.ProjectWithdrawnDate.HasValue
-        //        )
-        //    {
-        //        ModelState.Remove("project-cancelled-date");
-        //        ModelState.Remove("project-withdrawn-date");
-        //    }
-
-        //    if (project.Dates.ProjectCancelledDate.HasValue
-        //        && !project.Dates.ProjectClosedDate.HasValue
-        //        && !project.Dates.ProjectWithdrawnDate.HasValue
-        //        )
-        //    {
-        //        ModelState.Remove("project-closed-date");
-        //        ModelState.Remove("project-withdrawn-date");
-        //    }
-
-        //    if (project.Dates.ProjectWithdrawnDate.HasValue
-        //        && !project.Dates.ProjectClosedDate.HasValue
-        //        && !project.Dates.ProjectCancelledDate.HasValue
-        //        )
-        //    {
-        //        ModelState.Remove("project-closed-date");
-        //        ModelState.Remove("project-cancelled-date");
-        //    }
-
-        //    if (!project.Dates.ProjectWithdrawnDate.HasValue
-        //        && !project.Dates.ProjectCancelledDate.HasValue
-        //        && !project.Dates.ProjectClosedDate.HasValue)
-        //    {
-        //        ModelState.Remove("project-closed-date");
-        //        ModelState.Remove("project-cancelled-date");
-        //        ModelState.Remove("project-withdrawn-date");
-        //    }
-
-        //    _errorService.AddErrors(ModelState.Keys, ModelState);
-
-        //    CurrentFreeSchoolName = project.SchoolName;
-
-        //    if (!ModelState.IsValid)
-        //    {
-
-        //        return Page();
-        //    }
-
-        //    try
-        //    {
-        //        var request = new UpdateProjectByTaskRequest()
-        //        {
-        //            Dates = new DatesTask()
-        //            {
-        //                DateOfEntryIntoPreopening = EntryIntoPreOpening,
-        //                ProvisionalOpeningDateAgreedWithTrust = ProvisionalOpeningDateAgreedWithTrust,
-        //                ProjectClosedDate = ProjectClosedDate,
-        //                ProjectCancelledDate = ProjectCancelledDate,
-        //                ProjectWithdrawnDate = ProjectWithdrawnDate,
-        //                RealisticYearOfOpening = RealisticYearOfOpening
-        //            }
-        //        };
-
-        //        await _updateProjectTaskService.Execute(ProjectId, request);
-
-        //        return Redirect(string.Format(RouteConstants.ViewDatesTask, ProjectId));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogErrorMsg(ex);
-        //        throw;
-        //    }
-        //}
+        private async Task UpdateStatusAsync(ProjectTaskStatus status)
+        {
+            await _updateTaskStatusService.Execute(ProjectId, new UpdateTaskStatusRequest
+            {
+                TaskName = TaskName.NewSchoolSpecificationPublicationDate.ToString(),
+                ProjectTaskStatus = status
+            });
+        }
     }
 }

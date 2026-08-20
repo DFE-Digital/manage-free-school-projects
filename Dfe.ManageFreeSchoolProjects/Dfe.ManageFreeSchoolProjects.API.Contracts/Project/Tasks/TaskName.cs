@@ -46,8 +46,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
         NewSchoolClosingDateForProposals,
         NewSchoolDecisionMaker,
         NewSchoolDateOfDecision,
-        //NewSchoolWasTheDecisionApprovedWithoutConditions,
-        //NewSchoolHaveAnyConditionBeenApplied,
+        NewSchoolDecision,
         NewSchoolConditions,
         NewSchoolDateForConditionsToBeMet
     }

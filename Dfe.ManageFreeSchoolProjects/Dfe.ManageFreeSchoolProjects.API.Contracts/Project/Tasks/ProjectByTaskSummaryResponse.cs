@@ -69,9 +69,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
         public TaskSummaryResponse NewSchoolClosingDateForProposals { get; set; }
         public TaskSummaryResponse NewSchoolDecisionMaker { get; set; }
         public TaskSummaryResponse NewSchoolDateOfDecision { get; set; }
-        //public TaskSummaryResponse NewSchoolWasTheDecisionApprovedWithoutConditions { get; set; }
-        //public TaskSummaryResponse NewSchoolHaveAnyConditionBeenApplied { get; set; }
-
+        public TaskSummaryResponse NewSchoolDecision { get; set; }
         public TaskSummaryResponse NewSchoolConditions { get; set; }
         public TaskSummaryResponse NewSchoolDateForConditionsToBeMet { get; set; }
 

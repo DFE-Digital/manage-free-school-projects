@@ -32,9 +32,9 @@
                 <govuk-radios-list>
                     <govuk-radios-list-conditional-item id="@YesNoOption.Yes" value="@YesNoOption.Yes" description="@YesNoOption.Yes" asp-for="@Model.ConditionOption" name="ConditionOption" revealed-field-id="@Model.ConditionDescription">
                         <govuk-textarea-input id="@Model.ConditionDescription"
-                                              name="@Model.ConditionDescription"
+                                              name="condition-description"
                                               asp-for="@Model.ConditionDescription"
-                                              test-id="@Model.ConditionDescription"
+                                              test-id="condition-description"
                                               rows="10"
                                               label="What conditions have been applied?"
                                               bold-label="true" />

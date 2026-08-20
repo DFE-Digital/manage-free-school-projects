@@ -1,10 +1,10 @@
-﻿@page "/projects/{projectId}/tasks/local-authority/specification-publication-date"
+﻿@page "/projects/{projectId}/tasks/local-authority/decision"
 @using Dfe.ManageFreeSchoolProjects.Constants;
 
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.SpecificationPublicationDate.SpecificationPublicationDateModel
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision.DecisionModel
 
 @{
-    ViewData["Title"] = $"Edit Specification publication date - {Model.CurrentFreeSchoolName}";
+    ViewData["Title"] = $"Edit Decision - {Model.CurrentFreeSchoolName}";
     var backLink = string.Format(RouteConstants.TaskList, Model.ProjectId);
 }
 
@@ -20,14 +20,20 @@
     <span class="govuk-caption-l" data-testid="school-name">
         @Model.CurrentFreeSchoolName
     </span>
-    When was the new school specification published? 
+    What was the decision?
 </h1>
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <form method="post">
-            <govuk-date-input id="specification-publication-date" name="specification-publication-date" asp-for="@Model.SpecificationPublicationDate" data-testid="specification-publication-date" label="Specification publication date" hint="For example, 1 9 2023" />
-        
+            <div class="govuk-form-group">
+                <govuk-radios-input name="decision"
+                                    asp-for="@Model.Decision"
+                                    data-testid="decision"
+                                    labels="@Model.Options.ToArray()"
+                                    values="@Model.Options.ToArray()" />
+            </div>
+
             <button class="govuk-button" data-module="govuk-button">
                 Save and return
             </button>

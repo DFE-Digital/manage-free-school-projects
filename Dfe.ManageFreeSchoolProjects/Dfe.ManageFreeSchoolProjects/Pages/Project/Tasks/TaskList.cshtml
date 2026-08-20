@@ -49,6 +49,7 @@
     var closingDateForProposalsLink = string.Format(RouteConstants.NewSchoolClosingDateForProposals, Model.ProjectId);
     var decisionMakerLink = string.Format(RouteConstants.NewSchoolDecisionMaker, Model.ProjectId);
     var dateOfDecisionLink = string.Format(RouteConstants.NewSchoolDateOfDecision, Model.ProjectId);
+    var decisionLink = string.Format(RouteConstants.NewSchoolDecision, Model.ProjectId);
     var conditionsLink = string.Format(RouteConstants.NewSchoolConditions, Model.ProjectId);
     var dateForConditionsToBeMetLink = string.Format(RouteConstants.NewSchoolDateForConditionsToBeMet, Model.ProjectId);
 
@@ -92,6 +93,7 @@
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolClosingDateForProposals" href="@closingDateForProposalsLink" label="Closing date for proposals" />
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDecisionMaker" href="@decisionMakerLink" label="Decision maker" />
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDateOfDecision" href="@dateOfDecisionLink" label="Date of decision" />
+                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDecision" href="@decisionLink" label="Decision" />
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolConditions" href="@conditionsLink" label="Conditions" />
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDateForConditionsToBeMet" href="@dateForConditionsToBeMetLink" label="Date for conditions to be met" />
                         </ul>

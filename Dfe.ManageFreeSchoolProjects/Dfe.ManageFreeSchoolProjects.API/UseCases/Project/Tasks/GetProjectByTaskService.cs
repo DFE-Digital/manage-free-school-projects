@@ -19,6 +19,13 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.GovernancePlan;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.ImpactAssessment;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.KickOffMeeting;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolClosingDateForProposals;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolConditions;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateForConditionsToBeMet;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateOfDecision;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDecision;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDecisionMaker;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolSpecificationPublicationDate;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.OfstedInspection;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.PDG;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.PDG.PaymentSchedule;
@@ -174,12 +181,25 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks
                     result = await new GetROMService(context).Get(parameters);
                     break;
                 case TaskName.NewSchoolSpecificationPublicationDate:
+                    result = await new GetNewSchoolSpecificationPublicationDateTaskService(context).Get(parameters);
+                    break;
                 case TaskName.NewSchoolClosingDateForProposals:
+                    result = await new GetNewSchoolClosingDateForProposalsTaskService(context).Get(parameters);
+                    break;
                 case TaskName.NewSchoolDecisionMaker:
+                    result = await new GetNewSchoolDecisionMakerTaskService(context).Get(parameters);
+                    break;
                 case TaskName.NewSchoolDateOfDecision:
+                    result = await new GetNewSchoolDateOfDecisionTaskService(context).Get(parameters);
+                    break;
+                case TaskName.NewSchoolDecision:
+                    result = await new GetNewSchoolDecisionTaskService(context).Get(parameters);
+                    break;
                 case TaskName.NewSchoolConditions:
+                    result = await new GetNewSchoolConditionsTaskService(context).Get(parameters);
+                    break;
                 case TaskName.NewSchoolDateForConditionsToBeMet:
-                    result = await new GetNewSchoolTaskService().Get(parameters);
+                    result = await new GetNewSchoolDateForConditionsToBeMetTaskService(context).Get(parameters);
                     break;
                 default:
                     throw new ArgumentException($"Unknown task name {taskName}");

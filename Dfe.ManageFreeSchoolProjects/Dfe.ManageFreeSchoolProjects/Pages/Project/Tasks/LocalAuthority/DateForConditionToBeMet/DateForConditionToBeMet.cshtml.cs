@@ -1,17 +1,15 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Task;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Models;
-using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.Dates;
-using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.SpecificationPublicationDate;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Dfe.ManageFreeSchoolProjects.Services.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -21,6 +19,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DateFo
     {
         private readonly IGetProjectByTaskService _getProjectService;
         private readonly IUpdateProjectByTaskService _updateProjectTaskService;
+        private readonly IUpdateTaskStatusService _updateTaskStatusService;
         private readonly ILogger<DateForConditionToBeMetModel> _logger;
         private readonly ErrorService _errorService;
 
@@ -36,11 +35,13 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DateFo
         public DateForConditionToBeMetModel(
             IGetProjectByTaskService getProjectService,
             IUpdateProjectByTaskService updateProjectTaskService,
+            IUpdateTaskStatusService updateTaskStatusService,
             ILogger<DateForConditionToBeMetModel> logger,
             ErrorService errorService)
         {
             _getProjectService = getProjectService;
             _updateProjectTaskService = updateProjectTaskService;
+            _updateTaskStatusService = updateTaskStatusService;
             _logger = logger;
             _errorService = errorService;
         }
@@ -53,7 +54,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DateFo
             {
                 var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDateForConditionsToBeMet);
                 CurrentFreeSchoolName = project.SchoolName;
-                DateForConditionsToBeMet = project.NewSchool.NewSchoolDateForConditionsToBeMet;
+                DateForConditionsToBeMet = project.NewSchoolDateForConditionsToBeMet.NewSchoolDateForConditionsToBeMet;
             }
             catch (Exception ex)
             {
@@ -61,6 +62,56 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DateFo
             }
 
             return Page();
+        }
+
+        public async Task<ActionResult> OnPost()
+        {
+            _logger.LogMethodEntered();
+
+            _errorService.AddErrors(ModelState.Keys, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            try
+            {
+                var request = new UpdateProjectByTaskRequest()
+                {
+                    NewSchoolDateForConditionsToBeMet = new NewSchoolDateForConditionsToBeMetTask()
+                    {
+                        NewSchoolDateForConditionsToBeMet = DateForConditionsToBeMet
+                    }
+                };
+
+                await _updateProjectTaskService.Execute(ProjectId, request);
+
+                if (DateForConditionsToBeMet is not null)
+                {
+                    await UpdateStatusAsync(ProjectTaskStatus.Completed);
+                }
+                else
+                {
+                    await UpdateStatusAsync(ProjectTaskStatus.NotStarted);
+                }
+
+                return Redirect(string.Format(RouteConstants.TaskList, ProjectId));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogErrorMsg(ex);
+                throw;
+            }
+        }
+
+        private async Task UpdateStatusAsync(ProjectTaskStatus status)
+        {
+            await _updateTaskStatusService.Execute(ProjectId, new UpdateTaskStatusRequest
+            {
+                TaskName = TaskName.NewSchoolDateForConditionsToBeMet.ToString(),
+                ProjectTaskStatus = status
+            });
         }
     }
 }
