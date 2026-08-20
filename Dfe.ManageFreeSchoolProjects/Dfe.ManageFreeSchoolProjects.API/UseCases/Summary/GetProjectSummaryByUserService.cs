@@ -113,6 +113,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
             int rowCount,
             double totalDurationMs)
         {
+            if (!logger.IsEnabled(LogLevel.Information))
+            {
+                return;
+            }
+
             using (logger.BeginScope(new Dictionary<string, object>
             {
                 ["EventName"] = StageTimingsEventName,
