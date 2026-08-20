@@ -54,7 +54,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Specif
             {
                 var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolSpecificationPublicationDate);
                 CurrentFreeSchoolName = project.SchoolName;
-                SpecificationPublicationDate = project.NewSchoolSpecificationPublicationDate.NewSchoolSpecificationPublicationDate;
+                SpecificationPublicationDate = project.NewSchoolSpecificationPublicationDate?.NewSchoolSpecificationPublicationDate;
             }
             catch (Exception ex)
             {

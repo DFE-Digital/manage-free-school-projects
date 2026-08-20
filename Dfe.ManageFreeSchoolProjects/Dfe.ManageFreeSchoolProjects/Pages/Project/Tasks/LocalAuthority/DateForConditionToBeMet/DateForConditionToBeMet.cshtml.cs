@@ -54,7 +54,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.DateFo
             {
                 var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDateForConditionsToBeMet);
                 CurrentFreeSchoolName = project.SchoolName;
-                DateForConditionsToBeMet = project.NewSchoolDateForConditionsToBeMet.NewSchoolDateForConditionsToBeMet;
+                DateForConditionsToBeMet = project.NewSchoolDateForConditionsToBeMet?.NewSchoolDateForConditionsToBeMet;
             }
             catch (Exception ex)
             {
