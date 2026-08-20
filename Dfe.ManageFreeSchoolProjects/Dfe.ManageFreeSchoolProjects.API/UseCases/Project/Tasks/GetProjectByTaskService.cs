@@ -181,25 +181,25 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks
                     result = await new GetROMService(context).Get(parameters);
                     break;
                 case TaskName.NewSchoolSpecificationPublicationDate:
-                    result = await new GetNewSchoolSpecificationPublicationDateTaskService(context).Get(parameters);
+                    result = await new GetNewSchoolSpecificationPublicationDateTaskService().Get(parameters);
                     break;
                 case TaskName.NewSchoolClosingDateForProposals:
-                    result = await new GetNewSchoolClosingDateForProposalsTaskService(context).Get(parameters);
+                    result = await new GetNewSchoolClosingDateForProposalsTaskService().Get(parameters);
                     break;
                 case TaskName.NewSchoolDecisionMaker:
-                    result = await new GetNewSchoolDecisionMakerTaskService(context).Get(parameters);
+                    result = await new GetNewSchoolDecisionMakerTaskService().Get(parameters);
                     break;
                 case TaskName.NewSchoolDateOfDecision:
-                    result = await new GetNewSchoolDateOfDecisionTaskService(context).Get(parameters);
+                    result = await new GetNewSchoolDateOfDecisionTaskService().Get(parameters);
                     break;
                 case TaskName.NewSchoolDecision:
-                    result = await new GetNewSchoolDecisionTaskService(context).Get(parameters);
+                    result = await new GetNewSchoolDecisionTaskService().Get(parameters);
                     break;
                 case TaskName.NewSchoolConditions:
-                    result = await new GetNewSchoolConditionsTaskService(context).Get(parameters);
+                    result = await new GetNewSchoolConditionsTaskService().Get(parameters);
                     break;
                 case TaskName.NewSchoolDateForConditionsToBeMet:
-                    result = await new GetNewSchoolDateForConditionsToBeMetTaskService(context).Get(parameters);
+                    result = await new GetNewSchoolDateForConditionsToBeMetTaskService().Get(parameters);
                     break;
                 default:
                     throw new ArgumentException($"Unknown task name {taskName}");

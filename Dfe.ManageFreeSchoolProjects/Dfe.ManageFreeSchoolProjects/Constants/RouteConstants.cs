@@ -194,8 +194,6 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
         public const string NewSchoolDateOfDecision = TaskList + "/local-authority/date-of-decision";
 
         public const string NewSchoolDecision = TaskList + "/local-authority/decision";
-        //public const string NewSchoolWasTheDecisionApprovedWithoutConditions = TaskList + "/local-authority/was-decision-approved-without-conditions";
-        //public const string NewSchoolHaveAnyConditionBeenApplied = TaskList + "/local-authority/have-any-condition-applied";
         public const string NewSchoolConditions = TaskList + "/local-authority/conditions";
         public const string NewSchoolDateForConditionsToBeMet = TaskList + "/local-authority/date-conditions-met";
 
