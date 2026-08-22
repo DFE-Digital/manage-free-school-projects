@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Conditions
+namespace Dfe.ManageFreeSchoolProjects.Enums
 {
     public enum YesNoOption
     {

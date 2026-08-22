@@ -1,0 +1,93 @@
+﻿@page "/projects/{projectId}/proposals"
+@using Dfe.ManageFreeSchoolProjects.Constants;
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.ProposalListModel
+
+@{
+    ViewData["Title"] = $"{Model.Project.ProjectStatus.CurrentFreeSchoolName} - Proposals";
+    ViewData["WidePage"] = true;
+    var projectStatusViewModel = new ProjectStatusViewModel()
+    {
+        ProjectId = @Model.ProjectId,
+        ProjectStatus = @Model.Project.ProjectStatus.ProjectStatus,
+        Referrer = Referrer.Proposals
+
+    };
+
+    var currentNavIndex = NavConstants.NavItemList.FindIndex(item => item.Description == "Proposals");
+}
+
+@section BeforeMain
+{
+    <mfsp-project-header project-id="@Model.ProjectId"
+                         school-name="@Model.Project.ProjectStatus.CurrentFreeSchoolName"
+                         back-link="/"
+                         back-text="Back"
+                         page-title="Proposals"
+                         project-status="@projectStatusViewModel" />
+}
+
+<div class="govuk-grid-row">
+    <mfsp-nav project-id="@Model.ProjectId" project-type="@Model.Project.ProjectType" current-index="@currentNavIndex" />
+    <div class="govuk-grid-column-three-quarters">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Proposals</h2>
+
+        <div class="dfe-card">
+            <div class="dfe-card-container">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-0">
+                    <a href="@string.Concat(string.Format(RouteConstants.Proposals_Create_Proposer, Model.ProjectId), "?newProposal=true")" id="add-proposal" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Add a proposal</a>
+                </h3>
+            </div>
+        </div>
+
+        <table class="govuk-table govuk-!-margin-top-6">
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row tr__large">
+                    <th class="govuk-table__header govuk-table__cell__cases" scope="col">
+                        Proposer
+                    </th>
+                    <th class="govuk-table__header govuk-table__cell__cases" scope="col">
+                        Name
+                    </th>
+                    <th class="govuk-table__header govuk-table__cell__cases" scope="col">
+                        Regiligious character or ethos
+                    </th>
+                    <th class="govuk-table__header govuk-table__cell__cases" scope="col">
+                        Proposed faith of new school
+                    </th>
+                    <th class="govuk-table__header govuk-table__cell__cases" scope="col">
+                        Status
+                    </th>
+                    <th class="govuk-table__header govuk-table__cell__cases" scope="col">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+                @foreach (var proposal in Model.Proposals)
+                {
+                    <tr class="govuk-table__row tr__large" data-testid="row-@proposal.Id">
+                        <td class="govuk-table__cell" data-testid="proposal-proposer">
+                            <span class="govuk-body">@proposal.Proposer</span>
+                        </td>
+                        <td class="govuk-table__cell" data-testid="proposal-name">
+                            <span class="govuk-body">@proposal.Name</span>
+                        </td>
+                        <td class="govuk-table__cell" data-testid="proposal-religious-character-or-ethos">
+                            <span class="govuk-body">@proposal.ReligiousCharacterOrEthos</span>
+                        </td>
+                        <td class="govuk-table__cell" data-testid="proposal-proposed-faith-of-new-school">
+                            <span class="govuk-body">@proposal.ProposedFaithOfNewSchool</span>
+                        </td>
+                        <td class="govuk-table__cell" data-testid="status">
+                            <govuk-proposal-status-tag status=@proposal.Status />
+                        </td>
+                        <td class="govuk-table__cell">
+                            <a class="govuk-link" href="#" data-testid="action">View</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

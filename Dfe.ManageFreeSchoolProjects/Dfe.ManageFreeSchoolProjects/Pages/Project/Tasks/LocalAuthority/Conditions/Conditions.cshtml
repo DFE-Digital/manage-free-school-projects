@@ -1,7 +1,6 @@
 ﻿@page "/projects/{projectId}/tasks/local-authority/conditions"
-@using Dfe.ManageFreeSchoolProjects.TagHelpers
 @using Dfe.ManageFreeSchoolProjects.Constants;
-@using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Conditions
+@using Dfe.ManageFreeSchoolProjects.Enums
 
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Conditions.ConditionsModel
 
@@ -43,21 +42,6 @@
                 </govuk-radios-list>
             </div>
 
-            @* <govuk-radios name="ConditionOption" asp-for="ConditionOption">
-                <govuk-radios-fieldset>
-                    <govuk-radios-item data-cy="@YesNoOption.No" value="@YesNoOption.No">No</govuk-radios-item>
-                    <govuk-radios-item data-cy="@YesNoOption.Yes" value="@YesNoOption.Yes">
-                        Yes
-                        <govuk-radios-item-conditional>
-                            <p>What conditions have been applied?</p>
-                            <govuk-textarea data-cy="condition-description" asp-for="ConditionDescription">
-                            
-                            </govuk-textarea>
-                        </govuk-radios-item-conditional>
-                    </govuk-radios-item>
-                </govuk-radios-fieldset>
-            </govuk-radios> *@
-                       
             <button class="govuk-button" data-module="govuk-button">
                 Save and return
             </button>

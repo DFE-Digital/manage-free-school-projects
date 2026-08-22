@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Dfe.ManageFreeSchoolProjects.Enums;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Conditions
 {
