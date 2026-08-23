@@ -8,8 +8,16 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
 
         public const string Proposals = "/projects/{0}/proposals";
         public const string Proposals_Create_Proposer = Proposals + "/create/proposer";
-        public const string Proposals_SearchTrustByTRN = Proposals + "/create/search-trust-by-trn";
-        public const string Proposals_Confirm_Trust = Proposals + "/create/confirm-trust";
+        public const string Proposals_Create_SearchTrustByTRN = Proposals + "/create/search-trust-by-trn";
+        public const string Proposals_Create_Confirm_Trust = Proposals + "/create/confirm-trust";
+
+
+        public const string Proposals_Create_Faith_Status = Proposals + "/create/faith-status";
+
+        public const string Proposals_Create_Faith_Type = Proposals + "/create/faith-type";
+
+        public const string Proposals_Create_Check_Answers = Proposals + "/create/check-answers";
+
 
         public const string TaskList = "/projects/{0}/tasks";
         public const string Contacts = "/projects/{0}/contacts";

@@ -1,13 +1,16 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals.Enums;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Services;
+using Dfe.ManageFreeSchoolProjects.Logging;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.Proposer
 {
     public class CreateProposerModel(
         ICreateProposalCache createProposalCache,
+        ILogger<CreateProposerModel> logger,
         ErrorService errorService
     ) : CreateProposalBaseModel(createProposalCache)
     {
@@ -24,6 +27,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.Proposer
 
         public IActionResult OnGet()
         {
+            logger.LogMethodEntered();
+
             SetBackLink();
 
             if (IsNewProposal != null && (bool)IsNewProposal)
@@ -40,6 +45,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.Proposer
 
         public IActionResult OnPost()
         {
+            logger.LogMethodEntered();
+
             if (!ModelState.IsValid)
             {
                 errorService.AddErrors(ModelState.Keys, ModelState);
@@ -54,7 +61,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.Proposer
 
             if (Proposer == ProposalProposer.AcademyTrust)
             {
-                return Redirect(string.Format(RouteConstants.Proposals_SearchTrustByTRN, ProjectId));
+                return Redirect(string.Format(RouteConstants.Proposals_Create_SearchTrustByTRN, ProjectId));
+            }
+            else if (Proposer == ProposalProposer.LocalAuthority)
+            {
+                return Redirect(string.Format(RouteConstants.Proposals_Create_Faith_Status, ProjectId));
+            }
+            else if (Proposer == ProposalProposer.AnotherLocalAuthority)
+            {
+                //return Redirect(string.Format(RouteConstants.Proposals_Create_Faith_Status, ProjectId));
             }
 
             return Page();

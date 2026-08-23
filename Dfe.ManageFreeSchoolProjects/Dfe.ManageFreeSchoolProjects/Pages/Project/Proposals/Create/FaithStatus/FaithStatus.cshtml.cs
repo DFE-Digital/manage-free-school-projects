@@ -1,28 +1,24 @@
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
-using Dfe.ManageFreeSchoolProjects.Enums;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.SearchTrustByTRN
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithStatus
 {
-    public class ConfirmTrustModel(
+    public class FaithStatusModel(
         ICreateProposalCache createProposalCache,
-        ILogger<ConfirmTrustModel> logger,
+        ILogger<FaithStatusModel> logger,
         ErrorService errorService
     ) : CreateProposalBaseModel(createProposalCache)
     {
         [BindProperty(SupportsGet = true, Name = "projectId")]
         public string ProjectId { get; set; }
 
-        public TrustTask Trust { get; set; }
-
-        [BindProperty]
-        [Required(ErrorMessage = "Please select an option to confirm the trust")]
-        public YesNoOption? ConfirmOption { get; set; }
+        [BindProperty(Name = "faith-status")]
+        [Required(ErrorMessage = "Select the faith status")]
+        public API.Contracts.Project.Tasks.FaithStatus Status { get; set; }
 
         public IActionResult OnGet()
         {
@@ -30,7 +26,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.SearchTrus
 
             SetBackLink();
 
-            Trust = CreateProposalCache.Get().Trust;
+            Status = CreateProposalCache.Get().FaithStatus;
 
             return Page();
         }
@@ -41,31 +37,31 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.SearchTrus
 
             SetBackLink();
 
-            Trust = CreateProposalCache.Get().Trust;
-
             if (!ModelState.IsValid)
             {
                 errorService.AddErrors(ModelState.Keys, ModelState);
                 return Page();
             }
 
-            if (ConfirmOption == YesNoOption.No)
-            {
-                return Redirect(string.Format(RouteConstants.Proposals_Create_SearchTrustByTRN, ProjectId));
-            }
-
             // update cache
             var cache = CreateProposalCache.Get();
 
-            cache.TrustConfirmed = true;
+            cache.FaithStatus = Status;
             CreateProposalCache.Update(cache);
 
-            return Redirect(string.Format(RouteConstants.Proposals_Create_Faith_Status, ProjectId));
+            if (Status == API.Contracts.Project.Tasks.FaithStatus.None)
+            {
+                return Redirect(string.Format(RouteConstants.Proposals_Create_Check_Answers, ProjectId));
+            }
+            else
+            {
+                return Redirect(string.Format(RouteConstants.Proposals_Create_Faith_Type, ProjectId));
+            }
         }
 
         private void SetBackLink()
         {
-            BackLink = string.Format(RouteConstants.Proposals_Create_SearchTrustByTRN, ProjectId);
+            BackLink = string.Format(RouteConstants.Proposals_Create_Confirm_Trust, ProjectId);
         }
     }
 }

@@ -86,7 +86,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.SearchTrus
                 throw;
             }
 
-            return Redirect(string.Format(RouteConstants.Proposals_Confirm_Trust, ProjectId));
+            return Redirect(string.Format(RouteConstants.Proposals_Create_Confirm_Trust, ProjectId));
         }
 
         private void SetBackLink()

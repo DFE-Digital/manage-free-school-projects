@@ -19,5 +19,11 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
         public TrustTask Trust { get; set; }
 
         public bool TrustConfirmed { get; set; }
+
+        public API.Contracts.Project.Tasks.FaithStatus FaithStatus { get; set; }
+
+        public API.Contracts.Project.Tasks.FaithType FaithType { get; set; }
+
+        public string OtherFaithType { get; set; }
     }
 }
