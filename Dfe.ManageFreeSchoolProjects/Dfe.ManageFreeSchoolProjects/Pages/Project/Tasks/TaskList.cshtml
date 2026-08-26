@@ -58,6 +58,7 @@
 
 @section BeforeMain
 {
+    <span id="top"></span>
     <mfsp-project-header project-id="@Model.ProjectId"
                          school-name="@Model.SchoolName"
                          back-link="/"
@@ -65,7 +66,7 @@
                          page-title="Task list"
                          project-status="@projectStatusViewModel" />
 }
-<div class="govuk-grid-row">
+<div class="govuk-grid-row mfsp-page-row">
     <mfsp-nav project-id="@Model.ProjectId" project-type="@Model.ProjectType" current-index="@currentNavIndex" />
     <div class="govuk-grid-column-three-quarters">
         <div class="govuk-grid-column-full">
@@ -146,5 +147,13 @@
                 </li>
             </ol>
         </div>
+    </div>
+
+    <div class="mfsp-back-to-top">
+        <a class="govuk-link govuk-link--no-visited-state mfsp-back-to-top__link" href="#top" data-testid="back-to-top">
+            <svg class="mfsp-back-to-top__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M6.5 0L0 6.5 1.4 7.9l4.1-4.1V17h2V3.8l4.1 4.1L13 6.5z"></path>
+            </svg>Back to top
+        </a>
     </div>
 </div>

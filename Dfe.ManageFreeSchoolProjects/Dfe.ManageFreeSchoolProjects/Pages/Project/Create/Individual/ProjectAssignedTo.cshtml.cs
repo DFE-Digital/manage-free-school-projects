@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual;
 
@@ -32,10 +34,23 @@ public class ProjectAssignedTo : CreateProjectBaseModel
             return new UnauthorizedResult();
         }
 
-
         var projectCache = CreateProjectCache.Get();
 
-        BackLink = GetPreviousPage(CreateProjectPageName.ProjectAssignedTo);
+        if (projectCache.ProjectType == ProjectType.LocalAuthority)
+        {
+            if (projectCache.FaithStatus == FaithStatus.None)
+            {
+                BackLink = RouteConstants.CreateFaithStatus;
+            }
+            else
+            {
+                BackLink = RouteConstants.CreateFaithType;
+            }
+        }
+        else
+        {
+            BackLink = GetPreviousPage(CreateProjectPageName.ProjectAssignedTo);
+        } 
 
         Name = projectCache.ProjectAssignedToName;
         Email = projectCache.ProjectAssignedToEmail;

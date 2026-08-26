@@ -77,7 +77,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 Nursery = nurseryCapacity,
                 ReceptionToYear6 = proj.YRY6Capacity,
                 Year7ToYear11 = proj.Y7Y11Capacity,
-                Year12ToYear14 = proj.Y12Y14Capacity
+                Year12ToYear14 = proj.Y12Y14Capacity,
+                APResourcesProvision = proj.APResourcesProvision,
+                SENResourcedProvisionSENUnit = proj.SENResourcedProvisionSENUnit
             });
 
             return result;
@@ -89,7 +91,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             return new Kpi
             {
                 Rid = rid,
-                ProjectStatusProjectStatus = ProjectMapper.FromProjectStatusType(Contracts.Project.ProjectStatus.Preopening),
+                ProjectStatusProjectStatus = proj.ProjectType == ProjectType.LocalAuthority ? ProjectMapper.FromProjectStatusType(Contracts.Project.ProjectStatus.Prepipeline) : ProjectMapper.FromProjectStatusType(Contracts.Project.ProjectStatus.Preopening),
                 ProjectStatusProjectId = proj.ProjectId,
                 ProjectStatusCurrentFreeSchoolName = proj.SchoolName,
                 ProjectStatusFreeSchoolApplicationWave = proj.ApplicationWave ?? string.Empty,
@@ -106,12 +108,12 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 LocalAuthority = proj.LocalAuthority,
                 SchoolDetailsSchoolTypeMainstreamApEtc = ProjectMapper.ToSchoolType(proj.SchoolType),
                 SchoolDetailsSchoolPhasePrimarySecondary = ProjectMapper.ToSchoolPhase(proj.SchoolPhase),
-                TrustId = trust.TrustRef,
-                TrustName = trust.TrustsTrustName,
-                TrustType = trust.TrustsTrustType,
-                SchoolDetailsTrustId = trust.TrustsTrustRef,
-                SchoolDetailsTrustName = trust.TrustsTrustName,
-                SchoolDetailsTrustType = trust.TrustsTrustType,
+                TrustId = trust?.TrustRef,
+                TrustName = trust?.TrustsTrustName ?? null,
+                TrustType = trust?.TrustsTrustType ?? null,
+                SchoolDetailsTrustId = trust?.TrustsTrustRef ?? null,
+                SchoolDetailsTrustName = trust?.TrustsTrustName ?? null,
+                SchoolDetailsTrustType = trust?.TrustsTrustType ?? null,
                 SchoolDetailsSixthForm = proj.SixthForm.ToString(),
                 SchoolDetailsNursery = proj.Nursery.ToString(),
                 SchoolDetailsAlternativeProvision = proj.AlternativeProvision.ToString(),
@@ -153,7 +155,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
         {
             var result = await _context.Trust.FirstOrDefaultAsync(e => e.TrustRef == trustRef);
 
-            if (result == null)
+            // Local authority projects are not attached to a trust and supply no TRN, so a missing
+            // trust is only an error when a reference was actually given.
+            if (!string.IsNullOrEmpty(trustRef) && result == null)
             {
                 throw new UnprocessableContentException($"The trust does not exist: {trustRef}");
             }
