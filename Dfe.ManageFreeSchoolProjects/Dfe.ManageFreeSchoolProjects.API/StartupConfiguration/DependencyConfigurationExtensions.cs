@@ -60,6 +60,7 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.BulkEdit;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.LocalAuthority;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Summary;
+using Dfe.ManageFreeSchoolProjects.API.Diagnostics;
 
 namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 {
@@ -67,6 +68,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 	{
 		public static IServiceCollection AddApiDependencies(this IServiceCollection services)
 		{
+			services.AddHttpContextAccessor();
+			services.AddSingleton<IProcessWarmupState, ProcessWarmupState>();
+
 			services.AddScoped<IServerUserInfoService, ServerUserInfoService>();
 			
 			services.AddScoped<ICorrelationContext, CorrelationContext>();

@@ -1,4 +1,6 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Summary;
+﻿using System.Diagnostics;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Summary;
+using Dfe.ManageFreeSchoolProjects.API.Diagnostics;
 using Dfe.ManageFreeSchoolProjects.API.Extensions;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project;
 using Dfe.ManageFreeSchoolProjects.Data;
@@ -17,16 +19,31 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
         public string ProjectManagedByEmail { get; set; }
     }
 
-    public class GetProjectSummaryByUserService(MfspContext context) : IGetProjectSummaryByUserService
+    public class GetProjectSummaryByUserService(
+        MfspContext context,
+        IProcessWarmupState processWarmupState,
+        IHttpContextAccessor httpContextAccessor,
+        ILogger<GetProjectSummaryByUserService> logger) : IGetProjectSummaryByUserService
     {
+        private const string StageTimingsEventName = "ProjectSummaryByUser.StageTimings";
+
         public async Task<(List<GetProjectSummaryResponse>, int)> Execute(GetProjectSummaryByUserParameters parameters)
         {
+            var isFirstBusinessRequestInProcess = ResolveIsFirstBusinessRequest();
+            var totalStopwatch = Stopwatch.StartNew();
+
             var query = context.Kpi.AsQueryable();
 
             query = ApplyFilters(query, parameters);
 
+            var countStopwatch = Stopwatch.StartNew();
             var count = await query.CountAsync();
+            countStopwatch.Stop();
 
+            // Wall-clock through the first EF round-trip (includes model-build/JIT when cold).
+            var timeToFirstEfQueryMs = totalStopwatch.Elapsed.TotalMilliseconds;
+
+            var toListStopwatch = Stopwatch.StartNew();
             var projectRecords = await
                 query
                     .Select(
@@ -39,7 +56,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
                     .OrderByDescending(record => record.Kpi.ProjectStatusProvisionalOpeningDateAgreedWithTrust)
                     .ThenBy(record => record.Kpi.ProjectStatusCurrentFreeSchoolName)
                     .ToListAsync();
+            toListStopwatch.Stop();
 
+            var mappingStopwatch = Stopwatch.StartNew();
             var result = projectRecords.Select(record => new GetProjectSummaryResponse()
             {
                 ProjectId = record.Kpi.ProjectStatusProjectId,
@@ -57,8 +76,71 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
                 SchoolType = ProjectMapper.ToSchoolType(record.Kpi.SchoolDetailsSchoolTypeMainstreamApEtc).ToDescription(),
                 UpdatedAt = record.PeriodStart
             }).ToList();
+            mappingStopwatch.Stop();
+
+            totalStopwatch.Stop();
+
+            EmitStageTimings(
+                isFirstBusinessRequestInProcess,
+                timeToFirstEfQueryMs,
+                countStopwatch.Elapsed.TotalMilliseconds,
+                toListStopwatch.Elapsed.TotalMilliseconds,
+                mappingStopwatch.Elapsed.TotalMilliseconds,
+                result.Count,
+                totalStopwatch.Elapsed.TotalMilliseconds);
 
             return (result, count);
+        }
+
+        private bool ResolveIsFirstBusinessRequest()
+        {
+            var httpContext = httpContextAccessor.HttpContext;
+            if (httpContext?.Items.TryGetValue(ProcessWarmupState.HttpContextItemKey, out var value) == true
+                && value is bool markedByMiddleware)
+            {
+                return markedByMiddleware;
+            }
+
+            return processWarmupState.MarkBusinessRequest();
+        }
+
+        private void EmitStageTimings(
+            bool isFirstBusinessRequestInProcess,
+            double timeToFirstEfQueryMs,
+            double countAsyncDurationMs,
+            double toListAsyncDurationMs,
+            double mappingDurationMs,
+            int rowCount,
+            double totalDurationMs)
+        {
+            if (!logger.IsEnabled(LogLevel.Information))
+            {
+                return;
+            }
+
+            using (logger.BeginScope(new Dictionary<string, object>
+            {
+                ["EventName"] = StageTimingsEventName,
+                ["IsFirstBusinessRequestInProcess"] = isFirstBusinessRequestInProcess,
+                ["TimeToFirstEfQueryMs"] = timeToFirstEfQueryMs,
+                ["CountAsyncDurationMs"] = countAsyncDurationMs,
+                ["ToListAsyncDurationMs"] = toListAsyncDurationMs,
+                ["MappingDurationMs"] = mappingDurationMs,
+                ["RowCount"] = rowCount,
+                ["TotalDurationMs"] = totalDurationMs
+            }))
+            {
+                logger.LogInformation(
+                    "{EventName}: TimeToFirstEfQuery={TimeToFirstEfQueryMs}ms, CountAsync={CountAsyncDurationMs}ms, ToListAsync={ToListAsyncDurationMs}ms, Mapping={MappingDurationMs}ms, RowCount={RowCount}, IsFirstBusinessRequestInProcess={IsFirstBusinessRequestInProcess}, Total={TotalDurationMs}ms",
+                    StageTimingsEventName,
+                    timeToFirstEfQueryMs,
+                    countAsyncDurationMs,
+                    toListAsyncDurationMs,
+                    mappingDurationMs,
+                    rowCount,
+                    isFirstBusinessRequestInProcess,
+                    totalDurationMs);
+            }
         }
 
         private static IQueryable<Kpi> ApplyFilters(IQueryable<Kpi> query, GetProjectSummaryByUserParameters parameters)
