@@ -1,6 +1,6 @@
-﻿@page "/projects/{projectId}/proposals/create/faith-status"
+﻿@page "/projects/{projectId}/proposals/create/proposed-faith-status"
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithStatus.FaithStatusModel
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.ProposedFaithStatusModel
 
 @{
     ViewData["Title"] = "Faith status";
@@ -22,7 +22,7 @@
     <div class="govuk-grid-column-two-thirds">
         <form class="form" method="post">
             <govuk-create-proposal-title label="Is the proposal for a school with a religious designation or ethos?" />
-            <br />
+
             <govuk-radios-input name="faith-status"
                                 asp-for="@Model.Status"
                                 data-testid="faith-status"

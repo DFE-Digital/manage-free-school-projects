@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.SearchTrustByTRN
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 {
     public class SearchTrustByTRNModel(
         ICreateProposalCache createProposalCache,

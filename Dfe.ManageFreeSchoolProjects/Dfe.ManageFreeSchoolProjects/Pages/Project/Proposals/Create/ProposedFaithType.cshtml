@@ -1,10 +1,10 @@
-﻿@page "/projects/{projectId}/proposals/create/faith-type"
+﻿@page "/projects/{projectId}/proposals/create/proposed-faith-type"
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
 
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithType.FaithTypeModel
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.ProposedFaithTypeModel
 
 @{
-    ViewData["Title"] = "What is the faith type?";
+    ViewData["Title"] = "What is the proposed faith type?";
 
     var faithTypes = Enum.GetValues<FaithType>().Except(new[] { FaithType.NotSet }).ToList();
     var faithTypeLabels = faithTypes.Select(x => x.ToDescription()).ToArray();
@@ -19,7 +19,7 @@
 
 <div class="govuk-form-group">
     <partial name="_ErrorSummary" />
-    <govuk-create-title label="What is the faith type?" add-margin="true" />
+    <govuk-create-proposal-title label="What is the proposed faith type?" add-margin="true" />
     <form method="post">
         <govuk-radios-input name="faith-type"
                             asp-for="@Model.FaithType"

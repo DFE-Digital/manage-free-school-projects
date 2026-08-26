@@ -1,0 +1,31 @@
+﻿@page "/projects/{projectId}/proposals/create/other-local-authority"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.LocalAuthorityModel
+
+@{
+    ViewData["Title"] = "What is the other local authority?";
+
+    var localAuthorities = Model.LocalAuthorities.Select(x => x.Value).ToArray();
+}
+
+@section BeforeMain {
+    <div role="navigation" class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </div>
+}
+
+<div class="govuk-form-group">
+    <partial name="_ErrorSummary" />
+    <govuk-create-proposal-title label="What is the other local authority?" add-margin="true" />
+    <form method="post">
+        <govuk-radios-input id="local-authority"
+                            asp-for="@Model.LocalAuthority"
+                            name="local-authority"
+                            data-testid="local-authority"
+                            labels="@localAuthorities"
+                            values="@localAuthorities" />
+        <br />
+        <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+            Continue
+        </button>
+    </form>
+</div>

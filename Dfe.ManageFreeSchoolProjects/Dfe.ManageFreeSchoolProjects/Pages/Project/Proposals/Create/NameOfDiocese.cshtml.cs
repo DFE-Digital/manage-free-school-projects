@@ -5,23 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithType
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 {
-    public class FaithTypeModel(
+    public class NameOfDioceseModel(
         ICreateProposalCache createProposalCache,
-        ILogger<FaithTypeModel> logger,
+        ILogger<NameOfDioceseModel> logger,
         ErrorService errorService
     ) : CreateProposalBaseModel(createProposalCache)
     {
         [BindProperty(SupportsGet = true, Name = "projectId")]
         public string ProjectId { get; set; }
 
-        [BindProperty(Name = "faith-type")]
-        public API.Contracts.Project.Tasks.FaithType FaithType { get; set; }
-
-        [BindProperty(Name = "other-faith-type")]
-        [Display(Name = "Other faith type")]
-        public string OtherFaithType { get; set; }
+        [BindProperty(Name = "name-of-diocese")]
+        [Display(Name = "Name of diocese")]
+        [Required(ErrorMessage = "Enter the name of the Diocese")]
+        public string NameOfDiocese { get; set; }
 
         public IActionResult OnGet()
         {
@@ -29,7 +27,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithType
 
             SetBackLink();
 
-            FaithType = CreateProposalCache.Get().FaithType;
+            NameOfDiocese = CreateProposalCache.Get().NameOfDiocese;
 
             return Page();
         }
@@ -49,21 +47,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithType
             // update cache
             var cache = CreateProposalCache.Get();
 
-            cache.FaithType = FaithType;
-
-            if (FaithType == API.Contracts.Project.Tasks.FaithType.Other && !string.IsNullOrWhiteSpace(OtherFaithType))
-            {
-                cache.OtherFaithType = OtherFaithType;
-            }
-
+            cache.NameOfDiocese = NameOfDiocese;
             CreateProposalCache.Update(cache);
 
-            return Redirect(string.Format(RouteConstants.Proposals_Create_Check_Answers, ProjectId));
+            return Redirect(string.Format(RouteConstants.Proposals_Create_Faith_Of_Diocese, ProjectId));
         }
 
         private void SetBackLink()
         {
-            BackLink = string.Format(RouteConstants.Proposals_Create_Faith_Status, ProjectId);
+            BackLink = string.Format(RouteConstants.Proposals_Create_Proposer, ProjectId);
         }
     }
 }

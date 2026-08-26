@@ -13,7 +13,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals.Enums
         [Description("Another religious organisation")]
         AnotherReligiousOrganisation = 3,
         [Description("Local authority that published the specification")]
-        LocalAuthority = 4,
+        LocalAuthorityThatPushedSpecification = 4,
         [Description("Another local authority")]
         AnotherLocalAuthority = 5,
         [Description("Joint proposal between the local authority that published the specification and another local authority")]

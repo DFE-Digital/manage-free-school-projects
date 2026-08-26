@@ -1,0 +1,42 @@
+﻿@page "/projects/{projectId}/proposals/create/other-local-authority-region"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.OtherLocalAuthorityRegionModel
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project
+
+@{
+    ViewData["Title"] = "Which region is the other local authority in?";
+
+    var regions = Enum.GetValues(typeof(ProjectRegion));
+    var labels = new List<string>();
+    var values = new List<string>();
+
+    foreach (var region in regions)
+    {
+        labels.Add(region.ToDescription());
+        values.Add(region.ToString());
+    }
+}
+
+@section BeforeMain {
+    <div role="navigation" class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </div>
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            <div class="govuk-form-group">
+                <govuk-create-proposal-title label="Which region is the other local authority in?" add-margin="true" />
+                <govuk-radios-input name="region"
+                                    asp-for="@Model.Region"
+                                    data-testid="region"
+                                    labels="@labels.ToArray()"
+                                    values="@values.ToArray()" />
+            </div>
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>

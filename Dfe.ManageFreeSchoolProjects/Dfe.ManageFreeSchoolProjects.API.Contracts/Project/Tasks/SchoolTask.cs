@@ -83,4 +83,13 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
         [Description("Mixed")]
         Mixed
     }
+
+    public enum FaithOfDiocese
+    {
+        [Description("Church of England")]
+        ChurchOfEngland = 1,
+       
+        [Description("Roman Catholic")]
+        RomanCatholic = 2
+    }
 }

@@ -5,20 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithStatus
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 {
-    public class FaithStatusModel(
+    public class NameOfOtherReligiousOrganisationModel(
         ICreateProposalCache createProposalCache,
-        ILogger<FaithStatusModel> logger,
+        ILogger<NameOfOtherReligiousOrganisationModel> logger,
         ErrorService errorService
     ) : CreateProposalBaseModel(createProposalCache)
     {
         [BindProperty(SupportsGet = true, Name = "projectId")]
         public string ProjectId { get; set; }
 
-        [BindProperty(Name = "faith-status")]
-        [Required(ErrorMessage = "Select the faith status")]
-        public API.Contracts.Project.Tasks.FaithStatus Status { get; set; }
+        [BindProperty(Name = "name-of-other-religious-organisation")]
+        [Display(Name = "Name of the other religious organisation")]
+        [Required(ErrorMessage = "Enter the name of the other religious organisation")]
+        public string NameOfOtherReligiousOrganisation { get; set; }
 
         public IActionResult OnGet()
         {
@@ -26,7 +27,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithStatu
 
             SetBackLink();
 
-            Status = CreateProposalCache.Get().FaithStatus;
+            NameOfOtherReligiousOrganisation = CreateProposalCache.Get().NameOfOtherReligiousOrganisation;
 
             return Page();
         }
@@ -46,22 +47,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithStatu
             // update cache
             var cache = CreateProposalCache.Get();
 
-            cache.FaithStatus = Status;
+            cache.NameOfOtherReligiousOrganisation = NameOfOtherReligiousOrganisation;
             CreateProposalCache.Update(cache);
 
-            if (Status == API.Contracts.Project.Tasks.FaithStatus.None)
-            {
-                return Redirect(string.Format(RouteConstants.Proposals_Create_Check_Answers, ProjectId));
-            }
-            else
-            {
-                return Redirect(string.Format(RouteConstants.Proposals_Create_Faith_Type, ProjectId));
-            }
+            return Redirect(string.Format(RouteConstants.Proposals_Create_Faith_Of_Other_Religious_Organisation, ProjectId));
         }
 
         private void SetBackLink()
         {
-            BackLink = string.Format(RouteConstants.Proposals_Create_Confirm_Trust, ProjectId);
+            BackLink = string.Format(RouteConstants.Proposals_Create_Proposer, ProjectId);
         }
     }
 }

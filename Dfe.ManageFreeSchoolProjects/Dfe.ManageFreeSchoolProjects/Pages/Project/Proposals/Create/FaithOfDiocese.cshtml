@@ -1,0 +1,38 @@
+﻿@page "/projects/{projectId}/proposals/create/faith-of-diocese"
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithOfDioceseModel
+
+@{
+    ViewData["Title"] = "What is the faith of the Diocese?";
+
+    var faithStatuses = Enum.GetValues<FaithOfDiocese>().ToArray();
+    var faithStatusLabels = faithStatuses.Select(x => x.ToDescription()).ToArray();
+    var faithStatusValues = faithStatuses.Select(x => x.ToString()).ToArray();
+}
+
+@section BeforeMain {
+    <div role="navigation" class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </div>
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            <govuk-create-proposal-title label="What is the faith of the Diocese?" add-margin="true" />
+
+            <govuk-radios-input id="faith-of-diocese" name="faith-of-diocese"
+                                asp-for="@Model.FaithOfDiocese"
+                                data-testid="faith-of-diocese"
+                                labels="@faithStatusLabels"
+                                values="@faithStatusValues" />
+
+            <br />
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>

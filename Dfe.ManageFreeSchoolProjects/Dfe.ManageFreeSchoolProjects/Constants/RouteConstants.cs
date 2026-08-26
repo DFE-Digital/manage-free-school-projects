@@ -11,10 +11,21 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
         public const string Proposals_Create_SearchTrustByTRN = Proposals + "/create/search-trust-by-trn";
         public const string Proposals_Create_Confirm_Trust = Proposals + "/create/confirm-trust";
 
+        public const string Proposals_Create_Proposed_Faith_Status = Proposals + "/create/proposed-faith-status";
 
-        public const string Proposals_Create_Faith_Status = Proposals + "/create/faith-status";
+        public const string Proposals_Create_Proposed_Faith_Type = Proposals + "/create/proposed-faith-type";
 
-        public const string Proposals_Create_Faith_Type = Proposals + "/create/faith-type";
+        public const string Proposals_Create_Other_Local_Authority_Region = Proposals + "/create/other-local-authority-region";
+        public const string Proposals_Create_Other_Local_Authority = Proposals + "/create/other-local-authority";
+
+        public const string Proposals_Create_Joint_Proposal_Region = Proposals + "/create/joint-proposal-region";
+        public const string Proposals_Create_Joint_Proposal_Local_Authority = Proposals + "/create/joint-proposal-local-authority";
+
+        public const string Proposals_Create_Name_Of_Diocese = Proposals + "/create/name-of-diocese";
+        public const string Proposals_Create_Faith_Of_Diocese = Proposals + "/create/faith-of-diocese";
+
+        public const string Proposals_Create_Name_Of_Other_Religious_Organisation = Proposals + "/create/name-of-other-religious-organisation";
+        public const string Proposals_Create_Faith_Of_Other_Religious_Organisation = Proposals + "/create/faith-of-other-religious-organisation";
 
         public const string Proposals_Create_Check_Answers = Proposals + "/create/check-answers";
 

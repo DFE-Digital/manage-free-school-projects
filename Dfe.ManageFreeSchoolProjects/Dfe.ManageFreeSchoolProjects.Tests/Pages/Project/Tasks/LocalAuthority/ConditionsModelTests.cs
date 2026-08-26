@@ -1,6 +1,6 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Task;
 using Dfe.ManageFreeSchoolProjects.Constants;
+using Dfe.ManageFreeSchoolProjects.Enums;
 using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Conditions;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;

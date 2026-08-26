@@ -1,8 +1,8 @@
-﻿@page "/projects/{projectId}/proposals/create/search-trust-by-trn"
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.SearchTrustByTRN.SearchTrustByTRNModel
+﻿@page "/projects/{projectId}/proposals/create/name-of-diocese"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.NameOfDioceseModel
 
 @{
-    ViewData["Title"] = "Search for a trust by TRN";
+    ViewData["Title"] = "What is the name of the Diocese?";
 }
 
 @section BeforeMain {
@@ -16,9 +16,10 @@
 
     <div class="govuk-grid-column-two-thirds">
         <form class="form" method="post">
+
             <div class="govuk-form-group">
-                <govuk-create-proposal-title label="Search for a trust by TRN" for="trn" />
-                <govuk-text-input id="trn" name="trn" asp-for="@Model.TRN" data-testid="trust-reference-number" label="TRN (Trust reference number)" hint="For example, TR00036" />
+                <govuk-create-proposal-title label="What is the name of the Diocese?" for="name-of-diocese" />
+                <govuk-text-input id="name-of-diocese" name="name-of-diocese" asp-for="@Model.NameOfDiocese" data-testid="name-of-diocese" hint="For example, Diocese of London" />
             </div>
 
             <button class="govuk-button" data-module="govuk-button" data-testid="continue">
