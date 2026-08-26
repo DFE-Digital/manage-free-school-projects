@@ -17,22 +17,12 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
         [Required(ErrorMessage = "Select what project you want to create")]
         public ProjectType Method { get; set; }
 
-        //[FromQuery(Name = "newProject")] 
-        //public bool? IsNewProject { get; set; }
-
         public IActionResult OnGet()
         {
             if (!User.IsInRole(RolesConstants.ProjectRecordCreator))
             {
                 return new UnauthorizedResult();
             }
-
-            //if (IsNewProject != null && (bool)IsNewProject)
-            //{
-            //    CreateProjectCache.Delete();
-            //    Method = ProjectType.NotSet;
-            //}
-
 
             Method = CreateProjectCache.Get().ProjectType;
 

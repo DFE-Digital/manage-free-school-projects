@@ -12,7 +12,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         [InlineData("")]
         public void TRN_WhenLocalAuthorityWave_IsNotRequired(string trn)
         {
-            var result = Validate(applicationWave: "LocalAuthority", trn: trn);
+            var result = Validate(applicationWave: "New School", trn: trn);
 
             result.Should().NotContain(error => error.PropertyName == nameof(ProjectDetails.TRN));
         }
@@ -32,7 +32,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         [Fact]
         public void TRN_WhenLocalAuthorityWaveAndSupplied_IsStillAccepted()
         {
-            var result = Validate(applicationWave: "LocalAuthority", trn: "TRN0123");
+            var result = Validate(applicationWave: "New School", trn: "TRN0123");
 
             result.Should().NotContain(error => error.PropertyName == nameof(ProjectDetails.TRN));
         }
@@ -44,7 +44,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         [Fact]
         public void OtherRules_AreUnaffectedByLocalAuthorityWave()
         {
-            var result = Validate(applicationWave: "LocalAuthority", trn: null);
+            var result = Validate(applicationWave: "New School", trn: null);
 
             result.Should().Contain(error => error.PropertyName == nameof(ProjectDetails.ProjectId));
             result.Should().Contain(error => error.PropertyName == nameof(ProjectDetails.CreatedBy));

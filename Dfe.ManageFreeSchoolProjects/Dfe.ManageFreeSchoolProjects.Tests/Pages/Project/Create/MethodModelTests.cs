@@ -22,8 +22,12 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
             result.Should().BeOfType<UnauthorizedResult>();
         }
 
+        /// <summary>
+        /// The method page is the entry point to the create journey, so it pre-selects whatever is
+        /// already cached and then resets the session ready for the answers about to be given.
+        /// </summary>
         [Fact]
-        public void OnGet_PreSelectsTheMethodAlreadyInTheCache()
+        public void OnGet_PreSelectsTheMethodAlreadyInTheCacheAndResetsTheSession()
         {
             var cacheItem = new CreateProjectCacheItem { ProjectType = ProjectType.CentralRoute };
             var model = BuildModel(cacheItem, out var cache);
@@ -32,7 +36,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
 
             result.Should().BeOfType<PageResult>();
             model.Method.Should().Be(ProjectType.CentralRoute);
-            cache.DidNotReceive().Delete();
+            cache.Received().Delete();
         }
 
         [Fact]

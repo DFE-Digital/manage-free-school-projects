@@ -285,7 +285,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             projectDetails.SchoolType = SchoolType.Mainstream;
             projectDetails.SchoolPhase = SchoolPhase.Primary;
             projectDetails.Nursery = ClassType.Nursery.Yes;
-            projectDetails.ApplicationWave = "LocalAuthority";
+            projectDetails.ApplicationWave = "New School";
             projectDetails.ApplicationNumber = string.Empty;
             projectDetails.TRN = trn;
             projectDetails.ProjectId = DatabaseModelBuilder.CreateProjectId();

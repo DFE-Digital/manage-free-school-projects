@@ -68,7 +68,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         /// wave, but the central route collects it from the user and must keep what they entered.
         /// </summary>
         [Theory]
-        [InlineData(ProjectType.NewSchool, "Wave 15", "LocalAuthority")]
+        [InlineData(ProjectType.NewSchool, "Wave 15", "New School")]
         [InlineData(ProjectType.PresumptionRoute, "Wave 15", "FS - Presumption")]
         [InlineData(ProjectType.CentralRoute, "Wave 15", "Wave 15")]
         public async Task OnPostAsync_SetsApplicationWaveForProjectType(
