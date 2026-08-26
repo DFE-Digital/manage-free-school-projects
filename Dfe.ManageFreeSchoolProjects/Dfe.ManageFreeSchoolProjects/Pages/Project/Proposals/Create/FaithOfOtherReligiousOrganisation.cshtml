@@ -22,11 +22,13 @@
     <div class="govuk-grid-column-two-thirds">
         <form class="form" method="post">
             <govuk-create-proposal-title label="What is the faith type of the other religious organisation?" add-margin="true" />
-            <govuk-radios-input id="faith-of-other-religious-organisation" name="faith-of-other-religious-organisation"
+            <govuk-radios-input id="faith-type" name="faith-type"
                                 asp-for="@Model.FaithTypeOfOtherReligiousOrganisation"
-                                data-testid="faith-of-other-religious-organisation"
+                                data-testid="faith-type"
                                 labels="@faithTypeLabels"
                                 values="@faithTypeValues" />
+
+            <govuk-text-input width="10" id="other-faith-type" name="other-faith-type" asp-for="@Model.OtherFaithType" data-testid="other-faith-type" label="Other faith type" />
             <br />
             <button class="govuk-button" data-module="govuk-button" data-testid="continue">
                 Continue
@@ -38,23 +40,25 @@
 <script type="application/javascript" asp-add-nonce>
     const setVisibility = () =>
     {
-        $('#faith-of-other-religious-organisation').parent().show();
+            $('#faith-type').parent().show();
 
-        if($("input[type='radio']:checked[name='faith-of-other-religious-organisation']").val() === 'Other')
-        {
-            $('#other-faith-of-other-religious-organisation').parent().show();
-        }
-        else
-        {
-            $('#other-faith-of-other-religious-organisation').parent().hide();
-        }
+            if($("input[type='radio']:checked[name='faith-type']").val() === 'Other')
+            {
+                $('#other-faith-type').parent().show();
+            }
+            else
+            {
+                $('#other-faith-type').parent().hide();
+            }
     }
+
 
     $(document).ready(() => {
         setVisibility();
 
-        $("input[type='radio'][name='faith-of-other-religious-organisation']").click((e) => {
+        $("input[type='radio'][name='faith-type']").click((e) => {
             setVisibility();
         });
     });
+
 </script>

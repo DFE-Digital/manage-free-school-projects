@@ -33,7 +33,7 @@
     <partial name="_ErrorSummary"/>
     <div class="govuk-grid-column-two-thirds-from-desktop">
         <h1 class="govuk-heading-xl">
-            <span class="govuk-caption-l">Creating a new free school project</span>
+            <span class="govuk-caption-l">Creating a new school project</span>
             Check your answers
         </h1>
 
@@ -48,7 +48,7 @@
             }
 
             @RenderSummaryRow("Temporary project ID", Model.Project.ProjectId, RouteConstants.CreateProjectId)
-            @RenderSummaryRow("Current free school name", Model.Project.SchoolName, RouteConstants.CreateProjectSchool)
+            @RenderSummaryRow("Current school name", Model.Project.SchoolName, RouteConstants.CreateProjectSchool)
 
 
             @RenderSummaryRow("Region", Model.Project.Region.ToDescription(), RouteConstants.CreateProjectRegion)

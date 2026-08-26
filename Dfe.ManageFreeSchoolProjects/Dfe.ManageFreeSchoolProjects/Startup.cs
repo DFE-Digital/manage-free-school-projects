@@ -10,6 +10,7 @@ using Dfe.ManageFreeSchoolProjects.Services.Constituency;
 using Dfe.ManageFreeSchoolProjects.Services.Contacts;
 using Dfe.ManageFreeSchoolProjects.Services.Dashboard;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
+using Dfe.ManageFreeSchoolProjects.Services.Proposal;
 using Dfe.ManageFreeSchoolProjects.Services.Reports;
 using Dfe.ManageFreeSchoolProjects.Services.Tasks;
 using Dfe.ManageFreeSchoolProjects.Services.Trust;
@@ -96,6 +97,7 @@ public class Startup
         services.AddScoped<IGetProjectByTaskSummaryService, GetProjectByTaskSummaryService>();
         services.AddScoped<IGetLocalAuthoritiesService, GetLocalAuthoritiesService>();
         services.AddScoped<ICreateProjectService, CreateProjectService>();
+        services.AddScoped<ICreateProposalService, CreateProposalService>();
         services.AddScoped<IGetTaskStatusService, GetTaskStatusService>();
         services.AddScoped<IUpdateTaskStatusService, UpdateTaskStatusService>();
         services.AddScoped<ICreateTasksService, CreateTasksService>();

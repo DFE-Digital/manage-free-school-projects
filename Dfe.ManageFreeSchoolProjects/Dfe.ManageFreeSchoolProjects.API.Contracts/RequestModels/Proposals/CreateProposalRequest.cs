@@ -1,31 +1,18 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals.Enums;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using Dfe.ManageFreeSchoolProjects.Services;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
+namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals
 {
-    public interface ICreateProposalCache : ICookieCacheService<CreateProposalCacheItem>;
-
-    public class CreateProposalCache(IHttpContextAccessor httpContextAccessor, IDataProtectionProvider dataProtectionProvider) : CookieCacheService<CreateProposalCacheItem>(httpContextAccessor, dataProtectionProvider, "CREATE_PROPOSAL"), ICreateProposalCache
+    public class CreateProposalRequest
     {
-    }
-
-    public record CreateProposalCacheItem
-    {
-        // Proposed Faith (Common)
-        public FaithStatus ProposedFaithStatus { get; set; }
-        public FaithType ProposedFaithType { get; set; }
-        public string OtherFaithType { get; set; }
-
+        public string ProjectId { get; set; }
         public ProposalProposer? Proposer { get; set; }
-        public ProposalProposer? PreviousProposer { get; set; }
 
         // Academy Trust route - ProposalProposer.AcademyTrust
-        public TrustTask Trust { get; set; }
-        public bool? TrustConfirmed { get; set; }
+        public string TrustReferenceNumber { get; set; }
+        public string TrustName { get; set; }
+        public TrustType? TrustType { get; set; }
 
         // Diocese - ProposalProposer.Diocese
         public string NameOfDiocese { get; set; }
@@ -39,14 +26,14 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
         // Another local authority - ProposalProposer.AnotherLocalAuthority
         public ProjectRegion? OtherLocalAuthorityRegion { get; set; }
         public string OtherLocalAuthority { get; set; }
-        public string OtherLocalAuthorityCode { get; set; }
 
         // Joint proposal between the local authority that published the specification and another local authority - ProposalProposer.JointProposal
         public ProjectRegion? JointProposalLocalAuthorityRegion { get; set; }
         public string JointProposalLocalAuthority { get; set; }
-        public string JointProposalLocalAuthorityCode { get; set; }
 
-        // Check answers
-        public bool ReachedCheckYourAnswers { get; set; }
+        //Proposed Faith (Common)
+        public FaithStatus ProposedFaithStatus { get; set; }
+        public FaithType ProposedFaithType { get; set; }
+        public string OtherFaithType { get; set; }
     }
 }

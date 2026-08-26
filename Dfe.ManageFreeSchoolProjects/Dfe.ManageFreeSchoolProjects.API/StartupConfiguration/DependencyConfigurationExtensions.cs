@@ -10,6 +10,7 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Contacts;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.GrantLetters;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Payments;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.ProjectStatus;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.PupilNumbers;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Risk;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites;
@@ -80,6 +81,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 
             services.AddScoped<IGetDashboardService, GetDashboardService>();
 			services.AddScoped<ICreateProjectService, CreateProject>();
+            services.AddScoped<ICreateProposalService, CreateProposalService>();
             services.AddScoped<ICreateUserService, CreateUserService>();
 			services.AddScoped<IGetProjectOverviewService, GetProjectOverviewService>();
 			services.AddScoped<IUpdateProjectByTaskService, UpdateProjectByTaskService>();

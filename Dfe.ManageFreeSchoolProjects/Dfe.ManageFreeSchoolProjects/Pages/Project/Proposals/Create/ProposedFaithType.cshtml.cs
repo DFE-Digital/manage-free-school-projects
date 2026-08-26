@@ -18,6 +18,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
         public string ProjectId { get; set; }
 
         [BindProperty(Name = "faith-type")]
+        [Required(ErrorMessage = "Select the proposed faith type")]
         public FaithType FaithType { get; set; }
 
         [BindProperty(Name = "other-faith-type")]
@@ -30,7 +31,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 
             SetBackLink();
 
-            FaithType = CreateProposalCache.Get().ProposedFaithType;
+            var cache = CreateProposalCache.Get();
+
+            FaithType = cache.ProposedFaithType;
+            OtherFaithType = cache.OtherFaithType;
 
             return Page();
         }
@@ -56,10 +60,14 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
             {
                 cache.OtherFaithType = OtherFaithType;
             }
+            else
+            {
+                cache.OtherFaithType = string.Empty;
+            }
 
             CreateProposalCache.Update(cache);
 
-            return Redirect(string.Format(RouteConstants.Proposals_Create_Check_Answers, ProjectId));
+            return Redirect(string.Format(RouteConstants.Proposals_Create_Check_Your_Answers, ProjectId));
         }
 
         private void SetBackLink()

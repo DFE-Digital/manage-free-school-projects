@@ -17,12 +17,12 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
         [BindProperty(SupportsGet = true, Name = "projectId")]
         public string ProjectId { get; set; }
 
-        [BindProperty(Name = "faith-of-other-religious-organisation")]
+        [BindProperty(Name = "faith-type")]
         [Display(Name = "Faith of the other religious organisation")]
         [Required(ErrorMessage = "Select the faith of the other religious organisation")]
         public FaithType? FaithTypeOfOtherReligiousOrganisation { get; set; }
 
-        [BindProperty(Name = "other-faith-of-other-religious-organisation")]
+        [BindProperty(Name = "other-faith-type")]
         [Display(Name = "Other faith of the other religious organisation")]
         public string OtherFaithType { get; set; }
 
@@ -32,7 +32,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 
             SetBackLink();
 
-            FaithTypeOfOtherReligiousOrganisation = CreateProposalCache.Get().FaithTypeOfOtherReligiousOrganisation;
+            var cache = CreateProposalCache.Get();
+
+            FaithTypeOfOtherReligiousOrganisation = cache.FaithTypeOfOtherReligiousOrganisation;
+            OtherFaithType = cache.OtherFaithTypeOfOtherReligiousOrganisation;
 
             return Page();
         }

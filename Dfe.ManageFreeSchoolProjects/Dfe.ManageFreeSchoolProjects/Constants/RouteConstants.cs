@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dfe.ManageFreeSchoolProjects.Constants
+﻿namespace Dfe.ManageFreeSchoolProjects.Constants
 {
     public static class RouteConstants
     {
@@ -27,7 +25,7 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
         public const string Proposals_Create_Name_Of_Other_Religious_Organisation = Proposals + "/create/name-of-other-religious-organisation";
         public const string Proposals_Create_Faith_Of_Other_Religious_Organisation = Proposals + "/create/faith-of-other-religious-organisation";
 
-        public const string Proposals_Create_Check_Answers = Proposals + "/create/check-answers";
+        public const string Proposals_Create_Check_Your_Answers = Proposals + "/create/check-your-answers";
 
 
         public const string TaskList = "/projects/{0}/tasks";

@@ -52,7 +52,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 
             if (Status == FaithStatus.None)
             {
-                return Redirect(string.Format(RouteConstants.Proposals_Create_Check_Answers, ProjectId));
+                return Redirect(string.Format(RouteConstants.Proposals_Create_Check_Your_Answers, ProjectId));
             }
             else
             {
