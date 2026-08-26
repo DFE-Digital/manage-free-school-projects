@@ -82,7 +82,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
             SENResourcedProvisionSENUnit = project.SENResourcedProvisionSENUnit.ToString();
 
             HasNursery = project.Nursery;
-            IsLocalAuthority = project.ProjectType == ProjectType.LocalAuthority;
+            IsLocalAuthority = project.ProjectType == ProjectType.NewSchool;
             IsMainStream = project.SchoolType == SchoolType.Mainstream;
 
             BackLink = GetPreviousPage(CreateProjectPageName.Capacity);
@@ -97,7 +97,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
             BackLink = GetPreviousPage(CreateProjectPageName.Capacity);
 
             HasNursery = project.Nursery;
-            IsLocalAuthority = project.ProjectType == ProjectType.LocalAuthority;
+            IsLocalAuthority = project.ProjectType == ProjectType.NewSchool;
             IsMainStream = project.SchoolType == SchoolType.Mainstream;
 
             if (HasNursery == Nursery.Yes && string.IsNullOrEmpty(NurseryCapacity))

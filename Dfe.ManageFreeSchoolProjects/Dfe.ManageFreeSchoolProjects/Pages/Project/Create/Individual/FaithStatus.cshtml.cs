@@ -56,7 +56,7 @@ public class FaithStatusModel : CreateProjectBaseModel
 
             CreateProjectCache.Update(project);
 
-            if (project.ProjectType == ProjectType.LocalAuthority)
+            if (project.ProjectType == ProjectType.NewSchool)
             {
                 return Redirect(RouteConstants.CreateProjectAssignedTo);
             }

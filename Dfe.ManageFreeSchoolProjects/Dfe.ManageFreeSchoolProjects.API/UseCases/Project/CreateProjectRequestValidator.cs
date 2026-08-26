@@ -15,8 +15,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
     {
         public CreateProjectDetailsValidator()
         {
-            // Local authority projects are not attached to a trust, so they have no TRN to supply.
-            RuleFor(x => x.TRN).NotEmpty().When(x => x.ApplicationWave != "LocalAuthority");
+            // New School projects are not attached to a trust, so they have no TRN to supply.
+            RuleFor(x => x.TRN).NotEmpty().When(x => x.ApplicationWave != "New School");
             RuleFor(x => x.ProjectId).NotEmpty();
             RuleFor(x => x.CreatedBy).NotEmpty();
         }

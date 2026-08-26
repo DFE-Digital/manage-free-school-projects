@@ -39,7 +39,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Theory]
         [InlineData(ProjectType.PresumptionRoute, SchoolType.Mainstream)]
         [InlineData(ProjectType.CentralRoute, SchoolType.Mainstream)]
-        [InlineData(ProjectType.LocalAuthority, SchoolType.Special)]
+        [InlineData(ProjectType.NewSchool, SchoolType.Special)]
         public void OnPost_WhenProvisionCapacitiesHidden_SubmitsAndDefaultsThemToZero(
             ProjectType projectType, SchoolType schoolType)
         {
@@ -57,7 +57,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnPost_WhenNewSchoolMainstreamAndProvisionCapacitiesMissing_AddsErrors()
         {
-            var cacheItem = BuildCacheItem(ProjectType.LocalAuthority, SchoolType.Mainstream);
+            var cacheItem = BuildCacheItem(ProjectType.NewSchool, SchoolType.Mainstream);
             var model = BuildModel(cacheItem, apResourcesProvision: null, senResourcedProvision: null);
 
             var result = model.OnPost();
@@ -72,7 +72,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnPost_WhenNewSchoolMainstream_StoresProvisionCapacities()
         {
-            var cacheItem = BuildCacheItem(ProjectType.LocalAuthority, SchoolType.Mainstream);
+            var cacheItem = BuildCacheItem(ProjectType.NewSchool, SchoolType.Mainstream);
             var model = BuildModel(cacheItem, apResourcesProvision: "12", senResourcedProvision: "34");
 
             var result = model.OnPost();
@@ -85,7 +85,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnGet_WhenUserIsNotProjectRecordCreator_ReturnsUnauthorized()
         {
-            var model = BuildModel(BuildCacheItem(ProjectType.LocalAuthority, SchoolType.Mainstream),
+            var model = BuildModel(BuildCacheItem(ProjectType.NewSchool, SchoolType.Mainstream),
                 apResourcesProvision: null, senResourcedProvision: null, authorised: false);
 
             var result = model.OnGet();
@@ -96,7 +96,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnGet_PopulatesCapacitiesFromTheCache()
         {
-            var cacheItem = BuildCacheItem(ProjectType.LocalAuthority, SchoolType.Mainstream);
+            var cacheItem = BuildCacheItem(ProjectType.NewSchool, SchoolType.Mainstream);
             cacheItem.Nursery = ClassType.Nursery.Yes;
             cacheItem.NurseryCapacity = 5;
             cacheItem.YRY6Capacity = 10;
@@ -123,7 +123,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
 
         [Theory]
         [InlineData(ProjectType.CentralRoute, SchoolType.Mainstream, false, true)]
-        [InlineData(ProjectType.LocalAuthority, SchoolType.Special, true, false)]
+        [InlineData(ProjectType.NewSchool, SchoolType.Special, true, false)]
         public void OnGet_SetsProvisionFlagsForProjectAndSchoolType(
             ProjectType projectType, SchoolType schoolType, bool expectedLocalAuthority, bool expectedMainstream)
         {

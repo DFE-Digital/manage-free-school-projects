@@ -89,7 +89,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
 
         private static SchoolTypeEnum[] OptionsFor(ProjectType projectType)
         {
-            return projectType == ProjectType.LocalAuthority ? LocalAuthorityOptions : DefaultOptions;
+            return projectType == ProjectType.NewSchool ? LocalAuthorityOptions : DefaultOptions;
         }
     }
 }

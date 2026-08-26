@@ -86,7 +86,7 @@
             @RenderSummaryRow("Faith status", Model.Project.FaithStatus.ToString(), RouteConstants.CreateFaithStatus)
             @RenderSummaryRow("Faith type", faithType, faithTypeLink)
 
-            @if (Model.Project.ProjectType != ProjectType.LocalAuthority)
+            @if (Model.Project.ProjectType != ProjectType.NewSchool)
             {
                 @RenderSummaryRow("Provisional opening date", Model.Project.ProvisionalOpeningDate.ToDateString(), RouteConstants.CreateProjectProvisionalOpeningDate)
             }

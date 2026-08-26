@@ -36,7 +36,7 @@ public class ProjectAssignedTo : CreateProjectBaseModel
 
         var projectCache = CreateProjectCache.Get();
 
-        if (projectCache.ProjectType == ProjectType.LocalAuthority)
+        if (projectCache.ProjectType == ProjectType.NewSchool)
         {
             if (projectCache.FaithStatus == FaithStatus.None)
             {

@@ -145,7 +145,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         {
             var model = BuildTestableModel(new CreateProjectCacheItem
             {
-                ProjectType = ProjectType.LocalAuthority,
+                ProjectType = ProjectType.NewSchool,
                 FaithStatus = faithStatus
             });
 

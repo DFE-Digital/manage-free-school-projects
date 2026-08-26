@@ -37,7 +37,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
 
             Project.ReachedCheckYourAnswers = true;
 
-            IsLocalAuthority = Project.ProjectType == ProjectType.LocalAuthority;
+            IsLocalAuthority = Project.ProjectType == ProjectType.NewSchool;
             IsMainStream = Project.SchoolType == SchoolType.Mainstream;
 
             createProjectCache.Update(Project);
@@ -49,8 +49,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
         {
             switch(type)
             {
-                case ProjectType.LocalAuthority:
-                    return "LocalAuthority";
+                case ProjectType.NewSchool:
+                    return "New School";
                 case ProjectType.PresumptionRoute:
                     return "FS - Presumption";
                 default:
@@ -116,7 +116,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
                     errorService.AddError("projectid", $"Project with ID {project.ProjectId} already exists");
                     Project = project;
 
-                    IsLocalAuthority = Project.ProjectType == ProjectType.LocalAuthority;
+                    IsLocalAuthority = Project.ProjectType == ProjectType.NewSchool;
                     IsMainStream = Project.SchoolType == SchoolType.Mainstream;
 
                     return Page();

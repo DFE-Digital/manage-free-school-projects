@@ -18,7 +18,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         [Fact]
         public void OnGet_WhenUserIsNotProjectRecordCreator_ReturnsUnauthorized()
         {
-            var model = BuildModel(BuildCacheItem(ProjectType.LocalAuthority), authorised: false);
+            var model = BuildModel(BuildCacheItem(ProjectType.NewSchool), authorised: false);
 
             var result = model.OnGet();
 
@@ -32,7 +32,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         [Fact]
         public void OnGet_MarksTheProjectAsHavingReachedCheckYourAnswers()
         {
-            var cacheItem = BuildCacheItem(ProjectType.LocalAuthority);
+            var cacheItem = BuildCacheItem(ProjectType.NewSchool);
             cacheItem.SchoolType = SchoolType.Mainstream;
             var model = BuildModel(cacheItem, out var cache, out _, out _);
 
@@ -48,7 +48,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
 
         [Theory]
         [InlineData(ProjectType.CentralRoute, SchoolType.Special, false, false)]
-        [InlineData(ProjectType.LocalAuthority, SchoolType.Special, true, false)]
+        [InlineData(ProjectType.NewSchool, SchoolType.Special, true, false)]
         [InlineData(ProjectType.PresumptionRoute, SchoolType.Mainstream, false, true)]
         public void OnGet_SetsFlagsForProjectAndSchoolType(
             ProjectType projectType, SchoolType schoolType, bool expectedLocalAuthority, bool expectedMainstream)
@@ -68,7 +68,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         /// wave, but the central route collects it from the user and must keep what they entered.
         /// </summary>
         [Theory]
-        [InlineData(ProjectType.LocalAuthority, "Wave 15", "LocalAuthority")]
+        [InlineData(ProjectType.NewSchool, "Wave 15", "LocalAuthority")]
         [InlineData(ProjectType.PresumptionRoute, "Wave 15", "FS - Presumption")]
         [InlineData(ProjectType.CentralRoute, "Wave 15", "Wave 15")]
         public async Task OnPostAsync_SetsApplicationWaveForProjectType(
@@ -88,7 +88,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         [Fact]
         public async Task OnPostAsync_SendsTheCachedAnswersToTheApi()
         {
-            var cacheItem = BuildCacheItem(ProjectType.LocalAuthority);
+            var cacheItem = BuildCacheItem(ProjectType.NewSchool);
             cacheItem.SchoolType = SchoolType.Mainstream;
             cacheItem.APResourcesProvision = 12;
             cacheItem.SENResourcedProvisionSENUnit = 34;
@@ -137,7 +137,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         [Fact]
         public async Task OnPostAsync_WhenProjectCreated_NotifiesTheAssigneeAndRedirects()
         {
-            var cacheItem = BuildCacheItem(ProjectType.LocalAuthority);
+            var cacheItem = BuildCacheItem(ProjectType.NewSchool);
             var model = BuildModel(cacheItem, out _, out var notifyUserService, out _);
 
             var result = await model.OnPostAsync();
@@ -152,7 +152,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         [Fact]
         public async Task OnPostAsync_WhenProjectIdAlreadyExists_ReturnsPageWithError()
         {
-            var cacheItem = BuildCacheItem(ProjectType.LocalAuthority);
+            var cacheItem = BuildCacheItem(ProjectType.NewSchool);
             cacheItem.SchoolType = SchoolType.Mainstream;
             var errorService = new ErrorService();
             var model = BuildModel(cacheItem, errorService,
@@ -174,7 +174,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         [Fact]
         public async Task OnPostAsync_WhenApiReturnsServerError_StillRedirectsToConfirmation()
         {
-            var model = BuildModel(BuildCacheItem(ProjectType.LocalAuthority), new ErrorService(),
+            var model = BuildModel(BuildCacheItem(ProjectType.NewSchool), new ErrorService(),
                 new HttpRequestException("Server error", null, HttpStatusCode.InternalServerError));
 
             var result = await model.OnPostAsync();
@@ -186,7 +186,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         [Fact]
         public async Task OnPostAsync_WhenApiFailsForAnotherReason_Rethrows()
         {
-            var model = BuildModel(BuildCacheItem(ProjectType.LocalAuthority), new ErrorService(),
+            var model = BuildModel(BuildCacheItem(ProjectType.NewSchool), new ErrorService(),
                 new HttpRequestException("Bad request", null, HttpStatusCode.BadRequest));
 
             await model.Invoking(m => m.OnPostAsync())

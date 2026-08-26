@@ -64,7 +64,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
             return wave switch
             {
                 "FS - Presumption" => "Presumption",
-                "LocalAuthority" => "Local Authority",
+                "New School" => "New School",
                 _ => "Central Route"
             };
         }

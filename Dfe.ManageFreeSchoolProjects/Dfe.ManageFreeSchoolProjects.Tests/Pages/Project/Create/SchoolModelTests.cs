@@ -14,7 +14,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
     public class SchoolModelTests
     {
         [Theory]
-        [InlineData(ProjectType.LocalAuthority, "What is the current working name of the new school?")]
+        [InlineData(ProjectType.NewSchool, "What is the current working name of the new school?")]
         [InlineData(ProjectType.PresumptionRoute, "What is the current free school name?")]
         [InlineData(ProjectType.CentralRoute, "What is the current free school name?")]
         public void OnGet_SetsQuestionForProjectType(ProjectType projectType, string expectedQuestion)
@@ -27,7 +27,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         }
 
         [Theory]
-        [InlineData(ProjectType.LocalAuthority, "Enter the new school name")]
+        [InlineData(ProjectType.NewSchool, "Enter the new school name")]
         [InlineData(ProjectType.PresumptionRoute, "Enter the current free school name")]
         [InlineData(ProjectType.CentralRoute, "Enter the current free school name")]
         public void OnPost_WhenSchoolNameMissing_AddsErrorForProjectType(ProjectType projectType, string expectedError)
@@ -45,7 +45,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnPost_WhenSchoolNameIsWhitespace_AddsError()
         {
-            var model = BuildModel(new CreateProjectCacheItem { ProjectType = ProjectType.LocalAuthority });
+            var model = BuildModel(new CreateProjectCacheItem { ProjectType = ProjectType.NewSchool });
             model.School = "   ";
 
             var result = model.OnPost();
@@ -58,7 +58,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnPost_WhenSchoolNameProvided_StoresNameAndRedirects()
         {
-            var cacheItem = new CreateProjectCacheItem { ProjectType = ProjectType.LocalAuthority };
+            var cacheItem = new CreateProjectCacheItem { ProjectType = ProjectType.NewSchool };
             var cache = Substitute.For<ICreateProjectCache>();
             cache.Get().Returns(cacheItem);
 
@@ -90,7 +90,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         {
             var model = BuildModel(new CreateProjectCacheItem
             {
-                ProjectType = ProjectType.LocalAuthority,
+                ProjectType = ProjectType.NewSchool,
                 SchoolName = "Test School"
             });
 
@@ -108,7 +108,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         {
             var model = BuildModel(new CreateProjectCacheItem
             {
-                ProjectType = ProjectType.LocalAuthority,
+                ProjectType = ProjectType.NewSchool,
                 ReachedCheckYourAnswers = reachedCheckYourAnswers
             });
             model.School = "Test School";

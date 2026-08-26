@@ -67,7 +67,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
 
         private void SetContentFor(ProjectType projectType)
         {
-            var isLocalAuthority = projectType == ProjectType.LocalAuthority;
+            var isLocalAuthority = projectType == ProjectType.NewSchool;
 
             SchoolNameQuestion = isLocalAuthority
                 ? "What is the current working name of the new school?"

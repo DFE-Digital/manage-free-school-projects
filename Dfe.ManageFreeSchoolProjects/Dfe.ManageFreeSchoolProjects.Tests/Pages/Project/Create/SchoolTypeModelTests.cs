@@ -15,7 +15,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnGet_WhenNewSchool_OffersAlternativeProvisionPruOptions()
         {
-            var model = BuildModel(ProjectType.LocalAuthority);
+            var model = BuildModel(ProjectType.NewSchool);
 
             model.OnGet();
 
@@ -44,7 +44,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         }
 
         [Theory]
-        [InlineData(ProjectType.LocalAuthority)]
+        [InlineData(ProjectType.NewSchool)]
         [InlineData(ProjectType.PresumptionRoute)]
         public void OnGet_NeverOffersNotSetOrFurtherEducation(ProjectType projectType)
         {
@@ -59,7 +59,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnPost_WhenInvalid_StillPopulatesOptionsForRedisplay()
         {
-            var model = BuildModel(ProjectType.LocalAuthority);
+            var model = BuildModel(ProjectType.NewSchool);
             model.ModelState.AddModelError("school-type", "Select the school type");
 
             model.OnPost();
@@ -82,7 +82,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         {
             var cacheItem = new CreateProjectCacheItem
             {
-                ProjectType = ProjectType.LocalAuthority,
+                ProjectType = ProjectType.NewSchool,
                 SchoolType = SchoolType.Special
             };
             var model = BuildModel(cacheItem, out _);
@@ -96,7 +96,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Fact]
         public void OnPost_WhenValid_StoresSchoolTypeAndRedirectsToClassType()
         {
-            var cacheItem = new CreateProjectCacheItem { ProjectType = ProjectType.LocalAuthority };
+            var cacheItem = new CreateProjectCacheItem { ProjectType = ProjectType.NewSchool };
             var model = BuildModel(cacheItem, out var cache);
             model.SchoolType = ((int)SchoolType.Mainstream).ToString();
 
@@ -118,7 +118,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         {
             var cacheItem = new CreateProjectCacheItem
             {
-                ProjectType = ProjectType.LocalAuthority,
+                ProjectType = ProjectType.NewSchool,
                 SchoolType = SchoolType.Mainstream,
                 ReachedCheckYourAnswers = true
             };

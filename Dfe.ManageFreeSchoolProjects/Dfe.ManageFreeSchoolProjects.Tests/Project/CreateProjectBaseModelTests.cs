@@ -55,7 +55,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Project
         public void GetPreviousPage_SchoolType_WhenNewSchool_SkipsTrustAndReturnsLocalAuthority()
         {
             var cache = Substitute.For<ICreateProjectCache>();
-            cache.Get().Returns(new CreateProjectCacheItem { ProjectType = ProjectType.LocalAuthority });
+            cache.Get().Returns(new CreateProjectCacheItem { ProjectType = ProjectType.NewSchool });
 
             var model = new CreateProjectBaseModel(cache);
 
@@ -68,7 +68,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Project
         public void GetNextPage_LocalAuthority_WhenNewSchool_SkipsTrustAndReturnsSchoolType()
         {
             var cache = Substitute.For<ICreateProjectCache>();
-            cache.Get().Returns(new CreateProjectCacheItem { ProjectType = ProjectType.LocalAuthority });
+            cache.Get().Returns(new CreateProjectCacheItem { ProjectType = ProjectType.NewSchool });
 
             var model = new CreateProjectBaseModel(cache);
 

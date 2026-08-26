@@ -17,8 +17,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
         [Required(ErrorMessage = "Select what project you want to create")]
         public ProjectType Method { get; set; }
 
-        [FromQuery(Name = "newProject")] 
-        public bool? IsNewProject { get; set; }
+        //[FromQuery(Name = "newProject")] 
+        //public bool? IsNewProject { get; set; }
 
         public IActionResult OnGet()
         {
@@ -27,14 +27,17 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
                 return new UnauthorizedResult();
             }
 
-            if (IsNewProject != null && (bool)IsNewProject)
-            {
-                CreateProjectCache.Delete();
-                Method = ProjectType.NotSet;
-            }
+            //if (IsNewProject != null && (bool)IsNewProject)
+            //{
+            //    CreateProjectCache.Delete();
+            //    Method = ProjectType.NotSet;
+            //}
 
 
             Method = CreateProjectCache.Get().ProjectType;
+
+            // we reset session
+            CreateProjectCache.Delete();
 
             return Page();
         }
@@ -74,7 +77,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
                     return Redirect(projCache.ReachedCheckYourAnswers && hasApplicationWaveOrApplicationNumber
                         ? RouteConstants.CreateProjectCheckYourAnswers
                         : RouteConstants.CreateApplicationNumber);
-                case ProjectType.LocalAuthority:
+                case ProjectType.NewSchool:
                     return Redirect(projCache.ReachedCheckYourAnswers
                         ? RouteConstants.CreateProjectCheckYourAnswers
                         : RouteConstants.CreateProjectId);

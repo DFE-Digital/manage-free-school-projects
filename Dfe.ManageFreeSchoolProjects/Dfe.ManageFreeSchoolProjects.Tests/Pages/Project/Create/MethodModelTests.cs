@@ -36,43 +36,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         }
 
         [Fact]
-        public void OnGet_WhenStartingANewProject_ClearsTheCache()
-        {
-            var cache = Substitute.For<ICreateProjectCache>();
-            cache.Get().Returns(new CreateProjectCacheItem { ProjectType = ProjectType.CentralRoute });
-
-            // A real cache hands back an empty item once it has been deleted.
-            cache.When(c => c.Delete())
-                .Do(_ => cache.Get().Returns(new CreateProjectCacheItem()));
-
-            var model = new MethodModel(new ErrorService(), cache)
-            {
-                PageContext = CreatePageTestContext.Build(),
-                IsNewProject = true
-            };
-
-            model.OnGet();
-
-            cache.Received(1).Delete();
-            model.Method.Should().Be(ProjectType.NotSet);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData(false)]
-        public void OnGet_WhenNotStartingANewProject_KeepsTheCache(bool? isNewProject)
-        {
-            var cacheItem = new CreateProjectCacheItem { ProjectType = ProjectType.LocalAuthority };
-            var model = BuildModel(cacheItem, out var cache);
-            model.IsNewProject = isNewProject;
-
-            model.OnGet();
-
-            cache.DidNotReceive().Delete();
-            model.Method.Should().Be(ProjectType.LocalAuthority);
-        }
-
-        [Fact]
         public void OnPost_WhenMethodNotSelected_ReturnsPageWithErrors()
         {
             var model = BuildModel(new CreateProjectCacheItem(), out var cache);
@@ -87,8 +50,8 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create
         [Theory]
         [InlineData(ProjectType.PresumptionRoute, false, RouteConstants.CreateProjectId)]
         [InlineData(ProjectType.PresumptionRoute, true, RouteConstants.CreateProjectCheckYourAnswers)]
-        [InlineData(ProjectType.LocalAuthority, false, RouteConstants.CreateProjectId)]
-        [InlineData(ProjectType.LocalAuthority, true, RouteConstants.CreateProjectCheckYourAnswers)]
+        [InlineData(ProjectType.NewSchool, false, RouteConstants.CreateProjectId)]
+        [InlineData(ProjectType.NewSchool, true, RouteConstants.CreateProjectCheckYourAnswers)]
         [InlineData(ProjectType.CentralRoute, false, RouteConstants.CreateApplicationNumber)]
         public void OnPost_RedirectsForChosenMethod(
             ProjectType method, bool reachedCheckYourAnswers, string expectedRoute)
