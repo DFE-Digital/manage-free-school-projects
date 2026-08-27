@@ -8,12 +8,14 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals.Enums;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+using Dfe.ManageFreeSchoolProjects.Services.Proposal;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 {
     public class ProposalListModel(
         IGetProjectOverviewService getProjectOverviewService,
+        IGetProposalService getProposalService,
         ILogger<ProposalListModel> logger
     ) : PageModel
     {
@@ -34,6 +36,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
                 Project = await getProjectOverviewService.Execute(projectId);
 
                 LoadTestProposals();
+                //Proposals = await getProposalService.ExecuteList(projectId);
             }
             catch (Exception ex)
             {
@@ -49,11 +52,12 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
             [
                 new GetProposalResponse
                 {
-                    Id = 1,
-                    Proposer = "Local authority",
+                    Rid = "qieu5sdlk",
+                    ProjectId = ProjectId,
+                    Proposer = ProposalProposer.AnotherLocalAuthority,
                     Name = "Bristol City Council",
                     ReligiousCharacterOrEthos = "None",
-                    ProposedFaithOfNewSchool = "None",
+                    ProposedFaithType = FaithType.Hindu,
                     Status = ProposalStatus.Active
                 }
             ];

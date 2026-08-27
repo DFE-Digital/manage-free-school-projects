@@ -97,6 +97,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 			services.AddScoped<IGetTrustByRefService, GetTrustByRefService>();
             services.AddScoped<ISearchTrustByRefService, SearchTrustByRefService>();
             services.AddScoped<ISearchConstituencyService, SearchConstituencyService>();
+            services.AddScoped<IGetProposalService, GetProposalService>();
             services.AddScoped<IGetProjectManagersService, GetProjectManagersService>();
             services.AddScoped<IGetProjectContactsService, GetProjectContactsService>();
             services.AddScoped<IUpdateProjectContactsService, UpdateProjectContactsService>();

@@ -1,5 +1,4 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals.Enums;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Microsoft.AspNetCore.DataProtection;

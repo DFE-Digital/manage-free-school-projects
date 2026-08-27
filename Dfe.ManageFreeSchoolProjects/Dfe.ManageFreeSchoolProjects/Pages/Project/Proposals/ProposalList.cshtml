@@ -66,7 +66,7 @@
             <tbody class="govuk-table__body">
                 @foreach (var proposal in Model.Proposals)
                 {
-                    <tr class="govuk-table__row tr__large" data-testid="row-@proposal.Id">
+                    <tr class="govuk-table__row tr__large" data-testid="row-@proposal.Rid">
                         <td class="govuk-table__cell" data-testid="proposal-proposer">
                             <span class="govuk-body">@proposal.Proposer</span>
                         </td>
@@ -77,10 +77,10 @@
                             <span class="govuk-body">@proposal.ReligiousCharacterOrEthos</span>
                         </td>
                         <td class="govuk-table__cell" data-testid="proposal-proposed-faith-of-new-school">
-                            <span class="govuk-body">@proposal.ProposedFaithOfNewSchool</span>
+                            <span class="govuk-body">@proposal.ProposedFaithType?.ToDescription()</span>
                         </td>
                         <td class="govuk-table__cell" data-testid="status">
-                            <govuk-proposal-status-tag status=@proposal.Status />
+                            <govuk-proposal-status-tag status=@proposal.Status.Value />
                         </td>
                         <td class="govuk-table__cell">
                             <a class="govuk-link" href="#" data-testid="action">View</a>

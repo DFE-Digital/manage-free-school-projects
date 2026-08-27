@@ -85,6 +85,7 @@ public class Startup
            .AddMicrosoftIdentityUI();
         SetupDataprotection(services);
         services.AddScoped<IGetDashboardService, GetDashboardService>();
+        services.AddScoped<IGetProposalService, GetProposalService>();
         services.AddScoped<MfspApiClient, MfspApiClient>();
         services.AddScoped<ICreateUserService, CreateUserService>();
         services.AddScoped<ICreateProjectCache, CreateProjectCache>();

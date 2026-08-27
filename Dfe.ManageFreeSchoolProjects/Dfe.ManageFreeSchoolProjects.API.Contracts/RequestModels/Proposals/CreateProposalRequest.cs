@@ -1,5 +1,4 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals.Enums;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals
@@ -7,7 +6,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals
     public class CreateProposalRequest
     {
         public string ProjectId { get; set; }
-        public ProposalProposer? Proposer { get; set; }
+        public ProposalProposer Proposer { get; set; }
 
         // Academy Trust route - ProposalProposer.AcademyTrust
         public string TrustReferenceNumber { get; set; }

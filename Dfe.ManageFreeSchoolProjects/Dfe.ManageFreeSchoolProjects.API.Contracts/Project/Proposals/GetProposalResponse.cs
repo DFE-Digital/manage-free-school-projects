@@ -1,18 +1,21 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals.Enums;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals
 {
     public class GetProposalResponse
     {
-        public int Id { get; set; }
-        public string Proposer { get; set; }
+        public string Rid { get; set; }
+        
+        public string ProjectId { get; set; }
+
+        public ProposalProposer Proposer { get; set; }
 
         public string Name { get; set; }
 
         public string ReligiousCharacterOrEthos { get; set; }
 
-        public string ProposedFaithOfNewSchool { get; set; }
+        public FaithType? ProposedFaithType { get; set; }
 
-        public ProposalStatus Status { get; set; }
+        public ProposalStatus? Status { get; set; }
     }
 }

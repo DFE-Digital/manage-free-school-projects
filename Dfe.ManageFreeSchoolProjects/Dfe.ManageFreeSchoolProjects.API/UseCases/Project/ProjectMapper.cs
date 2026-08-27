@@ -1,8 +1,9 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using SchoolType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.SchoolType;
-using ProjectStatusType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectStatus;
+using System.Diagnostics.Eventing.Reader;
 using ProjectCancelledReasonType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectCancelledReason;
+using ProjectStatusType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectStatus;
 using ProjectWithdrawnReasonType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectWithdrawnReason;
+using SchoolType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.SchoolType;
 
 namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
 {
@@ -66,13 +67,40 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             };
         }
 
+        public static string ToFaithType(FaithType faithType)
+        {
+            return faithType switch
+            {
+                FaithType.ChurchOfEngland => "Church of England",
+                FaithType.Christian => "Christian",
+                FaithType.GreekOrthodox => "Greek Orthodox",
+                FaithType.Hindu => "Hindu",
+                FaithType.Jewish => "Jewish",
+                FaithType.Methodist => "Methodist",
+                FaithType.Muslim => "Muslim",
+                FaithType.RomanCatholic => "Roman Catholic",
+                FaithType.Sikh => "Sikh",
+                FaithType.Other => "Other",
+                FaithType.None => "None",
+                _ => null
+            };
+        }
+
         public static FaithType ToFaithType(string faithTypeDescription)
         {
             return faithTypeDescription switch
             {
                 "Church of England" => FaithType.ChurchOfEngland,
-                "Greek Orthodox" => FaithType.GreekOrthodox,
                 "Roman Catholic" => FaithType.RomanCatholic,
+                "Greek Orthodox" => FaithType.GreekOrthodox,
+                "Hindu" => FaithType.Hindu,
+                "Jewish" => FaithType.Jewish,
+                "Methodist" => FaithType.Methodist,
+                "Muslim" => FaithType.Muslim,
+                "Christian" => FaithType.Christian,
+                "Sikh" => FaithType.Sikh,
+                "Other" => FaithType.Other,
+                "None" => FaithType.None,
                 _ => EnumParsers.ParseFaithType(faithTypeDescription)
             };
         }
@@ -86,7 +114,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 _ => EnumParsers.ParseTrustType(trustTypeDescription)
             };
         }
-        
+
+        public static string ToTrustType(TrustType trustType)
+        {
+            return trustType switch
+            {
+                TrustType.SingleAcademyTrust => "Standalone",
+                TrustType.MultiAcademyTrust => "MAT",
+                _ => throw new ArgumentOutOfRangeException(nameof(TrustType), trustType, null)
+            };
+        }
+
         public static ProjectStatusType ToProjectStatusType(string projectStatus)
         {
             return projectStatus?.ToLower() switch
@@ -175,7 +213,79 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 ProjectWithdrawnReasonType.Governance => "governance",
                 ProjectWithdrawnReasonType.SiteAndPlanningIssues => "site and planning issues",
                 ProjectWithdrawnReasonType.PupilNumbers => "pupil numbers",
-                _ => ""
+                _ => "NotSet"
+            };
+        }
+
+        public static string ToProposer(ProposalProposer proposer)
+        {
+            return proposer switch
+            {
+                ProposalProposer.AcademyTrust => "Academy trust (including Diocese academy trust)",
+                ProposalProposer.Diocese => "Diocese",
+                ProposalProposer.AnotherReligiousOrganisation => "Another religious organisation",
+                ProposalProposer.LocalAuthorityThatPushedSpecification => "Local authority that published the specification",
+                ProposalProposer.AnotherLocalAuthority => "Another local authority",
+                ProposalProposer.JointProposal => "Joint proposal between the local authority that published the specification and another local authority",
+                _ => string.Empty
+            };
+        }
+
+        public static ProposalProposer ToProposer(string strProposer)
+        {
+            return strProposer switch
+            {
+                "Academy trust (including Diocese academy trust)" => ProposalProposer.AcademyTrust,
+                "Diocese" => ProposalProposer.Diocese,
+                "Another religious organisation" => ProposalProposer.AnotherReligiousOrganisation,
+                "Local authority that published the specification" => ProposalProposer.LocalAuthorityThatPushedSpecification,
+                "Another local authority" => ProposalProposer.AnotherLocalAuthority,
+                "Joint proposal between the local authority that published the specification and another local authority" => ProposalProposer.JointProposal,
+                _ => throw new ArgumentOutOfRangeException(nameof(ProposalProposer), strProposer, null)
+            };
+        }
+
+        public static string ToDioceseFaithType(FaithOfDiocese faithType)
+        {
+            return faithType switch
+            {
+                FaithOfDiocese.ChurchOfEngland => "Church of England",
+                FaithOfDiocese.RomanCatholic => "Roman Catholic",
+                _ => string.Empty
+            };
+        }
+
+        public static FaithOfDiocese ToDioceseFaithType(string faithType)
+        {
+            return faithType switch
+            {
+                "Church of England" => FaithOfDiocese.ChurchOfEngland,
+                "Roman Catholic" => FaithOfDiocese.RomanCatholic,
+                _ => throw new ArgumentOutOfRangeException(nameof(FaithOfDiocese), faithType, null)
+            };
+        }
+
+        public static FaithStatus ToFaithStatus(string status)
+        {
+            return status switch
+            {
+                "Designation" => FaithStatus.Designation,
+                "Ethos" => FaithStatus.Ethos,
+                "None" => FaithStatus.None,
+                "NotSet" => FaithStatus.NotSet,
+                _ => throw new ArgumentOutOfRangeException(nameof(FaithStatus), status, null)
+            };
+        }
+
+        public static string ToFaithStatus(FaithStatus status)
+        {
+            return status switch
+            {
+                FaithStatus.Designation => "Designation",
+                FaithStatus.Ethos => "Ethos",
+                FaithStatus.None => "None",
+                FaithStatus.NotSet => "NotSet",
+                _ => string.Empty
             };
         }
     }

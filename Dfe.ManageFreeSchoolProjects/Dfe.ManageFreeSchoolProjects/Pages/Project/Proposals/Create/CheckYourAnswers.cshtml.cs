@@ -1,6 +1,7 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Proposal;
+using Dfe.ManageFreeSchoolProjects.Constants;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -37,7 +38,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
             var createRequest = new CreateProposalRequest
             {
                 ProjectId = ProjectId,
-                Proposer = Cache.Proposer,
+                Proposer = Cache.Proposer.Value,
 
                 // Academy Trust route - ProposalProposer.AcademyTrust
                 TrustReferenceNumber = Cache.Trust?.TRN,
@@ -78,8 +79,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
                 return Page();
             }
 
-            return Page();
-            //return Redirect(RouteConstants.CreateProjectConfirmation);
+            return Redirect(string.Format(RouteConstants.Proposals, ProjectId));
         }
     }
 }
