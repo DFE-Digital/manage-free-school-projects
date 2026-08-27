@@ -73,6 +73,7 @@ namespace Dfe.ManageFreeSchoolProjects.API
             }
 
             app.UseMiddleware<ExceptionHandlerMiddleware>();
+            app.UseMiddleware<ProcessWarmupMiddleware>();
             app.UseMiddleware<ApiKeyMiddleware>();
             app.UseMiddleware<UrlDecoderMiddleware>();
             app.UseMiddleware<CorrelationIdMiddleware>();
