@@ -41,7 +41,7 @@ public partial class TasksConfiguration : IEntityTypeConfiguration<Tasks>
         AuditConfiguration.Apply(builder);
     }
 
-    private TaskName ConvertTaskName(string v)
+    internal static TaskName ConvertTaskName(string v)
     {
         return Enum.TryParse(v, false, out TaskName taskName) ? taskName : TaskName.Unknown;
     }
