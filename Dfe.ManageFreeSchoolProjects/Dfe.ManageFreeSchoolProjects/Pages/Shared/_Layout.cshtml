@@ -8,7 +8,7 @@
 
     var titleDescription = Context.Request.Path == "/project-type"
         ? string.Empty
-        : "- Manage school projects";
+        : "- Manage new school projects";
 
 
     var widePage = ViewData["WidePage"] != null ? "mfsp-wider-page" : string.Empty;
@@ -121,7 +121,7 @@
             <div class="govuk-service-navigation__container">
                 <span class="govuk-service-navigation__service-name" data-testid="go-to-home">
                     <a href="/" class="govuk-service-navigation__link">
-                        Manage school projects
+                        Manage new school projects
                     </a>
                 </span>
                 @await RenderSectionAsync("AfterHeader", required: false)
