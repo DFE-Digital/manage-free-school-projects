@@ -1,10 +1,10 @@
-﻿@page "/projects/{projectId}/proposals/create/other-local-authority"
+@page "/projects/{projectId}/proposals/create/other-local-authority"
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.LocalAuthorityModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
 
 @{
-    ViewData["Title"] = "What is the other local authority?";
-
-    var localAuthorities = Model.LocalAuthorities.Select(x => x.Value).ToArray();
+    var title = "What is the other local authority?";
+    ViewData["Title"] = title;
 }
 
 @section BeforeMain {
@@ -13,19 +13,8 @@
     </nav>
 }
 
-<div class="govuk-form-group">
-    <partial name="_ErrorSummary" />
-    <govuk-create-proposal-title label="What is the other local authority?" add-margin="true" />
-    <form method="post">
-        <govuk-radios-input id="local-authority"
-                            asp-for="@Model.LocalAuthority"
-                            name="local-authority"
-                            data-testid="local-authority"
-                            labels="@localAuthorities"
-                            values="@localAuthorities" />
-        <br />
-        <button class="govuk-button" data-module="govuk-button" data-testid="continue">
-            Continue
-        </button>
-    </form>
-</div>
+<partial name="_ProposalLocalAuthoritySelection"
+         model="@(new ProposalLocalAuthoritySelectionViewModel {
+             Title = title,
+             LocalAuthority = Model.LocalAuthority,
+             LocalAuthorities = Model.LocalAuthorities })" />
