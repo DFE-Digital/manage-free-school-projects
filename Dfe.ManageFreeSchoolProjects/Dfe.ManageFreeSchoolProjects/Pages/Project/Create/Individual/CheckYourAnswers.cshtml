@@ -5,7 +5,6 @@
 @using static Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ClassType
 @using Dfe.ManageFreeSchoolProjects.Pages.Project
 @using Microsoft.AspNetCore.Html
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual.CheckYourAnswersModel
 
 @{
@@ -53,7 +52,12 @@
 
             @RenderSummaryRow("Region", Model.Project.Region.ToDescription(), RouteConstants.CreateProjectRegion)
             @RenderSummaryRow("Local authority", Model.Project.LocalAuthority, RouteConstants.CreateProjectLocalAuthority)
-            @RenderSummaryRow("Trust", Model.Project.TrustName, RouteConstants.CreateProjectSearchTrust)
+
+            @if (Model.Project.ProjectType != ProjectType.NewSchool)
+            {
+                @RenderSummaryRow("Trust", Model.Project.TrustName, RouteConstants.CreateProjectSearchTrust)
+            }
+            
             @RenderSummaryRow("School type", Model.Project.SchoolType.ToDescription(), RouteConstants.CreateProjectSchoolType)
             @RenderSummaryRow("Nursery", Model.Project.Nursery.ToString(), RouteConstants.CreateClassType)
             @RenderSummaryRow("Sixth form", Model.Project.SixthForm.ToString(), RouteConstants.CreateClassType)
