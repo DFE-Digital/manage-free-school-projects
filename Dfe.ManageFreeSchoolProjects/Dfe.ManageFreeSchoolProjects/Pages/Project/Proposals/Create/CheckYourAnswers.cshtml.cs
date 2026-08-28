@@ -1,4 +1,5 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
+using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Proposal;
 using Dfe.ManageFreeSchoolProjects.Constants;
@@ -70,10 +71,12 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 
             try
             {
-                var response = await createProposalService.Execute(createRequest);
+                await createProposalService.Execute(createRequest);
             }
-            catch (HttpRequestException e)
+            catch (HttpRequestException ex)
             {
+                logger.LogErrorMsg(ex);
+
                 errorService.AddError("projectid", "Error occurred while creating proposal.");
 
                 return Page();

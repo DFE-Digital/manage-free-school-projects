@@ -36,8 +36,19 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Controllers
                 .Which.Data.Should().BeSameAs(created);
         }
 
+        [Fact]
+        public async Task CreateProposal_WhenThereIsNoProjectId_Returns400WithoutCreating()
+        {
+            var createService = Substitute.For<ICreateProposalService>();
+            var controller = BuildController(createService, Substitute.For<IGetProposalService>());
+
+            var result = await controller.CreateProposal(new CreateProposalRequest { ProjectId = null });
+
+            result.Should().BeOfType<BadRequestObjectResult>();
+            await createService.DidNotReceiveWithAnyArgs().Execute(default!);
+        }
+
         [Theory]
-        [InlineData(null)]
         [InlineData("")]
         public async Task CreateProposal_WhenTheProjectIdIsMissing_Returns400WithoutCreating(string projectId)
         {

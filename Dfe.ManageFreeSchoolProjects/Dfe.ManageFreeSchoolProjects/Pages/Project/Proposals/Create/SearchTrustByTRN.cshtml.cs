@@ -54,7 +54,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
                 return Page();
             }
 
-            if (!Regex.Match(TRN, "TR\\d\\d\\d\\d\\d", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5)).Success)
+            if (!Regex.IsMatch(TRN, "TR\\d\\d\\d\\d\\d", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5)))
             {
                 ModelState.AddModelError("trn", "The TRN must start with the letters TR, followed by at least 5 numbers");
                 errorService.AddErrors(ModelState.Keys, ModelState);

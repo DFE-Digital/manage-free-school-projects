@@ -196,7 +196,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
         [InlineData(FaithType.Other, null, null)]
         [InlineData(FaithType.Hindu, "Some faith", null)]
         public void FaithOfOtherReligiousOrganisation_OnPost_OnlyStoresTheOtherFaithWhenItApplies(
-            FaithType faith, string otherFaith, string expected)
+            FaithType faith, string? otherFaith, string? expected)
         {
             var cacheItem = new CreateProposalCacheItem();
             var harness = new CreateProposalPageHarness().With(cacheItem);
@@ -242,7 +242,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
         [InlineData(FaithType.Other, null, "")]
         [InlineData(FaithType.Muslim, "Some faith", "")]
         public void ProposedFaithType_OnPost_OnlyStoresTheOtherFaithWhenItApplies(
-            FaithType faith, string otherFaith, string expected)
+            FaithType faith, string? otherFaith, string expected)
         {
             var cacheItem = new CreateProposalCacheItem();
             var harness = new CreateProposalPageHarness().With(cacheItem);

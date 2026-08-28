@@ -189,12 +189,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         [InlineData("site and planning issues", ProjectCancelledReason.SiteAndPlanningIssues)]
         [InlineData("pupil numbers", ProjectCancelledReason.PupilNumbers)]
         [InlineData("something else", ProjectCancelledReason.NotSet)]
-        [InlineData(null, ProjectCancelledReason.NotSet)]
         public void ToProjectCancelledReasonType_ReturnsExpectedEnum(
             string input, ProjectCancelledReason expectedResult)
         {
             var result = ProjectMapper.ToProjectCancelledReasonType(input);
             Assert.Equal(expectedResult, result);
+        }
+
+        [Fact]
+        public void ToProjectCancelledReasonType_WhenThereIsNoReason_ReturnsNotSet()
+        {
+            Assert.Equal(ProjectCancelledReason.NotSet, ProjectMapper.ToProjectCancelledReasonType(null));
         }
 
         [Theory]
@@ -217,12 +222,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         [InlineData("site and planning issues", ProjectWithdrawnReason.SiteAndPlanningIssues)]
         [InlineData("pupil numbers", ProjectWithdrawnReason.PupilNumbers)]
         [InlineData("something else", ProjectWithdrawnReason.NotSet)]
-        [InlineData(null, ProjectWithdrawnReason.NotSet)]
         public void ToProjectWithdrawnReasonType_ReturnsExpectedEnum(
             string input, ProjectWithdrawnReason expectedResult)
         {
             var result = ProjectMapper.ToProjectWithdrawnReasonType(input);
             Assert.Equal(expectedResult, result);
+        }
+
+        [Fact]
+        public void ToProjectWithdrawnReasonType_WhenThereIsNoReason_ReturnsNotSet()
+        {
+            Assert.Equal(ProjectWithdrawnReason.NotSet, ProjectMapper.ToProjectWithdrawnReasonType(null));
         }
 
         [Theory]

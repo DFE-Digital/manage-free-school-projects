@@ -9,6 +9,10 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
 {
     public static class ProjectMapper
     {
+        private const string NotSet = "NotSet";
+        private const string ChurchOfEngland = "Church of England";
+        private const string RomanCatholic = "Roman Catholic";
+
         public static SchoolType ToSchoolType(string schoolType)
         {
             return schoolType switch
@@ -37,7 +41,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 SchoolType.UniversityTechnicalCollege => "UTC",
                 SchoolType.FurtherEducation => "FE",
                 SchoolType.VoluntaryAided => "VA",
-                _ => "NotSet"
+                _ => NotSet
             };
         }
 
@@ -63,7 +67,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 SchoolPhase.Secondary => "Secondary",
                 SchoolPhase.SixteenToNineteen => "16-19",
                 SchoolPhase.AllThrough => "All-Through",
-                _ => "NotSet"
+                _ => NotSet
             };
         }
 
@@ -71,14 +75,14 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
         {
             return faithType switch
             {
-                FaithType.ChurchOfEngland => "Church of England",
+                FaithType.ChurchOfEngland => ChurchOfEngland,
                 FaithType.Christian => "Christian",
                 FaithType.GreekOrthodox => "Greek Orthodox",
                 FaithType.Hindu => "Hindu",
                 FaithType.Jewish => "Jewish",
                 FaithType.Methodist => "Methodist",
                 FaithType.Muslim => "Muslim",
-                FaithType.RomanCatholic => "Roman Catholic",
+                FaithType.RomanCatholic => RomanCatholic,
                 FaithType.Sikh => "Sikh",
                 FaithType.Other => "Other",
                 FaithType.None => "None",
@@ -90,8 +94,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
         {
             return faithTypeDescription switch
             {
-                "Church of England" => FaithType.ChurchOfEngland,
-                "Roman Catholic" => FaithType.RomanCatholic,
+                ChurchOfEngland => FaithType.ChurchOfEngland,
+                RomanCatholic => FaithType.RomanCatholic,
                 "Greek Orthodox" => FaithType.GreekOrthodox,
                 "Hindu" => FaithType.Hindu,
                 "Jewish" => FaithType.Jewish,
@@ -121,7 +125,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
             {
                 TrustType.SingleAcademyTrust => "Standalone",
                 TrustType.MultiAcademyTrust => "MAT",
-                _ => throw new ArgumentOutOfRangeException(nameof(TrustType), trustType, null)
+                _ => throw new ArgumentOutOfRangeException(nameof(trustType), trustType, null)
             };
         }
 
@@ -213,7 +217,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 ProjectWithdrawnReasonType.Governance => "governance",
                 ProjectWithdrawnReasonType.SiteAndPlanningIssues => "site and planning issues",
                 ProjectWithdrawnReasonType.PupilNumbers => "pupil numbers",
-                _ => "NotSet"
+                _ => NotSet
             };
         }
 
@@ -241,7 +245,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 "Local authority that published the specification" => ProposalProposer.LocalAuthorityThatPushedSpecification,
                 "Another local authority" => ProposalProposer.AnotherLocalAuthority,
                 "Joint proposal between the local authority that published the specification and another local authority" => ProposalProposer.JointProposal,
-                _ => throw new ArgumentOutOfRangeException(nameof(ProposalProposer), strProposer, null)
+                _ => throw new ArgumentOutOfRangeException(nameof(strProposer), strProposer, null)
             };
         }
 
@@ -249,8 +253,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
         {
             return faithType switch
             {
-                FaithOfDiocese.ChurchOfEngland => "Church of England",
-                FaithOfDiocese.RomanCatholic => "Roman Catholic",
+                FaithOfDiocese.ChurchOfEngland => ChurchOfEngland,
+                FaithOfDiocese.RomanCatholic => RomanCatholic,
                 _ => string.Empty
             };
         }
@@ -259,9 +263,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
         {
             return faithType switch
             {
-                "Church of England" => FaithOfDiocese.ChurchOfEngland,
-                "Roman Catholic" => FaithOfDiocese.RomanCatholic,
-                _ => throw new ArgumentOutOfRangeException(nameof(FaithOfDiocese), faithType, null)
+                ChurchOfEngland => FaithOfDiocese.ChurchOfEngland,
+                RomanCatholic => FaithOfDiocese.RomanCatholic,
+                _ => throw new ArgumentOutOfRangeException(nameof(faithType), faithType, null)
             };
         }
 
@@ -272,8 +276,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 "Designation" => FaithStatus.Designation,
                 "Ethos" => FaithStatus.Ethos,
                 "None" => FaithStatus.None,
-                "NotSet" => FaithStatus.NotSet,
-                _ => throw new ArgumentOutOfRangeException(nameof(FaithStatus), status, null)
+                NotSet => FaithStatus.NotSet,
+                _ => throw new ArgumentOutOfRangeException(nameof(status), status, null)
             };
         }
 
@@ -284,7 +288,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 FaithStatus.Designation => "Designation",
                 FaithStatus.Ethos => "Ethos",
                 FaithStatus.None => "None",
-                FaithStatus.NotSet => "NotSet",
+                FaithStatus.NotSet => NotSet,
                 _ => string.Empty
             };
         }

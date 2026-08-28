@@ -33,7 +33,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
             }).ToListAsync();
         }
 
-        private string GetName(Proposal proposal)
+        private static string GetName(Proposal proposal)
         {
             if (proposal.Proposer == ProjectMapper.ToProposer(ProposalProposer.AcademyTrust))
             {

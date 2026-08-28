@@ -49,7 +49,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
             // update cache
             var cache = CreateProposalCache.Get();
 
-            cache.JointProposalLocalAuthorityRegion = (ProjectRegion)Enum.Parse(typeof(ProjectRegion), Region);
+            cache.JointProposalLocalAuthorityRegion = Enum.Parse<ProjectRegion>(Region);
             CreateProposalCache.Update(cache);
 
             return Redirect(string.Format(RouteConstants.Proposals_Create_Joint_Proposal_Local_Authority, ProjectId));

@@ -174,8 +174,20 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Proposals
             result.Single().ProposedFaithType.Should().Be(expected);
         }
 
+        [Fact]
+        public async Task List_WhenTheFaithWasNeverSet_ReturnsNull()
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.Diocese,
+                p => p.ProposedFaithType = null));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteList(ProjectId);
+
+            result.Single().ProposedFaithType.Should().BeNull();
+        }
+
         [Theory]
-        [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
         public async Task List_WhenNoFaithWasStored_ReturnsNull(string stored)
