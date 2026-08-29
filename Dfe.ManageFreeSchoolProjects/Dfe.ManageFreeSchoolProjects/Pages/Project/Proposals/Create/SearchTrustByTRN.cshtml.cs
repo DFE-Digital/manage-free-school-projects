@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 {
-    public class SearchTrustByTRNModel(
+    public class SearchTrustByTrnModel(
         ICreateProposalCache createProposalCache,
         IGetTrustByRefService getTrustByRefService,
-        ILogger<SearchTrustByTRNModel> logger,
+        ILogger<SearchTrustByTrnModel> logger,
         ErrorService errorService
     ) : CreateProposalBaseModel(createProposalCache)
     {

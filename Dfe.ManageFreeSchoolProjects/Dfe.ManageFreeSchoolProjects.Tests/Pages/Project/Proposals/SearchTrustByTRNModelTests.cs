@@ -13,7 +13,7 @@ using NSubstitute.ExceptionExtensions;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
 {
-    public class SearchTrustByTRNModelTests
+    public class SearchTrustByTrnModelTests
     {
         private const string ProjectId = CreateProposalPageHarness.ProjectId;
 
@@ -134,10 +134,10 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
         public void OnGet_LinksBackToTheProposer()
         {
             var harness = new CreateProposalPageHarness();
-            var model = new TestableSearchTrustByTRNModel(
+            var model = new TestableSearchTrustByTrnModel(
                 harness.Cache,
                 Substitute.For<IGetTrustByRefService>(),
-                Substitute.For<ILogger<SearchTrustByTRNModel>>(),
+                Substitute.For<ILogger<SearchTrustByTrnModel>>(),
                 harness.ErrorService)
             {
                 ProjectId = ProjectId,
@@ -150,15 +150,15 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
                 .Be(string.Format(RouteConstants.Proposals_Create_Proposer, ProjectId));
         }
 
-        private static SearchTrustByTRNModel BuildModel(
+        private static SearchTrustByTrnModel BuildModel(
             CreateProposalPageHarness harness, out IGetTrustByRefService trustService)
         {
             trustService = Substitute.For<IGetTrustByRefService>();
 
-            return new SearchTrustByTRNModel(
+            return new SearchTrustByTrnModel(
                 harness.Cache,
                 trustService,
-                Substitute.For<ILogger<SearchTrustByTRNModel>>(),
+                Substitute.For<ILogger<SearchTrustByTrnModel>>(),
                 harness.ErrorService)
             {
                 ProjectId = ProjectId,
@@ -166,12 +166,12 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
             };
         }
 
-        private sealed class TestableSearchTrustByTRNModel(
+        private sealed class TestableSearchTrustByTrnModel(
             ICreateProposalCache cache,
             IGetTrustByRefService trustService,
-            ILogger<SearchTrustByTRNModel> logger,
+            ILogger<SearchTrustByTrnModel> logger,
             ErrorService errorService)
-            : SearchTrustByTRNModel(cache, trustService, logger, errorService)
+            : SearchTrustByTrnModel(cache, trustService, logger, errorService)
         {
             public string BackLinkValue => BackLink;
         }

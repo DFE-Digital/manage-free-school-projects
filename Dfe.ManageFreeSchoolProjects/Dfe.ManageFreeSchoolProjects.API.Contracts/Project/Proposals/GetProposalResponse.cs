@@ -12,7 +12,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals
 
         public string Name { get; set; }
 
-        public string ReligiousCharacterOrEthos { get; set; }
+        public FaithStatus ProposedFaithStatus { get; set; }
 
         public FaithType? ProposedFaithType { get; set; }
 

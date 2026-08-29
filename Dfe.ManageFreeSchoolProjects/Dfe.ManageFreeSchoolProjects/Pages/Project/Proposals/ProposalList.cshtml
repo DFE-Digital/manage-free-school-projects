@@ -1,6 +1,6 @@
 ﻿@page "/projects/{projectId}/proposals"
 @using Dfe.ManageFreeSchoolProjects.Constants;
-@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.ProposalListModel
 
 @{
@@ -50,7 +50,7 @@
                         Name
                     </th>
                     <th class="govuk-table__header govuk-table__cell__cases" scope="col">
-                        Regiligious character or ethos
+                        Religious character or ethos
                     </th>
                     <th class="govuk-table__header govuk-table__cell__cases" scope="col">
                         Proposed faith of new school
@@ -66,15 +66,23 @@
             <tbody class="govuk-table__body">
                 @foreach (var proposal in Model.Proposals)
                 {
+                    var faithStatus = proposal.ProposedFaithStatus == FaithStatus.Designation
+                        ? "Designation"
+                        : proposal.ProposedFaithStatus.ToDescription();
+
+                    var name = proposal.Proposer == ProposalProposer.LocalAuthorityThatPushedSpecification
+                        ? Model.Project.SchoolDetails.LocalAuthority
+                        : proposal.Name;
+
                     <tr class="govuk-table__row tr__large" data-testid="row-@proposal.Rid">
                         <td class="govuk-table__cell" data-testid="proposal-proposer">
-                            <span class="govuk-body">@proposal.Proposer</span>
+                            <span class="govuk-body">@proposal.Proposer.ToDescription()</span>
                         </td>
                         <td class="govuk-table__cell" data-testid="proposal-name">
-                            <span class="govuk-body">@proposal.Name</span>
+                            <span class="govuk-body">@name</span>
                         </td>
                         <td class="govuk-table__cell" data-testid="proposal-religious-character-or-ethos">
-                            <span class="govuk-body">@proposal.ReligiousCharacterOrEthos</span>
+                            <span class="govuk-body">@faithStatus</span>
                         </td>
                         <td class="govuk-table__cell" data-testid="proposal-proposed-faith-of-new-school">
                             <span class="govuk-body">@proposal.ProposedFaithType?.ToDescription()</span>

@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.Services.Proposal;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
@@ -35,8 +34,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
                 var projectId = RouteData.Values["projectId"] as string;
                 Project = await getProjectOverviewService.Execute(projectId);
 
-                LoadTestProposals();
-                //Proposals = await getProposalService.ExecuteList(projectId);
+                var response = await getProposalService.ExecuteList(projectId);
+                Proposals = response.Data;
             }
             catch (Exception ex)
             {
@@ -44,23 +43,6 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
             }
 
             return Page();
-        }
-
-        private void LoadTestProposals()
-        {
-            Proposals =
-            [
-                new GetProposalResponse
-                {
-                    Rid = "qieu5sdlk",
-                    ProjectId = ProjectId,
-                    Proposer = ProposalProposer.AnotherLocalAuthority,
-                    Name = "Bristol City Council",
-                    ReligiousCharacterOrEthos = "None",
-                    ProposedFaithType = FaithType.Hindu,
-                    Status = ProposalStatus.Active
-                }
-            ];
         }
     }
 }

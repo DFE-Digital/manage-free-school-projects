@@ -1,7 +1,6 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Extensions;
-using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Dashboard;
 using Microsoft.AspNetCore.Mvc;
@@ -18,10 +17,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
     /// the region chosen on the previous page. The pages differ only in which cache fields they read
     /// and write and where they link back to, so the selection itself lives here.
     /// </summary>
-    public abstract class ProposalLocalAuthorityModel<TPage>(
+    public abstract class ProposalLocalAuthorityModel(
         ICreateProposalCache createProposalCache,
         IGetLocalAuthoritiesService getLocalAuthoritiesService,
-        ILogger<TPage> logger,
+        ILogger logger,
         ErrorService errorService
     ) : CreateProposalBaseModel(createProposalCache)
     {
@@ -50,7 +49,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 
         public async Task<ActionResult> OnGet()
         {
-            logger.LogMethodEntered();
+            LogEntered(nameof(OnGet));
 
             SetBackLink();
 
@@ -65,7 +64,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 
         public async Task<ActionResult> OnPost()
         {
-            logger.LogMethodEntered();
+            LogEntered(nameof(OnPost));
 
             SetBackLink();
 
@@ -114,6 +113,13 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
         private void SetBackLink()
         {
             BackLink = string.Format(BackLinkRoute, ProjectId);
+        }
+
+        // The logger is injected as ILogger<TheConcretePage>, so the category still names the page
+        // the user is on. LogMethodEntered needs the generic interface, which this base does not take.
+        private void LogEntered(string method)
+        {
+            logger.LogInformation("{Page}::{Method} entered", GetType().Name, method);
         }
     }
 }

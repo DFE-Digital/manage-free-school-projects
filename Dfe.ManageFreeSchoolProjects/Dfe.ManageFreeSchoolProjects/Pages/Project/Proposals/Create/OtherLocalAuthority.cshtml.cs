@@ -11,7 +11,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
         IGetLocalAuthoritiesService getLocalAuthoritiesService,
         ILogger<LocalAuthorityModel> logger,
         ErrorService errorService
-    ) : ProposalLocalAuthorityModel<LocalAuthorityModel>(
+    ) : ProposalLocalAuthorityModel(
         createProposalCache, getLocalAuthoritiesService, logger, errorService)
     {
         protected override string BackLinkRoute =>
