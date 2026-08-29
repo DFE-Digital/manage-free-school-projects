@@ -202,6 +202,54 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Proposals
             result.Single().ProposedFaithType.Should().BeNull();
         }
 
+        [Theory]
+        [InlineData("Designation", FaithStatus.Designation)]
+        [InlineData("Ethos", FaithStatus.Ethos)]
+        [InlineData("None", FaithStatus.None)]
+        public async Task List_ReadsBackTheProposedFaithStatus(string stored, FaithStatus expected)
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.Diocese,
+                p => p.ProposedFaithStatus = stored));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteList(ProjectId);
+
+            result.Single().ProposedFaithStatus.Should().Be(expected);
+        }
+
+        /// <summary>
+        /// A proposal stored before the faith status was captured has nothing in the column, and
+        /// listing it must not throw the way the mapper does for an unrecognised value.
+        /// </summary>
+        [Theory]
+        [InlineData("")]
+        [InlineData("   ")]
+        public async Task List_WhenNoFaithStatusWasStored_ReturnsNotSet(string stored)
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.Diocese,
+                p => p.ProposedFaithStatus = stored));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteList(ProjectId);
+
+            result.Single().ProposedFaithStatus.Should().Be(FaithStatus.NotSet);
+        }
+
+        [Fact]
+        public async Task List_WhenTheFaithStatusWasNeverSet_ReturnsNotSet()
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.Diocese,
+                p => p.ProposedFaithStatus = null));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteList(ProjectId);
+
+            result.Single().ProposedFaithStatus.Should().Be(FaithStatus.NotSet);
+        }
+
         [Fact]
         public async Task List_WhenTheProjectHasNoProposals_ReturnsEmpty()
         {

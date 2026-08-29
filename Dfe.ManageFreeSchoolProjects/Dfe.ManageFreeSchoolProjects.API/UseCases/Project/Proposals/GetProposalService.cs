@@ -28,7 +28,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
                 ProjectId = x.ProjectId,
                 Proposer = ProjectMapper.ToProposer(x.Proposer),
                 Name = GetName(x),
-                ProposedFaithStatus = ProjectMapper.ToFaithStatus(x.ProposedFaithStatus),
+                ProposedFaithStatus = !string.IsNullOrWhiteSpace(x.ProposedFaithStatus)
+                    ? ProjectMapper.ToFaithStatus(x.ProposedFaithStatus)
+                    : FaithStatus.NotSet,
                 ProposedFaithType = !string.IsNullOrWhiteSpace(x.ProposedFaithType) ? ProjectMapper.ToFaithType(x.ProposedFaithType) : null,
                 Status = ProposalStatus.Active
             }).ToListAsync();
