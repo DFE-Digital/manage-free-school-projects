@@ -12,11 +12,6 @@ using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 {
-    /// <summary>
-    /// The "another local authority" and "joint proposal" journeys both pick a local authority from
-    /// the region chosen on the previous page. The pages differ only in which cache fields they read
-    /// and write and where they link back to, so the selection itself lives here.
-    /// </summary>
     public abstract class ProposalLocalAuthorityModel(
         ICreateProposalCache createProposalCache,
         IGetLocalAuthoritiesService getLocalAuthoritiesService,
@@ -35,16 +30,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
         [BindProperty(Name = "local-authorities")]
         public Dictionary<string, string> LocalAuthorities { get; set; }
 
-        /// <summary>The page the user came from to reach this one.</summary>
         protected abstract string BackLinkRoute { get; }
 
-        /// <summary>The region whose authorities this page lists.</summary>
         protected abstract ProjectRegion? GetRegion(CreateProposalCacheItem cache);
-
-        /// <summary>The authority already chosen on this journey, if the user is returning.</summary>
         protected abstract string GetSelectedLocalAuthority(CreateProposalCacheItem cache);
-
-        /// <summary>Stores the chosen authority and its LA code against this journey.</summary>
         protected abstract void StoreLocalAuthority(CreateProposalCacheItem cache, string name, string code);
 
         public async Task<ActionResult> OnGet()
@@ -114,12 +103,12 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
         {
             BackLink = string.Format(BackLinkRoute, ProjectId);
         }
-
-        // The logger is injected as ILogger<TheConcretePage>, so the category still names the page
-        // the user is on. LogMethodEntered needs the generic interface, which this base does not take.
         private void LogEntered(string method)
         {
-            logger.LogInformation("{Page}::{Method} entered", GetType().Name, method);
+            if (logger.IsEnabled(LogLevel.Information))
+            {
+                logger.LogInformation("{Page}::{Method} entered", GetType().Name, method);
+            }
         }
     }
 }

@@ -8,12 +8,19 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/client/proposals")]
     [ApiController]
+    [SuppressMessage(
+        "Major Code Smell",
+        "S6960:Controllers should not have mixed responsibilities",
+        Justification =
+            "Creating and listing both act on the same proposals resource, so they belong on one " +
+            "controller. Splitting them would fragment the API for no benefit.")]
     public class ProposalController : ControllerBase
     {
         private readonly ICreateProposalService _createProposalService;
