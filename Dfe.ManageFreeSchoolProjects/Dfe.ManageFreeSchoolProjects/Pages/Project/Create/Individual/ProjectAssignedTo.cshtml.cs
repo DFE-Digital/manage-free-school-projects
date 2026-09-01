@@ -89,11 +89,6 @@ public class ProjectAssignedTo : CreateProjectBaseModel
         return Redirect(RouteConstants.CreateProjectCheckYourAnswers);
     }
 
-    private static bool IsNamePopulated(string name)
-    {
-        return name != null && name.Contains(' ');
-    }
-
     private static bool IsEducationEmailValid(string email)
     {
         return email != null && email.Contains("@education.gov.uk") && new EmailAddressAttribute().IsValid(email);

@@ -24,12 +24,11 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         }
 
         [Fact]
-        public void OnGet_PopulatesNameAndEmailFromTheCache()
+        public void OnGet_PopulatesTheEmailFromTheCache()
         {
             var cacheItem = new CreateProjectCacheItem
             {
                 ProjectType = ProjectType.PresumptionRoute,
-                ProjectAssignedToName = "John Smith",
                 ProjectAssignedToEmail = "john.smith@education.gov.uk"
             };
             var model = BuildModel(cacheItem, out _);
@@ -44,40 +43,12 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         public void OnPost_WhenRequiredFieldsMissing_ReturnsPage()
         {
             var model = BuildModel(new CreateProjectCacheItem(), out var cache);
-            model.ModelState.AddModelError("name", "Enter the name");
+            model.ModelState.AddModelError("email", "Enter the email address");
 
             var result = model.OnPost();
 
             result.Should().BeOfType<PageResult>();
             cache.DidNotReceive().Update(Arg.Any<CreateProjectCacheItem>());
-        }
-
-        [Theory]
-        [InlineData(null)]
-        [InlineData("John")]
-        public void OnPost_WhenNameIsNotAFullName_AddsError(string? name)
-        {
-            var model = BuildModel(new CreateProjectCacheItem(), out _);
-            model.Email = "john.smith@education.gov.uk";
-
-            var result = model.OnPost();
-
-            result.Should().BeOfType<PageResult>();
-            model.ModelState["name"]!.Errors.Should().ContainSingle()
-                .Which.ErrorMessage.Should().Be("Enter the full name, for example John Smith");
-        }
-
-        [Fact]
-        public void OnPost_WhenNameContainsNumbers_AddsError()
-        {
-            var model = BuildModel(new CreateProjectCacheItem(), out _);
-            model.Email = "john.smith@education.gov.uk";
-
-            var result = model.OnPost();
-
-            result.Should().BeOfType<PageResult>();
-            model.ModelState["name"]!.Errors.Should().ContainSingle()
-                .Which.ErrorMessage.Should().Be("Name must not include numbers");
         }
 
         [Theory]
@@ -122,7 +93,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
 
             result.Should().BeOfType<RedirectResult>()
                 .Which.Url.Should().Be(RouteConstants.CreateProjectCheckYourAnswers);
-            cacheItem.ProjectAssignedToName.Should().Be("John Smith");
             cacheItem.ProjectAssignedToEmail.Should().Be("john.smith@education.gov.uk");
             cache.Received(1).Update(cacheItem);
         }
