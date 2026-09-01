@@ -1,0 +1,39 @@
+﻿@page "/projects/{projectId}/proposals/create/proposed-faith-status"
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.ProposedFaithStatusModel
+
+@{
+    ViewData["Title"] = "Faith status";
+
+    var faithStatusValues = Enum.GetValues<FaithStatus>().Except(new[] { FaithStatus.NotSet }).ToArray();
+    var faithStatuses = faithStatusValues.Select(x => x.ToString()).ToArray();
+    var faithStatusHints = faithStatusValues.Select(x => x.ToDescriptionOrEmpty()).ToArray();
+}
+
+@section BeforeMain {
+    <nav class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            <govuk-create-proposal-title label="Is the proposal for a school with a religious designation or ethos?" />
+
+            <govuk-radios-input name="faith-status"
+                                asp-for="@Model.Status"
+                                data-testid="faith-status"
+                                labels="@faithStatuses"
+                                values="@faithStatuses"
+                                hints="@faithStatusHints" />
+
+            <br />
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>

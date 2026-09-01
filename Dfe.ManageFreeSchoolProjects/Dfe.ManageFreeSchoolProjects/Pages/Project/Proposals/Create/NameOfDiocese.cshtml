@@ -1,0 +1,30 @@
+﻿@page "/projects/{projectId}/proposals/create/name-of-diocese"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.NameOfDioceseModel
+
+@{
+    ViewData["Title"] = "What is the name of the Diocese?";
+}
+
+@section BeforeMain {
+    <nav class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+
+            <div class="govuk-form-group">
+                <govuk-create-proposal-title label="What is the name of the Diocese?" for="name-of-diocese" />
+                <govuk-text-input id="name-of-diocese" name="name-of-diocese" asp-for="@Model.NameOfDiocese" data-testid="name-of-diocese" hint="For example, Diocese of London" />
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+﻿@page "/projects/{projectId}/proposals/create/name-of-other-religious-organisation"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.NameOfOtherReligiousOrganisationModel
+
+@{
+    ViewData["Title"] = "What is the name of the other religious organisation?";
+}
+
+@section BeforeMain {
+    <nav class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+
+            <div class="govuk-form-group">
+                <govuk-create-proposal-title label="What is the name of the other religious organisation?" for="name-of-other-religious-organisation" />
+                <govuk-text-input id="name-of-other-religious-organisation" name="name-of-other-religious-organisation" asp-for="@Model.NameOfOtherReligiousOrganisation" data-testid="name-of-other-religious-organisation" />
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>

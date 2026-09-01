@@ -6,7 +6,10 @@ public enum ProjectStatus
 {
     [Description("Pre-opening")]
     Preopening,
-    
+
+    [Description("Pre-pipeline")]
+    Prepipeline,
+
     [Description("Open")]
     Open,
     

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
@@ -11,10 +12,13 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
     {
         [BindProperty(Name = "school")]
         [Display(Name = "School name")]
-        [Required(ErrorMessage = "Enter the current free school name")]
         [ValidText(100)]
         public string School { get; set; }
-        
+
+        public string SchoolNameQuestion { get; private set; }
+
+        private string _schoolNameRequiredError;
+
         private readonly ErrorService _errorService;
 
         public SchoolModel(ErrorService errorService, ICreateProjectCache createProjectCache)
@@ -32,6 +36,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
 
             var project = CreateProjectCache.Get();
             School = project.SchoolName;
+            SetContentFor(project.ProjectType);
             BackLink = GetPreviousPage(CreateProjectPageName.SchoolName);
 
             return Page();
@@ -40,7 +45,13 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
         public IActionResult OnPost()
         {
             var project = CreateProjectCache.Get();
+            SetContentFor(project.ProjectType);
             BackLink = GetPreviousPage(CreateProjectPageName.SchoolName);
+
+            if (string.IsNullOrWhiteSpace(School))
+            {
+                ModelState.AddModelError("school", _schoolNameRequiredError);
+            }
 
             if (!ModelState.IsValid)
             {
@@ -52,6 +63,19 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
             CreateProjectCache.Update(project);
 
             return Redirect(GetNextPage(CreateProjectPageName.SchoolName));
+        }
+
+        private void SetContentFor(ProjectType projectType)
+        {
+            var isLocalAuthority = projectType == ProjectType.NewSchool;
+
+            SchoolNameQuestion = isLocalAuthority
+                ? "What is the current working name of the new school?"
+                : "What is the current free school name?";
+
+            _schoolNameRequiredError = isLocalAuthority
+                ? "Enter the new school name"
+                : "Enter the current free school name";
         }
     }
 }

@@ -18,7 +18,7 @@ public class EditRegion : PageModel
     public string ProjectId { get; set; }
 
     [BindProperty(Name = "region")]
-    [Required(ErrorMessage = "Select the region of the free school.")]
+    [Required(ErrorMessage = "Select the region of the school.")]
     public string Region { get; set; }
 
     public string CurrentFreeSchoolName { get; set; }

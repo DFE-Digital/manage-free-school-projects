@@ -8,6 +8,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project
         [Description("Presumption")]
         PresumptionRoute = 1,
         [Description("Central")]
-        CentralRoute = 2
+        CentralRoute = 2,
+        [Description("New School")]
+        NewSchool = 3
     }
 }

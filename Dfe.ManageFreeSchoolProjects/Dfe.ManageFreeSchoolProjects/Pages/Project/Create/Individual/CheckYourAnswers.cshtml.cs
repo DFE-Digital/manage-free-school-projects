@@ -22,6 +22,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
     {
         public CreateProjectCacheItem Project { get; set; }
 
+        public bool IsLocalAuthority { get; private set; }
+
+        public bool IsMainStream { get; private set; }
+
         public IActionResult OnGet()
         {
             if (!User.IsInRole(RolesConstants.ProjectRecordCreator))
@@ -30,9 +34,28 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
             }
 
             Project = createProjectCache.Get();
+
             Project.ReachedCheckYourAnswers = true;
+
+            IsLocalAuthority = Project.ProjectType == ProjectType.NewSchool;
+            IsMainStream = Project.SchoolType == SchoolType.Mainstream;
+
             createProjectCache.Update(Project);
+
             return Page();
+        }
+
+        private static string GenerateApplicationWave(ProjectType type)
+        {
+            switch(type)
+            {
+                case ProjectType.NewSchool:
+                    return "New School";
+                case ProjectType.PresumptionRoute:
+                    return "FS - Presumption";
+                default:
+                    return string.Empty;
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -43,6 +66,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
             var projReq = new ProjectDetails
             {
                 ProjectId = project.ProjectId,
+                ProjectType = project.ProjectType,
                 SchoolName = project.SchoolName,
                 SchoolType = project.SchoolType,
                 SchoolPhase = project.SchoolPhase,
@@ -57,6 +81,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
                 YRY6Capacity = (int)project.YRY6Capacity,
                 Y7Y11Capacity = (int)project.Y7Y11Capacity,
                 Y12Y14Capacity = (int)project.Y12Y14Capacity,
+                APResourcesProvision = project.APResourcesProvision ?? 0,
+                SENResourcedProvisionSENUnit = project.SENResourcedProvisionSENUnit ?? 0,
                 Nursery = project.Nursery,
                 SixthForm = project.SixthForm,
                 AlternativeProvision = project.AlternativeProvision,
@@ -70,9 +96,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
                 ProjectAssignedToName = project.ProjectAssignedToName,
                 ProjectAssignedToEmail = project.ProjectAssignedToEmail,
                 ApplicationNumber = project.ApplicationNumber ?? string.Empty,
-                ApplicationWave = project.ProjectType == ProjectType.PresumptionRoute
-                ? "FS - Presumption"
-                : project.ApplicationWave
+                ApplicationWave = GenerateApplicationWave(project.ProjectType) is { Length: > 0 } applicationWave
+                    ? applicationWave
+                    : project.ApplicationWave
             };
             
             createProjectRequest.Projects.Add(projReq);
@@ -89,6 +115,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual
                 {
                     errorService.AddError("projectid", $"Project with ID {project.ProjectId} already exists");
                     Project = project;
+
+                    IsLocalAuthority = Project.ProjectType == ProjectType.NewSchool;
+                    IsMainStream = Project.SchoolType == SchoolType.Mainstream;
+
                     return Page();
                 }
 

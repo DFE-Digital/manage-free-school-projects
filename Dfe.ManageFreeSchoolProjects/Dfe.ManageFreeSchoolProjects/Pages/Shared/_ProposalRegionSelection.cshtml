@@ -1,0 +1,33 @@
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project
+@model Dfe.ManageFreeSchoolProjects.ViewModels.ProposalRegionSelectionViewModel
+
+@{
+    var regions = Enum.GetValues(typeof(ProjectRegion));
+    var labels = new List<string>();
+    var values = new List<string>();
+
+    foreach (var region in regions)
+    {
+        labels.Add(region.ToDescription());
+        values.Add(region.ToString());
+    }
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            <div class="govuk-form-group">
+                <govuk-create-proposal-title label="@Model.Title" add-margin="true" />
+                <govuk-radios-input name="region"
+                                    asp-for="@Model.Region"
+                                    data-testid="region"
+                                    labels="@labels.ToArray()"
+                                    values="@values.ToArray()" />
+            </div>
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>
