@@ -13,10 +13,6 @@ public class ProjectAssignedTo : CreateProjectBaseModel
 {
     private readonly ErrorService _errorService;
 
-    [Required(ErrorMessage = "Enter the name")]
-    [BindProperty(Name = "name")]
-    public string Name { get; set; }
-
     [Required(ErrorMessage = "Enter the email address")]
     [BindProperty(Name = "email")]
     public string Email { get; set; }
@@ -52,7 +48,6 @@ public class ProjectAssignedTo : CreateProjectBaseModel
             BackLink = GetPreviousPage(CreateProjectPageName.ProjectAssignedTo);
         } 
 
-        Name = projectCache.ProjectAssignedToName;
         Email = projectCache.ProjectAssignedToEmail;
 
         return Page();
@@ -68,18 +63,6 @@ public class ProjectAssignedTo : CreateProjectBaseModel
         {
             _errorService.AddErrors(ModelState.Keys, ModelState);
             return Page();
-        }
-
-        if (!IsNamePopulated(Name))
-        {
-            ModelState.AddModelError("name", "Enter the full name, for example John Smith");
-            _errorService.AddErrors(ModelState.Keys, ModelState);
-            return Page();
-        }
-
-        if (Name.Any(char.IsDigit))
-        {
-            ModelState.AddModelError("name", "Name must not include numbers");
         }
 
         if (!IsEducationEmailValid(Email))
@@ -100,7 +83,6 @@ public class ProjectAssignedTo : CreateProjectBaseModel
             return Page();
         }
 
-        projectCache.ProjectAssignedToName = Name;
         projectCache.ProjectAssignedToEmail = Email;
         CreateProjectCache.Update(projectCache);
         

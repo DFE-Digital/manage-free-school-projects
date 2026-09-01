@@ -37,7 +37,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
             var result = model.OnGet();
 
             result.Should().BeOfType<PageResult>();
-            model.Name.Should().Be("John Smith");
             model.Email.Should().Be("john.smith@education.gov.uk");
         }
 
@@ -59,7 +58,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         public void OnPost_WhenNameIsNotAFullName_AddsError(string? name)
         {
             var model = BuildModel(new CreateProjectCacheItem(), out _);
-            model.Name = name;
             model.Email = "john.smith@education.gov.uk";
 
             var result = model.OnPost();
@@ -73,7 +71,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         public void OnPost_WhenNameContainsNumbers_AddsError()
         {
             var model = BuildModel(new CreateProjectCacheItem(), out _);
-            model.Name = "John Smith2";
             model.Email = "john.smith@education.gov.uk";
 
             var result = model.OnPost();
@@ -91,7 +88,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         public void OnPost_WhenEmailIsNotAnEducationAddress_AddsError(string? email)
         {
             var model = BuildModel(new CreateProjectCacheItem(), out _);
-            model.Name = "John Smith";
             model.Email = email;
 
             var result = model.OnPost();
@@ -106,7 +102,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         public void OnPost_WhenEmailIsLongerThan100Characters_AddsError()
         {
             var model = BuildModel(new CreateProjectCacheItem(), out _);
-            model.Name = "John Smith";
             model.Email = new string('a', 90) + "@education.gov.uk";
 
             var result = model.OnPost();
@@ -121,7 +116,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Create.Individual
         {
             var cacheItem = new CreateProjectCacheItem();
             var model = BuildModel(cacheItem, out var cache);
-            model.Name = "John Smith";
             model.Email = "john.smith@education.gov.uk";
 
             var result = model.OnPost();
