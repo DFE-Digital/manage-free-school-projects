@@ -29,6 +29,7 @@ locals {
   mssql_sku_name                                  = var.mssql_sku_name
   mssql_managed_identity_assign_role              = var.mssql_managed_identity_assign_role
   mssql_private_endpoint_subnet_cidr              = var.mssql_private_endpoint_subnet_cidr
+  mssql_azuread_auth_only                         = var.mssql_azuread_auth_only
   storage_subnet_cidr                             = var.storage_subnet_cidr
   enable_dns_zone                                 = var.enable_dns_zone
   dns_zone_domain_name                            = var.dns_zone_domain_name
