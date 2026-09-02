@@ -1,0 +1,23 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/search-trust-by-trn"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.SearchTrustByTrnModel
+
+@{
+    ViewData["Title"] = "Search for a trust by TRN";
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            <div class="govuk-form-group">
+                <govuk-update-proposal-title label="Search for a trust by TRN" for="trn" add-margin="true" />
+                <govuk-text-input id="trn" name="trn" asp-for="@Model.TRN" data-testid="trust-reference-number" label="TRN (Trust reference number)" hint="For example, TR00036" />
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Save and continue
+            </button>
+        </form>
+    </div>
+</div>

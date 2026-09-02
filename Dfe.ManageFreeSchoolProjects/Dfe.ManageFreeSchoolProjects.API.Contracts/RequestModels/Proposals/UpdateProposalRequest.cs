@@ -1,12 +1,11 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 
-namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals
+namespace Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals
 {
-    public record CreateProposalResponse
+    public class UpdateProposalRequest
     {
         public string Rid { get; set; }
-
-        public string ProjectId { get; set; }
 
         public ProposalProposer Proposer { get; set; }
 
@@ -25,14 +24,16 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals
         public string OtherFaithTypeOfOtherReligiousOrganisation { get; set; }
 
         // Another local authority - ProposalProposer.AnotherLocalAuthority
+        public ProjectRegion? OtherLocalAuthorityRegion { get; set; }
         public string OtherLocalAuthority { get; set; }
 
         // Joint proposal between the local authority that published the specification and another local authority - ProposalProposer.JointProposal
+        public ProjectRegion? JointProposalLocalAuthorityRegion { get; set; }
         public string JointProposalLocalAuthority { get; set; }
 
         //Proposed Faith (Common)
-        public FaithStatus ProposedFaithStatus { get; set; }
-        public FaithType ProposedFaithType { get; set; }
+        public FaithStatus? ProposedFaithStatus { get; set; }
+        public FaithType? ProposedFaithType { get; set; }
         public string OtherFaithType { get; set; }
     }
 }

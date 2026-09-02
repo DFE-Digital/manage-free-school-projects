@@ -1,21 +1,20 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
+using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
+using Dfe.ManageFreeSchoolProjects.Services.Proposal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dfe.ManageFreeSchoolProjects.Services.Proposal;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 {
-    public class ProposalListModel(
-        IGetProjectOverviewService getProjectOverviewService,
+    public class ProposalDetailsModel(
         IGetProposalService getProposalService,
-        ILogger<ProposalListModel> logger
+        IGetProjectOverviewService getProjectOverviewService,
+        ILogger<ProposalDetailsModel> logger
     ) : PageModel
     {
         [BindProperty(SupportsGet = true, Name = "projectId")]
@@ -23,24 +22,27 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 
         public ProjectOverviewResponse Project { get; set; }
 
-        public List<GetProposalSummaryResponse> Proposals { get; set; }
+        [BindProperty(SupportsGet = true, Name = "rid")]
+        public string Rid { get; set; }
 
-        public async Task<IActionResult> OnGet()
+        public string BackLink { get; set; }
+
+        public ProposalResponse Proposal { get; set; }
+
+        public async Task<IActionResult> OnGetAsync()
         {
             logger.LogMethodEntered();
 
-            try
-            {
-                var projectId = RouteData.Values["projectId"] as string;
-                Project = await getProjectOverviewService.Execute(projectId);
+            var result = await getProposalService.ExecuteSingle(Rid);
 
-                var response = await getProposalService.ExecuteList(projectId);
-                Proposals = response.Data;
-            }
-            catch (Exception ex)
+            if (result == null || result.Data == null)
             {
-                logger.LogErrorMsg(ex);
+                return NotFound();
             }
+
+            Proposal = result.Data;
+
+            Project = await getProjectOverviewService.Execute(ProjectId);
 
             return Page();
         }

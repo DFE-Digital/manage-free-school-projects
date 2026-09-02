@@ -23,16 +23,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Controllers
         public async Task CreateProposal_WhenTheRequestIsValid_Returns201WithTheCreatedProposal()
         {
             var createService = Substitute.For<ICreateProposalService>();
-            var created = new CreateProposalResponse { Rid = "RID-1", ProjectId = ProjectId };
+            var created = new ProposalResponse { Rid = "RID-1", ProjectId = ProjectId };
             createService.Execute(Arg.Any<CreateProposalRequest>()).Returns(created);
 
-            var controller = BuildController(createService, Substitute.For<IGetProposalService>());
+            var updateService = Substitute.For<IUpdateProposalService>();
+            var controller = BuildController(createService, updateService, Substitute.For<IGetProposalService>());
 
             var result = await controller.CreateProposal(new CreateProposalRequest { ProjectId = ProjectId });
 
             var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
             objectResult.StatusCode.Should().Be(StatusCodes.Status201Created);
-            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<CreateProposalResponse>>()
+            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<ProposalResponse>>()
                 .Which.Data.Should().BeSameAs(created);
         }
 
@@ -40,7 +41,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Controllers
         public async Task CreateProposal_WhenThereIsNoProjectId_Returns400WithoutCreating()
         {
             var createService = Substitute.For<ICreateProposalService>();
-            var controller = BuildController(createService, Substitute.For<IGetProposalService>());
+            var updateService = Substitute.For<IUpdateProposalService>();
+            var controller = BuildController(createService, updateService, Substitute.For<IGetProposalService>());
 
             var result = await controller.CreateProposal(new CreateProposalRequest { ProjectId = null });
 
@@ -53,7 +55,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Controllers
         public async Task CreateProposal_WhenTheProjectIdIsMissing_Returns400WithoutCreating(string projectId)
         {
             var createService = Substitute.For<ICreateProposalService>();
-            var controller = BuildController(createService, Substitute.For<IGetProposalService>());
+            var updateService = Substitute.For<IUpdateProposalService>();
+            var controller = BuildController(createService, updateService, Substitute.For<IGetProposalService>());
 
             var result = await controller.CreateProposal(new CreateProposalRequest { ProjectId = projectId });
 
@@ -66,20 +69,20 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Controllers
         [Fact]
         public async Task GetProposalList_Returns200WithTheProposals()
         {
-            var proposals = new List<GetProposalResponse>
+            var proposals = new List<GetProposalSummaryResponse>
             {
                 new() { Rid = "RID-1", ProjectId = ProjectId, Proposer = ProposalProposer.Diocese }
             };
             var getService = Substitute.For<IGetProposalService>();
             getService.ExecuteList(ProjectId).Returns(proposals);
 
-            var controller = BuildController(Substitute.For<ICreateProposalService>(), getService);
+            var controller = BuildController(Substitute.For<ICreateProposalService>(), Substitute.For<IUpdateProposalService>(), getService);
 
-            var result = await controller.GetProjectTaskListSummary(ProjectId);
+            var result = await controller.GetProposals(ProjectId);
 
             var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
             objectResult.StatusCode.Should().Be(StatusCodes.Status200OK);
-            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<List<GetProposalResponse>>>()
+            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<List<GetProposalSummaryResponse>>>()
                 .Which.Data.Should().BeSameAs(proposals);
             await getService.Received(1).ExecuteList(ProjectId);
         }
@@ -90,21 +93,22 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Controllers
             var getService = Substitute.For<IGetProposalService>();
             getService.ExecuteList(ProjectId).Returns([]);
 
-            var controller = BuildController(Substitute.For<ICreateProposalService>(), getService);
+            var controller = BuildController(Substitute.For<ICreateProposalService>(), Substitute.For<IUpdateProposalService>(), getService);
 
-            var result = await controller.GetProjectTaskListSummary(ProjectId);
+            var result = await controller.GetProposals(ProjectId);
 
             var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
-            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<List<GetProposalResponse>>>()
+            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<List<GetProposalSummaryResponse>>>()
                 .Which.Data.Should().BeEmpty();
         }
 
         private static ProposalController BuildController(
-            ICreateProposalService createService, IGetProposalService getService)
+            ICreateProposalService createService, IUpdateProposalService updateService, IGetProposalService getService)
         {
             return new ProposalController(
                 createService,
                 getService,
+                updateService,
                 new CreateProposalRequestValidator(),
                 Substitute.For<ILogger<ProposalController>>());
         }

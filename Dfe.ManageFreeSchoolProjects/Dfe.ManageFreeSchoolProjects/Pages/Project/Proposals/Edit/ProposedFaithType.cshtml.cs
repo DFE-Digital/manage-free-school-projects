@@ -1,0 +1,108 @@
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
+using Dfe.ManageFreeSchoolProjects.Constants;
+using Dfe.ManageFreeSchoolProjects.Enums;
+using Dfe.ManageFreeSchoolProjects.Logging;
+using Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create;
+using Dfe.ManageFreeSchoolProjects.Services;
+using Dfe.ManageFreeSchoolProjects.Services.Proposal;
+using Dfe.ManageFreeSchoolProjects.Services.Trust;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
+{
+    public class ProposedFaithTypeModel(
+        IGetTrustByRefService getTrustByRefService,
+        IGetProposalService getProposalService,
+        IUpdateProposalService updateProposalService,
+        ILogger<SearchTrustByTrnModel> logger,
+        ErrorService errorService
+    ) : UpdateProposalBaseModel
+    {
+        [BindProperty(SupportsGet = true, Name = "projectId")]
+        public string ProjectId { get; set; }
+
+        [BindProperty(SupportsGet = true, Name = "rid")]
+        public string Rid { get; set; }
+
+        [BindProperty(Name = "faith-type")]
+        [Required(ErrorMessage = "Select the proposed faith type")]
+        public FaithType FaithType { get; set; }
+
+        [BindProperty(Name = "other-faith-type")]
+        [Display(Name = "Other faith type")]
+        public string OtherFaithType { get; set; }
+
+        public ProposalResponse Proposal { get; set; }
+
+        public async Task<IActionResult> OnGet()
+        {
+            logger.LogMethodEntered();
+
+            SetBackLink();
+
+            var proposal = await getProposalService.ExecuteSingle(Rid);
+
+            if (proposal == null || proposal.Data == null)
+            {
+                return NotFound();
+            }
+
+            Proposal = proposal.Data;
+
+            FaithType = Proposal.ProposedFaithType;
+            OtherFaithType = Proposal.OtherFaithType;
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPost()
+        {
+            logger.LogMethodEntered();
+
+            SetBackLink();
+
+            try
+            {
+                var proposal = await getProposalService.ExecuteSingle(Rid);
+                Proposal = proposal.Data;
+
+                var updateRequest = new UpdateProposalRequest
+                {
+                    Rid = Rid,
+                    Proposer = Proposal.Proposer,
+                    ProposedFaithType = FaithType,
+                    OtherFaithType = FaithType == FaithType.Other ? OtherFaithType : string.Empty
+                };
+
+                await updateProposalService.Execute(updateRequest);
+            }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    ModelState.AddModelError("trn", "Trust ID not found. Enter a different ID");
+                    errorService.AddErrors(ModelState.Keys, ModelState);
+
+                    return Page();
+                }
+
+                throw;
+            }
+
+            return Redirect(string.Format(RouteConstants.Proposals_Details, ProjectId, Rid));
+        }
+
+        private void SetBackLink()
+        {
+            BackLink = string.Format(RouteConstants.Proposals_Details, ProjectId, Rid);
+        }
+    }
+}
