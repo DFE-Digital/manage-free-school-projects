@@ -82,7 +82,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
         private void SetBackLink()
         {
-            BackLink = string.Format(RouteConstants.Proposals_Details, ProjectId);
+            BackLink = string.Format(RouteConstants.Proposals_Details, ProjectId, Rid);
         }
     }
 }
