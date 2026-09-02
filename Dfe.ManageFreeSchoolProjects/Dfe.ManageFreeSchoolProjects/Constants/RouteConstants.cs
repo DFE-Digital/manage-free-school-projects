@@ -29,7 +29,10 @@
         public const string Proposals_Create_Joint_Proposal_Local_Authority = Proposals + "/create/joint-proposal-local-authority";
 
         public const string Proposals_Create_Name_Of_Diocese = Proposals + "/create/name-of-diocese";
+        public const string Proposals_Edit_Name_Of_Diocese = Proposals + "/{1}/name-of-diocese";
+
         public const string Proposals_Create_Faith_Of_Diocese = Proposals + "/create/faith-of-diocese";
+        public const string Proposals_Edit_Faith_Of_Diocese = Proposals + "/{1}/faith-of-diocese";
 
         public const string Proposals_Create_Name_Of_Other_Religious_Organisation = Proposals + "/create/name-of-other-religious-organisation";
         public const string Proposals_Create_Faith_Of_Other_Religious_Organisation = Proposals + "/create/faith-of-other-religious-organisation";

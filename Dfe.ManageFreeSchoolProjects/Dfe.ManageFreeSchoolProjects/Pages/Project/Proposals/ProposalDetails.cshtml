@@ -46,6 +46,12 @@
                 @RenderSummaryRow("Trust type", Model.Proposal.TrustType.ToDescription(), string.Format(RouteConstants.Proposals_Edit_SearchTrustByTRN, Model.ProjectId, Model.Proposal.Rid))
             }
 
+            @if (Model.Proposal.Proposer == ProposalProposer.Diocese)
+            {
+                @RenderSummaryRow("Name of Diocese", Model.Proposal.NameOfDiocese, string.Format(RouteConstants.Proposals_Edit_Name_Of_Diocese, Model.ProjectId, Model.Proposal.Rid))
+                @RenderSummaryRow("Faith of Diocese", Model.Proposal.FaithOfDiocese.ToDescription(), string.Format(RouteConstants.Proposals_Edit_Faith_Of_Diocese, Model.ProjectId, Model.Proposal.Rid))
+            }
+
             @RenderSummaryRow("Is the proposal for a school with a religious character or religious ethos", Model.Proposal.ProposedFaithStatus.ToString(), string.Format(RouteConstants.Proposals_Edit_Proposed_Faith_Status, Model.ProjectId, Model.Proposal.Rid))
             @RenderSummaryRow("Proposed faith of new school", Model.Proposal.ProposedFaithType.ToDescription(), string.Format(RouteConstants.Proposals_Edit_Proposed_Faith_Type, Model.ProjectId, Model.Proposal.Rid))
             @RenderSummaryRow("If other, which faith is it", Model.Proposal.OtherFaithType, string.Format(RouteConstants.Proposals_Edit_Proposed_Faith_Type, Model.ProjectId, Model.Proposal.Rid))
