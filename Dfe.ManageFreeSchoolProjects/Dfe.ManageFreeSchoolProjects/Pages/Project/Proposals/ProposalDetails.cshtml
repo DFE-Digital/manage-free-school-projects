@@ -22,7 +22,7 @@
 {
     <mfsp-project-header project-id="@Model.ProjectId"
                          school-name="@Model.Project.ProjectStatus.CurrentFreeSchoolName"
-                         back-link="/"
+                         back-link="/projects/@Model.ProjectId/proposals"
                          back-text="Back"
                          page-title="Proposals"
                          project-status="@projectStatusViewModel" />
@@ -45,11 +45,16 @@
                 @RenderSummaryRow("Trust name", Model.Proposal.TrustName, string.Format(RouteConstants.Proposals_Edit_SearchTrustByTRN, Model.ProjectId, Model.Proposal.Rid))
                 @RenderSummaryRow("Trust type", Model.Proposal.TrustType.ToDescription(), string.Format(RouteConstants.Proposals_Edit_SearchTrustByTRN, Model.ProjectId, Model.Proposal.Rid))
             }
-
-            @if (Model.Proposal.Proposer == ProposalProposer.Diocese)
+            else if (Model.Proposal.Proposer == ProposalProposer.Diocese)
             {
                 @RenderSummaryRow("Name of Diocese", Model.Proposal.NameOfDiocese, string.Format(RouteConstants.Proposals_Edit_Name_Of_Diocese, Model.ProjectId, Model.Proposal.Rid))
                 @RenderSummaryRow("Faith of Diocese", Model.Proposal.FaithOfDiocese.ToDescription(), string.Format(RouteConstants.Proposals_Edit_Faith_Of_Diocese, Model.ProjectId, Model.Proposal.Rid))
+            }
+            else if (Model.Proposal.Proposer == ProposalProposer.AnotherReligiousOrganisation)
+            {
+                @RenderSummaryRow("Name of other religious organistation", Model.Proposal.NameOfOtherReligiousOrganisation, string.Format(RouteConstants.Proposals_Edit_Name_Of_Other_Religious_Organisation, Model.ProjectId, Model.Proposal.Rid))
+                @RenderSummaryRow("Faith of other religious organisation", Model.Proposal.FaithTypeOfOtherReligiousOrganisation.ToDescription(), string.Format(RouteConstants.Proposals_Edit_Faith_Of_Other_Religious_Organisation, Model.ProjectId, Model.Proposal.Rid))
+                @RenderSummaryRow("If other, which faith is it", Model.Proposal.OtherFaithTypeOfOtherReligiousOrganisation, string.Format(RouteConstants.Proposals_Edit_Faith_Of_Other_Religious_Organisation, Model.ProjectId, Model.Proposal.Rid))
             }
 
             @RenderSummaryRow("Is the proposal for a school with a religious character or religious ethos", Model.Proposal.ProposedFaithStatus.ToString(), string.Format(RouteConstants.Proposals_Edit_Proposed_Faith_Status, Model.ProjectId, Model.Proposal.Rid))

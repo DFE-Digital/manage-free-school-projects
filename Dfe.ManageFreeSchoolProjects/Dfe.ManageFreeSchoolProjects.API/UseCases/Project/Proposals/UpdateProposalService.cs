@@ -43,7 +43,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
                 case ProposalProposer.AnotherReligiousOrganisation:
                     entity.NameOfOtherReligiousOrganisation = string.IsNullOrEmpty(updateRequest.NameOfOtherReligiousOrganisation) ? entity.NameOfOtherReligiousOrganisation : updateRequest.NameOfOtherReligiousOrganisation;
                     entity.FaithTypeOfOtherReligiousOrganisation = updateRequest.FaithTypeOfOtherReligiousOrganisation != null ? ProjectMapper.ToFaithType(updateRequest.FaithTypeOfOtherReligiousOrganisation.Value) : entity.FaithTypeOfOtherReligiousOrganisation;
-                    entity.OtherFaithTypeOfOtherReligiousOrganisation = string.IsNullOrEmpty(updateRequest.OtherFaithTypeOfOtherReligiousOrganisation) ? entity.OtherFaithTypeOfOtherReligiousOrganisation : updateRequest.OtherFaithTypeOfOtherReligiousOrganisation;
+                    entity.OtherFaithTypeOfOtherReligiousOrganisation = updateRequest.FaithTypeOfOtherReligiousOrganisation == FaithType.Other ? updateRequest.OtherFaithTypeOfOtherReligiousOrganisation : null;
                     break;
                 case ProposalProposer.LocalAuthorityThatPushedSpecification:
                     break;

@@ -35,7 +35,10 @@
         public const string Proposals_Edit_Faith_Of_Diocese = Proposals + "/{1}/faith-of-diocese";
 
         public const string Proposals_Create_Name_Of_Other_Religious_Organisation = Proposals + "/create/name-of-other-religious-organisation";
+        public const string Proposals_Edit_Name_Of_Other_Religious_Organisation = Proposals + "/{1}/name-of-other-religious-organisation";
+        
         public const string Proposals_Create_Faith_Of_Other_Religious_Organisation = Proposals + "/create/faith-of-other-religious-organisation";
+        public const string Proposals_Edit_Faith_Of_Other_Religious_Organisation = Proposals + "/{1}/faith-of-other-religious-organisation";
 
         public const string Proposals_Create_Check_Your_Answers = Proposals + "/create/check-your-answers";
 

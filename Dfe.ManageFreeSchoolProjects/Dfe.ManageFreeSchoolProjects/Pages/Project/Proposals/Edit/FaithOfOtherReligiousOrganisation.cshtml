@@ -1,7 +1,6 @@
-﻿@page "/projects/{projectId}/proposals/create/faith-of-other-religious-organisation"
+﻿@page "/projects/{projectId}/proposals/{rid}/faith-of-other-religious-organisation"
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
-
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.FaithOfOtherReligiousOrganisationModel
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.FaithOfOtherReligiousOrganisationModel
 
 @{
     ViewData["Title"] = "What is the faith type of the other religious organisation?";
@@ -34,7 +33,7 @@
                 Continue
             </button>
         </form>
-    </div>  
+    </div>
 </div>
 
 <script type="application/javascript" asp-add-nonce>
