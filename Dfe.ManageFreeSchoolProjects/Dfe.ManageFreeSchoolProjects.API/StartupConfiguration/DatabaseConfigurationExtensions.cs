@@ -1,4 +1,6 @@
 using Dfe.ManageFreeSchoolProjects.Data;
+using Dfe.ManageFreeSchoolProjects.Data.CompiledModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration;
 
@@ -9,11 +11,16 @@ public static class DatabaseConfigurationExtensions
 		var connectionString = configuration.GetConnectionString("DefaultConnection");
 		services.AddHttpContextAccessor();
 
-		services.AddDbContext<MfspContext>(options =>
-			options.UseMfspSqlServer(connectionString)
-		);
+		services.AddSingleton<AuditInterceptor>();
 
-		services.AddScoped<AuditInterceptor, AuditInterceptor>();
+		services.AddDbContextPool<MfspContext>((serviceProvider, options) =>
+		{
+			options.UseMfspSqlServer(connectionString);
+			options.UseModel(MfspContextModel.Instance);
+			options.AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>());
+		});
+
+		services.AddHostedService<DatabaseWarmupHostedService>();
 
 		AddDbHealthCheck(services);
 

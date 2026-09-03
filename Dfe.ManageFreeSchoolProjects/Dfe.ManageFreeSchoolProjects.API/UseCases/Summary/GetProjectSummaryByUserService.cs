@@ -17,6 +17,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
     public record GetProjectSummaryByUserParameters
     {
         public string ProjectManagedByEmail { get; set; }
+        public int Page { get; set; }
+        public int Count { get; set; }
     }
 
     public class GetProjectSummaryByUserService(
@@ -32,9 +34,12 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
             var isFirstBusinessRequestInProcess = ResolveIsFirstBusinessRequest();
             var totalStopwatch = Stopwatch.StartNew();
 
-            var query = context.Kpi.AsQueryable();
+            if (string.IsNullOrWhiteSpace(parameters.ProjectManagedByEmail))
+            {
+                return ([], 0);
+            }
 
-            query = ApplyFilters(query, parameters);
+            var query = ApplyFilters(context.Kpi.AsQueryable(), parameters);
 
             var countStopwatch = Stopwatch.StartNew();
             var count = await query.CountAsync();
@@ -44,38 +49,36 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
             var timeToFirstEfQueryMs = totalStopwatch.Elapsed.TotalMilliseconds;
 
             var toListStopwatch = Stopwatch.StartNew();
-            var projectRecords = await
-                query
-                    .Select(
-                        e => new
-                        {
-                            Kpi = e,
-                            PeriodStart = EF.Property<DateTime>(e, "PeriodStart"),
-                            PeriodEnd = EF.Property<DateTime>(e, "PeriodEnd")
-                        })
-                    .OrderByDescending(record => record.Kpi.ProjectStatusProvisionalOpeningDateAgreedWithTrust)
-                    .ThenBy(record => record.Kpi.ProjectStatusCurrentFreeSchoolName)
-                    .ToListAsync();
+            var result = await query
+                .OrderByDescending(kpi => kpi.ProjectStatusProvisionalOpeningDateAgreedWithTrust)
+                .ThenBy(kpi => kpi.ProjectStatusCurrentFreeSchoolName)
+                .Paginate(parameters.Page, parameters.Count)
+                .Select(kpi => new GetProjectSummaryResponse
+                {
+                    ProjectId = kpi.ProjectStatusProjectId,
+                    ProjectTitle = kpi.ProjectStatusCurrentFreeSchoolName,
+                    TrustName = kpi.TrustName,
+                    LocalAuthority = kpi.LocalAuthority,
+                    RealisticOpeningYear = kpi.ProjectStatusRealisticYearOfOpening,
+                    Region = kpi.SchoolDetailsGeographicalRegion,
+                    ProjectManagedBy = kpi.KeyContactsFsgLeadContact,
+                    ProjectType = kpi.ProjectStatusFreeSchoolApplicationWave == "FS - Presumption"
+                        ? "Presumption"
+                        : "Central Route",
+                    ProjectManagedByEmail = kpi.KeyContactsFsgLeadContactEmail,
+                    ProjectStatus = kpi.ProjectStatusProjectStatus,
+                    SchoolType = kpi.SchoolDetailsSchoolTypeMainstreamApEtc,
+                    UpdatedAt = EF.Property<DateTime>(kpi, "PeriodStart")
+                })
+                .ToListAsync();
             toListStopwatch.Stop();
 
             var mappingStopwatch = Stopwatch.StartNew();
-            var result = projectRecords.Select(record => new GetProjectSummaryResponse()
+            foreach (var summary in result)
             {
-                ProjectId = record.Kpi.ProjectStatusProjectId,
-                ProjectTitle = record.Kpi.ProjectStatusCurrentFreeSchoolName,
-                TrustName = record.Kpi.TrustName,
-                LocalAuthority = record.Kpi.LocalAuthority,
-                RealisticOpeningYear = record.Kpi.ProjectStatusRealisticYearOfOpening,
-                Region = record.Kpi.SchoolDetailsGeographicalRegion,
-                ProjectManagedBy = record.Kpi.KeyContactsFsgLeadContact,
-                ProjectType = record.Kpi.ProjectStatusFreeSchoolApplicationWave == "FS - Presumption"
-                    ? "Presumption"
-                    : "Central Route",
-                ProjectManagedByEmail = record.Kpi.KeyContactsFsgLeadContactEmail,
-                ProjectStatus = ProjectMapper.ToProjectStatusType(record.Kpi.ProjectStatusProjectStatus).ToDescription(),
-                SchoolType = ProjectMapper.ToSchoolType(record.Kpi.SchoolDetailsSchoolTypeMainstreamApEtc).ToDescription(),
-                UpdatedAt = record.PeriodStart
-            }).ToList();
+                summary.ProjectStatus = ProjectMapper.ToProjectStatusType(summary.ProjectStatus).ToDescription();
+                summary.SchoolType = ProjectMapper.ToSchoolType(summary.SchoolType).ToDescription();
+            }
             mappingStopwatch.Stop();
 
             totalStopwatch.Stop();
