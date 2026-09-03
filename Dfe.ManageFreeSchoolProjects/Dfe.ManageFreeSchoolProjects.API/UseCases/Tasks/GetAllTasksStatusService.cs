@@ -89,6 +89,13 @@ public class GetAllTasksStatusService : IGetTasksService
                 SafeRetrieveTaskSummary(projectTasks, TaskName.CommissionedExternalExpert.ToString()),
             MovingToOpen = SafeRetrieveTaskSummary(projectTasks, TaskName.MovingToOpen.ToString()),
             PrincipalDesignate = SafeRetrieveTaskSummary(projectTasks, TaskName.PrincipalDesignate.ToString()),
+            NewSchoolSpecificationPublicationDate = SafeRetrieveTaskSummary(projectTasks, "NewSchoolSpecificationPublicationDate"),
+            NewSchoolClosingDateForProposals = SafeRetrieveTaskSummary(projectTasks, "NewSchoolClosingDateForProposals"),
+            NewSchoolDecisionMaker = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDecisionMaker"),
+            NewSchoolDateOfDecision = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDateOfDecision"),
+            NewSchoolDecision = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDecision"),
+            NewSchoolConditions = SafeRetrieveTaskSummary(projectTasks, "NewSchoolConditions"),
+            NewSchoolDateForConditionsToBeMet = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDateForConditionsToBeMet")
         };
 
         var applicationsEvidenceTask = SafeRetrieveTaskSummary(projectTasks, TaskName.ApplicationsEvidence.ToString());

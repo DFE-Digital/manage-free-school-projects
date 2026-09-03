@@ -17,7 +17,7 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "10.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -4378,6 +4378,30 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(32)")
                         .HasColumnName("MAT Unit Projects");
+
+                    b.Property<DateTime?>("NewSchoolClosingDateForProposals")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NewSchoolConditions")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewSchoolConditionsDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NewSchoolDateForConditionsToBeMet")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NewSchoolDateOfDecision")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NewSchoolDecision")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewSchoolDecisionMaker")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NewSchoolSpecificationPublicationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PRid")
                         .HasMaxLength(11)
@@ -9445,6 +9469,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("Project Development Grant Funding.Underwrite approved by");
 
+                    b.Property<string>("PupilNumbersAndCapacityAPResourcesProvision")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PupilNumbersAndCapacityAcademicYearFifthYear")
                         .HasMaxLength(100)
                         .IsUnicode(false)
@@ -10462,6 +10489,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("Pupil numbers and capacity.% received applications vs viability YR-Y6");
+
+                    b.Property<string>("PupilNumbersAndCapacitySENResourcedProvisionSENUnit")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PupilNumbersAndCapacitySpecialistResourceProvisionAp")
                         .HasMaxLength(100)
@@ -11558,6 +11588,134 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .HasColumnName("Tenure highlight");
 
                     b.ToTable("Property_QA", "dbo");
+                });
+
+            modelBuilder.Entity("Dfe.ManageFreeSchoolProjects.Data.Entities.Existing.Proposal", b =>
+                {
+                    b.Property<string>("Rid")
+                        .HasMaxLength(11)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(11)")
+                        .HasColumnName("RID");
+
+                    b.Property<string>("FaithOfDiocese")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("FaithOfDiocese");
+
+                    b.Property<string>("FaithTypeOfOtherReligiousOrganisation")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("FaithTypeOfOtherReligiousOrganisation");
+
+                    b.Property<string>("JointProposalLocalAuthority")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("JointProposalLocalAuthority");
+
+                    b.Property<string>("NameOfDiocese")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("NameOfDiocese");
+
+                    b.Property<string>("NameOfOtherReligiousOrganisation")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("NameOfOtherReligiousOrganisation");
+
+                    b.Property<string>("OtherFaithType")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("OtherFaithType");
+
+                    b.Property<string>("OtherFaithTypeOfOtherReligiousOrganisation")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("OtherFaithTypeOfOtherReligiousOrganisation");
+
+                    b.Property<string>("OtherLocalAuthority")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("OtherLocalAuthority");
+
+                    b.Property<DateTime>("PeriodEnd")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodEnd");
+
+                    b.Property<DateTime>("PeriodStart")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("PeriodStart");
+
+                    b.Property<string>("ProjectId")
+                        .HasMaxLength(25)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(25)")
+                        .HasColumnName("ProjectId");
+
+                    b.Property<string>("ProposedFaithStatus")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("ProposedFaithStatus");
+
+                    b.Property<string>("ProposedFaithType")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("ProposedFaithType");
+
+                    b.Property<string>("Proposer")
+                        .HasMaxLength(200)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("TrustName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("TrustName");
+
+                    b.Property<string>("TrustReferenceNumber")
+                        .HasMaxLength(7)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(7)")
+                        .HasColumnName("TrustReferenceNumber");
+
+                    b.Property<string>("TrustType")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("TrustType");
+
+                    b.Property<int?>("UpdatedByUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Rid");
+
+                    b.HasIndex("UpdatedByUserId");
+
+                    b.ToTable("Proposal", "dbo");
+
+                    b.ToTable(tb => tb.IsTemporal(ttb =>
+                            {
+                                ttb.UseHistoryTable("ProposalHistory", "dbo");
+                                ttb
+                                    .HasPeriodStart("PeriodStart")
+                                    .HasColumnName("PeriodStart");
+                                ttb
+                                    .HasPeriodEnd("PeriodEnd")
+                                    .HasColumnName("PeriodEnd");
+                            }));
                 });
 
             modelBuilder.Entity("Dfe.ManageFreeSchoolProjects.Data.Entities.Existing.Rag", b =>
@@ -12994,6 +13152,13 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                 });
 
             modelBuilder.Entity("Dfe.ManageFreeSchoolProjects.Data.Entities.Existing.Property", b =>
+                {
+                    b.HasOne("Dfe.ManageFreeSchoolProjects.Data.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UpdatedByUserId");
+                });
+
+            modelBuilder.Entity("Dfe.ManageFreeSchoolProjects.Data.Entities.Existing.Proposal", b =>
                 {
                     b.HasOne("Dfe.ManageFreeSchoolProjects.Data.Entities.User", null)
                         .WithMany()

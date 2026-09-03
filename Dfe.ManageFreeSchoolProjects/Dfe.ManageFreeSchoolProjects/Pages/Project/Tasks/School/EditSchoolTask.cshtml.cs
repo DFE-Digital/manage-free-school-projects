@@ -30,7 +30,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
         public string ProjectId { get; set; }
 
         [BindProperty(Name = "current-free-school-name")]
-        [Display(Name = "Current free school name")]
+        [Display(Name = "Current school name")]
         [ValidText(100)]
         [Required]
         public  string CurrentFreeSchoolName { get; set; }

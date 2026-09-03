@@ -15,6 +15,7 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
 
         public static readonly ImmutableList<NavItem> NavItemList = [
             new NavItem { Description = "About the project", Link = RouteConstants.ProjectOverview },
+            //new NavItem { Description = "Proposals", Link = RouteConstants.Proposals },
             new NavItem { Description = "Task list", Link = RouteConstants.TaskList },
             new NavItem { Description = "Risk rating and summary", Link = RouteConstants.ProjectRiskRatingAndSummary },
             new NavItem { Description = "Contacts", Link = RouteConstants.Contacts },

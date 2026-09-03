@@ -29,6 +29,6 @@ public static class DatabaseConfigurationExtensions
 
 	public static void AddDbHealthCheck(IServiceCollection services) {
 		services.AddHealthChecks()
-			.AddDbContextCheck<MfspContext>("Manage Free School Projects Database");
+			.AddDbContextCheck<MfspContext>("Manage School Projects Database");
 	}
 }

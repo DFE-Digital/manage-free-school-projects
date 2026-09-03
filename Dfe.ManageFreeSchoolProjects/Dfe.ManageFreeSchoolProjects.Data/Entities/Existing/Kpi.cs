@@ -435,5 +435,21 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
         public string RyooWd { get; set; }
 
         public string UpperStatus { get; set; }
+
+        public DateTime? NewSchoolSpecificationPublicationDate { get; set; }
+
+        public DateTime? NewSchoolClosingDateForProposals { get; set; }
+
+        public string NewSchoolDecisionMaker { get; set; }
+
+        public DateTime? NewSchoolDateOfDecision { get; set; }
+
+        public string NewSchoolConditions { get; set; }
+
+        public string NewSchoolConditionsDescription { get; set; }
+
+        public string NewSchoolDecision { get; set; }
+
+        public DateTime? NewSchoolDateForConditionsToBeMet { get; set; }
     }
 }

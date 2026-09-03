@@ -32,7 +32,7 @@ public class EditLocalAuthority : PageModel
     public string Region { get; set; }
 
     [BindProperty(Name = "local-authority")]
-    [Required(ErrorMessage = "Select the local authority of the free school.")]
+    [Required(ErrorMessage = "Select the local authority of the school.")]
     public string LocalAuthority { get; set; }
 
     public GetProjectByTaskResponse Project { get; set; }

@@ -5,7 +5,9 @@
 @{
     ViewData["Title"] = "What is the faith status?";
 
-    var faithStatuses = Enum.GetValues<FaithStatus>().Except(new[] { FaithStatus.NotSet }).Select(x => x.ToString()).ToArray();
+    var faithStatusValues = Enum.GetValues<FaithStatus>().Except(new[] { FaithStatus.NotSet }).ToArray();
+    var faithStatuses = faithStatusValues.Select(x => x.ToString()).ToArray();
+    var faithStatusHints = faithStatusValues.Select(x => x.ToDescriptionOrEmpty()).ToArray();
 }
 
 @section BeforeMain {
@@ -23,7 +25,8 @@
                             asp-for="@Model.FaithStatus"
                             data-testid="faith-status"
                             labels="@faithStatuses"
-                            values="@faithStatuses"/>
+                            values="@faithStatuses"
+                            hints="@faithStatusHints"/>
         
         <br/>
         <button class="govuk-button" data-module="govuk-button" data-testid="continue">
