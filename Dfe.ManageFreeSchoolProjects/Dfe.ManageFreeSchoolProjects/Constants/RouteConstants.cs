@@ -29,7 +29,10 @@
         public const string Proposals_Edit_Other_Local_Authority = Proposals + "/{1}/region/{2}/other-local-authority";
 
         public const string Proposals_Create_Joint_Proposal_Region = Proposals + "/create/joint-proposal-region";
+        public const string Proposals_Edit_Joint_Proposal_Region = Proposals + "/{1}/joint-proposal-region";
+
         public const string Proposals_Create_Joint_Proposal_Local_Authority = Proposals + "/create/joint-proposal-local-authority";
+        public const string Proposals_Edit_Joint_Proposal_Local_Authority = Proposals + "/{1}/region/{2}/joint-proposal-local-authority";
 
         public const string Proposals_Create_Name_Of_Diocese = Proposals + "/create/name-of-diocese";
         public const string Proposals_Edit_Name_Of_Diocese = Proposals + "/{1}/name-of-diocese";
@@ -46,8 +49,6 @@
         public const string Proposals_Create_Check_Your_Answers = Proposals + "/create/check-your-answers";
 
         
-
-
         public const string TaskList = "/projects/{0}/tasks";
         public const string Contacts = "/projects/{0}/contacts";
         public const string CreateProject = "/project/create";

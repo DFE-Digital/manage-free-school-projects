@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 {
-    public class OtherLocalAuthorityRegionModel(
+    public class JointProposalRegionModel(
         IGetProposalService getProposalService,
         ILogger<OtherLocalAuthorityRegionModel> logger,
         ErrorService errorService
@@ -48,7 +48,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
             Proposal = proposal.Data;
 
-            var region = GetProjectRegion(Proposal.OtherLocalAuthorityRegion);
+            var region = GetProjectRegion(Proposal.JointProposalLocalAuthorityRegion);
 
             Region = region.ToString();
 
@@ -72,7 +72,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
             var region = (int)Enum.Parse<ProjectRegion>(Region);
 
-            return Redirect(string.Format(RouteConstants.Proposals_Edit_Other_Local_Authority, ProjectId, Rid, region));
+            return Redirect(string.Format(RouteConstants.Proposals_Edit_Joint_Proposal_Local_Authority, ProjectId, Rid, region));
         }
 
         private void SetBackLink()

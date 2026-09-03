@@ -15,11 +15,11 @@ using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 {
-    public class OtherLocalAuthorityModel(
+    public class JointProposalLocalAuthorityModel(
         IGetProposalService getProposalService,
         IGetLocalAuthoritiesService getLocalAuthoritiesService,
         IUpdateProposalService updateProposalService,
-        ILogger<OtherLocalAuthorityModel> logger,
+        ILogger<JointProposalLocalAuthorityModel> logger,
         ErrorService errorService
     ) : UpdateProposalBaseModel
     {
@@ -59,7 +59,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
             LocalAuthorities = await GetLocalAuthoritiesByRegion(Region);
 
-            LocalAuthority = Proposal.OtherLocalAuthority;
+            LocalAuthority = Proposal.JointProposalLocalAuthority;
 
             return Page();
         }
@@ -85,8 +85,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
             {
                 Rid = Rid,
                 Proposer = Proposal.Proposer,
-                OtherLocalAuthorityRegion = Region,
-                OtherLocalAuthority = LocalAuthority
+                JointProposalLocalAuthorityRegion = Region,
+                JointProposalLocalAuthority = LocalAuthority
             };
 
             await updateProposalService.Execute(updateRequest);

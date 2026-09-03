@@ -1,6 +1,7 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
+using Dfe.ManageFreeSchoolProjects.API.Extensions;
 using Dfe.ManageFreeSchoolProjects.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,9 +49,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
                 case ProposalProposer.LocalAuthorityThatPushedSpecification:
                     break;
                 case ProposalProposer.AnotherLocalAuthority:
+                    entity.OtherLocalAuthorityRegion = updateRequest.OtherLocalAuthorityRegion != null ? updateRequest.OtherLocalAuthorityRegion.ToDescription() : entity.OtherLocalAuthorityRegion;
                     entity.OtherLocalAuthority = string.IsNullOrEmpty(updateRequest.OtherLocalAuthority) ? entity.OtherLocalAuthority : updateRequest.OtherLocalAuthority;
                     break;
                 case ProposalProposer.JointProposal:
+                    entity.JointProposalLocalAuthorityRegion = updateRequest.JointProposalLocalAuthorityRegion != null ? updateRequest.JointProposalLocalAuthorityRegion.ToDescription() : entity.JointProposalLocalAuthorityRegion;
                     entity.JointProposalLocalAuthority = string.IsNullOrEmpty(updateRequest.JointProposalLocalAuthority) ? entity.JointProposalLocalAuthority : updateRequest.JointProposalLocalAuthority;
                     break;
                 default:

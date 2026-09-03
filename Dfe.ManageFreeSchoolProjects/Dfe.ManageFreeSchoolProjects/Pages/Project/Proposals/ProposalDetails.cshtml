@@ -60,6 +60,10 @@
             {
                 @RenderSummaryRow("Name of another Local authority", Model.Proposal.OtherLocalAuthority, string.Format(RouteConstants.Proposals_Edit_Other_Local_Authority_Region, Model.ProjectId, Model.Proposal.Rid))
             }
+            else if (Model.Proposal.Proposer == ProposalProposer.JointProposal)
+            {
+                @RenderSummaryRow("Name of another LA that has submitted a joint proposal with the LA that has published the specification", Model.Proposal.JointProposalLocalAuthority, string.Format(RouteConstants.Proposals_Edit_Joint_Proposal_Region, Model.ProjectId, Model.Proposal.Rid))
+            }
 
             @RenderSummaryRow("Is the proposal for a school with a religious character or religious ethos", Model.Proposal.ProposedFaithStatus.ToString(), string.Format(RouteConstants.Proposals_Edit_Proposed_Faith_Status, Model.ProjectId, Model.Proposal.Rid))
             @RenderSummaryRow("Proposed faith of new school", Model.Proposal.ProposedFaithType.ToDescription(), string.Format(RouteConstants.Proposals_Edit_Proposed_Faith_Type, Model.ProjectId, Model.Proposal.Rid))
