@@ -21,7 +21,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
                 FaithTypeOfOtherReligiousOrganisation = proposal.FaithTypeOfOtherReligiousOrganisation != null ? ProjectMapper.ToFaithType(proposal.FaithTypeOfOtherReligiousOrganisation) : null,
                 OtherFaithTypeOfOtherReligiousOrganisation = proposal.OtherFaithTypeOfOtherReligiousOrganisation,
                 OtherLocalAuthority = proposal.OtherLocalAuthority,
+                OtherLocalAuthorityRegion = proposal.OtherLocalAuthorityRegion,
                 JointProposalLocalAuthority = proposal.JointProposalLocalAuthority,
+                JointProposalLocalAuthorityRegion = proposal.JointProposalLocalAuthorityRegion,
                 ProposedFaithStatus = ProjectMapper.ToFaithStatus(proposal.ProposedFaithStatus),
                 ProposedFaithType = ProjectMapper.ToFaithType(proposal.ProposedFaithType),
                 OtherFaithType = proposal.OtherFaithType

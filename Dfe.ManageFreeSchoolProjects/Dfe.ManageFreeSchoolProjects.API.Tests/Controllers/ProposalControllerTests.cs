@@ -109,6 +109,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Controllers
                 createService,
                 getService,
                 updateService,
+                new UpdateProposalRequestValidator(),
                 new CreateProposalRequestValidator(),
                 Substitute.For<ILogger<ProposalController>>());
         }

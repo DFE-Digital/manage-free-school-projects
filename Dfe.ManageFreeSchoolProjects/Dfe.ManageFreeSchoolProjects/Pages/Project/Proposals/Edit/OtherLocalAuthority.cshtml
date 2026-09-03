@@ -1,5 +1,5 @@
-@page "/projects/{projectId}/proposals/create/other-local-authority"
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.OtherLocalAuthorityModel
+﻿@page "/projects/{projectId}/proposals/{rid}/region/{region}/other-local-authority"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.OtherLocalAuthorityModel
 @using Dfe.ManageFreeSchoolProjects.ViewModels
 
 @{
@@ -15,6 +15,8 @@
 
 <partial name="_ProposalLocalAuthoritySelection"
          model="@(new ProposalLocalAuthoritySelectionViewModel {
+             Mode = LocalAuthoritySelectionMode.Edit,
              Title = title,
              LocalAuthority = Model.LocalAuthority,
-             LocalAuthorities = Model.LocalAuthorities })" />
+             LocalAuthorities = Model.LocalAuthorities,
+             ButtonText = "Save and return" })" />

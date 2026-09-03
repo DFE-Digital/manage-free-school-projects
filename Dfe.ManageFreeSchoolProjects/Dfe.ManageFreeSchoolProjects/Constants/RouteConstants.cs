@@ -23,7 +23,10 @@
         public const string Proposals_Edit_Proposed_Faith_Type = Proposals + "/{1}/proposed-faith-type";
 
         public const string Proposals_Create_Other_Local_Authority_Region = Proposals + "/create/other-local-authority-region";
+        public const string Proposals_Edit_Other_Local_Authority_Region = Proposals + "/{1}/other-local-authority-region";
+
         public const string Proposals_Create_Other_Local_Authority = Proposals + "/create/other-local-authority";
+        public const string Proposals_Edit_Other_Local_Authority = Proposals + "/{1}/region/{2}/other-local-authority";
 
         public const string Proposals_Create_Joint_Proposal_Region = Proposals + "/create/joint-proposal-region";
         public const string Proposals_Create_Joint_Proposal_Local_Authority = Proposals + "/create/joint-proposal-local-authority";

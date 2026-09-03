@@ -4,6 +4,7 @@ using Dfe.ManageFreeSchoolProjects.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
 {
     [DbContext(typeof(MfspContext))]
-    partial class MfspContextModelSnapshot : ModelSnapshot
+    [Migration("20260903002517_Add_OtherLocalAuthorityRegion_Column_To_Proposal_Table")]
+    partial class Add_OtherLocalAuthorityRegion_Column_To_Proposal_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -11612,12 +11615,6 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("JointProposalLocalAuthority");
-
-                    b.Property<string>("JointProposalLocalAuthorityRegion")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("JointProposalLocalAuthorityRegion");
 
                     b.Property<string>("NameOfDiocese")
                         .HasMaxLength(100)

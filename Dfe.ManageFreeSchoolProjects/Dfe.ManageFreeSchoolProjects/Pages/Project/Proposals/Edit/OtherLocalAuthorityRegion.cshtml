@@ -1,0 +1,17 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/other-local-authority-region"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.OtherLocalAuthorityRegionModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+
+@{
+    var title = "Which region is the other local authority in?";
+    ViewData["Title"] = title;
+}
+
+@section BeforeMain {
+    <nav class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </nav>
+}
+
+<partial name="_ProposalRegionSelection"
+         model="@(new ProposalRegionSelectionViewModel { Mode = RegionSelectionMode.Edit, Title = title, Region = Model.Region, ButtonText = "Save and continue" })" />

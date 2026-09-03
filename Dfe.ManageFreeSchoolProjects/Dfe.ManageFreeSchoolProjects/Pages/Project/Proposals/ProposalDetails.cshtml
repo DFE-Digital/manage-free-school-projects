@@ -56,6 +56,10 @@
                 @RenderSummaryRow("Faith of other religious organisation", Model.Proposal.FaithTypeOfOtherReligiousOrganisation.ToDescription(), string.Format(RouteConstants.Proposals_Edit_Faith_Of_Other_Religious_Organisation, Model.ProjectId, Model.Proposal.Rid))
                 @RenderSummaryRow("If other, which faith is it", Model.Proposal.OtherFaithTypeOfOtherReligiousOrganisation, string.Format(RouteConstants.Proposals_Edit_Faith_Of_Other_Religious_Organisation, Model.ProjectId, Model.Proposal.Rid))
             }
+            else if (Model.Proposal.Proposer == ProposalProposer.AnotherLocalAuthority)
+            {
+                @RenderSummaryRow("Name of another Local authority", Model.Proposal.OtherLocalAuthority, string.Format(RouteConstants.Proposals_Edit_Other_Local_Authority_Region, Model.ProjectId, Model.Proposal.Rid))
+            }
 
             @RenderSummaryRow("Is the proposal for a school with a religious character or religious ethos", Model.Proposal.ProposedFaithStatus.ToString(), string.Format(RouteConstants.Proposals_Edit_Proposed_Faith_Status, Model.ProjectId, Model.Proposal.Rid))
             @RenderSummaryRow("Proposed faith of new school", Model.Proposal.ProposedFaithType.ToDescription(), string.Format(RouteConstants.Proposals_Edit_Proposed_Faith_Type, Model.ProjectId, Model.Proposal.Rid))

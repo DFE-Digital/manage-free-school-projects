@@ -18,7 +18,15 @@
     <div class="govuk-grid-column-two-thirds">
         <form class="form" method="post">
             <div class="govuk-form-group">
-                <govuk-create-proposal-title label="@Model.Title" add-margin="true" />
+                @if(Model.Mode == RegionSelectionMode.Create)
+                {
+                    <govuk-create-proposal-title label="@Model.Title" add-margin="true" />
+                }
+                else
+                {
+                    <govuk-update-proposal-title label="@Model.Title" add-margin="true" />
+                }
+                
                 <govuk-radios-input name="region"
                                     asp-for="@Model.Region"
                                     data-testid="region"
@@ -26,7 +34,7 @@
                                     values="@values.ToArray()" />
             </div>
             <button class="govuk-button" data-module="govuk-button" data-testid="continue">
-                Continue
+                @Model.ButtonText
             </button>
         </form>
     </div>

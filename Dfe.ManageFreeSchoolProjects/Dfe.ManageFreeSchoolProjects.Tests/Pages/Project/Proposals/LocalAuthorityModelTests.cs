@@ -160,15 +160,15 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
             return lookup;
         }
 
-        private static LocalAuthorityModel BuildOtherModel(
+        private static OtherLocalAuthorityModel BuildOtherModel(
             CreateProposalPageHarness harness, out IGetLocalAuthoritiesService lookup)
         {
             lookup = BuildLookup();
 
-            return new LocalAuthorityModel(
+            return new OtherLocalAuthorityModel(
                 harness.Cache,
                 lookup,
-                Substitute.For<ILogger<LocalAuthorityModel>>(),
+                Substitute.For<ILogger<OtherLocalAuthorityModel>>(),
                 harness.ErrorService)
             {
                 ProjectId = ProjectId,

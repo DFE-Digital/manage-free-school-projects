@@ -1,6 +1,5 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
-using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
 using Dfe.ManageFreeSchoolProjects.Services.Proposal;

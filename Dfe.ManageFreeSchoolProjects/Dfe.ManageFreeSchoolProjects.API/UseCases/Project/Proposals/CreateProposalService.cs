@@ -2,6 +2,7 @@
 using Dfe.ManageFreeSchoolProjects.Data.Entities.Existing;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
+using Dfe.ManageFreeSchoolProjects.API.Extensions;
 
 namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
 {
@@ -45,9 +46,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
 
                 // Another local authority - ProposalProposer.AnotherLocalAuthority
                 OtherLocalAuthority = createRequest.OtherLocalAuthority,
+                OtherLocalAuthorityRegion = createRequest.OtherLocalAuthorityRegion?.ToDescription(),
 
                 // Joint proposal between the local authority that published the specification and another local authority - ProposalProposer.JointProposal
                 JointProposalLocalAuthority = createRequest.JointProposalLocalAuthority,
+                JointProposalLocalAuthorityRegion = createRequest.JointProposalLocalAuthorityRegion?.ToDescription(),
 
                 //Proposed Faith (Common)
                 ProposedFaithStatus = ProjectMapper.ToFaithStatus(createRequest.ProposedFaithStatus),

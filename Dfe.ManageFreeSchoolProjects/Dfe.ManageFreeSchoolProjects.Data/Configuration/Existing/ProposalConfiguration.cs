@@ -63,11 +63,19 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Configuration.Existing
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("OtherLocalAuthority");
+            builder.Property(e => e.OtherLocalAuthorityRegion)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("OtherLocalAuthorityRegion");
 
             builder.Property(e => e.JointProposalLocalAuthority)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("JointProposalLocalAuthority");
+            builder.Property(e => e.JointProposalLocalAuthorityRegion)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("JointProposalLocalAuthorityRegion");
 
             builder.Property(e => e.ProposedFaithStatus)
                 .HasMaxLength(50)

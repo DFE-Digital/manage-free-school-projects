@@ -1,6 +1,4 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Services;
@@ -9,13 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 {
-    public class ProposedFaithStatusModel(
+    public class OtherLocalAuthorityRegionModel(
         IGetProposalService getProposalService,
-        IUpdateProposalService updateProposalService,
-        ILogger<ProposedFaithStatusModel> logger
+        ILogger<OtherLocalAuthorityRegionModel> logger,
+        ErrorService errorService
     ) : UpdateProposalBaseModel
     {
         [BindProperty(SupportsGet = true, Name = "projectId")]
@@ -26,9 +26,10 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
         public ProposalResponse Proposal { get; set; }
 
-        [BindProperty(Name = "faith-status")]
-        [Required(ErrorMessage = "Select the faith status")]
-        public FaithStatus Status { get; set; }
+        [BindProperty(Name = "region")]
+        [Display(Name = "region")]
+        [Required(ErrorMessage = "Select the region")]
+        public string Region { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
@@ -43,7 +44,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
             Proposal = proposal.Data;
 
-            Status = Proposal.ProposedFaithStatus;
+            Region = Proposal.OtherLocalAuthorityRegion;
 
             SetBackLink();
 
@@ -56,19 +57,18 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
             SetBackLink();
 
+            if (!ModelState.IsValid)
+            {
+                errorService.AddErrors(ModelState.Keys, ModelState);
+                return Page();
+            }
+
             var proposal = await getProposalService.ExecuteSingle(Rid);
             Proposal = proposal.Data;
 
-            var updateRequest = new UpdateProposalRequest
-            {
-                Rid = Rid,
-                Proposer = Proposal.Proposer,
-                ProposedFaithStatus = Status
-            };
+            var region = (int)Enum.Parse<ProjectRegion>(Region);
 
-            await updateProposalService.Execute(updateRequest);
-
-            return Redirect(string.Format(RouteConstants.Proposals_Details, ProjectId, Rid));
+            return Redirect(string.Format(RouteConstants.Proposals_Edit_Other_Local_Authority, ProjectId, Rid, region));
         }
 
         private void SetBackLink()
