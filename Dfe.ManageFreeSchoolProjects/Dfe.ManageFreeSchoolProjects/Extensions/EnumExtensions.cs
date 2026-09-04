@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 
 namespace Dfe.ManageFreeSchoolProjects.Extensions
@@ -47,15 +48,11 @@ namespace Dfe.ManageFreeSchoolProjects.Extensions
 
 		public static T FromDescription<T>(this string description) where T : struct, Enum
 		{
-			foreach (T value in Enum.GetValues<T>())
-			{
-				if (value.ToDescription() == description)
-				{
-					return value;
-				}
-			}
+			var match = Enum.GetValues<T>()
+				.Select(value => (T?)value)
+				.FirstOrDefault(value => value.Value.ToDescription() == description);
 
-			throw new ArgumentException($"Unknown {typeof(T).Name}: {description}");
+			return match ?? throw new ArgumentException($"Unknown {typeof(T).Name}: {description}");
 		}
 	}
 }

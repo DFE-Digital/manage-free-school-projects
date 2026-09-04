@@ -260,6 +260,89 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Proposals
             result.Should().BeEmpty();
         }
 
+        [Fact]
+        public async Task GetSingle_ReturnsTheProposalWithThatRid()
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.Diocese, p =>
+            {
+                p.NameOfDiocese = "Diocese of London";
+                p.FaithOfDiocese = "Roman Catholic";
+                p.ProposedFaithStatus = "Designation";
+                p.ProposedFaithType = "Roman Catholic";
+            }));
+            context.Proposals.Add(BuildProposal("RID-2", ProjectId, ProposalProposer.Diocese,
+                p => p.NameOfDiocese = "Diocese of Bath"));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteSingle("RID-1");
+
+            result.Rid.Should().Be("RID-1");
+            result.ProjectId.Should().Be(ProjectId);
+            result.Proposer.Should().Be(ProposalProposer.Diocese);
+            result.NameOfDiocese.Should().Be("Diocese of London");
+            result.FaithOfDiocese.Should().Be(FaithOfDiocese.RomanCatholic);
+            result.ProposedFaithStatus.Should().Be(FaithStatus.Designation);
+            result.ProposedFaithType.Should().Be(FaithType.RomanCatholic);
+        }
+
+        [Fact]
+        public async Task GetSingle_WhenThereIsNoProposalWithThatRid_ReturnsNull()
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.Diocese,
+                p => p.ProposedFaithStatus = "None"));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteSingle("MISSING");
+
+            result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetSingle_ReadsBackTheLocalAuthorityAnswers()
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.AnotherLocalAuthority, p =>
+            {
+                p.OtherLocalAuthority = "Bolton";
+                p.OtherLocalAuthorityRegion = "North West";
+                p.JointProposalLocalAuthority = "Camden";
+                p.JointProposalLocalAuthorityRegion = "London";
+                p.ProposedFaithStatus = "None";
+                p.ProposedFaithType = "None";
+            }));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteSingle("RID-1");
+
+            result.OtherLocalAuthority.Should().Be("Bolton");
+            result.OtherLocalAuthorityRegion.Should().Be("North West");
+            result.JointProposalLocalAuthority.Should().Be("Camden");
+            result.JointProposalLocalAuthorityRegion.Should().Be("London");
+        }
+
+        [Fact]
+        public async Task GetSingle_ReadsBackTheTrustAnswers()
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.AcademyTrust, p =>
+            {
+                p.TrustReferenceNumber = "TR12345";
+                p.TrustName = "Test Trust";
+                p.TrustType = "MAT";
+                p.ProposedFaithStatus = "None";
+                p.ProposedFaithType = "None";
+            }));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteSingle("RID-1");
+
+            result.TrustReferenceNumber.Should().Be("TR12345");
+            result.TrustName.Should().Be("Test Trust");
+            result.TrustType.Should().Be(TrustType.MultiAcademyTrust);
+        }
+
         private static CreateProposalRequest BuildMinimalRequest() => new()
         {
             ProjectId = ProjectId,
