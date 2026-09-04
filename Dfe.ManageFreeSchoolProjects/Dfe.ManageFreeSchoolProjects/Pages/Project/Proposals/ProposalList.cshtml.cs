@@ -23,7 +23,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 
         public ProjectOverviewResponse Project { get; set; }
 
-        public List<GetProposalResponse> Proposals { get; set; }
+        public List<GetProposalSummaryResponse> Proposals { get; set; }
 
         public async Task<IActionResult> OnGet()
         {

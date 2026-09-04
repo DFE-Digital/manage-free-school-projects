@@ -2,7 +2,7 @@
 
 namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals
 {
-    public class GetProposalResponse
+    public class GetProposalSummaryResponse
     {
         public string Rid { get; set; }
         

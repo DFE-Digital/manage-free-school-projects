@@ -86,6 +86,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
             services.AddScoped<IGetDashboardService, GetDashboardService>();
 			services.AddScoped<ICreateProjectService, CreateProject>();
             services.AddScoped<ICreateProposalService, CreateProposalService>();
+            services.AddScoped<IUpdateProposalService, UpdateProposalService>();
             services.AddScoped<ICreateUserService, CreateUserService>();
 			services.AddScoped<IGetProjectOverviewService, GetProjectOverviewService>();
 			services.AddScoped<IUpdateProjectByTaskService, UpdateProjectByTaskService>();

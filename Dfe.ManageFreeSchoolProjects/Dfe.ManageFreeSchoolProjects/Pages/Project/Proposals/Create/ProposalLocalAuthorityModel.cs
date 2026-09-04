@@ -78,25 +78,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 
         private async Task SetLocalAuthorities(ProjectRegion? region)
         {
-            var response = await GetLocalAuthoritiesByRegion(region);
-            LocalAuthorities = response.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-        }
-
-        private async Task<Dictionary<string, string>> GetLocalAuthoritiesByRegion(ProjectRegion? region)
-        {
-            var response = await getLocalAuthoritiesService.Execute(new List<string> { region.ToDescription() });
-
-            var authorities = new Dictionary<string, string>();
-
-            response.Regions.ForEach(r =>
-            {
-                r.LocalAuthorities.ForEach(authority =>
-                {
-                    authorities.Add(authority.LACode, authority.Name);
-                });
-            });
-
-            return authorities;
+            LocalAuthorities = await getLocalAuthoritiesService.GetByRegion(region);
         }
 
         private void SetBackLink()

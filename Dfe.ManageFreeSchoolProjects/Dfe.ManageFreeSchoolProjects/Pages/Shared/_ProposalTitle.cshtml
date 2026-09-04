@@ -1,4 +1,4 @@
-﻿@model Dfe.ManageFreeSchoolProjects.ViewModels.CreateTitleViewModel
+@model Dfe.ManageFreeSchoolProjects.ViewModels.CreateTitleViewModel
 @{
     var headingTestId = Model.TestIdPrefix + "-heading";
     var subHeadingTestId = Model.TestIdPrefix + "-sub-heading";
@@ -7,7 +7,7 @@
 
 <h1 class="govuk-label-wrapper">
     <label class="@labelClass" for=@Model.For data-testid=@headingTestId>
-        <span class="govuk-caption-l" data-testid=@subHeadingTestId>Create a proposal</span>
+        <span class="govuk-caption-l" data-testid=@subHeadingTestId>@Model.Caption</span>
         @Model.Label
     </label>
 </h1>

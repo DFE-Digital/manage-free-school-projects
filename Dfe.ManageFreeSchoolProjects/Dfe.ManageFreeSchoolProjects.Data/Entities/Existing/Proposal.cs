@@ -34,9 +34,11 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
 
         // Another local authority - ProposalProposer.AnotherLocalAuthority
         public string OtherLocalAuthority { get; set; }
+        public string OtherLocalAuthorityRegion { get; set; }
 
         // Joint proposal between the local authority that published the specification and another local authority - ProposalProposer.JointProposal
         public string JointProposalLocalAuthority { get; set; }
+        public string JointProposalLocalAuthorityRegion { get; set; }
 
         //Proposed Faith (Common)
         public string ProposedFaithStatus { get; set; }

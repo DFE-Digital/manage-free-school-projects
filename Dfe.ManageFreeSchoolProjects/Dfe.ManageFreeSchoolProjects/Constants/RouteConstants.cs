@@ -5,29 +5,50 @@
         public const string ProjectOverview = "/projects/{0}/overview";
 
         public const string Proposals = "/projects/{0}/proposals";
+
+        public const string Proposals_Details = Proposals + "/{1}/details";
+
         public const string Proposals_Create_Proposer = Proposals + "/create/proposer";
+        
         public const string Proposals_Create_SearchTrustByTRN = Proposals + "/create/search-trust-by-trn";
+        public const string Proposals_Edit_SearchTrustByTRN = Proposals + "/{1}/search-trust-by-trn";
+
         public const string Proposals_Create_Confirm_Trust = Proposals + "/create/confirm-trust";
+        public const string Proposals_Edit_Confirm_Trust = Proposals + "/{1}/confirm-trust/{2}";
 
         public const string Proposals_Create_Proposed_Faith_Status = Proposals + "/create/proposed-faith-status";
+        public const string Proposals_Edit_Proposed_Faith_Status = Proposals + "/{1}/proposed-faith-status";
 
         public const string Proposals_Create_Proposed_Faith_Type = Proposals + "/create/proposed-faith-type";
+        public const string Proposals_Edit_Proposed_Faith_Type = Proposals + "/{1}/proposed-faith-type";
 
         public const string Proposals_Create_Other_Local_Authority_Region = Proposals + "/create/other-local-authority-region";
+        public const string Proposals_Edit_Other_Local_Authority_Region = Proposals + "/{1}/other-local-authority-region";
+
         public const string Proposals_Create_Other_Local_Authority = Proposals + "/create/other-local-authority";
+        public const string Proposals_Edit_Other_Local_Authority = Proposals + "/{1}/region/{2}/other-local-authority";
 
         public const string Proposals_Create_Joint_Proposal_Region = Proposals + "/create/joint-proposal-region";
+        public const string Proposals_Edit_Joint_Proposal_Region = Proposals + "/{1}/joint-proposal-region";
+
         public const string Proposals_Create_Joint_Proposal_Local_Authority = Proposals + "/create/joint-proposal-local-authority";
+        public const string Proposals_Edit_Joint_Proposal_Local_Authority = Proposals + "/{1}/region/{2}/joint-proposal-local-authority";
 
         public const string Proposals_Create_Name_Of_Diocese = Proposals + "/create/name-of-diocese";
+        public const string Proposals_Edit_Name_Of_Diocese = Proposals + "/{1}/name-of-diocese";
+
         public const string Proposals_Create_Faith_Of_Diocese = Proposals + "/create/faith-of-diocese";
+        public const string Proposals_Edit_Faith_Of_Diocese = Proposals + "/{1}/faith-of-diocese";
 
         public const string Proposals_Create_Name_Of_Other_Religious_Organisation = Proposals + "/create/name-of-other-religious-organisation";
+        public const string Proposals_Edit_Name_Of_Other_Religious_Organisation = Proposals + "/{1}/name-of-other-religious-organisation";
+        
         public const string Proposals_Create_Faith_Of_Other_Religious_Organisation = Proposals + "/create/faith-of-other-religious-organisation";
+        public const string Proposals_Edit_Faith_Of_Other_Religious_Organisation = Proposals + "/{1}/faith-of-other-religious-organisation";
 
         public const string Proposals_Create_Check_Your_Answers = Proposals + "/create/check-your-answers";
 
-
+        
         public const string TaskList = "/projects/{0}/tasks";
         public const string Contacts = "/projects/{0}/contacts";
         public const string CreateProject = "/project/create";

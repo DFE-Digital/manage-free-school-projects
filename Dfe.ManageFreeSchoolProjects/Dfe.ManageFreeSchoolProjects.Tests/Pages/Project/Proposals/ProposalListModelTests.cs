@@ -38,7 +38,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
         {
             var model = BuildModel(BuildOverviewService(), out var proposalService);
 
-            var proposals = new List<GetProposalResponse>
+            var proposals = new List<GetProposalSummaryResponse>
             {
                 new()
                 {
@@ -52,7 +52,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
                 }
             };
             proposalService.ExecuteList(ProjectId)
-                .Returns(new ApiSingleResponseV2<List<GetProposalResponse>>(proposals));
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>(proposals));
 
             await model.OnGet();
 
@@ -65,7 +65,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
         {
             var model = BuildModel(BuildOverviewService(), out var proposalService);
             proposalService.ExecuteList(ProjectId)
-                .Returns(new ApiSingleResponseV2<List<GetProposalResponse>>([]));
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>([]));
 
             var result = await model.OnGet();
 
@@ -127,7 +127,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
 
             // Default to an empty list so the tests that are not about proposals still get a page.
             proposalService.ExecuteList(Arg.Any<string>())
-                .Returns(new ApiSingleResponseV2<List<GetProposalResponse>>([]));
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>([]));
 
             return new ProposalListModel(
                 overviewService,

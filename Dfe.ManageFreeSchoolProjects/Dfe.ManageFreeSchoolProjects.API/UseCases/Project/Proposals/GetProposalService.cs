@@ -8,7 +8,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
 {
     public interface IGetProposalService
     {
-        public Task<List<GetProposalResponse>> ExecuteList(string projectId);
+        public Task<List<GetProposalSummaryResponse>> ExecuteList(string projectId);
+
+        public Task<ProposalResponse> ExecuteSingle(string rid);
     }
 
     public class GetProposalService : IGetProposalService
@@ -20,9 +22,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
             _context = context;
         }
 
-        public async Task<List<GetProposalResponse>> ExecuteList(string projectId)
+        public async Task<List<GetProposalSummaryResponse>> ExecuteList(string projectId)
         {
-            return await _context.Proposals.Where(x => x.ProjectId == projectId).Select(x => new GetProposalResponse
+            return await _context.Proposals.Where(x => x.ProjectId == projectId).Select(x => new GetProposalSummaryResponse
             {
                 Rid = x.Rid,
                 ProjectId = x.ProjectId,
@@ -34,6 +36,16 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
                 ProposedFaithType = !string.IsNullOrWhiteSpace(x.ProposedFaithType) ? ProjectMapper.ToFaithType(x.ProposedFaithType) : null,
                 Status = ProposalStatus.Active
             }).ToListAsync();
+        }
+
+        public async Task<ProposalResponse> ExecuteSingle(string rid)
+        {
+            var entity = await _context.Proposals.FirstOrDefaultAsync(x => x.Rid == rid);
+            
+            if (entity == null)
+                return null;
+            
+            return ProposalMapper.ToProposalResponse(entity);
         }
 
         private static string GetName(Proposal proposal)

@@ -1,0 +1,15 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/joint-proposal-region"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.JointProposalRegionModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+
+@{
+    var title = "Which region is the other local authority in?";
+    ViewData["Title"] = title;
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<partial name="_ProposalRegionSelection"
+         model="@(new ProposalRegionSelectionViewModel { Mode = ProposalJourneyMode.Edit, Title = title, Region = Model.Region, ButtonText = "Save and continue" })" />

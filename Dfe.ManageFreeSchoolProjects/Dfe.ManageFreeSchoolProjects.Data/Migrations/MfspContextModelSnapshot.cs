@@ -11613,6 +11613,12 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("JointProposalLocalAuthority");
 
+                    b.Property<string>("JointProposalLocalAuthorityRegion")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("JointProposalLocalAuthorityRegion");
+
                     b.Property<string>("NameOfDiocese")
                         .HasMaxLength(100)
                         .IsUnicode(false)
@@ -11642,6 +11648,12 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("OtherLocalAuthority");
+
+                    b.Property<string>("OtherLocalAuthorityRegion")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("OtherLocalAuthorityRegion");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()

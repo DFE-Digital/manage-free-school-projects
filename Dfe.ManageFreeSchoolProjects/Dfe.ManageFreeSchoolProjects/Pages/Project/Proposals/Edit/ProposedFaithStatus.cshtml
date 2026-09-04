@@ -1,0 +1,30 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/proposed-faith-status"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.ProposedFaithStatusModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
+
+@{
+    var title = "Is the proposal for a school with a religious designation or ethos?";
+    ViewData["Title"] = "Faith status";
+
+    var faithStatusValues = Enum.GetValues<FaithStatus>().Except(new[] { FaithStatus.NotSet }).ToArray();
+    var faithStatuses = faithStatusValues.Select(x => x.ToString()).ToArray();
+    var faithStatusHints = faithStatusValues.Select(x => x.ToDescriptionOrEmpty()).ToArray();
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<partial name="_ProposalRadiosSelection"
+         model="@(new ProposalRadiosSelectionViewModel
+         {
+             Mode = ProposalJourneyMode.Edit,
+             Title = title,
+             Name = "faith-status",
+             Value = Model.Status.ToString(),
+             Labels = faithStatuses,
+             Values = faithStatuses,
+             Hints = faithStatusHints,
+             ButtonText = "Save and return"
+         })" />
