@@ -7,7 +7,7 @@
 <div class="govuk-form-group">
     <partial name="_ErrorSummary" />
 
-    @if (Model.Mode == LocalAuthoritySelectionMode.Create)
+    @if (Model.Mode == ProposalJourneyMode.Create)
     {
         <govuk-create-proposal-title label="@Model.Title" add-margin="true" />
     }

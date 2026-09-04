@@ -1,15 +1,14 @@
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Enums;
-using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Proposal;
 using Dfe.ManageFreeSchoolProjects.Services.Trust;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -20,15 +19,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
         IGetProposalService getProposalService,
         IUpdateProposalService updateProposalService,
         ILogger<ConfirmTrustModel> logger,
-        ErrorService errorService
-    ) : UpdateProposalBaseModel
+        ErrorService errorService) : UpdateProposalBaseModel(getProposalService, logger)
     {
-        [BindProperty(SupportsGet = true, Name = "projectId")]
-        public string ProjectId { get; set; }
-
-        [BindProperty(SupportsGet = true, Name = "rid")]
-        public string Rid { get; set; }
-
         [BindProperty(SupportsGet = true, Name = "trn")]
         public string Trn { get; set; }
 
@@ -38,23 +30,18 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
         public TrustTask Trust { get; set; }
 
-        public ProposalResponse Proposal { get; set; }
-
+        protected override string BackLinkRoute => RouteConstants.Proposals_Edit_SearchTrustByTRN;
 
         public async Task<IActionResult> OnGet()
         {
-            logger.LogMethodEntered();
+            LogPageEntered();
 
             SetBackLink();
 
-            var proposal = await getProposalService.ExecuteSingle(Rid);
-
-            if (proposal == null || proposal.Data == null)
+            if (await LoadProposal() == null)
             {
                 return NotFound();
             }
-
-            Proposal = proposal.Data;
 
             var trustResponse = await getTrustByRefService.Execute(Trn);
             Trust = trustResponse.Trust;
@@ -64,9 +51,16 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
         public async Task<IActionResult> OnPost()
         {
-            logger.LogMethodEntered();
+            LogPageEntered();
 
             SetBackLink();
+
+            if (!ModelState.IsValid)
+            {
+                errorService.AddErrors(ModelState.Keys, ModelState);
+
+                return Page();
+            }
 
             if (ConfirmOption == YesNoOption.No)
             {
@@ -75,8 +69,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
             try
             {
-                var proposal = await getProposalService.ExecuteSingle(Rid);
-                Proposal = proposal.Data;
+                await LoadProposal();
 
                 var trustResponse = await getTrustByRefService.Execute(Trn);
 
@@ -91,25 +84,15 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit
 
                 await updateProposalService.Execute(updateRequest);
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {
-                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    ModelState.AddModelError("trn", "Trust ID not found. Enter a different ID");
-                    errorService.AddErrors(ModelState.Keys, ModelState);
+                ModelState.AddModelError("trn", "Trust ID not found. Enter a different ID");
+                errorService.AddErrors(ModelState.Keys, ModelState);
 
-                    return Page();
-                }
-
-                throw;
+                return Page();
             }
 
-            return Redirect(string.Format(RouteConstants.Proposals_Details, ProjectId, Rid));
-        }
-
-        private void SetBackLink()
-        {
-            BackLink = string.Format(RouteConstants.Proposals_Edit_SearchTrustByTRN, ProjectId, Rid);
+            return Redirect(ProposalDetailsUrl);
         }
     }
 }

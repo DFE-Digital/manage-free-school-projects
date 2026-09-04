@@ -2,15 +2,9 @@ using System.Collections.Generic;
 
 namespace Dfe.ManageFreeSchoolProjects.ViewModels
 {
-    public enum LocalAuthoritySelectionMode
-    {
-        Create,
-        Edit
-    }
-
     public class ProposalLocalAuthoritySelectionViewModel
     {
-        public LocalAuthoritySelectionMode Mode { get; set; } = LocalAuthoritySelectionMode.Create;
+        public ProposalJourneyMode Mode { get; set; } = ProposalJourneyMode.Create;
 
         public string Title { get; set; }
 

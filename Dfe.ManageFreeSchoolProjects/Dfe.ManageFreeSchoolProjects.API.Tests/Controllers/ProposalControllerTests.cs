@@ -102,6 +102,80 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Controllers
                 .Which.Data.Should().BeEmpty();
         }
 
+        [Fact]
+        public async Task GetProposalByRid_Returns200WithTheProposal()
+        {
+            var proposal = new ProposalResponse { Rid = "RID-1", ProjectId = ProjectId };
+            var getService = Substitute.For<IGetProposalService>();
+            getService.ExecuteSingle("RID-1").Returns(proposal);
+
+            var controller = BuildController(
+                Substitute.For<ICreateProposalService>(), Substitute.For<IUpdateProposalService>(), getService);
+
+            var result = await controller.GetProposalByRid("RID-1");
+
+            var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(StatusCodes.Status200OK);
+            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<ProposalResponse>>()
+                .Which.Data.Should().BeSameAs(proposal);
+            await getService.Received(1).ExecuteSingle("RID-1");
+        }
+
+        [Fact]
+        public async Task GetProposalByRid_WhenThereIsNoSuchProposal_ReturnsNoData()
+        {
+            var getService = Substitute.For<IGetProposalService>();
+            getService.ExecuteSingle("MISSING").Returns((ProposalResponse)null);
+
+            var controller = BuildController(
+                Substitute.For<ICreateProposalService>(), Substitute.For<IUpdateProposalService>(), getService);
+
+            var result = await controller.GetProposalByRid("MISSING");
+
+            var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(StatusCodes.Status200OK);
+            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<ProposalResponse>>()
+                .Which.Data.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task UpdateProposal_WhenTheRequestIsValid_Returns200WithTheUpdatedProposal()
+        {
+            var updated = new ProposalResponse { Rid = "RID-1", ProjectId = ProjectId };
+            var updateService = Substitute.For<IUpdateProposalService>();
+            updateService.Execute(Arg.Any<UpdateProposalRequest>()).Returns(updated);
+
+            var controller = BuildController(
+                Substitute.For<ICreateProposalService>(), updateService, Substitute.For<IGetProposalService>());
+
+            var request = new UpdateProposalRequest { Rid = "RID-1", Proposer = ProposalProposer.Diocese };
+
+            var result = await controller.UpdateProposal(request);
+
+            var objectResult = result.Result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(StatusCodes.Status200OK);
+            objectResult.Value.Should().BeOfType<ApiSingleResponseV2<ProposalResponse>>()
+                .Which.Data.Should().BeSameAs(updated);
+            await updateService.Received(1).Execute(request);
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public async Task UpdateProposal_WhenTheRidIsMissing_Returns400WithoutUpdating(string rid)
+        {
+            var updateService = Substitute.For<IUpdateProposalService>();
+
+            var controller = BuildController(
+                Substitute.For<ICreateProposalService>(), updateService, Substitute.For<IGetProposalService>());
+
+            var result = await controller.UpdateProposal(new UpdateProposalRequest { Rid = rid });
+
+            var badRequest = result.Result.Should().BeOfType<BadRequestObjectResult>().Subject;
+            badRequest.Value.Should().BeAssignableTo<IEnumerable<string>>().Which.Should().NotBeEmpty();
+            await updateService.DidNotReceiveWithAnyArgs().Execute(default!);
+        }
+
         private static ProposalController BuildController(
             ICreateProposalService createService, IUpdateProposalService updateService, IGetProposalService getService)
         {

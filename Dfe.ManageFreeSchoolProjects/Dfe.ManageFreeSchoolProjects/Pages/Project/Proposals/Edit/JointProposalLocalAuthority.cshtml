@@ -8,15 +8,13 @@
 }
 
 @section BeforeMain {
-    <nav class="govuk-extra-width-container">
-        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
-    </nav>
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
 }
 
 <partial name="_ProposalLocalAuthoritySelection"
          model="@(new ProposalLocalAuthoritySelectionViewModel
          {
-             Mode = LocalAuthoritySelectionMode.Edit,
+             Mode = ProposalJourneyMode.Edit,
              Title = title,
              LocalAuthority = Model.LocalAuthority,
              LocalAuthorities = Model.LocalAuthorities,

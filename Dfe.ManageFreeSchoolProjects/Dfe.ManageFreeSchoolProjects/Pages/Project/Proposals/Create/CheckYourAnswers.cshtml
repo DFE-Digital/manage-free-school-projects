@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Html
 @using Dfe.ManageFreeSchoolProjects.Constants
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
+@using Dfe.ManageFreeSchoolProjects.ViewHelpers
 
 @{
     ViewData["Title"] = "Check your answers";
@@ -15,37 +16,37 @@
         <govuk-create-proposal-title label="Check your answers before you submit" add-margin="true" />
 
         <dl class="govuk-summary-list">
-            @RenderSummaryRow("Type of proposer", Model.Cache.Proposer.ToDescription(), RouteConstants.Proposals_Create_Proposer)
+            @ProposalSummary.RenderSummaryRow("Type of proposer", Model.Cache.Proposer.ToDescription(), RouteConstants.Proposals_Create_Proposer)
 
             @if (Model.Cache.Proposer == ProposalProposer.AcademyTrust)
             {
-                @RenderSummaryRow("Trust reference number", Model.Cache.Trust.TRN, RouteConstants.Proposals_Create_SearchTrustByTRN)
-                @RenderSummaryRow("Trust name", Model.Cache.Trust.TrustName, RouteConstants.Proposals_Create_SearchTrustByTRN)
-                @RenderSummaryRow("Trust type", Model.Cache.Trust.TrustType.ToDescription(), RouteConstants.Proposals_Create_SearchTrustByTRN)
+                @ProposalSummary.RenderSummaryRow("Trust reference number", Model.Cache.Trust.TRN, RouteConstants.Proposals_Create_SearchTrustByTRN)
+                @ProposalSummary.RenderSummaryRow("Trust name", Model.Cache.Trust.TrustName, RouteConstants.Proposals_Create_SearchTrustByTRN)
+                @ProposalSummary.RenderSummaryRow("Trust type", Model.Cache.Trust.TrustType.ToDescription(), RouteConstants.Proposals_Create_SearchTrustByTRN)
             }
             else if (Model.Cache.Proposer == ProposalProposer.Diocese)
             {
-                @RenderSummaryRow("Name of Diocese", Model.Cache.NameOfDiocese, RouteConstants.Proposals_Create_Name_Of_Diocese)
-                @RenderSummaryRow("Faith of Diocese", Model.Cache.FaithOfDiocese.ToDescription(), RouteConstants.Proposals_Create_Faith_Of_Diocese)
+                @ProposalSummary.RenderSummaryRow("Name of Diocese", Model.Cache.NameOfDiocese, RouteConstants.Proposals_Create_Name_Of_Diocese)
+                @ProposalSummary.RenderSummaryRow("Faith of Diocese", Model.Cache.FaithOfDiocese.ToDescription(), RouteConstants.Proposals_Create_Faith_Of_Diocese)
             }
             else if (Model.Cache.Proposer == ProposalProposer.AnotherReligiousOrganisation)
             {
-                @RenderSummaryRow("Name of other religious organistation", Model.Cache.NameOfOtherReligiousOrganisation, RouteConstants.Proposals_Create_Name_Of_Other_Religious_Organisation)
-                @RenderSummaryRow("Faith of other religious organisation", Model.Cache.FaithTypeOfOtherReligiousOrganisation.ToDescription(), RouteConstants.Proposals_Create_Faith_Of_Other_Religious_Organisation)
-                @RenderSummaryRow("If other, which faith is it", Model.Cache.OtherFaithTypeOfOtherReligiousOrganisation, RouteConstants.Proposals_Create_Name_Of_Other_Religious_Organisation)
+                @ProposalSummary.RenderSummaryRow("Name of other religious organistation", Model.Cache.NameOfOtherReligiousOrganisation, RouteConstants.Proposals_Create_Name_Of_Other_Religious_Organisation)
+                @ProposalSummary.RenderSummaryRow("Faith of other religious organisation", Model.Cache.FaithTypeOfOtherReligiousOrganisation.ToDescription(), RouteConstants.Proposals_Create_Faith_Of_Other_Religious_Organisation)
+                @ProposalSummary.RenderSummaryRow("If other, which faith is it", Model.Cache.OtherFaithTypeOfOtherReligiousOrganisation, RouteConstants.Proposals_Create_Name_Of_Other_Religious_Organisation)
             }
             else if (Model.Cache.Proposer == ProposalProposer.AnotherLocalAuthority)
             {
-                @RenderSummaryRow("Name of another Local authority", Model.Cache.OtherLocalAuthority, RouteConstants.Proposals_Create_Other_Local_Authority)
+                @ProposalSummary.RenderSummaryRow("Name of another Local authority", Model.Cache.OtherLocalAuthority, RouteConstants.Proposals_Create_Other_Local_Authority)
             }
             else if (Model.Cache.Proposer == ProposalProposer.JointProposal)
             {
-                @RenderSummaryRow("Name of another LA that has submitted a joint proposal with the LA that has published the specification", Model.Cache.JointProposalLocalAuthority, RouteConstants.Proposals_Create_Joint_Proposal_Region)
+                @ProposalSummary.RenderSummaryRow("Name of another LA that has submitted a joint proposal with the LA that has published the specification", Model.Cache.JointProposalLocalAuthority, RouteConstants.Proposals_Create_Joint_Proposal_Region)
             }
 
-            @RenderSummaryRow("Is the proposal for a school with a religious character or religious ethos", Model.Cache.ProposedFaithStatus.ToString(), RouteConstants.Proposals_Create_Proposed_Faith_Status)
-            @RenderSummaryRow("Proposed faith of new school", Model.Cache.ProposedFaithType.ToDescription(), RouteConstants.Proposals_Create_Proposed_Faith_Type)
-            @RenderSummaryRow("If other, which faith is it", Model.Cache.OtherFaithType, RouteConstants.Proposals_Create_Proposed_Faith_Type)
+            @ProposalSummary.RenderSummaryRow("Is the proposal for a school with a religious character or religious ethos", Model.Cache.ProposedFaithStatus.ToString(), RouteConstants.Proposals_Create_Proposed_Faith_Status)
+            @ProposalSummary.RenderSummaryRow("Proposed faith of new school", Model.Cache.ProposedFaithType.ToDescription(), RouteConstants.Proposals_Create_Proposed_Faith_Type)
+            @ProposalSummary.RenderSummaryRow("If other, which faith is it", Model.Cache.OtherFaithType, RouteConstants.Proposals_Create_Proposed_Faith_Type)
         </dl>
 
         <h2 class="govuk-heading-m">Now create your proposal</h2>
@@ -58,25 +59,3 @@
         </form>
     </div>
 </div>
-
-@functions {
-
-    private static IHtmlContent RenderSummaryRow(string key, string value, string link, string visuallyHiddenText = "", string testId = "")
-    {
-        var renderedValue = string.IsNullOrEmpty(value) || value == "NotSet"
-            ? "<span class=\"empty\">Empty</span>"
-            : value;
-
-        var htmlString = $@"
-        <div class=""govuk-summary-list__row"">
-            <dt class=""govuk-summary-list__key"">{key}</dt>
-            <dd class=""govuk-summary-list__value"" data-testid=""{testId}"">{renderedValue}</dd>
-            <dd class=""govuk-summary-list__actions"">
-                <a class=""govuk-link"" href=""{link}"">Change<span class=""govuk-visually-hidden"">{visuallyHiddenText}</span></a>
-            </dd>
-        </div>";
-
-        return new HtmlString(htmlString);
-    }
-
-}

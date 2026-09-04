@@ -1,14 +1,8 @@
 namespace Dfe.ManageFreeSchoolProjects.ViewModels
 {
-    public enum RegionSelectionMode
-    {
-        Create,
-        Edit
-    }
-
     public class ProposalRegionSelectionViewModel
     {
-        public RegionSelectionMode Mode { get; set; } = RegionSelectionMode.Create;
+        public ProposalJourneyMode Mode { get; set; } = ProposalJourneyMode.Create;
 
         public string Title { get; set; }
 
