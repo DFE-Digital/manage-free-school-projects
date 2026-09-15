@@ -5014,6 +5014,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
 
                     b.HasKey("Rid");
 
+                    b.HasIndex("KeyContactsFsgLeadContactEmail")
+                        .HasDatabaseName("IX_KPI_KeyContactsFsgLeadContactEmail");
+
                     b.HasIndex("UpdatedByUserId");
 
                     b.HasIndex("UserId");
