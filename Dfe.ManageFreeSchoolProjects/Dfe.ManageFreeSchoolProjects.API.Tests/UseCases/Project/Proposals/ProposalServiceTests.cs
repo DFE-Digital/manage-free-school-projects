@@ -289,7 +289,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Proposals
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            return new MfspContext(options, null);
+            return new MfspContext(options);
         }
     }
 }
