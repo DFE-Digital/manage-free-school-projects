@@ -110,104 +110,103 @@
             
                 <h2 class="govuk-heading-m govuk-!-font-size-27" id="dates">Dates</h2>
 
-            <dl class="govuk-summary-list govuk-summary-list--no-border">
-                    @if (@Model.Project.ProjectStatus.ProjectStatus is 
-                            ProjectStatus.Cancelled or 
-                            ProjectStatus.Closed or 
-                            ProjectStatus.WithdrawnInPreOpening or 
-                            ProjectStatus.WithdrawnDuringApplication)
-                    {   
+                <dl class="govuk-summary-list govuk-summary-list--no-border">
+                        @if (@Model.Project.ProjectStatus.ProjectStatus is 
+                                ProjectStatus.Cancelled or 
+                                ProjectStatus.Closed or 
+                                ProjectStatus.WithdrawnInPreOpening or 
+                                ProjectStatus.WithdrawnDuringApplication)
+                        {   
+                        <div class="govuk-summary-list__row">
+                            @if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.WithdrawnInPreOpening ||
+                               Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.WithdrawnDuringApplication)
+                            {
+                                <dt class="govuk-summary-list__key" id="overview-withdrawn-date">
+                                    Date the project was withdrawn
+                                </dt>
+                                <dd class="govuk-summary-list__value" data-testid="date-of-termination">
+                                        @{
+                                            RenderValue(Model.Project.ProjectStatus.ProjectWithdrawnDate.ToDateString());
+                                        }
+                                </dd>
+                            }
+                            else if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.Closed)
+                            {
+                                <dt class="govuk-summary-list__key" id="overview-closed-date">
+                                    Date the school was closed
+                                </dt>
+                                <dd class="govuk-summary-list__value" data-testid="date-of-termination">
+                                        @{
+                                            RenderValue(Model.Project.ProjectStatus.ProjectClosedDate.ToDateString());
+                                        }
+                                </dd>
+                            }
+                            else if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.Cancelled)
+                            {
+                                <dt class="govuk-summary-list__key" id="overview-cancelled-date">
+                                    Date the project was cancelled
+                                </dt>
+                                <dd class="govuk-summary-list__value" data-testid="date-of-termination">
+                                        @{
+                                            RenderValue(Model.Project.ProjectStatus.ProjectCancelledDate.ToDateString());
+                                        }
+                                </dd>
+                            }
+                        </div>
+                    }
                     <div class="govuk-summary-list__row">
-                        @if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.WithdrawnInPreOpening ||
-                           Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.WithdrawnDuringApplication)
-                        {
-                            <dt class="govuk-summary-list__key" id="overview-withdrawn-date">
-                                Date the project was withdrawn
-                            </dt>
-                            <dd class="govuk-summary-list__value" data-testid="date-of-termination">
-                                    @{
-                                        RenderValue(Model.Project.ProjectStatus.ProjectWithdrawnDate.ToDateString());
-                                    }
-                            </dd>
-                        }
-                        else if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.Closed)
-                        {
-                            <dt class="govuk-summary-list__key" id="overview-closed-date">
-                                Date the school was closed
-                            </dt>
-                            <dd class="govuk-summary-list__value" data-testid="date-of-termination">
-                                    @{
-                                        RenderValue(Model.Project.ProjectStatus.ProjectClosedDate.ToDateString());
-                                    }
-                            </dd>
-                        }
-                        else if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.Cancelled)
-                        {
-                            <dt class="govuk-summary-list__key" id="overview-cancelled-date">
-                                Date the project was cancelled
-                            </dt>
-                            <dd class="govuk-summary-list__value" data-testid="date-of-termination">
-                                    @{
-                                        RenderValue(Model.Project.ProjectStatus.ProjectCancelledDate.ToDateString());
-                                    }
-                            </dd>
-                        }
+                        <dt class="govuk-summary-list__key">
+                            Entry into pre-opening
+                        </dt>
+                        <dd class="govuk-summary-list__value" data-testid="date-of-entry-into-preopening">
+                            @{
+                                RenderValue(Model.Project.ProjectStatus.DateOfEntryIntoPreopening.ToDateString());
+                            }
+                        </dd>
+
                     </div>
-                }
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Entry into pre-opening
-                    </dt>
-                    <dd class="govuk-summary-list__value" data-testid="date-of-entry-into-preopening">
-                        @{
-                            RenderValue(Model.Project.ProjectStatus.DateOfEntryIntoPreopening.ToDateString());
-                        }
-                    </dd>
 
-                </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Provisional opening date agreed with trust
+                        </dt>
+                        <dd class="govuk-summary-list__value" data-testid="provisional-opening-date-agreed-with-trust">
+                            @{
+                                RenderValue(Model.Project.ProjectStatus.ProvisionalOpeningDateAgreedWithTrust.ToDateString());
+                            }
+                        </dd>
 
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Provisional opening date agreed with trust
-                    </dt>
-                    <dd class="govuk-summary-list__value" data-testid="provisional-opening-date-agreed-with-trust">
-                        @{
-                            RenderValue(Model.Project.ProjectStatus.ProvisionalOpeningDateAgreedWithTrust.ToDateString());
-                        }
-                    </dd>
+                    </div>
 
-                </div>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Realistic year of opening
+                        </dt>
+                        <dd class="govuk-summary-list__value" data-testid="realistic-year-of-opening">
+                            @{
+                                RenderValue(Model.Project.ProjectStatus.RealisticYearOfOpening);
+                            }
+                        </dd>
 
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Realistic year of opening
-                    </dt>
-                    <dd class="govuk-summary-list__value" data-testid="realistic-year-of-opening">
-                        @{
-                            RenderValue(Model.Project.ProjectStatus.RealisticYearOfOpening);
-                        }
-                    </dd>
+                    </div>
 
-                </div>
-
-                <div class="govuk-summary-list__row">
-                    <dt class="govuk-summary-list__key">
-                        Actual opening date
-                    </dt>
-                    <dd class="govuk-summary-list__value" data-testid="actual-opening-date">
-                        @{
-                            RenderValue(Model.Project.ProjectStatus.ActualOpeningDate.ToDateString());
-                        }
-                    </dd>
-                </div>
-            </dl>
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">
+                            Actual opening date
+                        </dt>
+                        <dd class="govuk-summary-list__value" data-testid="actual-opening-date">
+                            @{
+                                RenderValue(Model.Project.ProjectStatus.ActualOpeningDate.ToDateString());
+                            }
+                        </dd>
+                    </div>
+                </dl>
 
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
                 <h2 class="govuk-heading-m govuk-!-font-size-27" id="trust">Trust</h2>
 
                 <dl class="govuk-summary-list govuk-summary-list--no-border">
-
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">
                             Trust ID

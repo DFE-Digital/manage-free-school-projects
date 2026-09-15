@@ -41,6 +41,13 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
         PrincipalDesignate,
         DueDiligenceChecks,
         PreFundingAgreementCheckpointMeeting,
-        ReadinessToOpenMeeting
+        ReadinessToOpenMeeting,
+        NewSchoolSpecificationPublicationDate,
+        NewSchoolClosingDateForProposals,
+        NewSchoolDecisionMaker,
+        NewSchoolDateOfDecision,
+        NewSchoolDecision,
+        NewSchoolConditions,
+        NewSchoolDateForConditionsToBeMet
     }
 }

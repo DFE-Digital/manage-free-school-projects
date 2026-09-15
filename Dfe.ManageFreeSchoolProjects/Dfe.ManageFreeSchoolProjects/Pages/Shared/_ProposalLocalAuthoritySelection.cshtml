@@ -1,0 +1,22 @@
+@model Dfe.ManageFreeSchoolProjects.ViewModels.ProposalLocalAuthoritySelectionViewModel
+
+@{
+    var localAuthorities = Model.LocalAuthorities.Select(x => x.Value).ToArray();
+}
+
+<div class="govuk-form-group">
+    <partial name="_ErrorSummary" />
+    <govuk-create-proposal-title label="@Model.Title" add-margin="true" />
+    <form method="post">
+        <govuk-radios-input id="local-authority"
+                            asp-for="@Model.LocalAuthority"
+                            name="local-authority"
+                            data-testid="local-authority"
+                            labels="@localAuthorities"
+                            values="@localAuthorities" />
+        <br />
+        <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+            Continue
+        </button>
+    </form>
+</div>

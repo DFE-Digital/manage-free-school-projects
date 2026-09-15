@@ -26,6 +26,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.6" />
         <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="10.0.6" />
         <PackageReference Include="Microsoft.CodeCoverage" Version="18.4.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="10.0.6" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.6" />

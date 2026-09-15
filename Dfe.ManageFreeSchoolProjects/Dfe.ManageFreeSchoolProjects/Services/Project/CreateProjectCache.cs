@@ -46,6 +46,9 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Project
         public int? YRY6Capacity { get; set; }
         public int? Y7Y11Capacity { get; set; }
         public int? Y12Y14Capacity { get; set; }
+        public int? APResourcesProvision { get; set; }
+        public int? SENResourcedProvisionSENUnit { get; set; }
+
         public string FormsOfEntry { get; set; }
         public FaithStatus FaithStatus { get; set; }
         public FaithStatus PreviousFaithStatus { get; set; }

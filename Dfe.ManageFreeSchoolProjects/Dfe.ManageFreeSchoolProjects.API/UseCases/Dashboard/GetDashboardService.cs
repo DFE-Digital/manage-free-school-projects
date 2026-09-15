@@ -51,12 +51,22 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
                 LocalAuthority = record.LocalAuthority,
                 RealisticOpeningDate = record.ProjectStatusProvisionalOpeningDateAgreedWithTrust,
                 Region = record.SchoolDetailsGeographicalRegion,
-                ProjectManagedBy = record.KeyContactsFsgLeadContact, 
-                ProjectType = record.ProjectStatusFreeSchoolApplicationWave == "FS - Presumption" ? "Presumption" : "Central Route",
+                ProjectManagedBy = record.KeyContactsFsgLeadContact,
+                ProjectType = GetProjectType(record.ProjectStatusFreeSchoolApplicationWave),
                 ProjectStatus = ProjectMapper.ToProjectStatusType(record.ProjectStatusProjectStatus)
             }).ToList();
             
             return (result, count);
+        }
+
+        private static string GetProjectType(string wave)
+        {
+            return wave switch
+            {
+                "FS - Presumption" => "Presumption",
+                "New School" => "New School",
+                _ => "Central Route"
+            };
         }
 
         private static IQueryable<Kpi> ApplyFilters(IQueryable<Kpi> query, GetDashboardParameters parameters)

@@ -19,7 +19,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project
         [Description("University technical college")]
         UniversityTechnicalCollege = 6,
         [Description("Voluntary Aided")]
-        VoluntaryAided = 7
+        VoluntaryAided = 7,
+        [Description("Alternative provision / PRU")]
+        AlternativeProvisionPRU = 8
 
     }
 }

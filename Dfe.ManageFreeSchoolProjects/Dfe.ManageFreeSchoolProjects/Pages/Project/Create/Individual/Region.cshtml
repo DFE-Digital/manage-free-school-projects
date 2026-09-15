@@ -2,7 +2,7 @@
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Create.RegionModel
 @{
-    ViewData["Title"] = "What is the region of the free school?";
+    ViewData["Title"] = "Which region is the school in?";
 
     var regions = Enum.GetValues(typeof(ProjectRegion));
     var labels = new List<string>();
@@ -25,7 +25,7 @@
     <div class="govuk-grid-column-two-thirds">
         <form class="form" method="post">
             <div class="govuk-form-group">
-                <govuk-create-title label="What is the region of the school?" add-margin="true" />
+                <govuk-create-title label="Which region is the school in?" add-margin="true" />
                 <govuk-radios-input 
                     name="region"
                     asp-for="@Model.Region"

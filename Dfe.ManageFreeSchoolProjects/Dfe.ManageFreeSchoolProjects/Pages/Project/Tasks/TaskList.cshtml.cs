@@ -57,7 +57,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks
             }                
             
             await createTasksService.Execute(ProjectId);
+
             ProjectTaskListSummary = await getProjectTaskListSummaryService.Execute(ProjectId);
+
             SchoolName = ProjectTaskListSummary.School.Name;
 
             return Page();

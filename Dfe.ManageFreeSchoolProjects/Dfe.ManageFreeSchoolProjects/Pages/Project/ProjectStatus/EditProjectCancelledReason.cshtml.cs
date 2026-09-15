@@ -149,7 +149,12 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectCancelledReason
             {
                 return string.Format(RouteConstants.ProjectOverview, ProjectId);
             }
-            
+
+            else if (referrer == Referrer.Proposals)
+            {
+                return string.Format(RouteConstants.Proposals, ProjectId);
+            }
+
             else if (referrer == Referrer.TaskList)
             {
                 return string.Format(RouteConstants.TaskList, ProjectId);

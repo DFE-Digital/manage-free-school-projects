@@ -102,6 +102,10 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             createdPo.PupilNumbersAndCapacityYrY11Pre16Capacity.Should()
                 .Be((projectDetails.YRY6Capacity + projectDetails.Y7Y11Capacity).ToString());
             createdPo.PupilNumbersAndCapacityY12Y14Post16Capacity.Should().Be(projectDetails.Y12Y14Capacity.ToString());
+            createdPo.PupilNumbersAndCapacityAPResourcesProvision.Should()
+                .Be(projectDetails.APResourcesProvision.ToString());
+            createdPo.PupilNumbersAndCapacitySENResourcedProvisionSENUnit.Should()
+                .Be(projectDetails.SENResourcedProvisionSENUnit.ToString());
             createdPo.PupilNumbersAndCapacityTotalOfCapacityTotals.Should().Be(
                 (projectDetails.YRY6Capacity + projectDetails.Y7Y11Capacity + projectDetails.Y12Y14Capacity)
                 .ToString());
@@ -270,6 +274,34 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             var content = await response.Content.ReadAsStringAsync();
 
             content.Should().Contain($"The trust does not exist: {projectDetails.TRN}");
+        }
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public async Task When_CreateProject_LocalAuthorityWithoutTrust_Returns_201(string trn)
+        {
+            var projectDetails = _autoFixture.Create<ProjectDetails>();
+            projectDetails.SchoolType = SchoolType.Mainstream;
+            projectDetails.SchoolPhase = SchoolPhase.Primary;
+            projectDetails.Nursery = ClassType.Nursery.Yes;
+            projectDetails.ApplicationWave = "New School";
+            projectDetails.ApplicationNumber = string.Empty;
+            projectDetails.TRN = trn;
+            projectDetails.ProjectId = DatabaseModelBuilder.CreateProjectId();
+
+            var request = new CreateProjectRequest { Projects = [projectDetails] };
+
+            var response = await _client.PostAsync($"/api/v1/client/projects/create", request.ConvertToJson());
+
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            using var context = _testFixture.GetContext();
+            var createdProject = context.Kpi.Single(k => k.ProjectStatusProjectId == projectDetails.ProjectId);
+
+            createdProject.TrustId.Should().BeNull();
+            createdProject.TrustName.Should().BeNull();
+            createdProject.SchoolDetailsTrustId.Should().BeNull();
         }
 
         [Fact]

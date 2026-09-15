@@ -32,7 +32,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
                     Year7ToYear11 = 30,
                     Year12ToYear14 = 40,
                     SpecialEducationNeeds = 50,
-                    AlternativeProvision = 60
+                    AlternativeProvision = 60,
+                    APResourcesProvision = 70,
+                    SENResourcedProvisionSENUnit = 80
                 }
             };
             var content = await UpdatePupilNumbers(projectId, updatePupilNumbersRequest);
@@ -46,6 +48,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             actualPupilNumbers.CapacityWhenFull.Year12ToYear14.Should().Be(updatePupilNumbersRequest.CapacityWhenFull.Year12ToYear14);
             actualPupilNumbers.CapacityWhenFull.SpecialEducationNeeds.Should().Be(updatePupilNumbersRequest.CapacityWhenFull.SpecialEducationNeeds);
             actualPupilNumbers.CapacityWhenFull.AlternativeProvision.Should().Be(updatePupilNumbersRequest.CapacityWhenFull.AlternativeProvision);
+            actualPupilNumbers.CapacityWhenFull.APResourcesProvision.Should().Be(updatePupilNumbersRequest.CapacityWhenFull.APResourcesProvision);
+            actualPupilNumbers.CapacityWhenFull.SENResourcedProvisionSENUnit.Should().Be(updatePupilNumbersRequest.CapacityWhenFull.SENResourcedProvisionSENUnit);
             actualPupilNumbers.SchoolName.Should().Be(project.ProjectStatusCurrentFreeSchoolName);
 
             actualPupilNumbers.CapacityWhenFull.Total.Should().Be(90);

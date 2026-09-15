@@ -1,0 +1,65 @@
+﻿@page "/projects/{projectId}/proposals/create/confirm-trust"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.ConfirmTrustModel
+@using Dfe.ManageFreeSchoolProjects.Enums;
+
+@{
+    ViewData["Title"] = "Confirm the trust";
+}
+
+@section BeforeMain {
+    <nav class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            <govuk-create-proposal-title label="Confirm the trust" add-margin="true" />
+
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Trust ID
+                    </dt>
+                    <dd class="govuk-summary-list__value" data-testid="project-risk-date">
+                        @Model.Trust.TRN
+                    </dd>
+
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Trust name
+                    </dt>
+                    <dd class="govuk-summary-list__value" data-testid="project-risk-rating">
+                        @Model.Trust.TrustName
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Trust type
+                    </dt>
+                    <dd class="govuk-summary-list__value" data-testid="project-risk-summary">
+                        @Model.Trust.TrustType.ToDescription()
+                    </dd>
+                </div>
+            </dl>
+
+            <div class="govuk-form-group">
+                <label class="govuk-label govuk-heading-s" for="current-free-school-name">Is this the correct trust?</label>
+                 <govuk-radios-list>
+                    <govuk-radios-list-item id="@YesNoOption.No" value="@YesNoOption.No" description="@YesNoOption.No" asp-for="@Model.ConfirmOption" name="ConfirmOption" />
+                    <govuk-radios-list-item id="@YesNoOption.Yes" value="@YesNoOption.Yes" description="@YesNoOption.Yes" asp-for="@Model.ConfirmOption" name="ConfirmOption" />
+                 </govuk-radios-list>
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>

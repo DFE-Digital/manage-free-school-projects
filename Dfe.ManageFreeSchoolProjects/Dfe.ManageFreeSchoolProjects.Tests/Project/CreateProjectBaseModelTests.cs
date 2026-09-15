@@ -1,4 +1,5 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
@@ -48,6 +49,47 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Project
             var result = model.GetPreviousPage(CreateProjectPageName.SchoolType, "TRN0123");
 
             result.Should().Be(string.Format(RouteConstants.CreateProjectConfirmTrust, "TRN0123"));
+        }
+
+        [Fact]
+        public void GetPreviousPage_SchoolType_WhenNewSchool_SkipsTrustAndReturnsLocalAuthority()
+        {
+            var cache = Substitute.For<ICreateProjectCache>();
+            cache.Get().Returns(new CreateProjectCacheItem { ProjectType = ProjectType.NewSchool });
+
+            var model = new CreateProjectBaseModel(cache);
+
+            var result = model.GetPreviousPage(CreateProjectPageName.SchoolType, "TRN0123");
+
+            result.Should().Be(RouteConstants.CreateProjectLocalAuthority);
+        }
+
+        [Fact]
+        public void GetNextPage_LocalAuthority_WhenNewSchool_SkipsTrustAndReturnsSchoolType()
+        {
+            var cache = Substitute.For<ICreateProjectCache>();
+            cache.Get().Returns(new CreateProjectCacheItem { ProjectType = ProjectType.NewSchool });
+
+            var model = new CreateProjectBaseModel(cache);
+
+            var result = model.GetNextPage(CreateProjectPageName.LocalAuthority);
+
+            result.Should().Be(RouteConstants.CreateProjectSchoolType);
+        }
+
+        [Theory]
+        [InlineData(ProjectType.PresumptionRoute)]
+        [InlineData(ProjectType.CentralRoute)]
+        public void GetNextPage_LocalAuthority_WhenNotNewSchool_ReturnsSearchTrust(ProjectType projectType)
+        {
+            var cache = Substitute.For<ICreateProjectCache>();
+            cache.Get().Returns(new CreateProjectCacheItem { ProjectType = projectType });
+
+            var model = new CreateProjectBaseModel(cache);
+
+            var result = model.GetNextPage(CreateProjectPageName.LocalAuthority);
+
+            result.Should().Be(RouteConstants.CreateProjectSearchTrust);
         }
 
         [Theory]

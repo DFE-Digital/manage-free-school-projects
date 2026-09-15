@@ -18,4 +18,5 @@ public enum Referrer
     TaskList = 1,
     ContactsOverview = 2,
     EditUnderwrittenPlaces = 3,
+    Proposals = 4
 }

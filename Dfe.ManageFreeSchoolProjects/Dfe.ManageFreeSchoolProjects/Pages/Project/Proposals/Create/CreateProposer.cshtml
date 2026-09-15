@@ -1,0 +1,41 @@
+﻿@page "/projects/{projectId}/proposals/create/proposer"
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.CreateProposerModel
+
+@{
+    ViewData["Title"] = "Who is the proposer?";
+
+    var proposers = Enum.GetValues<ProposalProposer>().ToList();
+    var labels = proposers.Select(x => x.ToDescription()).ToArray();
+    var values = proposers.Select(x => x.ToString()).ToArray();
+}
+
+@section BeforeMain {
+    <nav class="govuk-extra-width-container">
+        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
+    </nav>
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            <div class="govuk-form-group">
+                <govuk-create-proposal-title label="Who is the proposer?" for="proposer" add-margin="true" />
+
+                <govuk-radios-input id="proposer" name="proposer"
+                                    asp-for="@Model.Proposer"
+                                    data-testid="proposer"
+                                    labels="@labels"
+                                    values="@values" />
+            </div>
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>

@@ -4,6 +4,13 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
 {
     public class UpdateProjectByTaskRequest
     {
+        public NewSchoolSpecificationPublicationDateTask NewSchoolSpecificationPublicationDate { get; set; }
+        public NewSchoolClosingDateForProposalsTask NewSchoolClosingDateForProposals { get; set; }
+        public NewSchoolDecisionMakerTask NewSchoolDecisionMaker { get; set; }
+        public NewSchoolDateOfDecisionTask NewSchoolDateOfDecision { get; set; }
+        public NewSchoolConditionsTask NewSchoolConditions { get; set; }
+        public NewSchoolDateForConditionsToBeMetTask NewSchoolDateForConditionsToBeMet { get; set; }
+        public NewSchoolDecisionTask NewSchoolDecision { get; set; }
         public DatesTask Dates { get; set; }
         public SchoolTask School { get; set; }
         public ReferenceNumbersTask ReferenceNumbers { get; set; }
@@ -72,6 +79,20 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
         {
             get
             {
+                if (NewSchoolSpecificationPublicationDate != null)
+                    return "NewSchoolSpecificationPublicationDate";
+                if (NewSchoolClosingDateForProposals != null)
+                    return "NewSchoolClosingDateForProposals";
+                if (NewSchoolDecisionMaker != null)
+                    return "NewSchoolDecisionMaker";
+                if (NewSchoolDateOfDecision != null)
+                    return "NewSchoolDateOfDecision";
+                if (NewSchoolDecision != null)
+                    return "NewSchoolDecision";
+                if (NewSchoolConditions != null)
+                    return "NewSchoolConditions";
+                if (NewSchoolDateForConditionsToBeMet != null)
+                    return "NewSchoolDateForConditionsToBeMet";
                 if (School != null)
                     return "School";
                 if (ReferenceNumbers != null)

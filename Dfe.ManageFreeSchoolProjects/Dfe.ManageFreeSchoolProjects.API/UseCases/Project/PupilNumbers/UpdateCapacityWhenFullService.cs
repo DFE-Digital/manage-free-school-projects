@@ -23,6 +23,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.PupilNumbers
             po.PupilNumbersAndCapacityY7Y11Capacity = capacityWhenFull.Year7ToYear11.ToString();
             po.PupilNumbersAndCapacityYrY11Pre16Capacity = (capacityWhenFull.ReceptionToYear6 + capacityWhenFull.Year7ToYear11).ToString();
             po.PupilNumbersAndCapacityY12Y14Post16Capacity = capacityWhenFull.Year12ToYear14.ToString();
+            po.PupilNumbersAndCapacityAPResourcesProvision = capacityWhenFull.APResourcesProvision.ToString();
+            po.PupilNumbersAndCapacitySENResourcedProvisionSENUnit = capacityWhenFull.SENResourcedProvisionSENUnit.ToString();
             po.PupilNumbersAndCapacitySpecialistResourceProvisionSpecial = capacityWhenFull.SpecialEducationNeeds.ToString();
             po.PupilNumbersAndCapacitySpecialistResourceProvisionAp = capacityWhenFull.AlternativeProvision.ToString();
 

@@ -1,19 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual;
 
 public class ProjectAssignedTo : CreateProjectBaseModel
 {
     private readonly ErrorService _errorService;
-
-    [Required(ErrorMessage = "Enter the name")]
-    [BindProperty(Name = "name")]
-    public string Name { get; set; }
 
     [Required(ErrorMessage = "Enter the email address")]
     [BindProperty(Name = "email")]
@@ -32,12 +30,24 @@ public class ProjectAssignedTo : CreateProjectBaseModel
             return new UnauthorizedResult();
         }
 
-
         var projectCache = CreateProjectCache.Get();
 
-        BackLink = GetPreviousPage(CreateProjectPageName.ProjectAssignedTo);
+        if (projectCache.ProjectType == ProjectType.NewSchool)
+        {
+            if (projectCache.FaithStatus == FaithStatus.None)
+            {
+                BackLink = RouteConstants.CreateFaithStatus;
+            }
+            else
+            {
+                BackLink = RouteConstants.CreateFaithType;
+            }
+        }
+        else
+        {
+            BackLink = GetPreviousPage(CreateProjectPageName.ProjectAssignedTo);
+        } 
 
-        Name = projectCache.ProjectAssignedToName;
         Email = projectCache.ProjectAssignedToEmail;
 
         return Page();
@@ -53,18 +63,6 @@ public class ProjectAssignedTo : CreateProjectBaseModel
         {
             _errorService.AddErrors(ModelState.Keys, ModelState);
             return Page();
-        }
-
-        if (!IsNamePopulated(Name))
-        {
-            ModelState.AddModelError("name", "Enter the full name, for example John Smith");
-            _errorService.AddErrors(ModelState.Keys, ModelState);
-            return Page();
-        }
-
-        if (Name.Any(char.IsDigit))
-        {
-            ModelState.AddModelError("name", "Name must not include numbers");
         }
 
         if (!IsEducationEmailValid(Email))
@@ -85,16 +83,10 @@ public class ProjectAssignedTo : CreateProjectBaseModel
             return Page();
         }
 
-        projectCache.ProjectAssignedToName = Name;
         projectCache.ProjectAssignedToEmail = Email;
         CreateProjectCache.Update(projectCache);
         
         return Redirect(RouteConstants.CreateProjectCheckYourAnswers);
-    }
-
-    private static bool IsNamePopulated(string name)
-    {
-        return name != null && name.Contains(' ');
     }
 
     private static bool IsEducationEmailValid(string email)

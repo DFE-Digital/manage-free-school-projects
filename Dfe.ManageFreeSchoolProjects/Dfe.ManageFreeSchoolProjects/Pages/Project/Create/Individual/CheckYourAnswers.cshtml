@@ -5,7 +5,6 @@
 @using static Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ClassType
 @using Dfe.ManageFreeSchoolProjects.Pages.Project
 @using Microsoft.AspNetCore.Html
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual.CheckYourAnswersModel
 
 @{
@@ -33,7 +32,7 @@
     <partial name="_ErrorSummary"/>
     <div class="govuk-grid-column-two-thirds-from-desktop">
         <h1 class="govuk-heading-xl">
-            <span class="govuk-caption-l">Creating a new free school project</span>
+            <span class="govuk-caption-l">Creating a new school project</span>
             Check your answers
         </h1>
 
@@ -48,12 +47,17 @@
             }
 
             @RenderSummaryRow("Temporary project ID", Model.Project.ProjectId, RouteConstants.CreateProjectId)
-            @RenderSummaryRow("Current free school name", Model.Project.SchoolName, RouteConstants.CreateProjectSchool)
+            @RenderSummaryRow("Current school name", Model.Project.SchoolName, RouteConstants.CreateProjectSchool)
 
 
             @RenderSummaryRow("Region", Model.Project.Region.ToDescription(), RouteConstants.CreateProjectRegion)
             @RenderSummaryRow("Local authority", Model.Project.LocalAuthority, RouteConstants.CreateProjectLocalAuthority)
-            @RenderSummaryRow("Trust", Model.Project.TrustName, RouteConstants.CreateProjectSearchTrust)
+
+            @if (Model.Project.ProjectType != ProjectType.NewSchool)
+            {
+                @RenderSummaryRow("Trust", Model.Project.TrustName, RouteConstants.CreateProjectSearchTrust)
+            }
+            
             @RenderSummaryRow("School type", Model.Project.SchoolType.ToDescription(), RouteConstants.CreateProjectSchoolType)
             @RenderSummaryRow("Nursery", Model.Project.Nursery.ToString(), RouteConstants.CreateClassType)
             @RenderSummaryRow("Sixth form", Model.Project.SixthForm.ToString(), RouteConstants.CreateClassType)
@@ -77,10 +81,20 @@
             @RenderSummaryRow("Year 7 to year 11 capacity", Model.Project.Y7Y11Capacity.ToString(), RouteConstants.CreateProjectCapacity)
             @RenderSummaryRow("Year 12 to year 14 capacity", Model.Project.Y12Y14Capacity.ToString(), RouteConstants.CreateProjectCapacity)
 
+            @if (Model.IsLocalAuthority && Model.IsMainStream)
+            {
+                @RenderSummaryRow("AP resources provision", Model.Project.APResourcesProvision.ToString(), RouteConstants.CreateProjectCapacity)
+                @RenderSummaryRow("SEN resourced provision / SEN unit", Model.Project.SENResourcedProvisionSENUnit.ToString(), RouteConstants.CreateProjectCapacity)
+            }
+
             @RenderSummaryRow("Faith status", Model.Project.FaithStatus.ToString(), RouteConstants.CreateFaithStatus)
             @RenderSummaryRow("Faith type", faithType, faithTypeLink)
-            @RenderSummaryRow("Provisional opening date", Model.Project.ProvisionalOpeningDate.ToDateString(), RouteConstants.CreateProjectProvisionalOpeningDate)
-            @RenderSummaryRow("Project assigned to", Model.Project.ProjectAssignedToName, RouteConstants.CreateProjectAssignedTo)
+
+            @if (Model.Project.ProjectType != ProjectType.NewSchool)
+            {
+                @RenderSummaryRow("Provisional opening date", Model.Project.ProvisionalOpeningDate.ToDateString(), RouteConstants.CreateProjectProvisionalOpeningDate)
+            }
+
             @RenderSummaryRow("Email", Model.Project.ProjectAssignedToEmail, RouteConstants.CreateProjectAssignedTo)
 
         </dl>

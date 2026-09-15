@@ -35,6 +35,16 @@
                 <div class="govuk-form-group">
                     <govuk-text-input id="y12-y14-capacity" name="y12-y14-capacity" label="Year 12 to year 14" asp-for="@Model.Y12Y14Capacity" data-testid="y12-y14-capacity" hint="For example, 600" />
                 </div>
+
+                @if (Model.IsLocalAuthority && Model.IsMainStream)
+                {
+                    <div class="govuk-form-group">
+                        <govuk-text-input id="ap-resources-provision" name="ap-resources-provision" label="AP resources provision" asp-for="@Model.APResourcesProvision" data-testid="ap-resources-provision" hint="For example, 600" />
+                    </div>
+                    <div class="govuk-form-group">
+                        <govuk-text-input id="sen-resourced-provision-sen-unit" name="sen-resourced-provision-sen-unit" label="SEN resourced provision / SEN unit" asp-for="@Model.SENResourcedProvisionSENUnit" data-testid="sen-resourced-provision-sen-unit" hint="For example, 600" />
+                    </div>
+                }
             </div>
 
             <button class="govuk-button" data-module="govuk-button" data-testid="continue">

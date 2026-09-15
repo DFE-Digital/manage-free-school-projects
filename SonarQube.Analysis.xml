@@ -10,4 +10,12 @@
 
     <!-- duplication exclusions -->
     <Property Name="sonar.cpd.exclusions">**/Dfe.ManageFreeSchoolProjects.CypressTests/cypress/e2e/**</Property>
+
+    <!-- issue exclusions -->
+    <!-- e1: the check your answers rows are built in an @functions helper, so the HTML analyser sees
+         the <dt>/<dd> as a bare fragment. At runtime every row is emitted inside the
+         <dl class="govuk-summary-list"> that wraps them, so the rendered markup is valid. -->
+    <Property Name="sonar.issue.ignore.multicriteria">e1</Property>
+    <Property Name="sonar.issue.ignore.multicriteria.e1.ruleKey">Web:ItemTagNotWithinContainerTagCheck</Property>
+    <Property Name="sonar.issue.ignore.multicriteria.e1.resourceKey">**/Proposals/Create/CheckYourAnswers.cshtml</Property>
 </SonarQubeAnalysisProperties>
