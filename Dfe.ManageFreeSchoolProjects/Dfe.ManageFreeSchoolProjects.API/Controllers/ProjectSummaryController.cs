@@ -25,18 +25,27 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
 
         [HttpGet]
         public async Task<ActionResult<ApiResponseV2<GetProjectSummaryResponse>>> GetAllProjectSummaries(
-            string projectManagedByEmail)
+            string projectManagedByEmail,
+            int? page = 1,
+            int? count = 25)
         {
             _logger.LogMethodEntered();
 
+            if (string.IsNullOrWhiteSpace(projectManagedByEmail))
+            {
+                return BadRequest("projectManagedByEmail is required.");
+            }
+
             var parameters = new GetProjectSummaryByUserParameters()
             {
-                ProjectManagedByEmail = projectManagedByEmail
+                ProjectManagedByEmail = projectManagedByEmail,
+                Page = page.Value,
+                Count = count.Value
             };
 
             var (projects, recordCount) = await _getProjectSummary.Execute(parameters);
 
-            var pagingResponse = BuildPaginationResponse(recordCount, null, null);
+            var pagingResponse = BuildPaginationResponse(recordCount, page, count);
 
             var response = new ApiResponseV2<GetProjectSummaryResponse>(projects, pagingResponse);
 
