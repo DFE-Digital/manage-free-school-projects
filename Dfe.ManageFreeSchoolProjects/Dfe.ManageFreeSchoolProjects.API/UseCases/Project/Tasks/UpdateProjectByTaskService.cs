@@ -36,6 +36,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks
 
             await UpdateTaskStatus(dbKpi.Rid, Status.InProgress, request);
 
+            await SetProposedDecision(request.NewSchoolDecision);
+
             await context.SaveChangesAsync();
         }
 
@@ -49,6 +51,25 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks
                 return;
 
             task.Status = updatedStatus;
+        }
+
+        private async Task SetProposedDecision(NewSchoolDecisionTask decisionTask)
+        {
+            if (decisionTask is null)
+                return;
+
+            var proposal = await context.Proposals.FirstOrDefaultAsync(x => x.Rid == decisionTask.ProposalId);
+            if (proposal is null)
+                return;
+
+            proposal.Status = "Successful";
+
+            var others = await context.Proposals.Where(x => x.ProjectId == proposal.ProjectId && x.Rid != proposal.Rid).ToListAsync();
+
+            foreach (var other in others)
+            {
+                other.Status = "Unsuccessful";
+            }
         }
     }
 }

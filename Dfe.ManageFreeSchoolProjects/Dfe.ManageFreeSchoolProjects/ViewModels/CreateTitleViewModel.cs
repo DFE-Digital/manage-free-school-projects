@@ -8,5 +8,6 @@
         public string For { get; set; }
         public string TestIdPrefix { get; set; }
         public bool AddMargin { get; set; }
+        public string Caption { get; set; }
     }
 }

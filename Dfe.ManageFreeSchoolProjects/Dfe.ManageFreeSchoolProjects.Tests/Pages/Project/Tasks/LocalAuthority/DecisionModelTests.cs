@@ -1,5 +1,4 @@
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Task;
 using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision;
 using FluentAssertions;
@@ -7,12 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
 {
     public class DecisionModelTests
     {
         private const string ProjectId = "NEW-SCHOOL-1";
+        private const string ProposalId = "RID-1";
 
         [Fact]
         public void Options_OffersTheTwoApprovalOutcomes()
@@ -106,21 +107,31 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             harness.CapturedStatusRequest!.ProjectTaskStatus.Should().Be(ProjectTaskStatus.Completed);
         }
 
-        /// <summary>
-        /// Clearing the answer is how a user undoes the task, so the status has to drop back to
-        /// not started rather than stay completed.
-        /// </summary>
         [Fact]
-        public async Task OnPost_WithoutADecision_MarksTheTaskNotStarted()
+        public async Task OnPost_SendsTheProposalIdFromTheRouteWithTheDecision()
         {
             var harness = new NewSchoolTaskPageHarness();
             var model = BuildModel(harness);
-            model.Decision = null;
+            model.Decision = "Approved with conditions";
 
             await model.OnPost();
 
-            harness.CapturedRequest!.NewSchoolDecision.NewSchoolDecision.Should().BeNull();
-            harness.CapturedStatusRequest!.ProjectTaskStatus.Should().Be(ProjectTaskStatus.NotStarted);
+            harness.CapturedRequest!.NewSchoolDecision.ProposalId.Should().Be(ProposalId);
+        }
+
+        [Fact]
+        public void Decision_IsRequired()
+        {
+            var model = BuildModel(new NewSchoolTaskPageHarness());
+            model.Decision = null;
+
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(
+                model, new ValidationContext(model), results, validateAllProperties: true);
+
+            isValid.Should().BeFalse();
+            results.Should().ContainSingle()
+                .Which.ErrorMessage.Should().Be("Select the decision");
         }
 
         [Fact]
@@ -147,6 +158,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
                 harness.ErrorService)
             {
                 ProjectId = ProjectId,
+                ProposalId = ProposalId,
                 PageContext = NewSchoolTaskPageHarness.BuildPageContext()
             };
         }

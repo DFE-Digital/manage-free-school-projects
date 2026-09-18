@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dfe.ManageFreeSchoolProjects.Services.Proposal;
+using System.Linq;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 {
@@ -23,7 +24,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 
         public ProjectOverviewResponse Project { get; set; }
 
-        public List<GetProposalResponse> Proposals { get; set; }
+        public List<GetProposalSummaryResponse> Proposals { get; set; }
+
+        public bool IsReadOnly { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
@@ -36,6 +39,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 
                 var response = await getProposalService.ExecuteList(projectId);
                 Proposals = response.Data;
+
+                IsReadOnly = Proposals.Any(x => x.Status == API.Contracts.Project.Tasks.ProposalStatus.Successful);
             }
             catch (Exception ex)
             {

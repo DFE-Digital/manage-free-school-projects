@@ -1,0 +1,30 @@
+@model Dfe.ManageFreeSchoolProjects.ViewModels.ProposalRadiosSelectionViewModel
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            @if (Model.Mode == ProposalJourneyMode.Create)
+            {
+                <govuk-create-proposal-title label="@Model.Title" add-margin="@Model.AddMargin" />
+            }
+            else
+            {
+                <govuk-update-proposal-title label="@Model.Title" add-margin="@Model.AddMargin" />
+            }
+
+            <govuk-radios-input id="@Model.Name" name="@Model.Name"
+                                asp-for="@Model.Value"
+                                data-testid="@Model.Name"
+                                labels="@Model.Labels"
+                                values="@Model.Values"
+                                hints="@Model.Hints" />
+
+            <br />
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                @Model.ButtonText
+            </button>
+        </form>
+    </div>
+</div>

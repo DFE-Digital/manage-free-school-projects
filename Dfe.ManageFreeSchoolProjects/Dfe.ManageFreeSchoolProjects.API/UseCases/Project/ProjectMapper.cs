@@ -108,7 +108,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 _ => EnumParsers.ParseFaithType(faithTypeDescription)
             };
         }
-        
+
+        public static ProposalStatus ToProposalStatus(string status)
+        {
+            return status switch
+            {
+                "Successful" => ProposalStatus.Successful,
+                "Unsuccessful" => ProposalStatus.Unsuccessful,
+                _ => ProposalStatus.Active
+            };
+        }
+
         public static TrustType ToTrustType(string trustTypeDescription)
         {
             return trustTypeDescription switch
