@@ -96,7 +96,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
     public enum ProposalStatus
     {
         [Description("Active")]
-        Active
+        Active,
+        [Description("Successful")]
+        Successful,
+        [Description("Unsuccessful")]
+        Unsuccessful
     }
 
     public enum ProposalProposer

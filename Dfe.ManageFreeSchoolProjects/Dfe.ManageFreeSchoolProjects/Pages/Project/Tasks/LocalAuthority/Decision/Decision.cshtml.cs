@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision
@@ -24,9 +25,14 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
 
         [BindProperty(SupportsGet = true, Name = "projectId")]
         public string ProjectId { get; set; }
+
+        [BindProperty(SupportsGet = true, Name = "proposalId")]
+        public string ProposalId { get; set; }
+
         public string CurrentFreeSchoolName { get; set; }
 
         [BindProperty(Name = "decision")]
+        [Required(ErrorMessage = "Select the decision")]
         public string Decision { get; set; }
 
         public List<string> Options { get; } =
@@ -84,20 +90,14 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
                 {
                     NewSchoolDecision = new NewSchoolDecisionTask
                     {
-                        NewSchoolDecision = Decision
+                        NewSchoolDecision = Decision,
+                        ProposalId = ProposalId
                     }
                 };
 
                 await _updateProjectTaskService.Execute(ProjectId, request);
 
-                if (Decision is not null)
-                {
-                    await UpdateStatusAsync(ProjectTaskStatus.Completed);
-                }
-                else
-                {
-                    await UpdateStatusAsync(ProjectTaskStatus.NotStarted);
-                }
+                await UpdateStatusAsync(ProjectTaskStatus.Completed);
 
                 return Redirect(string.Format(RouteConstants.TaskList, ProjectId));
             }

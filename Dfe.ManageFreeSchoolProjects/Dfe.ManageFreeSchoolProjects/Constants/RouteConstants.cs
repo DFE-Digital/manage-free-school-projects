@@ -237,7 +237,13 @@
         public const string NewSchoolDecisionMaker = TaskList + "/local-authority/decision-maker";
         public const string NewSchoolDateOfDecision = TaskList + "/local-authority/date-of-decision";
 
-        public const string NewSchoolDecision = TaskList + "/local-authority/decision";
+
+        public const string NewSchoolWhichProposalChosen = TaskList + "/local-authority/which-proposal-chosen";
+        public const string NewSchoolConfirmProposalChosen = TaskList + "/local-authority/{1}/confirm-chosen-proposal";
+        public const string NewSchoolDecision = TaskList + "/local-authority/{1}/decision";
+
+
+
         public const string NewSchoolConditions = TaskList + "/local-authority/conditions";
         public const string NewSchoolDateForConditionsToBeMet = TaskList + "/local-authority/date-conditions-met";
 

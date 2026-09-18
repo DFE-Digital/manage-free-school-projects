@@ -44,5 +44,8 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
         public string ProposedFaithStatus { get; set; }
         public string ProposedFaithType { get; set; }
         public string OtherFaithType { get; set; }
+
+        // Active, Successful, Unsuccessful
+        public string Status { get; set; }
     }
 }

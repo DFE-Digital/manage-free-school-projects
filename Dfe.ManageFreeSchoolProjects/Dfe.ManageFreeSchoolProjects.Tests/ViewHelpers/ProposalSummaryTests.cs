@@ -1,4 +1,3 @@
-using System.IO;
 using System.Text.Encodings.Web;
 using Dfe.ManageFreeSchoolProjects.ViewHelpers;
 using FluentAssertions;
@@ -48,10 +47,22 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.ViewHelpers
             html.Should().Contain(@"<span class=""govuk-visually-hidden""> the trust name</span>");
         }
 
-        private static string Render(
-            string key, string? value, string link, string visuallyHiddenText = "", string testId = "")
+        [Fact]
+        public void RenderSummaryRow_WhenTheChangeLinkIsHidden_OnlyShowsTheAnswer()
         {
-            var content = ProposalSummary.RenderSummaryRow(key, value, link, visuallyHiddenText, testId);
+            var html = Render("Trust name", "Test Trust", "/change-me", showChangeLink: false);
+
+            html.Should().Contain("Test Trust");
+            html.Should().NotContain("Change");
+            html.Should().NotContain(@"href=""/change-me""");
+            html.Should().Contain("govuk-summary-list__row--no-actions");
+        }
+
+        private static string Render(
+            string key, string? value, string link, bool showChangeLink = true, string visuallyHiddenText = "", string testId = "")
+        {
+            var content = ProposalSummary.RenderSummaryRow(
+                key, value, link, showChangeLink, visuallyHiddenText, testId);
 
             using var writer = new StringWriter();
             content.WriteTo(writer, HtmlEncoder.Default);

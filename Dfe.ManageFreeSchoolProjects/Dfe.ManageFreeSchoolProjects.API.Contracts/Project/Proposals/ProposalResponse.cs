@@ -36,5 +36,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals
         public FaithStatus ProposedFaithStatus { get; set; }
         public FaithType ProposedFaithType { get; set; }
         public string OtherFaithType { get; set; }
+
+        public ProposalStatus Status { get; set; }
     }
 }

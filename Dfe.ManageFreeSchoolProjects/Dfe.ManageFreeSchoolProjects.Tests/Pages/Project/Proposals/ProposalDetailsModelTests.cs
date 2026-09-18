@@ -74,6 +74,31 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
             result.Should().BeOfType<NotFoundResult>();
         }
 
+        [Theory]
+        [InlineData(ProposalStatus.Active, true)]
+        [InlineData(ProposalStatus.Successful, false)]
+        [InlineData(ProposalStatus.Unsuccessful, false)]
+        public async Task OnGetAsync_OnlyAllowsEditingWhileTheProposalIsActive(
+            ProposalStatus status, bool expectedIsEditable)
+        {
+            var proposal = new ProposalResponse
+            {
+                Rid = Rid,
+                ProjectId = ProjectId,
+                Proposer = ProposalProposer.Diocese,
+                Status = status
+            };
+
+            var getProposalService = Substitute.For<IGetProposalService>();
+            getProposalService.ExecuteSingle(Rid).Returns(new ApiSingleResponseV2<ProposalResponse>(proposal));
+
+            var model = BuildModel(getProposalService, Substitute.For<IGetProjectOverviewService>());
+
+            await model.OnGetAsync();
+
+            model.IsEditable.Should().Be(expectedIsEditable);
+        }
+
         private static ProposalDetailsModel BuildModel(
             IGetProposalService getProposalService, IGetProjectOverviewService getProjectOverviewService) =>
             new(getProposalService,

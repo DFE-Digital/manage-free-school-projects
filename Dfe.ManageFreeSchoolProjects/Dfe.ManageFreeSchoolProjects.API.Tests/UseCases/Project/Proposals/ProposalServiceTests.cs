@@ -7,7 +7,6 @@ using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.Data;
 using Dfe.ManageFreeSchoolProjects.Data.Entities.Existing;
-using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Proposals
@@ -157,6 +156,43 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Proposals
             var result = await new GetProposalService(context).ExecuteList(ProjectId);
 
             result.Single().Name.Should().Be(expectedName);
+        }
+
+        [Theory]
+        [InlineData("Active", ProposalStatus.Active)]
+        [InlineData("Successful", ProposalStatus.Successful)]
+        [InlineData("Unsuccessful", ProposalStatus.Unsuccessful)]
+        [InlineData(null, ProposalStatus.Active)]
+        public async Task List_ReadsBackTheDecisionStatus(string stored, ProposalStatus expected)
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.Diocese,
+                p => p.Status = stored));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteList(ProjectId);
+
+            result.Single().Status.Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData("Successful", ProposalStatus.Successful)]
+        [InlineData("Unsuccessful", ProposalStatus.Unsuccessful)]
+        [InlineData(null, ProposalStatus.Active)]
+        public async Task GetSingle_ReadsBackTheDecisionStatus(string stored, ProposalStatus expected)
+        {
+            using var context = BuildContext();
+            context.Proposals.Add(BuildProposal("RID-1", ProjectId, ProposalProposer.Diocese, p =>
+            {
+                p.ProposedFaithStatus = "None";
+                p.ProposedFaithType = "None";
+                p.Status = stored;
+            }));
+            await context.SaveChangesAsync();
+
+            var result = await new GetProposalService(context).ExecuteSingle("RID-1");
+
+            result.Status.Should().Be(expected);
         }
 
         [Theory]

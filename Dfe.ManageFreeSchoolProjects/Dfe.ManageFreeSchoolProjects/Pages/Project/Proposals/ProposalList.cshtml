@@ -31,13 +31,16 @@
     <div class="govuk-grid-column-three-quarters">
         <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Proposals</h2>
 
-        <div class="dfe-card">
-            <div class="dfe-card-container">
-                <h3 class="govuk-heading-m govuk-!-margin-bottom-0">
-                    <a href="@string.Concat(string.Format(RouteConstants.Proposals_Create_Proposer, Model.ProjectId), "?newProposal=true")" id="add-proposal" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Add a proposal</a>
-                </h3>
+        @if (!Model.IsReadOnly)
+        {
+            <div class="dfe-card">
+                <div class="dfe-card-container">
+                    <h3 class="govuk-heading-m govuk-!-margin-bottom-0">
+                        <a href="@string.Concat(string.Format(RouteConstants.Proposals_Create_Proposer, Model.ProjectId), "?newProposal=true")" id="add-proposal" class="govuk-link govuk-link--no-visited-state dfe-card-link--header">Add a proposal</a>
+                    </h3>
+                </div>
             </div>
-        </div>
+        }
 
         <table class="govuk-table govuk-!-margin-top-6">
             <thead class="govuk-table__head">

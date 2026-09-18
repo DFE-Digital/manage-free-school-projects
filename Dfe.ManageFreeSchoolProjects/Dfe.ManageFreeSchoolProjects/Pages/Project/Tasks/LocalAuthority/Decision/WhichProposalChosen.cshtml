@@ -1,0 +1,63 @@
+﻿@page "/projects/{projectId}/tasks/local-authority/which-proposal-chosen"
+@using Dfe.ManageFreeSchoolProjects.Constants;
+
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision.WhichProposalChosenModel
+
+@inject Dfe.ManageFreeSchoolProjects.Services.ErrorService errorService
+
+@{
+    ViewData["Title"] = $"Edit Decision - {Model.CurrentFreeSchoolName}";
+    var backLink = string.Format(RouteConstants.TaskList, Model.ProjectId);
+    var error = errorService.GetError("chosen-proposal");
+    var formGroupClass = error != null ? "govuk-form-group govuk-form-group--error" : "govuk-form-group";
+}
+
+@section BeforeMain {
+    <nav class="govuk-extra-width-container">
+        <a href=@backLink class="govuk-back-link">Back</a>
+    </nav>
+}
+
+<partial name="_ErrorSummary" />
+
+<h1 class="govuk-heading-xl" data-testid="title">
+    <span class="govuk-caption-l" data-testid="school-name">
+        @Model.CurrentFreeSchoolName
+    </span>
+    Which proposal has been chosen?
+</h1>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form method="post">
+            <div class="@formGroupClass">
+                <label class="govuk-label" for="chosen-proposal">
+                    Select one option.
+                </label>
+
+                @if (error != null)
+                {
+                    <p id="chosen-proposal-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> @error.Message
+                    </p>
+                }
+
+                <select class="govuk-select govuk-!-width-full"
+                        id="chosen-proposal"
+                        name="chosen-proposal"
+                        data-testid="chosen-proposal">
+                    <option value="">Choose proposal</option>
+                    @foreach (var proposal in Model.Proposals)
+                    {
+                        <option value="@proposal.Key" selected="@(proposal.Key == Model.ChosenProposalId)">@proposal.Value</option>
+                    }
+                </select>
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
+    </div>
+</div>
+

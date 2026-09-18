@@ -26,7 +26,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
                 JointProposalLocalAuthorityRegion = proposal.JointProposalLocalAuthorityRegion,
                 ProposedFaithStatus = ProjectMapper.ToFaithStatus(proposal.ProposedFaithStatus),
                 ProposedFaithType = ProjectMapper.ToFaithType(proposal.ProposedFaithType),
-                OtherFaithType = proposal.OtherFaithType
+                OtherFaithType = proposal.OtherFaithType,
+                Status = ProjectMapper.ToProposalStatus(proposal.Status)
             };
         }
     }

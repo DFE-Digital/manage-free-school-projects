@@ -90,6 +90,12 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Configuration.Existing
                 .IsUnicode(false)
                 .HasColumnName("OtherFaithType");
 
+            builder.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Status")
+                .HasDefaultValue("Active");
+
             AuditConfiguration.Apply(builder);
         }
     }

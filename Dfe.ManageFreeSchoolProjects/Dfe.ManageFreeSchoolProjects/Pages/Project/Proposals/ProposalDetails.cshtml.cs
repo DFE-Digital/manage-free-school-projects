@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 {
@@ -28,6 +29,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 
         public ProposalResponse Proposal { get; set; }
 
+        public bool IsEditable { get; set; }
+
         public async Task<IActionResult> OnGetAsync()
         {
             logger.LogMethodEntered();
@@ -39,7 +42,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
                 return NotFound();
             }
 
-            Proposal = result.Data;
+            Proposal = result.Data;         
+            IsEditable = Proposal.Status == ProposalStatus.Active;
 
             Project = await getProjectOverviewService.Execute(ProjectId);
 
