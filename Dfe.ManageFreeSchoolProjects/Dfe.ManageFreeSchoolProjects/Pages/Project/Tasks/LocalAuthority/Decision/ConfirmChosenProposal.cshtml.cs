@@ -52,7 +52,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
 
                 if (proposal?.Proposer is not null)
                 {
-                    ProposalName = proposal.Proposer!.ToDescription();
+                    ProposalName = proposal.Proposer.ToDescription();
                 }
 
             }
