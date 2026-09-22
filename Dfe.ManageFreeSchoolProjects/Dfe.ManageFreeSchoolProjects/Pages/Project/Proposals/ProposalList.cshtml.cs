@@ -38,7 +38,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
                 Project = await getProjectOverviewService.Execute(projectId);
 
                 var response = await getProposalService.ExecuteList(projectId);
-                Proposals = response.Data;
+                Proposals = response.Data ?? [];
 
                 IsReadOnly = Proposals.Any(x => x.Status == API.Contracts.Project.Tasks.ProposalStatus.Successful);
             }
