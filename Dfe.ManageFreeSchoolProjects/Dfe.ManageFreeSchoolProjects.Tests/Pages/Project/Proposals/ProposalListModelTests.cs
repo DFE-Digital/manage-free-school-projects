@@ -73,10 +73,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
             model.Proposals.Should().BeEmpty();
         }
 
-        /// <summary>
-        /// A failure fetching the project is swallowed so the user still gets the page rather than an
-        /// error, which also means the proposals are never asked for.
-        /// </summary>
         [Fact]
         public async Task OnGet_WhenTheProjectCannotBeFetched_StillReturnsThePage()
         {
@@ -90,12 +86,12 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
 
             result.Should().BeOfType<PageResult>();
             model.Project.Should().BeNull();
-            model.Proposals.Should().BeNull();
+            model.Proposals.Should().BeEmpty();
             await proposalService.DidNotReceiveWithAnyArgs().ExecuteList(default!);
         }
 
         [Fact]
-        public async Task OnGet_WhenTheProposalsCannotBeFetched_StillReturnsThePage()
+        public async Task OnGet_WhenTheProposalsCannotBeFetched_StillReturnsThePageWithAnEmptyList()
         {
             var project = new ProjectOverviewResponse();
             var overviewService = Substitute.For<IGetProjectOverviewService>();
@@ -109,7 +105,21 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
 
             result.Should().BeOfType<PageResult>();
             model.Project.Should().BeSameAs(project);
-            model.Proposals.Should().BeNull();
+            model.Proposals.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task OnGet_WhenTheResponseCarriesNoData_LeavesTheListEmpty()
+        {
+            var model = BuildModel(BuildOverviewService(), out var proposalService);
+            proposalService.ExecuteList(ProjectId)
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>(null!));
+
+            var result = await model.OnGet();
+
+            result.Should().BeOfType<PageResult>();
+            model.Proposals.Should().BeEmpty();
+            model.IsReadOnly.Should().BeFalse();
         }
 
         [Fact]

@@ -24,7 +24,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals
 
         public ProjectOverviewResponse Project { get; set; }
 
-        public List<GetProposalSummaryResponse> Proposals { get; set; }
+        public List<GetProposalSummaryResponse> Proposals { get; set; } = [];
 
         public bool IsReadOnly { get; set; }
 
