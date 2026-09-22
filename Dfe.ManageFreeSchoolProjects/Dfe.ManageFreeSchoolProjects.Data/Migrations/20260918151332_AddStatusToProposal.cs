@@ -19,8 +19,6 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                 maxLength: 50,
                 nullable: true,
                 defaultValue: "Active");
-
-            migrationBuilder.Sql("UPDATE dbo.Proposal SET Status = 'Active' WHERE Status IS NULL;");
         }
 
         /// <inheritdoc />
