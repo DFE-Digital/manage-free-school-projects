@@ -21,13 +21,10 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
         [Fact]
         public async Task OnGet_PopulatesTheSchoolNameAndTheProposalsToChooseFrom()
         {
-            var harness = new NewSchoolTaskPageHarness().ReturnsProject(new GetProjectByTaskResponse
-            {
-                SchoolName = "Test School"
-            });
+            var harness = BuildHarness();
             var proposalService = BuildProposalService(
-                BuildProposal("RID-1", ProposalProposer.Diocese),
-                BuildProposal("RID-2", ProposalProposer.AnotherLocalAuthority));
+                BuildProposal("RID-1", ProposalProposer.Diocese, "Diocese of Bristol"),
+                BuildProposal("RID-2", ProposalProposer.AnotherLocalAuthority, "Cornwall Council"));
 
             var model = BuildModel(harness, proposalService);
 
@@ -36,9 +33,55 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             result.Should().BeOfType<PageResult>();
             model.CurrentFreeSchoolName.Should().Be("Test School");
             model.Proposals.Should().Equal(
-                new KeyValuePair<string, string>("RID-1", "Diocese"),
-                new KeyValuePair<string, string>("RID-2", "Another local authority"));
+                new KeyValuePair<string, string>("RID-1", "Diocese [Diocese of Bristol]"),
+                new KeyValuePair<string, string>("RID-2", "Another local authority [Cornwall Council]"));
             await proposalService.Received(1).ExecuteList(ProjectId);
+        }
+
+        [Fact]
+        public async Task OnGet_ForTheAuthorityThatPublishedTheSpecification_NamesItFromTheProjectsLocalAuthority()
+        {
+            var harness = BuildHarness();
+            harness.GetProjectService.Execute(ProjectId, TaskName.RegionAndLocalAuthority)
+                .Returns(new GetProjectByTaskResponse
+                {
+                    RegionAndLocalAuthority = new RegionAndLocalAuthorityTask
+                    {
+                        LocalAuthority = "Bristol City Council"
+                    }
+                });
+
+            var proposalService = BuildProposalService(
+                BuildProposal("RID-1", ProposalProposer.LocalAuthorityThatPushedSpecification, name: null));
+
+            var model = BuildModel(harness, proposalService);
+
+            await model.OnGet();
+
+            model.Proposals.Should().ContainSingle()
+                .Which.Should().Be(new KeyValuePair<string, string>(
+                    "RID-1", "Local authority that published the specification [Bristol City Council]"));
+            await harness.GetProjectService.Received(1).Execute(ProjectId, TaskName.RegionAndLocalAuthority);
+        }
+
+        [Fact]
+        public async Task OnGet_WhenTheProjectHasNoLocalAuthorityRecorded_StillListsTheProposals()
+        {
+            var harness = BuildHarness();
+            harness.GetProjectService.Execute(ProjectId, TaskName.RegionAndLocalAuthority)
+                .Returns(new GetProjectByTaskResponse { RegionAndLocalAuthority = null });
+
+            var proposalService = BuildProposalService(
+                BuildProposal("RID-1", ProposalProposer.LocalAuthorityThatPushedSpecification, name: null),
+                BuildProposal("RID-2", ProposalProposer.Diocese, "Diocese of Bristol"));
+
+            var model = BuildModel(harness, proposalService);
+
+            await model.OnGet();
+
+            model.Proposals.Should().HaveCount(2);
+            model.Proposals[1].Should().Be(
+                new KeyValuePair<string, string>("RID-2", "Diocese [Diocese of Bristol]"));
         }
 
         [Fact]
@@ -52,10 +95,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             model.Proposals.Should().BeEmpty();
         }
 
-        /// <summary>
-        /// A failure fetching the project or its proposals is swallowed so the user still gets the
-        /// page. The list has to stay empty rather than null, because the view enumerates it.
-        /// </summary>
         [Fact]
         public async Task OnGet_WhenTheProposalsCannotBeFetched_StillReturnsThePageWithAnEmptyList()
         {
@@ -83,15 +122,12 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
                     string.Format(RouteConstants.NewSchoolConfirmProposalChosen, ProjectId, "RID-2"));
         }
 
-        /// <summary>
-        /// The dropdown is rebuilt from the API on every request, so a rejected post has to reload
-        /// the proposals or the user would be sent back to an empty list.
-        /// </summary>
         [Fact]
         public async Task OnPost_WhenModelStateIsInvalid_ReloadsTheProposalsAndReturnsThePage()
         {
             var harness = BuildHarness();
-            var proposalService = BuildProposalService(BuildProposal("RID-1", ProposalProposer.Diocese));
+            var proposalService = BuildProposalService(
+                BuildProposal("RID-1", ProposalProposer.Diocese, "Diocese of Bristol"));
 
             var model = BuildModel(harness, proposalService);
             model.ModelState.AddModelError("chosen-proposal", "Select the proposal that has been chosen");
@@ -101,7 +137,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             result.Should().BeOfType<PageResult>();
             harness.ErrorService.HasErrors().Should().BeTrue();
             model.Proposals.Should().ContainSingle()
-                .Which.Should().Be(new KeyValuePair<string, string>("RID-1", "Diocese"));
+                .Which.Should().Be(new KeyValuePair<string, string>("RID-1", "Diocese [Diocese of Bristol]"));
         }
 
         [Fact]
@@ -119,19 +155,20 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
                 .Which.ErrorMessage.Should().Be("Select the proposal that has been chosen");
         }
 
-        /// <summary>A harness whose project loads, so the page gets as far as the proposals.</summary>
         private static NewSchoolTaskPageHarness BuildHarness() =>
             new NewSchoolTaskPageHarness().ReturnsProject(new GetProjectByTaskResponse
             {
                 SchoolName = "Test School"
             });
 
-        private static GetProposalSummaryResponse BuildProposal(string rid, ProposalProposer proposer) =>
+        private static GetProposalSummaryResponse BuildProposal(
+            string rid, ProposalProposer proposer, string name = "Test Proposer") =>
             new()
             {
                 Rid = rid,
                 ProjectId = ProjectId,
                 Proposer = proposer,
+                Name = name,
                 Status = ProposalStatus.Active
             };
 

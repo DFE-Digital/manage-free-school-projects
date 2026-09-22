@@ -92,7 +92,16 @@
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolClosingDateForProposals" href="@closingDateForProposalsLink" label="Closing date for proposals" />
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDecisionMaker" href="@decisionMakerLink" label="Decision maker" />
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDateOfDecision" href="@dateOfDecisionLink" label="Date of decision" />
-                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDecision" href="@decisionLink" label="Decision" />
+
+                            @if (Model.ProjectTaskListSummary.NewSchoolDecision.Status == ProjectTaskStatus.Completed)
+                            {
+                                <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDecision" label="Decision" />
+                            }
+                            else
+                            {
+                                <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDecision" href="@decisionLink" label="Decision" />
+                            }
+
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolConditions" href="@conditionsLink" label="Conditions" />
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDateForConditionsToBeMet" href="@dateForConditionsToBeMetLink" label="Date for conditions to be met" />
                         </ul>

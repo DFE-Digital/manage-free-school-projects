@@ -77,11 +77,27 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
         {
             try
             {
-                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
-                CurrentFreeSchoolName = project.SchoolName;
+                var newSchoolDecisionTask = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
+                CurrentFreeSchoolName = newSchoolDecisionTask.SchoolName;
+
+                var regionAndLocalAuthorityTask = await _getProjectService.Execute(ProjectId, TaskName.RegionAndLocalAuthority);
 
                 var response = await _getProposalService.ExecuteList(ProjectId);
-                Proposals = [.. response.Data.Select(p => new KeyValuePair<string, string>(p.Rid, p.Proposer.ToDescription()))];
+
+                Proposals =
+                [
+                    .. response.Data.Select(p =>
+                    {
+                        var name = p.Proposer == ProposalProposer.LocalAuthorityThatPushedSpecification
+                            ? regionAndLocalAuthorityTask?.RegionAndLocalAuthority?.LocalAuthority
+                            : p.Name;
+
+                        return new KeyValuePair<string, string>(
+                            p.Rid,
+                            $"{p.Proposer.ToDescription()} [{name}]"
+                        );
+                    })
+                ];
             }
             catch (Exception ex)
             {
