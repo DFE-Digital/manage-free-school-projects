@@ -162,7 +162,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             });
 
         private static GetProposalSummaryResponse BuildProposal(
-            string rid, ProposalProposer proposer, string name = "Test Proposer") =>
+            string rid, ProposalProposer proposer, string? name = "Test Proposer") =>
             new()
             {
                 Rid = rid,
