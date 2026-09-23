@@ -14,10 +14,6 @@ using NSubstitute.ExceptionExtensions;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project
 {
-    /// <summary>
-    /// About the project pulls the overview and, alongside it, the new school decision so the status
-    /// section can show which way the decision went.
-    /// </summary>
     public class ProjectOverviewModelTests
     {
         private const string ProjectId = "NEW-SCHOOL-1";
@@ -48,10 +44,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project
             await taskService.Received(1).Execute(ProjectId, TaskName.NewSchoolDecision);
         }
 
-        /// <summary>
-        /// A failure fetching the overview is swallowed so the page is still returned, which also
-        /// means the decision is never asked for.
-        /// </summary>
         [Fact]
         public async Task OnGet_WhenTheOverviewCannotBeFetched_StillReturnsThePage()
         {
@@ -88,10 +80,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project
             model.DecisionTask.Should().BeNull();
         }
 
-        /// <summary>
-        /// A project that has never reached the decision still has a task response, just an empty
-        /// answer inside it, and the status section renders that as an empty value.
-        /// </summary>
         [Fact]
         public async Task OnGet_WhenTheDecisionHasNotBeenMade_LeavesTheAnswerEmpty()
         {
@@ -136,7 +124,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project
             };
         }
 
-        /// <summary>The overview is looked up by the project id on the route, so it has to be there.</summary>
         private static PageContext BuildPageContext()
         {
             var routeData = new RouteData();

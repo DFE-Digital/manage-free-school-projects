@@ -13,10 +13,6 @@ using NSubstitute.ExceptionExtensions;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals.Edit
 {
-    /// <summary>
-    /// The two pages that change the trust on a proposal: search for a TRN, then confirm the trust
-    /// that was found.
-    /// </summary>
     public class UpdateProposalTrustPagesTests
     {
         private const string ProjectId = UpdateProposalPageHarness.ProjectId;

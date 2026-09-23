@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.TagHelpers
 {
-    /// <summary>
-    /// Renders the page heading for a proposal journey. The create and update journeys share the
-    /// same markup and only differ by the caption shown above the heading.
-    /// </summary>
     public abstract class ProposalTitleTagHelperBase : TagHelper
     {
         [HtmlAttributeName("id")]
@@ -40,9 +36,6 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
             _htmlHelper = htmlHelper;
         }
 
-        /// <summary>
-        /// The caption rendered above the heading, for example "Create a proposal".
-        /// </summary>
         protected abstract string Caption { get; }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)

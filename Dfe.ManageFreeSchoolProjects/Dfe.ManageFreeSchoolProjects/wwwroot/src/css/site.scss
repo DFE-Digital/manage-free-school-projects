@@ -368,10 +368,6 @@ h1.govuk-fieldset__heading {
     white-space: pre-wrap;
 }
 
-// Intake footer layout.
-// NOTE: these live here (not as inline styles) because the Content Security
-// Policy is `style-src 'self'`, which blocks inline style attributes. See
-// Security/SecureHeadersDefinitions.cs.
 .mfsp-footer-intake {
     display: flex;
     align-items: stretch;
@@ -400,8 +396,6 @@ h1.govuk-fieldset__heading {
     flex-shrink: 0;
 }
 
-// Blue confirmation panel used by the "are you sure" interruption pages,
-// for example confirming the chosen proposal on the new school decision task.
 .mfsp-confirmation-panel {
     padding: 40px;
     margin-bottom: 30px;
@@ -418,8 +412,6 @@ h1.govuk-fieldset__heading {
     }
 }
 
-// Alignment comes from .govuk-button-group (baseline), this only widens the
-// space between the confirm button and the "change my answer" link.
 .mfsp-confirmation-panel__actions {
     gap: 25px;
 }

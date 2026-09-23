@@ -4,9 +4,6 @@ using FluentAssertions;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.ViewHelpers
 {
-    /// <summary>
-    /// The summary rows shared by the proposal check your answers and details pages.
-    /// </summary>
     public class ProposalSummaryTests
     {
         [Fact]

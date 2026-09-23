@@ -6,9 +6,6 @@ using NSubstitute;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Services
 {
-    /// <summary>
-    /// The lookup shared by the create and update proposal local authority pages.
-    /// </summary>
     public class GetLocalAuthoritiesServiceExtensionsTests
     {
         [Fact]

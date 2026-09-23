@@ -11,10 +11,6 @@ using NSubstitute;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals.Edit
 {
-    /// <summary>
-    /// The two "which local authority?" pages, which save both the region chosen on the previous
-    /// page and the local authority picked here.
-    /// </summary>
     public class UpdateProposalLocalAuthorityPagesTests
     {
         private const string ProjectId = UpdateProposalPageHarness.ProjectId;

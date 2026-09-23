@@ -22,20 +22,12 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Extensions
             faithStatus.ToDescriptionOrEmpty().Should().BeEmpty();
         }
 
-        /// <summary>
-        /// The contrast with ToDescription is the point of the separate helper - falling back to
-        /// the member name would render a hint reading "Ethos" underneath the Ethos radio.
-        /// </summary>
         [Fact]
         public void ToDescription_WhenNotDescribed_FallsBackToMemberName()
         {
             FaithStatus.Ethos.ToDescription().Should().Be("Ethos");
         }
 
-        /// <summary>
-        /// Both helpers are called on nullable enums straight out of the project cache, so the null
-        /// guard has to survive - without it the reflection below throws.
-        /// </summary>
         [Fact]
         public void ToDescription_WhenNullableEnumHasNoValue_ReturnsEmpty()
         {
@@ -60,10 +52,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Extensions
             faithStatus.ToDescription().Should().Be("This is also known as character.");
         }
 
-        /// <summary>
-        /// Regions arrive as a number in the URL, so a value outside the enum can reach here. There
-        /// is no member to read an attribute from, and it must not throw.
-        /// </summary>
         [Fact]
         public void ToDescription_WhenTheValueIsNotAMemberOfTheEnum_FallsBackToTheNumber()
         {

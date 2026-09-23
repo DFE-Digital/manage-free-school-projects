@@ -18,10 +18,6 @@ using NSubstitute;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals.Edit
 {
-    /// <summary>
-    /// Builds the substitutes every "update a proposal" page needs, and captures the update request
-    /// the page sends so tests can assert on what would be saved.
-    /// </summary>
     internal sealed class UpdateProposalPageHarness
     {
         public const string ProjectId = "NEW-SCHOOL-1";
@@ -44,7 +40,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals.Edit
             return this;
         }
 
-        /// <summary>The proposal cannot be found, so pages should return a 404.</summary>
         public UpdateProposalPageHarness WithNoProposal()
         {
             GetProposalService.ExecuteSingle(Rid).Returns(new ApiSingleResponseV2<ProposalResponse>(null!));
@@ -78,10 +73,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals.Edit
             return this;
         }
 
-        /// <summary>
-        /// The single update request the page sent. Null when the page never saved, which tests
-        /// assert on directly, so it is not declared nullable.
-        /// </summary>
         public UpdateProposalRequest SavedRequest =>
             UpdateProposalService.ReceivedCalls()
                 .Where(c => c.GetMethodInfo().Name == nameof(IUpdateProposalService.Execute))
@@ -103,10 +94,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals.Edit
             return new PageContext(actionContext);
         }
 
-        /// <summary>
-        /// Reads the back link off a page. It is declared "protected internal" on the shared base
-        /// model, so it is not directly reachable from this assembly.
-        /// </summary>
         public static string? BackLinkOf(UpdateProposalBaseModel page)
         {
             var property = typeof(UpdateProposalBaseModel).GetProperty(

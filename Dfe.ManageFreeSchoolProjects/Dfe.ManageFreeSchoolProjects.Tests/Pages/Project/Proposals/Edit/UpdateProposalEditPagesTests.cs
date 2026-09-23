@@ -10,10 +10,6 @@ using NSubstitute;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals.Edit
 {
-    /// <summary>
-    /// The single field "update a proposal" pages. They all share a base model, so the shared
-    /// behaviour is covered once and each page then covers the answer it is responsible for.
-    /// </summary>
     public class UpdateProposalEditPagesTests
     {
         private const string ProjectId = UpdateProposalPageHarness.ProjectId;
