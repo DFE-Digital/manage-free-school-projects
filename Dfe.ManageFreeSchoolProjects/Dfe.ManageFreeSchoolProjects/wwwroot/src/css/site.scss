@@ -368,10 +368,6 @@ h1.govuk-fieldset__heading {
     white-space: pre-wrap;
 }
 
-// Intake footer layout.
-// NOTE: these live here (not as inline styles) because the Content Security
-// Policy is `style-src 'self'`, which blocks inline style attributes. See
-// Security/SecureHeadersDefinitions.cs.
 .mfsp-footer-intake {
     display: flex;
     align-items: stretch;
@@ -398,4 +394,24 @@ h1.govuk-fieldset__heading {
 
 .mfsp-footer-intake__icon {
     flex-shrink: 0;
+}
+
+.mfsp-confirmation-panel {
+    padding: 40px;
+    margin-bottom: 30px;
+    color: #ffffff;
+    background-color: #1d70b8;
+
+    .govuk-heading-l,
+    .govuk-body-l {
+        color: #ffffff;
+    }
+
+    .govuk-body-l {
+        margin-bottom: 40px;
+    }
+}
+
+.mfsp-confirmation-panel__actions {
+    gap: 25px;
 }

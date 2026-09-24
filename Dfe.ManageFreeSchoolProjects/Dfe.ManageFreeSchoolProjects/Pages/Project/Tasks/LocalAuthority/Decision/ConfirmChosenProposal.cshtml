@@ -1,0 +1,37 @@
+@page "/projects/{projectId}/tasks/local-authority/{proposalId}/confirm-chosen-proposal"
+@using Dfe.ManageFreeSchoolProjects.Constants;
+
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision.ConfirmChosenProposalModel
+
+@{
+    ViewData["Title"] = $"Edit Decision - {Model.CurrentFreeSchoolName}";
+    var changeAnswerLink = string.Format(RouteConstants.NewSchoolWhichProposalChosen, Model.ProjectId);
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="mfsp-confirmation-panel" data-testid="confirm-chosen-proposal-panel">
+            <h1 class="govuk-heading-l" data-testid="title">
+                Are you sure this proposal has been chosen?
+            </h1>
+
+            <p class="govuk-body-l" data-testid="proposal-name">
+                You entered @Model.ProposalName
+            </p>
+
+            <form method="post">
+                <div class="govuk-button-group mfsp-confirmation-panel__actions">
+                    <button class="govuk-button govuk-button--inverse"
+                            data-module="govuk-button"
+                            data-testid="confirm">
+                        Yes, this is correct
+                    </button>
+
+                    <a class="govuk-link govuk-link--inverse" href="@changeAnswerLink" data-testid="change-answer">
+                        No, change my answer
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

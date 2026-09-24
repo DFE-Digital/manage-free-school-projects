@@ -1,0 +1,21 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/proposed-faith-type"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.ProposedFaithTypeModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+
+@{
+    var title = "What is the proposed faith type?";
+    ViewData["Title"] = title;
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<partial name="_ProposalFaithTypeSelection"
+         model="@(new ProposalFaithTypeSelectionViewModel
+         {
+             Mode = ProposalJourneyMode.Edit,
+             Title = title,
+             FaithType = Model.FaithType.ToString(),
+             OtherFaithType = Model.OtherFaithType
+         })" />

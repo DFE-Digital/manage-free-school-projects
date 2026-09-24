@@ -2,7 +2,7 @@
 
 namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals
 {
-    public record CreateProposalResponse
+    public record ProposalResponse
     {
         public string Rid { get; set; }
 
@@ -26,13 +26,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals
 
         // Another local authority - ProposalProposer.AnotherLocalAuthority
         public string OtherLocalAuthority { get; set; }
+        public string OtherLocalAuthorityRegion { get; set; }
 
         // Joint proposal between the local authority that published the specification and another local authority - ProposalProposer.JointProposal
         public string JointProposalLocalAuthority { get; set; }
+        public string JointProposalLocalAuthorityRegion { get; set; }
 
         //Proposed Faith (Common)
         public FaithStatus ProposedFaithStatus { get; set; }
         public FaithType ProposedFaithType { get; set; }
         public string OtherFaithType { get; set; }
+
+        public ProposalStatus Status { get; set; }
     }
 }

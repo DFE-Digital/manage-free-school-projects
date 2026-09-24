@@ -153,6 +153,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
 
         private async Task<Trust> GetTrust(string trustRef)
         {
+            if (string.IsNullOrEmpty(trustRef))
+            {
+                return null;
+            }
+
             var result = await _context.Trust.FirstOrDefaultAsync(e => e.TrustRef == trustRef);
 
             // Local authority projects are not attached to a trust and supply no TRN, so a missing
@@ -164,7 +169,5 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
 
             return result;
         }
-
-
     }
 }

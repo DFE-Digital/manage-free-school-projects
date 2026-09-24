@@ -1,5 +1,4 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using System.Diagnostics.Eventing.Reader;
 using ProjectCancelledReasonType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectCancelledReason;
 using ProjectStatusType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectStatus;
 using ProjectWithdrawnReasonType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectWithdrawnReason;
@@ -108,7 +107,17 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 _ => EnumParsers.ParseFaithType(faithTypeDescription)
             };
         }
-        
+
+        public static ProposalStatus ToProposalStatus(string status)
+        {
+            return status switch
+            {
+                "Successful" => ProposalStatus.Successful,
+                "Unsuccessful" => ProposalStatus.Unsuccessful,
+                _ => ProposalStatus.Active
+            };
+        }
+
         public static TrustType ToTrustType(string trustTypeDescription)
         {
             return trustTypeDescription switch
