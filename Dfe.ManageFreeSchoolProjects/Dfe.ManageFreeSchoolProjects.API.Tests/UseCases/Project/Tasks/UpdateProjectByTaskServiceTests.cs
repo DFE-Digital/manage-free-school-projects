@@ -74,7 +74,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Tasks
 
             var request = new UpdateProjectByTaskRequest
             {
-                NewSchoolConditions = new NewSchoolConditionsTask { NewSchoolConditions = "Yes" }
+                NewSchoolDecisionMaker = new NewSchoolDecisionMakerTask { NewSchoolDecisionMaker = "Local authority" }
             };
 
             await BuildService(context).Execute(ProjectId, request);

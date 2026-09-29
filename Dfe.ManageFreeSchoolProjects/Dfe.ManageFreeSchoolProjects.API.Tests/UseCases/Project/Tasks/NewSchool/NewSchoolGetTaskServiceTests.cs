@@ -1,5 +1,4 @@
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolClosingDateForProposals;
-using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolConditions;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateForConditionsToBeMet;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateOfDecision;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDecision;
@@ -21,31 +20,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Tasks.NewSchoo
         private static readonly DateTime ClosingDate = new(2026, 5, 1);
         private static readonly DateTime DecisionDate = new(2026, 6, 12);
         private static readonly DateTime ConditionsDate = new(2026, 9, 30);
-
-        [Fact]
-        public async Task ConditionsService_ReturnsTheStoredConditions()
-        {
-            using var harness = NewSchoolTaskQueryHarness.WithKpi(kpi =>
-            {
-                kpi.NewSchoolConditions = "Yes";
-                kpi.NewSchoolConditionsDescription = "Planning permission required";
-            });
-
-            var result = await new GetNewSchoolConditionsTaskService().Get(harness.Parameters);
-
-            result.NewSchoolConditions.NewSchoolConditions.Should().Be("Yes");
-            result.NewSchoolConditions.NewSchoolConditionsDescription.Should().Be("Planning permission required");
-        }
-
-        [Fact]
-        public async Task ConditionsService_WhenNoProjectMatches_ReturnsNull()
-        {
-            using var harness = NewSchoolTaskQueryHarness.WithNoMatchingKpi();
-
-            var result = await new GetNewSchoolConditionsTaskService().Get(harness.Parameters);
-
-            result.Should().BeNull();
-        }
 
         [Fact]
         public async Task DecisionService_ReturnsTheStoredDecisionAndItsConditions()

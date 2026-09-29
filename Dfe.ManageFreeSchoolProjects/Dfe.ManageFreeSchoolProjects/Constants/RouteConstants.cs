@@ -244,7 +244,6 @@
 
 
 
-        public const string NewSchoolConditions = TaskList + "/local-authority/conditions";
         public const string NewSchoolDateForConditionsToBeMet = TaskList + "/local-authority/date-conditions-met";
 
         public const string BulkEditFileUpload = "/bulk-edit-file-upload";

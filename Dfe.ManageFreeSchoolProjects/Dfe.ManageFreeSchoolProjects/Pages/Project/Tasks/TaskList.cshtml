@@ -49,7 +49,6 @@
     var decisionMakerLink = string.Format(RouteConstants.NewSchoolDecisionMaker, Model.ProjectId);
     var dateOfDecisionLink = string.Format(RouteConstants.NewSchoolDateOfDecision, Model.ProjectId);
     var decisionLink = string.Format(RouteConstants.NewSchoolWhichProposalChosen, Model.ProjectId);
-    var conditionsLink = string.Format(RouteConstants.NewSchoolConditions, Model.ProjectId);
     var dateForConditionsToBeMetLink = string.Format(RouteConstants.NewSchoolDateForConditionsToBeMet, Model.ProjectId);
 
     var pdgLink = (@Model.ProjectType == "Presumption") ? pdgPresumptionLink : pdgCentralLink;
@@ -102,7 +101,6 @@
                                 <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDecision" href="@decisionLink" label="Decision" />
                             }
 
-                            <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolConditions" href="@conditionsLink" label="Conditions" />
                             <govuk-task-summary-item asp-for="@Model.ProjectTaskListSummary.NewSchoolDateForConditionsToBeMet" href="@dateForConditionsToBeMetLink" label="Date for conditions to be met" />
                         </ul>
                     }
