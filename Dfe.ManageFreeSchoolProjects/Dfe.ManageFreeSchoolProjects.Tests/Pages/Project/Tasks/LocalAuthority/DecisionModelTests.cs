@@ -117,7 +117,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
         [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
-        public async Task OnPost_ApprovedWithConditions_WithNoConditionsGiven_DoesNotSave(string conditions)
+        public async Task OnPost_ApprovedWithConditions_WithNoConditionsGiven_DoesNotSave(string? conditions)
         {
             var harness = new NewSchoolTaskPageHarness().ReturnsProject(new GetProjectByTaskResponse
             {
