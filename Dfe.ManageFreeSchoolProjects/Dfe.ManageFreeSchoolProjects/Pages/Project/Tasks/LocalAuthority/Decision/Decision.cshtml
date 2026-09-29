@@ -39,8 +39,8 @@
                                                         description="@DecisionModel.ApprovedWithConditions"
                                                         asp-for="@Model.Decision"
                                                         name="decision">
-                        <govuk-textarea-input id="condition-description"
-                                              name="condition-description"
+                        <govuk-textarea-input id="@DecisionModel.ConditionDescriptionField"
+                                              name="@DecisionModel.ConditionDescriptionField"
                                               asp-for="@Model.ConditionDescription"
                                               test-id="condition-description"
                                               rows="10"

@@ -34,7 +34,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
         [Required(ErrorMessage = "Select the decision")]
         public string Decision { get; set; }
 
-        [BindProperty(Name = "condition-description")]
+        public const string ConditionDescriptionField = "condition-description";
+
+        [BindProperty(Name = ConditionDescriptionField)]
         public string ConditionDescription { get; set; }
 
         public const string ApprovedWithoutConditions = "Approved without conditions";
@@ -77,10 +79,17 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
         {
             _logger.LogMethodEntered();
 
+            if (Decision == ApprovedWithConditions && string.IsNullOrWhiteSpace(ConditionDescription))
+            {
+                ModelState.AddModelError(ConditionDescriptionField, "Enter the conditions that have been applied");
+            }
+
             _errorService.AddErrors(ModelState.Keys, ModelState);
 
             if (!ModelState.IsValid)
             {
+                await LoadSchoolName();
+
                 return Page();
             }
 
@@ -108,6 +117,19 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
             {
                 _logger.LogErrorMsg(ex);
                 throw;
+            }
+        }
+
+        private async Task LoadSchoolName()
+        {
+            try
+            {
+                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
+                CurrentFreeSchoolName = project.SchoolName;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogErrorMsg(ex);
             }
         }
 

@@ -113,6 +113,66 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             harness.CapturedStatusRequest!.ProjectTaskStatus.Should().Be(ProjectTaskStatus.Completed);
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData("   ")]
+        public async Task OnPost_ApprovedWithConditions_WithNoConditionsGiven_DoesNotSave(string conditions)
+        {
+            var harness = new NewSchoolTaskPageHarness().ReturnsProject(new GetProjectByTaskResponse
+            {
+                SchoolName = "Test School"
+            });
+            var model = BuildModel(harness);
+            model.Decision = "Approved with conditions";
+            model.ConditionDescription = conditions;
+
+            var result = await model.OnPost();
+
+            result.Should().BeOfType<PageResult>();
+            model.ModelState[DecisionModel.ConditionDescriptionField]!.Errors.Should().ContainSingle()
+                .Which.ErrorMessage.Should().Be("Enter the conditions that have been applied");
+            harness.ErrorService.GetError(DecisionModel.ConditionDescriptionField).Should().NotBeNull();
+            await harness.UpdateProjectTaskService.DidNotReceiveWithAnyArgs().Execute(default, default);
+        }
+
+        [Fact]
+        public async Task OnPost_WhenValidationFails_KeepsTheSchoolNameAndTheAnswersJustPosted()
+        {
+            var harness = new NewSchoolTaskPageHarness().ReturnsProject(new GetProjectByTaskResponse
+            {
+                SchoolName = "Test School",
+                NewSchoolDecision = new NewSchoolDecisionTask
+                {
+                    NewSchoolDecision = "Approved without conditions",
+                    NewSchoolDecisionCondition = "Stored conditions"
+                }
+            });
+            var model = BuildModel(harness);
+            model.Decision = "Approved with conditions";
+            model.ConditionDescription = null;
+
+            await model.OnPost();
+
+            model.CurrentFreeSchoolName.Should().Be("Test School");
+            model.Decision.Should().Be("Approved with conditions");
+            model.ConditionDescription.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task OnPost_ApprovedWithoutConditions_DoesNotRequireConditions()
+        {
+            var harness = new NewSchoolTaskPageHarness();
+            var model = BuildModel(harness);
+            model.Decision = "Approved without conditions";
+            model.ConditionDescription = null;
+
+            var result = await model.OnPost();
+
+            result.Should().BeOfType<RedirectResult>();
+            model.ModelState.IsValid.Should().BeTrue();
+        }
+
         [Fact]
         public async Task OnPost_ApprovedWithConditions_SendsTheConditionsThatWereTypedIn()
         {
@@ -150,6 +210,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             var harness = new NewSchoolTaskPageHarness();
             var model = BuildModel(harness);
             model.Decision = "Approved with conditions";
+            model.ConditionDescription = "Planning permission required";
 
             await model.OnPost();
 
@@ -177,6 +238,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             var harness = new NewSchoolTaskPageHarness().UpdateFailsWith(new InvalidOperationException("API down"));
             var model = BuildModel(harness);
             model.Decision = "Approved with conditions";
+            model.ConditionDescription = "Planning permission required";
 
             await model.Invoking(m => m.OnPost())
                 .Should().ThrowAsync<InvalidOperationException>()
