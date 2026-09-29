@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -35,11 +34,11 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
         [Required(ErrorMessage = "Select the decision")]
         public string Decision { get; set; }
 
-        public List<string> Options { get; } =
-        [
-            "Approved without conditions",
-            "Approved with conditions"
-        ];
+        [BindProperty(Name = "condition-description")]
+        public string ConditionDescription { get; set; }
+
+        public const string ApprovedWithoutConditions = "Approved without conditions";
+        public const string ApprovedWithConditions = "Approved with conditions";
 
         public DecisionModel(
             IGetProjectByTaskService getProjectService,
@@ -64,6 +63,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
                 var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
                 CurrentFreeSchoolName = project.SchoolName;
                 Decision = project.NewSchoolDecision?.NewSchoolDecision;
+                ConditionDescription = project.NewSchoolDecision?.NewSchoolDecisionCondition;
             }
             catch (Exception ex)
             {
@@ -86,11 +86,14 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
 
             try
             {
+                var condition = Decision == ApprovedWithConditions ? ConditionDescription : string.Empty;
+
                 var request = new UpdateProjectByTaskRequest
                 {
                     NewSchoolDecision = new NewSchoolDecisionTask
                     {
                         NewSchoolDecision = Decision,
+                        NewSchoolDecisionCondition = condition,
                         ProposalId = ProposalId
                     }
                 };

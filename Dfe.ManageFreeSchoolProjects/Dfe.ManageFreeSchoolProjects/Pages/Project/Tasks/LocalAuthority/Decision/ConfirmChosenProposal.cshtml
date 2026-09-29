@@ -5,33 +5,44 @@
 
 @{
     ViewData["Title"] = $"Edit Decision - {Model.CurrentFreeSchoolName}";
-    var changeAnswerLink = string.Format(RouteConstants.NewSchoolWhichProposalChosen, Model.ProjectId);
+    var backLink = string.Format(RouteConstants.NewSchoolWhichProposalChosen, Model.ProjectId);
 }
+
+@section BeforeMain {
+    <nav class="govuk-extra-width-container">
+        <a href=@backLink class="govuk-back-link">Back</a>
+    </nav>
+}
+
+<partial name="_ErrorSummary" />
+
+<h1 class="govuk-heading-xl" data-testid="title">
+    <span class="govuk-caption-l" data-testid="school-name">
+        @Model.CurrentFreeSchoolName
+    </span>
+    Is this the right proposal?
+</h1>
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <div class="mfsp-confirmation-panel" data-testid="confirm-chosen-proposal-panel">
-            <h1 class="govuk-heading-l" data-testid="title">
-                Are you sure this proposal has been chosen?
-            </h1>
+        <p class="govuk-hint">
+            You will not be able to change this answer.
+        </p>
 
-            <p class="govuk-body-l" data-testid="proposal-name">
-                You entered @Model.ProposalName
+        <div class="govuk-inset-text">
+            <p class="govuk-body govuk-!-font-weight-bold" data-testid="proposal-name">
+                @Model.ProposalName
             </p>
-
-            <form method="post">
-                <div class="govuk-button-group mfsp-confirmation-panel__actions">
-                    <button class="govuk-button govuk-button--inverse"
-                            data-module="govuk-button"
-                            data-testid="confirm">
-                        Yes, this is correct
-                    </button>
-
-                    <a class="govuk-link govuk-link--inverse" href="@changeAnswerLink" data-testid="change-answer">
-                        No, change my answer
-                    </a>
-                </div>
-            </form>
         </div>
+
+        <form method="post">
+            <govuk-yesno-input id="is-right-proposal"
+                               name="is-right-proposal"
+                               asp-for="@Model.IsRightProposal" />
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Continue
+            </button>
+        </form>
     </div>
 </div>

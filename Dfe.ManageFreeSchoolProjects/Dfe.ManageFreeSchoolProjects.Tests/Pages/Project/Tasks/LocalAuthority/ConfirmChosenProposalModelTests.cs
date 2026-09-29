@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
 {
@@ -63,15 +64,62 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
         }
 
         [Fact]
-        public void OnPost_ConfirmingTheProposal_GoesToTheDecisionPageForThatProposal()
+        public async Task OnPost_AnsweringYes_GoesToTheDecisionPageForThatProposal()
         {
             var model = BuildModel(BuildHarness(), BuildProposalService());
+            model.IsRightProposal = true;
 
-            var result = model.OnPost();
+            var result = await model.OnPost();
 
             result.Should().BeOfType<RedirectResult>()
                 .Which.Url.Should().Be(
                     string.Format(RouteConstants.NewSchoolDecision, ProjectId, ProposalId));
+        }
+
+        [Fact]
+        public async Task OnPost_AnsweringNo_GoesBackToTheProposalChoice()
+        {
+            var model = BuildModel(BuildHarness(), BuildProposalService());
+            model.IsRightProposal = false;
+
+            var result = await model.OnPost();
+
+            result.Should().BeOfType<RedirectResult>()
+                .Which.Url.Should().Be(
+                    string.Format(RouteConstants.NewSchoolWhichProposalChosen, ProjectId));
+        }
+
+        [Fact]
+        public async Task OnPost_WhenModelStateIsInvalid_ReloadsThePageAndRecordsTheError()
+        {
+            var harness = BuildHarness();
+            var proposalService = BuildProposalService(
+                BuildProposal(ProposalId, ProposalProposer.AnotherLocalAuthority));
+
+            var model = BuildModel(harness, proposalService);
+            model.ModelState.AddModelError("is-right-proposal", "Select yes if this is the right proposal");
+
+            var result = await model.OnPost();
+
+            result.Should().BeOfType<PageResult>();
+            harness.ErrorService.HasErrors().Should().BeTrue();
+            model.CurrentFreeSchoolName.Should().Be("Test School");
+            model.ProposalName.Should().Be("Another local authority");
+        }
+
+        [Fact]
+        public void IsRightProposal_IsRequired()
+        {
+            var model = BuildModel(BuildHarness(), BuildProposalService());
+            model.IsRightProposal = null;
+
+            var results = new List<ValidationResult>();
+            var isValid = Validator.TryValidateObject(
+                model, new ValidationContext(model), results, validateAllProperties: true);
+
+            isValid.Should().BeFalse();
+            results.Should().ContainSingle()
+                .Which.ErrorMessage.Should().Be("Select yes if this is the right proposal");
         }
 
         private static NewSchoolTaskPageHarness BuildHarness() =>
@@ -104,7 +152,8 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             return new ConfirmChosenProposalModel(
                 harness.GetProjectService,
                 proposalService,
-                Substitute.For<ILogger<ConfirmChosenProposalModel>>())
+                Substitute.For<ILogger<ConfirmChosenProposalModel>>(),
+                harness.ErrorService)
             {
                 ProjectId = ProjectId,
                 ProposalId = ProposalId,

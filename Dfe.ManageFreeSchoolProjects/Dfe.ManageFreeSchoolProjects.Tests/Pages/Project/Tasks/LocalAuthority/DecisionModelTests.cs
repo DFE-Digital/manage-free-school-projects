@@ -15,12 +15,15 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
         private const string ProjectId = "NEW-SCHOOL-1";
         private const string ProposalId = "RID-1";
 
+        /// <summary>
+        /// The radio values are rendered from these constants, so they are also the strings stored
+        /// against the project and matched on when deciding whether to keep the conditions.
+        /// </summary>
         [Fact]
-        public void Options_OffersTheTwoApprovalOutcomes()
+        public void TheApprovalOutcomes_AreTheStringsStoredAgainstTheProject()
         {
-            var model = BuildModel(new NewSchoolTaskPageHarness());
-
-            model.Options.Should().Equal("Approved without conditions", "Approved with conditions");
+            DecisionModel.ApprovedWithoutConditions.Should().Be("Approved without conditions");
+            DecisionModel.ApprovedWithConditions.Should().Be("Approved with conditions");
         }
 
         [Fact]
@@ -31,7 +34,8 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
                 SchoolName = "Test School",
                 NewSchoolDecision = new NewSchoolDecisionTask
                 {
-                    NewSchoolDecision = "Approved with conditions"
+                    NewSchoolDecision = "Approved with conditions",
+                    NewSchoolDecisionCondition = "Planning permission required"
                 }
             });
             var model = BuildModel(harness);
@@ -41,6 +45,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             result.Should().BeOfType<PageResult>();
             model.CurrentFreeSchoolName.Should().Be("Test School");
             model.Decision.Should().Be("Approved with conditions");
+            model.ConditionDescription.Should().Be("Planning permission required");
             await harness.GetProjectService.Received(1).Execute(ProjectId, TaskName.NewSchoolDecision);
         }
 
@@ -58,6 +63,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
 
             model.CurrentFreeSchoolName.Should().Be("Test School");
             model.Decision.Should().BeNull();
+            model.ConditionDescription.Should().BeNull();
         }
 
         /// <summary>
@@ -105,6 +111,37 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
                 .Should().Be("Approved without conditions");
             harness.CapturedStatusRequest!.TaskName.Should().Be(TaskName.NewSchoolDecision.ToString());
             harness.CapturedStatusRequest!.ProjectTaskStatus.Should().Be(ProjectTaskStatus.Completed);
+        }
+
+        [Fact]
+        public async Task OnPost_ApprovedWithConditions_SendsTheConditionsThatWereTypedIn()
+        {
+            var harness = new NewSchoolTaskPageHarness();
+            var model = BuildModel(harness);
+            model.Decision = "Approved with conditions";
+            model.ConditionDescription = "Planning permission required";
+
+            await model.OnPost();
+
+            harness.CapturedRequest!.NewSchoolDecision.NewSchoolDecisionCondition
+                .Should().Be("Planning permission required");
+        }
+
+        /// <summary>
+        /// The conditions box is hidden when the decision is "Approved without conditions", so any
+        /// text typed before switching option is discarded rather than saved against the project.
+        /// </summary>
+        [Fact]
+        public async Task OnPost_ApprovedWithoutConditions_ClearsTheConditions()
+        {
+            var harness = new NewSchoolTaskPageHarness();
+            var model = BuildModel(harness);
+            model.Decision = "Approved without conditions";
+            model.ConditionDescription = "Typed before switching option";
+
+            await model.OnPost();
+
+            harness.CapturedRequest!.NewSchoolDecision.NewSchoolDecisionCondition.Should().BeEmpty();
         }
 
         [Fact]

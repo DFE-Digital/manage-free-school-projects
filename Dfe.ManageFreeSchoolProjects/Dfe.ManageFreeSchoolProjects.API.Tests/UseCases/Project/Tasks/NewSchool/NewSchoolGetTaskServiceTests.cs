@@ -48,14 +48,18 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Tasks.NewSchoo
         }
 
         [Fact]
-        public async Task DecisionService_ReturnsTheStoredDecision()
+        public async Task DecisionService_ReturnsTheStoredDecisionAndItsConditions()
         {
-            using var harness = NewSchoolTaskQueryHarness.WithKpi(
-                kpi => kpi.NewSchoolDecision = "Approved with conditions");
+            using var harness = NewSchoolTaskQueryHarness.WithKpi(kpi =>
+            {
+                kpi.NewSchoolDecision = "Approved with conditions";
+                kpi.NewSchoolDecisionCondition = "Planning permission required";
+            });
 
             var result = await new GetNewSchoolDecisionTaskService().Get(harness.Parameters);
 
             result.NewSchoolDecision.NewSchoolDecision.Should().Be("Approved with conditions");
+            result.NewSchoolDecision.NewSchoolDecisionCondition.Should().Be("Planning permission required");
         }
 
         [Fact]
