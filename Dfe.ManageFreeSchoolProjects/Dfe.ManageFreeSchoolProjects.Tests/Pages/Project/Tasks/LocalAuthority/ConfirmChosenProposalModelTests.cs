@@ -24,8 +24,8 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
         {
             var harness = BuildHarness();
             var proposalService = BuildProposalService(
-                BuildProposal("RID-1", ProposalProposer.Diocese),
-                BuildProposal(ProposalId, ProposalProposer.AnotherLocalAuthority));
+                BuildProposal("RID-1", ProposalProposer.Diocese, "Diocese of Bristol"),
+                BuildProposal(ProposalId, ProposalProposer.AnotherLocalAuthority, "Cornwall Council"));
 
             var model = BuildModel(harness, proposalService);
 
@@ -33,7 +33,51 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
 
             result.Should().BeOfType<PageResult>();
             model.CurrentFreeSchoolName.Should().Be("Test School");
-            model.ProposalName.Should().Be("Another local authority");
+            model.ProposalName.Should().Be("Another local authority [Cornwall Council]");
+        }
+
+        /// <summary>
+        /// This proposer has no name of its own, so the label falls back to the local authority
+        /// recorded against the project, matching how the previous page lists the same proposal.
+        /// </summary>
+        [Fact]
+        public async Task OnGet_ForTheAuthorityThatPublishedTheSpecification_NamesItFromTheProjectsLocalAuthority()
+        {
+            var harness = BuildHarness();
+            harness.GetProjectService.Execute(ProjectId, TaskName.RegionAndLocalAuthority)
+                .Returns(new GetProjectByTaskResponse
+                {
+                    RegionAndLocalAuthority = new RegionAndLocalAuthorityTask
+                    {
+                        LocalAuthority = "Bristol City Council"
+                    }
+                });
+
+            var proposalService = BuildProposalService(
+                BuildProposal(ProposalId, ProposalProposer.LocalAuthorityThatPushedSpecification, name: null));
+
+            var model = BuildModel(harness, proposalService);
+
+            await model.OnGet();
+
+            model.ProposalName.Should().Be("Local authority that published the specification [Bristol City Council]");
+        }
+
+        [Fact]
+        public async Task OnGet_WhenTheProjectHasNoLocalAuthorityRecorded_StillNamesTheProposer()
+        {
+            var harness = BuildHarness();
+            harness.GetProjectService.Execute(ProjectId, TaskName.RegionAndLocalAuthority)
+                .Returns(new GetProjectByTaskResponse { RegionAndLocalAuthority = null });
+
+            var proposalService = BuildProposalService(
+                BuildProposal(ProposalId, ProposalProposer.LocalAuthorityThatPushedSpecification, name: null));
+
+            var model = BuildModel(harness, proposalService);
+
+            await model.OnGet();
+
+            model.ProposalName.Should().Be("Local authority that published the specification []");
         }
 
         [Fact]
@@ -94,7 +138,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
         {
             var harness = BuildHarness();
             var proposalService = BuildProposalService(
-                BuildProposal(ProposalId, ProposalProposer.AnotherLocalAuthority));
+                BuildProposal(ProposalId, ProposalProposer.AnotherLocalAuthority, "Cornwall Council"));
 
             var model = BuildModel(harness, proposalService);
             model.ModelState.AddModelError("is-right-proposal", "Select yes if this is the right proposal");
@@ -104,7 +148,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
             result.Should().BeOfType<PageResult>();
             harness.ErrorService.HasErrors().Should().BeTrue();
             model.CurrentFreeSchoolName.Should().Be("Test School");
-            model.ProposalName.Should().Be("Another local authority");
+            model.ProposalName.Should().Be("Another local authority [Cornwall Council]");
         }
 
         [Fact]
@@ -128,12 +172,14 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.LocalAuthority
                 SchoolName = "Test School"
             });
 
-        private static GetProposalSummaryResponse BuildProposal(string rid, ProposalProposer proposer) =>
+        private static GetProposalSummaryResponse BuildProposal(
+            string rid, ProposalProposer proposer, string? name = "Test Proposer") =>
             new()
             {
                 Rid = rid,
                 ProjectId = ProjectId,
                 Proposer = proposer,
+                Name = name,
                 Status = ProposalStatus.Active
             };
 

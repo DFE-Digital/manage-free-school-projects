@@ -81,7 +81,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Dashboard
             {
                 query = query.Where(kpi => 
                 kpi.ProjectStatusCurrentFreeSchoolName.Contains(parameters.Project)
-                || kpi.ProjectStatusProjectId == parameters.Project);
+                || kpi.ProjectStatusProjectId.Contains(parameters.Project));
             }
 
             if (parameters.LocalAuthority.Count != 0)

@@ -81,15 +81,21 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
         {
             try
             {
-                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
-                CurrentFreeSchoolName = project.SchoolName;
+                var newSchoolDecisionTask = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
+                CurrentFreeSchoolName = newSchoolDecisionTask.SchoolName;
+
+                var regionAndLocalAuthorityTask = await _getProjectService.Execute(ProjectId, TaskName.RegionAndLocalAuthority);
 
                 var response = await _getProposalService.ExecuteList(ProjectId);
                 var proposal = response.Data.Find(p => p.Rid == ProposalId);
 
                 if (proposal?.Proposer is not null)
                 {
-                    ProposalName = proposal.Proposer.ToDescription();
+                    var name = proposal.Proposer == ProposalProposer.LocalAuthorityThatPushedSpecification
+                        ? regionAndLocalAuthorityTask?.RegionAndLocalAuthority?.LocalAuthority
+                        : proposal.Name;
+
+                    ProposalName = $"{proposal.Proposer.ToDescription()} [{name}]";
                 }
             }
             catch (Exception ex)
