@@ -1,0 +1,21 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/faith-of-other-religious-organisation"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.FaithOfOtherReligiousOrganisationModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+
+@{
+    var title = "What is the faith type of the other religious organisation?";
+    ViewData["Title"] = title;
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<partial name="_ProposalFaithTypeSelection"
+         model="@(new ProposalFaithTypeSelectionViewModel
+         {
+             Mode = ProposalJourneyMode.Edit,
+             Title = title,
+             FaithType = Model.FaithTypeOfOtherReligiousOrganisation.ToString(),
+             OtherFaithType = Model.OtherFaithType
+         })" />

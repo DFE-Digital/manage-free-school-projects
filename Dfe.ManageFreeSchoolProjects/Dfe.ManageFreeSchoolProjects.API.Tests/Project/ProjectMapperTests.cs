@@ -356,5 +356,18 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => ProjectMapper.ToFaithStatus("Not a status"));
         }
+
+        [Theory]
+        [InlineData("Active", ProposalStatus.Active)]
+        [InlineData("Successful", ProposalStatus.Successful)]
+        [InlineData("Unsuccessful", ProposalStatus.Unsuccessful)]
+        [InlineData(null, ProposalStatus.Active)]
+        [InlineData("", ProposalStatus.Active)]
+        [InlineData("Not a status", ProposalStatus.Active)]
+        public void ToProposalStatus_ReturnsExpectedEnum(string input, ProposalStatus expectedResult)
+        {
+            var result = ProjectMapper.ToProposalStatus(input);
+            Assert.Equal(expectedResult, result);
+        }
     }
 }

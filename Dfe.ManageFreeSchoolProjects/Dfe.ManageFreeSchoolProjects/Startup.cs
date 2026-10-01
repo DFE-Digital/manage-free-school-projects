@@ -98,6 +98,7 @@ public class Startup
         services.AddScoped<IGetProjectByTaskSummaryService, GetProjectByTaskSummaryService>();
         services.AddScoped<IGetLocalAuthoritiesService, GetLocalAuthoritiesService>();
         services.AddScoped<ICreateProjectService, CreateProjectService>();
+        services.AddScoped<IUpdateProposalService, UpdateProposalService>();
         services.AddScoped<ICreateProposalService, CreateProposalService>();
         services.AddScoped<IGetTaskStatusService, GetTaskStatusService>();
         services.AddScoped<IUpdateTaskStatusService, UpdateTaskStatusService>();

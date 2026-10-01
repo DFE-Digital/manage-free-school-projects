@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision
@@ -24,16 +24,23 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
 
         [BindProperty(SupportsGet = true, Name = "projectId")]
         public string ProjectId { get; set; }
+
+        [BindProperty(SupportsGet = true, Name = "proposalId")]
+        public string ProposalId { get; set; }
+
         public string CurrentFreeSchoolName { get; set; }
 
         [BindProperty(Name = "decision")]
+        [Required(ErrorMessage = "Select the decision")]
         public string Decision { get; set; }
 
-        public List<string> Options { get; } =
-        [
-            "Approved without conditions",
-            "Approved with conditions"
-        ];
+        public const string ConditionDescriptionField = "condition-description";
+
+        [BindProperty(Name = ConditionDescriptionField)]
+        public string ConditionDescription { get; set; }
+
+        public const string ApprovedWithoutConditions = "Approved without conditions";
+        public const string ApprovedWithConditions = "Approved with conditions";
 
         public DecisionModel(
             IGetProjectByTaskService getProjectService,
@@ -58,6 +65,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
                 var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
                 CurrentFreeSchoolName = project.SchoolName;
                 Decision = project.NewSchoolDecision?.NewSchoolDecision;
+                ConditionDescription = project.NewSchoolDecision?.NewSchoolDecisionCondition;
             }
             catch (Exception ex)
             {
@@ -71,33 +79,37 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
         {
             _logger.LogMethodEntered();
 
+            if (Decision == ApprovedWithConditions && string.IsNullOrWhiteSpace(ConditionDescription))
+            {
+                ModelState.AddModelError(ConditionDescriptionField, "Enter the conditions that have been applied");
+            }
+
             _errorService.AddErrors(ModelState.Keys, ModelState);
 
             if (!ModelState.IsValid)
             {
+                await LoadSchoolName();
+
                 return Page();
             }
 
             try
             {
+                var condition = Decision == ApprovedWithConditions ? ConditionDescription : string.Empty;
+
                 var request = new UpdateProjectByTaskRequest
                 {
                     NewSchoolDecision = new NewSchoolDecisionTask
                     {
-                        NewSchoolDecision = Decision
+                        NewSchoolDecision = Decision,
+                        NewSchoolDecisionCondition = condition,
+                        ProposalId = ProposalId
                     }
                 };
 
                 await _updateProjectTaskService.Execute(ProjectId, request);
 
-                if (Decision is not null)
-                {
-                    await UpdateStatusAsync(ProjectTaskStatus.Completed);
-                }
-                else
-                {
-                    await UpdateStatusAsync(ProjectTaskStatus.NotStarted);
-                }
+                await UpdateStatusAsync(ProjectTaskStatus.Completed);
 
                 return Redirect(string.Format(RouteConstants.TaskList, ProjectId));
             }
@@ -105,6 +117,19 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decisi
             {
                 _logger.LogErrorMsg(ex);
                 throw;
+            }
+        }
+
+        private async Task LoadSchoolName()
+        {
+            try
+            {
+                var project = await _getProjectService.Execute(ProjectId, TaskName.NewSchoolDecision);
+                CurrentFreeSchoolName = project.SchoolName;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogErrorMsg(ex);
             }
         }
 

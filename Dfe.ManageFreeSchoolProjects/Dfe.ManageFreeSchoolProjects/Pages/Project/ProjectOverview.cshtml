@@ -4,12 +4,12 @@
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectOverviewModel
 
 @{
-    ViewData["Title"] = $"{Model.Project.ProjectStatus.CurrentFreeSchoolName} - About the project";
+    ViewData["Title"] = $"{Model.ProjectOverview.ProjectStatus.CurrentFreeSchoolName} - About the project";
     ViewData["WidePage"] = true;
     var projectStatusViewModel = new ProjectStatusViewModel()
     {
         ProjectId = @Model.ProjectId,
-        ProjectStatus = @Model.Project.ProjectStatus.ProjectStatus,
+        ProjectStatus = @Model.ProjectOverview.ProjectStatus.ProjectStatus,
         Referrer = Referrer.ProjectOverview
 
     };
@@ -20,34 +20,41 @@
 @section BeforeMain
 {
     <mfsp-project-header project-id="@Model.ProjectId"
-                         school-name="@Model.Project.ProjectStatus.CurrentFreeSchoolName"
+                         school-name="@Model.ProjectOverview.ProjectStatus.CurrentFreeSchoolName"
                          back-link="/"
                          back-text="Back"
                          page-title="About the project"
                          project-status="@projectStatusViewModel" />
 }
 <div class="govuk-grid-row">
-    <mfsp-nav project-id="@Model.ProjectId" project-type="@Model.Project.ProjectType" current-index="@currentNavIndex" />
+    <mfsp-nav project-id="@Model.ProjectId" project-type="@Model.ProjectOverview.ProjectType" current-index="@currentNavIndex" />
     <div class="govuk-grid-column-three-quarters">
-
         <div class="govuk-grid-row">
-
             <div class="govuk-grid-column-full">
-
                 <h2 class="govuk-heading-m govuk-!-font-size-27" id="status">Project Status</h2>
 
                 <dl class="govuk-summary-list govuk-summary-list--no-border">
                     <div class="govuk-summary-list__row">
                         <dt class="govuk-summary-list__key">Status</dt>
-                        <dd class="govuk-summary-list__value"><govuk-status-tag status=@Model.Project.ProjectStatus.ProjectStatus id="status-tag" /></dd>
+                        <dd class="govuk-summary-list__value"><govuk-status-tag status=@Model.ProjectOverview.ProjectStatus.ProjectStatus id="status-tag" /></dd>
                     </div>
-                    @if (@Model.Project.ProjectStatus.ProjectStatus is ProjectStatus.Cancelled)
+
+                    <div class="govuk-summary-list__row">
+                        <dt class="govuk-summary-list__key">Decision</dt>
+                        <dd class="govuk-summary-list__value" data-testid="new-school-decision">
+                            @{
+                                RenderValue(Model.DecisionTask?.NewSchoolDecision?.NewSchoolDecision);
+                            }
+                        </dd>
+                    </div>
+
+                    @if (@Model.ProjectOverview.ProjectStatus.ProjectStatus is ProjectStatus.Cancelled)
                     {
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Reason for cancellation</dt>
                             <dd class="govuk-summary-list__value" data-testid="reason-for-cancellation">
                                 @{
-                                    RenderValue(Model.Project.ProjectStatus.ProjectCancelledReason.ToDescription());
+                                    RenderValue(Model.ProjectOverview.ProjectStatus.ProjectCancelledReason.ToDescription());
                                 }
                             </dd>
                         </div>
@@ -56,7 +63,7 @@
                             <dt class="govuk-summary-list__key">Cancelled as part of the 2024/25 pipeline review of projects</dt>
                             <dd class="govuk-summary-list__value" data-testid="project-cancelled-as-a-result-of-national-review-of-pipeline">
                                 @{
-                                    RenderValue(Model.Project.ProjectStatus.ProjectCancelledDueToNationalReviewOfPipelineProjects.ToDescription());
+                                    RenderValue(Model.ProjectOverview.ProjectStatus.ProjectCancelledDueToNationalReviewOfPipelineProjects.ToDescription());
                                 }
                             </dd>
                         </div>
@@ -64,19 +71,22 @@
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Comments</dt>
                             <dd class="govuk-summary-list__value" data-testid="commentary-for-cancellation">
-                                <div class="govuk-body dfe-text-area-display">@{RenderValue(Model.Project.ProjectStatus.CommentaryForCancellation);}
+                                <div class="govuk-body dfe-text-area-display">
+                                    @{
+                                        RenderValue(Model.ProjectOverview.ProjectStatus.CommentaryForCancellation);
+                                    }
                                 </div>
                             </dd>
                         </div>
                     }
 
-                    @if (@Model.Project.ProjectStatus.ProjectStatus is ProjectStatus.WithdrawnInPreOpening || Model.Project.ProjectStatus.ProjectStatus is ProjectStatus.WithdrawnDuringApplication)
+                    @if (@Model.ProjectOverview.ProjectStatus.ProjectStatus is ProjectStatus.WithdrawnInPreOpening || Model.ProjectOverview.ProjectStatus.ProjectStatus is ProjectStatus.WithdrawnDuringApplication)
                     {
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Reason for withdrawal</dt>
                             <dd class="govuk-summary-list__value" data-testid="reason-for-withdrawal">
                                 @{
-                                    RenderValue(Model.Project.ProjectStatus.ProjectWithdrawnReason.ToDescription());
+                                    RenderValue(Model.ProjectOverview.ProjectStatus.ProjectWithdrawnReason.ToDescription());
                                 }
                             </dd>
                         </div>
@@ -85,7 +95,7 @@
                             <dt class="govuk-summary-list__key">Withdrawn as part of the 2024/25 pipeline review of projects</dt>
                             <dd class="govuk-summary-list__value" data-testid="project-withdrawn-as-a-result-of-national-review-of-pipeline">
                                 @{
-                                    RenderValue(Model.Project.ProjectStatus.ProjectWithdrawnDueToNationalReviewOfPipelineProjects.ToDescription());
+                                    RenderValue(Model.ProjectOverview.ProjectStatus.ProjectWithdrawnDueToNationalReviewOfPipelineProjects.ToDescription());
                                 }
                             </dd>
                         </div>
@@ -93,62 +103,60 @@
                         <div class="govuk-summary-list__row">
                             <dt class="govuk-summary-list__key">Comments</dt>
                             <dd class="govuk-summary-list__value" data-testid="commentary-for-withdrawal">
-                                <div class="govuk-body dfe-text-area-display">@{RenderValue(Model.Project.ProjectStatus.CommentaryForWithdrawal);}
+                                <div class="govuk-body dfe-text-area-display">
+                                    @{
+                                        RenderValue(Model.ProjectOverview.ProjectStatus.CommentaryForWithdrawal);
+                                    }
                                 </div>
                             </dd>
                         </div>
                     }
-                                
+
                 </dl>
-            </div>
-        </div>
 
-        <div class="govuk-grid-row">
-
-            <div class="govuk-grid-column-full">
                 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
             
                 <h2 class="govuk-heading-m govuk-!-font-size-27" id="dates">Dates</h2>
 
                 <dl class="govuk-summary-list govuk-summary-list--no-border">
-                        @if (@Model.Project.ProjectStatus.ProjectStatus is 
+                        @if (@Model.ProjectOverview.ProjectStatus.ProjectStatus is 
                                 ProjectStatus.Cancelled or 
                                 ProjectStatus.Closed or 
                                 ProjectStatus.WithdrawnInPreOpening or 
                                 ProjectStatus.WithdrawnDuringApplication)
                         {   
                         <div class="govuk-summary-list__row">
-                            @if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.WithdrawnInPreOpening ||
-                               Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.WithdrawnDuringApplication)
+                            @if (Model.ProjectOverview.ProjectStatus.ProjectStatus == ProjectStatus.WithdrawnInPreOpening ||
+                               Model.ProjectOverview.ProjectStatus.ProjectStatus == ProjectStatus.WithdrawnDuringApplication)
                             {
                                 <dt class="govuk-summary-list__key" id="overview-withdrawn-date">
                                     Date the project was withdrawn
                                 </dt>
                                 <dd class="govuk-summary-list__value" data-testid="date-of-termination">
                                         @{
-                                            RenderValue(Model.Project.ProjectStatus.ProjectWithdrawnDate.ToDateString());
+                                            RenderValue(Model.ProjectOverview.ProjectStatus.ProjectWithdrawnDate.ToDateString());
                                         }
                                 </dd>
                             }
-                            else if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.Closed)
+                            else if (Model.ProjectOverview.ProjectStatus.ProjectStatus == ProjectStatus.Closed)
                             {
                                 <dt class="govuk-summary-list__key" id="overview-closed-date">
                                     Date the school was closed
                                 </dt>
                                 <dd class="govuk-summary-list__value" data-testid="date-of-termination">
                                         @{
-                                            RenderValue(Model.Project.ProjectStatus.ProjectClosedDate.ToDateString());
+                                            RenderValue(Model.ProjectOverview.ProjectStatus.ProjectClosedDate.ToDateString());
                                         }
                                 </dd>
                             }
-                            else if (Model.Project.ProjectStatus.ProjectStatus == ProjectStatus.Cancelled)
+                            else if (Model.ProjectOverview.ProjectStatus.ProjectStatus == ProjectStatus.Cancelled)
                             {
                                 <dt class="govuk-summary-list__key" id="overview-cancelled-date">
                                     Date the project was cancelled
                                 </dt>
                                 <dd class="govuk-summary-list__value" data-testid="date-of-termination">
                                         @{
-                                            RenderValue(Model.Project.ProjectStatus.ProjectCancelledDate.ToDateString());
+                                            RenderValue(Model.ProjectOverview.ProjectStatus.ProjectCancelledDate.ToDateString());
                                         }
                                 </dd>
                             }
@@ -160,7 +168,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="date-of-entry-into-preopening">
                             @{
-                                RenderValue(Model.Project.ProjectStatus.DateOfEntryIntoPreopening.ToDateString());
+                                RenderValue(Model.ProjectOverview.ProjectStatus.DateOfEntryIntoPreopening.ToDateString());
                             }
                         </dd>
 
@@ -172,7 +180,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="provisional-opening-date-agreed-with-trust">
                             @{
-                                RenderValue(Model.Project.ProjectStatus.ProvisionalOpeningDateAgreedWithTrust.ToDateString());
+                                RenderValue(Model.ProjectOverview.ProjectStatus.ProvisionalOpeningDateAgreedWithTrust.ToDateString());
                             }
                         </dd>
 
@@ -184,7 +192,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="realistic-year-of-opening">
                             @{
-                                RenderValue(Model.Project.ProjectStatus.RealisticYearOfOpening);
+                                RenderValue(Model.ProjectOverview.ProjectStatus.RealisticYearOfOpening);
                             }
                         </dd>
 
@@ -196,7 +204,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="actual-opening-date">
                             @{
-                                RenderValue(Model.Project.ProjectStatus.ActualOpeningDate.ToDateString());
+                                RenderValue(Model.ProjectOverview.ProjectStatus.ActualOpeningDate.ToDateString());
                             }
                         </dd>
                     </div>
@@ -213,7 +221,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="trust-id">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.TrustId);
+                                RenderValue(Model.ProjectOverview.SchoolDetails.TrustId);
                             }
                         </dd>
 
@@ -225,7 +233,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="trust-name">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.TrustName);
+                                RenderValue(Model.ProjectOverview.SchoolDetails.TrustName);
                             }
                         </dd>
 
@@ -237,7 +245,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="trust-type">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.TrustType.ToDescription());
+                                RenderValue(Model.ProjectOverview.SchoolDetails.TrustType.ToDescription());
                             }
                         </dd>
 
@@ -255,7 +263,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="project-id">
                             @{
-                                RenderValue(Model.Project.ProjectStatus.ProjectId);
+                                RenderValue(Model.ProjectOverview.ProjectStatus.ProjectId);
                             }
                         </dd>
 
@@ -267,7 +275,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="urn">
                             @{
-                                RenderValue(Model.Project.ProjectStatus.Urn);
+                                RenderValue(Model.ProjectOverview.ProjectStatus.Urn);
                             }
                         </dd>
 
@@ -279,7 +287,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="application-number">
                             @{
-                                RenderValue(Model.Project.ProjectStatus.FreeSchoolsApplicationNumber);
+                                RenderValue(Model.ProjectOverview.ProjectStatus.FreeSchoolsApplicationNumber);
                             }
                         </dd>
 
@@ -292,7 +300,7 @@
                         </dt>
                     <dd class="govuk-summary-list__value" data-testid="project-type">
                         @{
-                            RenderValue(Model.Project.ProjectType);
+                            RenderValue(Model.ProjectOverview.ProjectType);
                         }
                     </dd>
                     </div>
@@ -304,7 +312,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="application-wave">
                             @{
-                                RenderValue(Model.Project.ProjectStatus.ApplicationWave);
+                                RenderValue(Model.ProjectOverview.ProjectStatus.ApplicationWave);
                             }
                         </dd>
 
@@ -322,7 +330,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="free-school-name">
                             @{
-                                RenderValue(@Model.Project.ProjectStatus.CurrentFreeSchoolName);
+                                RenderValue(@Model.ProjectOverview.ProjectStatus.CurrentFreeSchoolName);
                             }
                         </dd>
 
@@ -334,7 +342,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="school-type">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.SchoolType?.ToDescription());
+                                RenderValue(Model.ProjectOverview.SchoolDetails.SchoolType?.ToDescription());
                             }
                         </dd>
 
@@ -346,7 +354,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="school-phase">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.SchoolPhase.ToDescription());
+                                RenderValue(Model.ProjectOverview.SchoolDetails.SchoolPhase.ToDescription());
                             }
                         </dd>
 
@@ -358,7 +366,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="faith-status">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.FaithStatus);
+                                RenderValue(Model.ProjectOverview.SchoolDetails.FaithStatus);
                             }
                         </dd>
 
@@ -370,7 +378,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="faith-type">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.FaithType.ToDescription());
+                                RenderValue(Model.ProjectOverview.SchoolDetails.FaithType.ToDescription());
                             }
                         </dd>
 
@@ -382,7 +390,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="number-of-forms-of-entry">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.NumberOfEntryForms);
+                                RenderValue(Model.ProjectOverview.SchoolDetails.NumberOfEntryForms);
                             }
                         </dd>
 
@@ -400,7 +408,7 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="local-authority">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.LocalAuthority);
+                                RenderValue(Model.ProjectOverview.SchoolDetails.LocalAuthority);
                             }
                         </dd>
 
@@ -412,13 +420,12 @@
                         </dt>
                         <dd class="govuk-summary-list__value" data-testid="region">
                             @{
-                                RenderValue(Model.Project.SchoolDetails.Region);
+                                RenderValue(Model.ProjectOverview.SchoolDetails.Region);
                             }
                         </dd>
 
                     </div>
                 </dl>
-
             </div>
         </div>
     </div>

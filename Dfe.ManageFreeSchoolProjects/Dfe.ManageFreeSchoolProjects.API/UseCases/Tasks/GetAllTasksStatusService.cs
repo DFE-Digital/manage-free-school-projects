@@ -94,7 +94,6 @@ public class GetAllTasksStatusService : IGetTasksService
             NewSchoolDecisionMaker = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDecisionMaker"),
             NewSchoolDateOfDecision = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDateOfDecision"),
             NewSchoolDecision = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDecision"),
-            NewSchoolConditions = SafeRetrieveTaskSummary(projectTasks, "NewSchoolConditions"),
             NewSchoolDateForConditionsToBeMet = SafeRetrieveTaskSummary(projectTasks, "NewSchoolDateForConditionsToBeMet")
         };
 

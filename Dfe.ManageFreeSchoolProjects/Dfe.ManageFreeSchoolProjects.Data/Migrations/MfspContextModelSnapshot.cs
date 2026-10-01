@@ -4382,12 +4382,6 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                     b.Property<DateTime?>("NewSchoolClosingDateForProposals")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NewSchoolConditions")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NewSchoolConditionsDescription")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("NewSchoolDateForConditionsToBeMet")
                         .HasColumnType("datetime2");
 
@@ -4395,6 +4389,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NewSchoolDecision")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewSchoolDecisionCondition")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NewSchoolDecisionMaker")
@@ -11613,6 +11610,12 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("JointProposalLocalAuthority");
 
+                    b.Property<string>("JointProposalLocalAuthorityRegion")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("JointProposalLocalAuthorityRegion");
+
                     b.Property<string>("NameOfDiocese")
                         .HasMaxLength(100)
                         .IsUnicode(false)
@@ -11642,6 +11645,12 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("OtherLocalAuthority");
+
+                    b.Property<string>("OtherLocalAuthorityRegion")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("OtherLocalAuthorityRegion");
 
                     b.Property<DateTime>("PeriodEnd")
                         .ValueGeneratedOnAddOrUpdate()
@@ -11675,6 +11684,14 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .HasMaxLength(200)
                         .IsUnicode(false)
                         .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(50)")
+                        .HasDefaultValue("Active")
+                        .HasColumnName("Status");
 
                     b.Property<string>("TrustName")
                         .HasMaxLength(100)

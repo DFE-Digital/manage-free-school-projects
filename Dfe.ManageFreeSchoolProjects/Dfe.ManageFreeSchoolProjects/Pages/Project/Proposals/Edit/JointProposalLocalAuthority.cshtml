@@ -1,0 +1,22 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/region/{region}/joint-proposal-local-authority"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.JointProposalLocalAuthorityModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+
+@{
+    var title = "What is the other local authority?";
+    ViewData["Title"] = title;
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<partial name="_ProposalLocalAuthoritySelection"
+         model="@(new ProposalLocalAuthoritySelectionViewModel
+         {
+             Mode = ProposalJourneyMode.Edit,
+             Title = title,
+             LocalAuthority = Model.LocalAuthority,
+             LocalAuthorities = Model.LocalAuthorities,
+             ButtonText = "Save and return"
+         })" />

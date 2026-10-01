@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.TagHelpers;
 using Dfe.ManageFreeSchoolProjects.ViewModels;
@@ -27,6 +25,21 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.TagHelpers
             output.Attributes["class"].Value.Should().Be("govuk-tag govuk-tag--yellow");
             output.Attributes["id"].Value.Should().Be("status-1");
             output.Content.GetContent().Should().Be("Active");
+        }
+
+        [Theory]
+        [InlineData(ProposalStatus.Active, "yellow", "Active")]
+        [InlineData(ProposalStatus.Successful, "turquoise", "Successful")]
+        [InlineData(ProposalStatus.Unsuccessful, "blue", "Unsuccessful")]
+        public void Process_ColoursTheTagByStatus(ProposalStatus status, string colour, string label)
+        {
+            var output = BuildOutput("govuk-proposal-status-tag");
+            var helper = new ProposalStatusTagHelper { Id = "status-1", Status = status };
+
+            helper.Process(BuildContext(), output);
+
+            output.Attributes["class"].Value.Should().Be($"govuk-tag govuk-tag--{colour}");
+            output.Content.GetContent().Should().Be(label);
         }
 
         [Fact]

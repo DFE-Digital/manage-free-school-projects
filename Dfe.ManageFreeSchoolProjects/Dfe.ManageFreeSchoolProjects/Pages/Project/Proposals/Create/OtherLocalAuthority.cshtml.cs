@@ -6,10 +6,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create
 {
-    public class LocalAuthorityModel(
+    public class OtherLocalAuthorityModel(
         ICreateProposalCache createProposalCache,
         IGetLocalAuthoritiesService getLocalAuthoritiesService,
-        ILogger<LocalAuthorityModel> logger,
+        ILogger<OtherLocalAuthorityModel> logger,
         ErrorService errorService
     ) : ProposalLocalAuthorityModel(
         createProposalCache, getLocalAuthoritiesService, logger, errorService)

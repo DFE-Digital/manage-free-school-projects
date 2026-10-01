@@ -1,0 +1,22 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/confirm-trust/{trn}"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.ConfirmTrustModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+
+@{
+    var title = "Confirm the trust";
+    ViewData["Title"] = title;
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<partial name="_ProposalConfirmTrust"
+         model="@(new ProposalConfirmTrustViewModel
+         {
+             Mode = ProposalJourneyMode.Edit,
+             Title = title,
+             Trust = Model.Trust,
+             ConfirmOption = Model.ConfirmOption,
+             ButtonText = "Save and return"
+         })" />

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.9.12105.275 stable
+VisualStudioVersion = 18.9.12105.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dfe.ManageFreeSchoolProjects", "Dfe.ManageFreeSchoolProjects\Dfe.ManageFreeSchoolProjects.csproj", "{06B960B9-56C6-4613-9C05-2EE3087F38C0}"
 EndProject

@@ -7,7 +7,9 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Proposal
 {
     public interface IGetProposalService
     {
-        public Task<ApiSingleResponseV2<List<GetProposalResponse>>> ExecuteList(string projectId);
+        public Task<ApiSingleResponseV2<List<GetProposalSummaryResponse>>> ExecuteList(string projectId);
+
+        public Task<ApiSingleResponseV2<ProposalResponse>> ExecuteSingle(string rid);
     }
 
     public record GetProposalServicListParameters
@@ -17,11 +19,20 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Proposal
 
     public class GetProposalService(MfspApiClient apiClient) : IGetProposalService
     {
-        public async Task<ApiSingleResponseV2<List<GetProposalResponse>>> ExecuteList(string projectId)
+        public async Task<ApiSingleResponseV2<List<GetProposalSummaryResponse>>> ExecuteList(string projectId)
         {
             var endpoint = $"/api/v1/client/proposals/list?projectId={projectId}";
 
-            var result = await apiClient.Get<ApiSingleResponseV2<List<GetProposalResponse>>>(endpoint);
+            var result = await apiClient.Get<ApiSingleResponseV2<List<GetProposalSummaryResponse>>>(endpoint);
+
+            return result;
+        }
+
+        public async Task<ApiSingleResponseV2<ProposalResponse>> ExecuteSingle(string rid)
+        {
+            var endpoint = $"/api/v1/client/proposals/{rid}";
+
+            var result = await apiClient.Get<ApiSingleResponseV2<ProposalResponse>>(endpoint);
 
             return result;
         }

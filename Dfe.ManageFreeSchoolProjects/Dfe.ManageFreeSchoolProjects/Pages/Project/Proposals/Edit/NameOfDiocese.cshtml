@@ -1,0 +1,28 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/name-of-diocese"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.NameOfDioceseModel
+
+@{
+    ViewData["Title"] = "What is the name of the Diocese?";
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+
+            <div class="govuk-form-group">
+                <govuk-update-proposal-title label="What is the name of the Diocese?" for="name-of-diocese" />
+                <govuk-text-input id="name-of-diocese" name="name-of-diocese" asp-for="@Model.NameOfDiocese" data-testid="name-of-diocese" hint="For example, Diocese of London" />
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>
