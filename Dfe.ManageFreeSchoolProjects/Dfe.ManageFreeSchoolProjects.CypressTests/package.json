@@ -31,7 +31,7 @@
     "devDependencies": {
         "@cypress/grep": "6.0.0",
         "@eslint/js": "^10.0.1",
-        "@types/node": "25.5.0",
+        "@types/node": "25.5.2",
         "@typescript-eslint/eslint-plugin": "8.57.1",
         "axe-core": "4.11.1",
         "csv-stringify": "6.7.0",
