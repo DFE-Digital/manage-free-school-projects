@@ -56,10 +56,8 @@ describe('Testing the admissions arragements task', () => {
         summaryPage.clickBack();
 
         taskListPage.selectAdmissionsArrangementsFromTaskList();
-        summaryPage.clickChange();
-
-        Logger.log('Edit Admissions Arrangements');
-
+        summaryPage.clickChangeFor('Expected date that trust will confirm arrangements');
+        
         cy.executeAccessibilityTests();
 
         admissionsArrangementsEditPage
@@ -100,8 +98,9 @@ describe('Testing the admissions arragements task', () => {
 
         taskListPage.isTaskStatusInProgress('AdmissionsArrangements');
 
+        cy.log('Edit Admissions arrangements should fail validation');
         taskListPage.selectAdmissionsArrangementsFromTaskList();
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Expected date that trust will confirm arrangements');
 
         admissionsArrangementsEditPage
             .withExpectedDate('zx', '12', '2010')
@@ -128,7 +127,15 @@ describe('Testing the admissions arragements task', () => {
             .withConfirmedDate('21', '12', '2051')
             .clickContinue()
             .errorForConfirmedDate()
-            .showsError('Year must be between 2000 and 2050')
+            .showsError('Year must be between 2000 and 2050');
+
+        admissionsArrangementsEditPage.clickBack();
+
+        cy.log('Edit Admissions arrangements should set date');
+        taskListPage.selectAdmissionsArrangementsFromTaskList();
+        summaryPage.clickChangeFor('Expected date that trust will confirm arrangements');
+
+        admissionsArrangementsEditPage
             .withConfirmedDate('21', '4', '2050')
             .uncheckTrustConfirmedAdmissionsArrangementsTemplate()
             .uncheckTrustConfirmedAdmissionsArrangementsPolicies()
