@@ -54,16 +54,13 @@ describe('Testing readiness to open meeting task', () => {
         Logger.log('Go back to task list');
         summaryPage.clickBack();
 
-        taskListPage.selectReadinessToOpenMeetingFromTaskList();
-        summaryPage.clickChange();
-
         Logger.log('Readiness to Open Meeting can save null values');
-
+        taskListPage.selectReadinessToOpenMeetingFromTaskList();
+        summaryPage.clickChangeFor('A ROM is expected to happen');
         readinessToOpenMeetingEditPage.clickContinue();
 
         Logger.log('Readiness to Open Meeting can be edited');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('A ROM is expected to happen');
 
         readinessToOpenMeetingEditPage
             .selectAROMIsExpectedToHappenYes()
@@ -123,11 +120,9 @@ describe('Testing readiness to open meeting task', () => {
 
         taskListPage.isTaskStatusInProgress('ReadinessToOpenMeeting');
 
-        taskListPage.selectReadinessToOpenMeetingFromTaskList();
-
         Logger.log('Readiness to Open Meeting can be edited again with No ROM held option');
-
-        summaryPage.clickChange();
+        taskListPage.selectReadinessToOpenMeetingFromTaskList();
+        summaryPage.clickChangeFor('A ROM is expected to happen');
 
         readinessToOpenMeetingEditPage
             .selectAROMIsExpectedToHappenNo()
@@ -171,10 +166,9 @@ describe('Testing readiness to open meeting task', () => {
 
         taskListPage.isTaskStatusInProgress('ReadinessToOpenMeeting');
 
-        taskListPage.selectReadinessToOpenMeetingFromTaskList();
-        summaryPage.clickChange();
-
         Logger.log('Should be able to select Informal meeting');
+        taskListPage.selectReadinessToOpenMeetingFromTaskList();
+        summaryPage.clickChangeFor('A ROM is expected to happen');
 
         readinessToOpenMeetingEditPage
             .selectAROMIsExpectedToHappenYes()
