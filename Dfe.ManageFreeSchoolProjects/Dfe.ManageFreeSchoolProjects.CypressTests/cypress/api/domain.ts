@@ -26,9 +26,16 @@ export type CreateProjectRequest = {
     projects: Array<ProjectDetailsRequest>;
 };
 
+export enum ProjectType {
+    NotSet = 0,
+    PresumptionRoute = 1,
+    CentralRoute = 2,
+    NewSchool = 3,
+}
+
 export type ProjectDetailsRequest = {
     projectId: string;
-    projectType: string;
+    projectType: ProjectType;
     schoolName: string;
     applicationNumber?: string;
     applicationWave: string;
