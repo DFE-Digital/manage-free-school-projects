@@ -6,7 +6,7 @@ import summaryPage from 'cypress/pages/task-summary-base';
 import taskListPage from 'cypress/pages/taskListPage';
 import acceptedOffersEvidenceEditPage from '../../../pages/tasks/Getting-ready-to-open/edit-accepted-offers-evidence-cy';
 
-describe('Testing the impact assessment task', () => {
+describe('Testing the Accepted offers evidence task', () => {
     let project: ProjectDetailsRequest;
 
     beforeEach(() => {
@@ -46,11 +46,6 @@ describe('Testing the impact assessment task', () => {
         summaryPage.clickBack();
 
         taskListPage.selectAcceptedOffersEvidenceFromTaskList();
-        summaryPage.clickChange();
-
-        Logger.log('Accepted offers evidence can save null values');
-
-        acceptedOffersEvidenceEditPage.clickContinue();
 
         summaryPage
             .schoolNameIs(project.schoolName)
@@ -65,10 +60,14 @@ describe('Testing the impact assessment task', () => {
             .summaryShows('Saved email from the trust in Workplaces folder confirming accepted offers')
             .IsEmpty()
             .HasChangeLink()
-            .isNotMarkedAsComplete()
-            .clickChange();
+            .isNotMarkedAsComplete();
 
-        cy.executeAccessibilityTests();
+        Logger.log('Change the seen evidence of accepted offers row');
+        summaryPage.clickChangeFor('Seen evidence of accepted offers');
+
+        acceptedOffersEvidenceEditPage
+            .schoolNameIs(project.schoolName)
+            .titleIs('Edit Accepted offers evidence');
 
         Logger.log('accepted offers evidence can be edited');
 
@@ -103,9 +102,9 @@ describe('Testing the impact assessment task', () => {
         taskListPage.isTaskStatusInProgress('EvidenceOfAcceptedOffers');
 
         taskListPage.selectAcceptedOffersEvidenceFromTaskList();
-        summaryPage.clickChange();
 
         Logger.log('Should be able to clear all values');
+        summaryPage.clickChangeFor('Seen evidence of accepted offers');
 
         acceptedOffersEvidenceEditPage
             .uncheckSeenAcceptedOffersEvidence()
