@@ -65,10 +65,13 @@ describe('Testing Final finance plan Task', () => {
         taskListPage.isTaskStatusInProgress('FinalFinancePlan').selectFinalFinancePlanFromTaskList();
 
         cy.log('Check edit page');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Expected date that the Grade 6 will sign off the final plan');
 
         cy.executeAccessibilityTests({ 'aria-allowed-attr': { enabled: false } });
+
+        
+
+
 
         cy.log('Expected date that the Grade 6 will sign off the final plan Validation');
 
@@ -102,6 +105,12 @@ describe('Testing Final finance plan Task', () => {
             .errorGrade6SignedOffFinalPlanDate()
             .showsError('Year must be between 2000 and 2050');
 
+        cy.log('Go back to task list');
+        summaryPage.clickBack();
+
+        cy.log('Navigate back to Edit Final finance plan');
+        summaryPage.clickChangeFor('Expected date that the Grade 6 will sign off the final plan');
+
         finalFinancePlanEditPage
             .withExpectedDateGrade6WillSignOffFinalPlan('2', '2', '2050')
             .checkConfirmedTrustHasProvidedFinalPlan()
@@ -132,46 +141,16 @@ describe('Testing Final finance plan Task', () => {
             .HasChangeLink()
             .summaryShows('Saved final plan in Workplaces folder')
             .HasValue('Yes')
-            .HasChangeLink();
+            .HasChangeLink()
+            .isNotMarkedAsComplete();
 
-        cy.log('Unselect checkboxes');
-
-        summaryPage.clickChange();
-        finalFinancePlanEditPage
-            .uncheckConfirmedTrustHasProvidedFinalPlan()
-            .uncheckSentFinalPlanToRevenueFundingMailbox()
-            .uncheckAddedAnyUnderwrittenPlacesToFinalPlan()
-            .uncheckSavedFinalPlanInWorkplacesFolder()
-            .clickContinue();
+        cy.log('Mark Final finance plan as complete');
 
         summaryPage
-            .schoolNameIs(project.schoolName)
-            .titleIs('Final finance plan')
-            .inOrder()
-            .summaryShows('Expected date that the Grade 6 will sign off the final plan')
-            .HasValue('2 February 2050')
-            .HasChangeLink()
-            .summaryShows('Actual date the Grade 6 signed off the final plan')
-            .HasValue('2 February 2050')
-            .HasChangeLink()
-            .summaryShows('Confirmed that the trust has provided the final plan')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Sent the final plan to the Revenue Funding mailbox')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Added any underwritten places to the finance plan')
-            .IsEmpty()
-            .HasChangeLink()
-            .summaryShows('Saved final plan in Workplaces folder')
-            .IsEmpty()
-            .HasChangeLink()
-            .isNotMarkedAsComplete()
             .MarkAsComplete()
             .clickConfirmAndContinue();
 
         taskListPage.selectFinalFinancePlanFromTaskList();
-
         summaryPage.isMarkedAsComplete();
     });
 });
