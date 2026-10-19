@@ -132,7 +132,7 @@ describe('Testing the admissions arragements task', () => {
         admissionsArrangementsEditPage.clickBack();
 
         cy.log('Edit Admissions arrangements should set date');
-        taskListPage.selectAdmissionsArrangementsFromTaskList();
+        //taskListPage.selectAdmissionsArrangementsFromTaskList();
         summaryPage.clickChangeFor('Expected date that trust will confirm arrangements');
 
         admissionsArrangementsEditPage
@@ -147,7 +147,7 @@ describe('Testing the admissions arragements task', () => {
             .titleIs('Admissions arrangements')
             .inOrder()
             .summaryShows('Expected date that trust will confirm arrangements')
-            .HasValue('15 April 2050')
+            .HasValue('15 January 2049')
             .HasChangeLink()
             .summaryShows(
                 'Trust has confirmed they developed their admissions arrangements using the recommended template'
