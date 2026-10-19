@@ -69,10 +69,6 @@ describe('Testing Final finance plan Task', () => {
 
         cy.executeAccessibilityTests({ 'aria-allowed-attr': { enabled: false } });
 
-        
-
-
-
         cy.log('Expected date that the Grade 6 will sign off the final plan Validation');
 
         finalFinancePlanEditPage
