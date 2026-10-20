@@ -60,7 +60,7 @@ describe('Testing Constituency Task', () => {
 
         Logger.log('Check search page');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Name');
 
         constituencySearchPage
             .schoolNameIs(project.schoolName)
@@ -87,8 +87,8 @@ describe('Testing Constituency Task', () => {
             .HasNoChangeLink()
             .isNotMarkedAsComplete();
 
-        summaryPage.clickChange();
-
+        summaryPage.clickChangeFor('Name');
+        
         Logger.log('Check validation for no input');
 
         constituencySearchPage
