@@ -69,7 +69,7 @@ describe('Testing Funding agreement submission Task', () => {
 
         cy.log('Check search page');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Drafted a funding agreement (FA) submission');
 
         cy.executeAccessibilityTests({ 'aria-allowed-attr': { enabled: false } });
 
@@ -104,7 +104,7 @@ describe('Testing Funding agreement submission Task', () => {
 
         cy.log('Edit funding agreement submission');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Drafted a funding agreement (FA) submission');
         fundingAgreementSubmissionEditPage
             .uncheckMinisterSignedOffFASubmission()
             .checkRegionalDirectorSignedOffFASubmission()
