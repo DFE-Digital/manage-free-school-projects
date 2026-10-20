@@ -178,7 +178,7 @@ describe('Testing education plans and policies - central', () => {
             });
     });
 
-    it.only('Should successfully set education plans and policies task', () => {
+    it('Should successfully set education plans and policies task', () => {
         cy.log('Education plans and policies');
         taskListPage.isTaskStatusIsNotStarted('EducationBrief').selectEducationBriefFromList();
 
