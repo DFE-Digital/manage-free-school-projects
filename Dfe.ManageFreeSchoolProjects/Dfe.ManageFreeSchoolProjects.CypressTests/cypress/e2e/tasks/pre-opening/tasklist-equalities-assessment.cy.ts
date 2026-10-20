@@ -46,30 +46,29 @@ describe('Testing equalities assessment', () => {
 
         cy.executeAccessibilityTests();
 
-        summaryPage.clickChange();
-
         cy.log('Check all the fields are optional');
+        summaryPage.clickChangeFor('Completed the equalities process record (EPR)');
+
         equalitiesAssessmentEditPage
             .titleIs('Edit Equalities assessment')
             .schoolNameIs(project.schoolName)
             .clickContinue();
 
-        cy.log('Go back to task list');
-        summaryPage.clickBack();
-
         cy.log('Check confirm puts project in In Progress');
-        taskListPage.isTaskStatusInProgress('EqualitiesAssessment').selectEqualitiesAssessmentFromTaskList();
+        summaryPage.clickConfirmAndContinue();
+        taskListPage.isTaskStatusInProgress('EqualitiesAssessment'); // TODO: this should be Not Started
 
         cy.log('Add new values');
-        summaryPage.clickChange();
 
-        cy.executeAccessibilityTests();
+        taskListPage.selectEqualitiesAssessmentFromTaskList();
+        summaryPage.clickChangeFor('Completed the equalities process record (EPR)');
 
-        equalitiesAssessmentEditPage.schoolNameIs(project.schoolName);
+        equalitiesAssessmentEditPage
+            .titleIs('Edit Equalities assessment')
+            .schoolNameIs(project.schoolName)
+            .checkCompletedEqualitiesProcessRecord()
+            .clickContinue();
 
-        equalitiesAssessmentEditPage.checkCompletedEqualitiesProcessRecord().clickContinue();
-
-        cy.log('Confirm new values for equalities assessment');
         summaryPage
             .schoolNameIs(project.schoolName)
             .titleIs('Equalities assessment')
@@ -81,7 +80,7 @@ describe('Testing equalities assessment', () => {
             .isNotMarkedAsComplete();
 
         cy.log('Edit values');
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Completed the equalities process record (EPR)');
 
         equalitiesAssessmentEditPage.checkSavedEPRInWorkplacesFolder().clickContinue();
 
