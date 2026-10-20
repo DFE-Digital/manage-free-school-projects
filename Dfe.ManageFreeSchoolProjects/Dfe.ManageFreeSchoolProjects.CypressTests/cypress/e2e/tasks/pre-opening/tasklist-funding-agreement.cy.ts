@@ -67,7 +67,7 @@ describe('Testing Funding agreement Task', () => {
 
         cy.log('Check search page');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Tailored the funding agreement (FA)');
 
         cy.executeAccessibilityTests({ 'aria-allowed-attr': { enabled: false } });
 
@@ -108,6 +108,9 @@ describe('Testing Funding agreement Task', () => {
             .showsError('Year must be between 2000 and 2050')
             .withExpectedDate('', '', '');
 
+        summaryPage.clickBack();
+        summaryPage.clickChangeFor('Tailored the funding agreement (FA)');
+
         cy.log("Expected date FA is signed on Secretary of State's behalf validation");
 
         cy.log('Actual date FA was signed validation');
@@ -130,6 +133,9 @@ describe('Testing Funding agreement Task', () => {
             .errorForDateFAWasSigned()
             .showsError('Year must be between 2000 and 2050');
 
+        summaryPage.clickBack();
+        summaryPage.clickChangeFor('Tailored the funding agreement (FA)');
+        
         cy.log('Actual date FA was signed validation');
 
         cy.log('Fill in valid funding agreement');
@@ -176,7 +182,7 @@ describe('Testing Funding agreement Task', () => {
 
         cy.log('Unselect select date signed');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Tailored the funding agreement (FA)');
         fundingAgreementEditPage
             .uncheckTailoredTheFundingAgreement()
             .uncheckSharedFAWithTrust()
