@@ -60,7 +60,7 @@ describe('Testing project overview', () => {
 
         taskListPage.isTaskStatusInProgress('ReferenceNumbers').selectReferenceNumbersFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Project ID');
 
         cy.executeAccessibilityTests();
 
@@ -103,7 +103,7 @@ describe('Testing project overview', () => {
             .HasChangeLink()
             .isNotMarkedAsComplete();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Project ID');
 
         cy.executeAccessibilityTests();
 
