@@ -61,7 +61,7 @@ describe('Testing kick off meeting Task', () => {
 
         cy.log('Check search page');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Funding arrangement details agreed between local authority and trust');
 
         cy.executeAccessibilityTests();
 
