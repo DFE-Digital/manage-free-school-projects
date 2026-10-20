@@ -76,7 +76,7 @@ describe('Testing project overview', () => {
 
         cy.executeAccessibilityTests();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Initial risk appraisal meeting completed');
 
         Logger.log('Checking validation');
         schoolDetailsPage.clickContinue();
@@ -215,7 +215,7 @@ describe('Testing project overview', () => {
 
         summaryPage.SummaryHasValue('Faith type', 'Other - This is my faith');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Initial risk appraisal meeting completed');
 
         schoolDetailsPage
             .withFaithType('faith-type-ChurchOfEngland')
@@ -224,7 +224,7 @@ describe('Testing project overview', () => {
 
         summaryPage.SummaryHasValue('Faith type', 'Church of England');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Initial risk appraisal meeting completed');
 
         schoolDetailsPage.withFaithStatus('None').faithTypeSectionIsNotVisible().clickContinue();
 
@@ -243,7 +243,7 @@ describe('Testing project overview', () => {
     it('Should validate the faith type field if a faith status is selected', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Initial risk appraisal meeting completed');
 
         schoolDetailsPage
             .withSchoolType('Mainstream')
@@ -271,7 +271,7 @@ describe('Testing project overview', () => {
     it('Should validate the class type field if a school type with specialist provisions is selected', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Initial risk appraisal meeting completed');
 
         schoolDetailsPage
             .withSchoolType('Mainstream')
@@ -293,7 +293,7 @@ describe('Testing project overview', () => {
     it('Should validate the class type field if a school type with specialist provisions is selected for Voluntary Aided', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Initial risk appraisal meeting completed');
 
         schoolDetailsPage
             .withSchoolType('VoluntaryAided')
