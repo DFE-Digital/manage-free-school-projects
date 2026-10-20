@@ -65,9 +65,7 @@ describe('Testing the Accepted offers evidence task', () => {
         Logger.log('Change the seen evidence of accepted offers row');
         summaryPage.clickChangeFor('Seen evidence of accepted offers');
 
-        acceptedOffersEvidenceEditPage
-            .schoolNameIs(project.schoolName)
-            .titleIs('Edit Accepted offers evidence');
+        acceptedOffersEvidenceEditPage.schoolNameIs(project.schoolName).titleIs('Edit Accepted offers evidence');
 
         Logger.log('accepted offers evidence can be edited');
 

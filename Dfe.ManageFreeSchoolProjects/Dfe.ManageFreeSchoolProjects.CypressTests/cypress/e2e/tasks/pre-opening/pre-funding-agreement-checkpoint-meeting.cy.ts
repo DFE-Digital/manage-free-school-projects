@@ -54,11 +54,11 @@ describe('Testing pre-funding agreement checkpoint meeting task', () => {
 
         Logger.log('Pre-funding agreement checkpoint meeting can save null values');
         taskListPage.selectPreFundingAgreementCheckpointMeetingFromTaskList();
-        summaryPage.clickChangeFor("Type of meeting held");
+        summaryPage.clickChangeFor('Type of meeting held');
         preFundingAgreementCheckpointMeetingEditPage.clickContinue();
 
         Logger.log('Pre-funding agreement checkpoint meeting can be edited');
-        summaryPage.clickChangeFor("Type of meeting held");
+        summaryPage.clickChangeFor('Type of meeting held');
 
         preFundingAgreementCheckpointMeetingEditPage
             .selectFormalCheckpointMeeting()
@@ -105,7 +105,7 @@ describe('Testing pre-funding agreement checkpoint meeting task', () => {
         taskListPage.selectPreFundingAgreementCheckpointMeetingFromTaskList();
 
         Logger.log('Pre-funding agreement checkpoint meeting can be edited again with No meeting held option');
-        summaryPage.clickChangeFor("Type of meeting held");
+        summaryPage.clickChangeFor('Type of meeting held');
 
         preFundingAgreementCheckpointMeetingEditPage
             .selectNoMeetingHeld()
@@ -145,7 +145,7 @@ describe('Testing pre-funding agreement checkpoint meeting task', () => {
 
         Logger.log('Should be able to select Internal review meeting');
         taskListPage.selectPreFundingAgreementCheckpointMeetingFromTaskList();
-        summaryPage.clickChangeFor("Type of meeting held");
+        summaryPage.clickChangeFor('Type of meeting held');
 
         preFundingAgreementCheckpointMeetingEditPage
             .selectInternalReviewMeeting()

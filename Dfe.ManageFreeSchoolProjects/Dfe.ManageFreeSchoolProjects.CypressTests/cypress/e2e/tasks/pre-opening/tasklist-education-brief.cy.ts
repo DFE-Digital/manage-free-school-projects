@@ -64,7 +64,7 @@ describe('Testing education plans and policies - presumption', () => {
         taskListPage.isTaskStatusInProgress('EducationBrief').selectEducationBriefFromList();
 
         cy.log('Check education plans and policies page');
-        summaryPage.clickChangeFor("Trust confirmed it has education plans and policies in place");
+        summaryPage.clickChangeFor('Trust confirmed it has education plans and policies in place');
 
         cy.executeAccessibilityTests();
 
@@ -81,7 +81,7 @@ describe('Testing education plans and policies - presumption', () => {
             .clickContinue();
 
         educationBriefEditPage.clickBack();
-        summaryPage.clickChangeFor("Trust confirmed it has education plans and policies in place");
+        summaryPage.clickChangeFor('Trust confirmed it has education plans and policies in place');
 
         educationBriefEditPage
             .withDateEEReviewedEducationBrief('2', '3', '2049')
@@ -115,8 +115,8 @@ describe('Testing education plans and policies - presumption', () => {
             .isNotMarkedAsComplete();
 
         cy.log('uncheck education plans and policies page');
-        summaryPage.clickChangeFor("Trust confirmed it has education plans and policies in place");
-        
+        summaryPage.clickChangeFor('Trust confirmed it has education plans and policies in place');
+
         cy.executeAccessibilityTests();
 
         educationBriefEditPage
@@ -220,7 +220,7 @@ describe('Testing education plans and policies - central', () => {
         taskListPage.isTaskStatusInProgress('EducationBrief').selectEducationBriefFromList();
 
         cy.log('Check education plans and policies page');
-        summaryPage.clickChangeFor("Date the trust provided the education brief");
+        summaryPage.clickChangeFor('Date the trust provided the education brief');
 
         cy.executeAccessibilityTests();
 
@@ -237,7 +237,7 @@ describe('Testing education plans and policies - central', () => {
             .clickContinue();
 
         educationBriefEditPage.clickBack();
-        summaryPage.clickChangeFor("Date the trust provided the education brief");
+        summaryPage.clickChangeFor('Date the trust provided the education brief');
 
         educationBriefEditPage
             .withDateTrustProvidedEducationBrief('1', '1', '2049')
@@ -273,7 +273,7 @@ describe('Testing education plans and policies - central', () => {
             .isNotMarkedAsComplete();
 
         cy.log('uncheck education plans and policies page');
-        summaryPage.clickChangeFor("Date the trust provided the education brief");
+        summaryPage.clickChangeFor('Date the trust provided the education brief');
 
         cy.executeAccessibilityTests();
 

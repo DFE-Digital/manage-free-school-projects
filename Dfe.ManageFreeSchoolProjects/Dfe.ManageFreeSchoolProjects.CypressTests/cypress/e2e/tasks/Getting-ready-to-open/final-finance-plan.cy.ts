@@ -142,9 +142,7 @@ describe('Testing Final finance plan Task', () => {
 
         cy.log('Mark Final finance plan as complete');
 
-        summaryPage
-            .MarkAsComplete()
-            .clickConfirmAndContinue();
+        summaryPage.MarkAsComplete().clickConfirmAndContinue();
 
         taskListPage.selectFinalFinancePlanFromTaskList();
         summaryPage.isMarkedAsComplete();

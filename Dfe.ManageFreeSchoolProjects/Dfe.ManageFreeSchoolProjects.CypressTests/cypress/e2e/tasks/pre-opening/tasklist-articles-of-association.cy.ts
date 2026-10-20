@@ -64,7 +64,7 @@ describe('Testing articles of association Task', () => {
         taskListPage.isTaskStatusInProgress('ArticlesOfAssociation').selectArticlesOfAssociationFromTaskList();
 
         cy.log('Check search page');
-        summaryPage.clickChangeFor("Checked that the submitted articles match the model articles");
+        summaryPage.clickChangeFor('Checked that the submitted articles match the model articles');
 
         cy.executeAccessibilityTests();
 
@@ -107,12 +107,12 @@ describe('Testing articles of association Task', () => {
             .showsError('SharePoint link must be a valid url')
             .withSharepointLink('NotAUrl')
             .clickContinue()
-            .errorForSharepointLink()
+            .errorForSharepointLink();
 
         articlesOfAssociationEditPage.clickBack();
 
         cy.log('Sharepoint link should fail validation - SharePoint link must be 500 characters or less');
-        summaryPage.clickChangeFor("Checked that the submitted articles match the model articles");
+        summaryPage.clickChangeFor('Checked that the submitted articles match the model articles');
         articlesOfAssociationEditPage
             .withSharepointLinkExceedingMaxLength()
             .clickContinue()
@@ -122,7 +122,7 @@ describe('Testing articles of association Task', () => {
         articlesOfAssociationEditPage.clickBack();
 
         cy.log('Sharepoint link passes validation');
-        summaryPage.clickChangeFor("Checked that the submitted articles match the model articles");
+        summaryPage.clickChangeFor('Checked that the submitted articles match the model articles');
 
         articlesOfAssociationEditPage
             .withSharepointLink('https://www.gov.uk/government/organisations/department-for-education')

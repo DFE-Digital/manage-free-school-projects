@@ -248,7 +248,6 @@ describe('Testing the impact assessment task - central route', () => {
             .uncheckSavedToWorkplaces()
             .clickContinue();
 
-
         Logger.log('Impact assessment - Fill out and mark as complete');
         summaryPage.clickChangeFor('Sent the section 9 letter to local authority');
         impactAssessmentEditPage
@@ -258,10 +257,7 @@ describe('Testing the impact assessment task - central route', () => {
             .checkSavedToWorkplaces()
             .clickContinue();
 
-        summaryPage
-            .isNotMarkedAsComplete()
-            .MarkAsComplete()
-            .clickConfirmAndContinue();
+        summaryPage.isNotMarkedAsComplete().MarkAsComplete().clickConfirmAndContinue();
 
         taskListPage.isTaskStatusIsCompleted('ImpactAssessment');
     });

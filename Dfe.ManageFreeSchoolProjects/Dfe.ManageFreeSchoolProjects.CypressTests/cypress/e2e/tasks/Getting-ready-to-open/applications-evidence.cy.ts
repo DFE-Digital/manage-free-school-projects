@@ -52,7 +52,7 @@ describe('Testing the applications evidence task', () => {
         summaryPage.clickBack();
 
         taskListPage.selectApplicationsEvidenceFromTaskList();
-        
+
         summaryPage.clickChangeFor('Confirmed that the trust has provided minimum viable pupil number');
 
         applicationsEvidenceEditPage.clickContinue();
@@ -78,7 +78,7 @@ describe('Testing the applications evidence task', () => {
             .isNotMarkedAsComplete();
 
         // cy.executeAccessibilityTests();
-            
+
         Logger.log('Applications evidence can be edited');
         summaryPage.clickChangeFor('Confirmed that the trust has provided minimum viable pupil number');
 
@@ -119,7 +119,7 @@ describe('Testing the applications evidence task', () => {
         taskListPage.isTaskStatusInProgress('ApplicationsEvidence');
 
         taskListPage.selectApplicationsEvidenceFromTaskList();
-       
+
         summaryPage.clickChangeFor('Confirmed that the trust has provided minimum viable pupil number');
 
         Logger.log('Should be able to clear all values');

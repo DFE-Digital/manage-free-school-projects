@@ -57,7 +57,7 @@ describe('Testing the admissions arragements task', () => {
 
         taskListPage.selectAdmissionsArrangementsFromTaskList();
         summaryPage.clickChangeFor('Expected date that trust will confirm arrangements');
-        
+
         cy.executeAccessibilityTests();
 
         admissionsArrangementsEditPage
