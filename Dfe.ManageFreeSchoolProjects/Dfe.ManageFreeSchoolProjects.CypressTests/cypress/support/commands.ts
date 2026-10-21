@@ -49,8 +49,13 @@ Cypress.Commands.add('getByLabelFor', (labelFor) => {
     cy.get(`[for="${labelFor}"]`);
 });
 
+// Scoped to `label` on purpose: this reads a `for` attribute, which only a label carries.
+// An unscoped `cy.contains` matches any element holding the text — e.g. the dashboard's
+// `<span>Presumption</span>` project-type cell — which yields no `for` and so ends up as
+// `cy.get('#undefined')`. Restricting to labels also makes the command retry until the
+// expected page has rendered, rather than latching onto the previous page's text.
 Cypress.Commands.add('getByRadioOption', (radioText: string) => {
-    cy.contains(radioText)
+    cy.contains('label', radioText)
         .invoke('attr', 'for')
         .then((id) => {
             cy.get('#' + id);

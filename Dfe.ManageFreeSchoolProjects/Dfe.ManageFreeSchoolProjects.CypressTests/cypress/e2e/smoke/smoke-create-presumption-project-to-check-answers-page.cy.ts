@@ -98,10 +98,15 @@ describe('Smoke Test Create an individual Presumption project - (Up Until Check 
         Logger.log('Select Designation');
         createProjectPage.selectOption('Designation').continue();
 
+        // Anchor before injecting axe, so it lands on the new page rather than the outgoing one
+        createProjectPage.titleIs('What is the faith type?');
+
         cy.executeAccessibilityTests();
 
         Logger.log('Select Greek Orthodox');
         createProjectPage.selectOption('Greek Orthodox').continue();
+
+        createProjectPage.titleIs('What is the provisional opening date? (optional)');
 
         cy.executeAccessibilityTests();
 

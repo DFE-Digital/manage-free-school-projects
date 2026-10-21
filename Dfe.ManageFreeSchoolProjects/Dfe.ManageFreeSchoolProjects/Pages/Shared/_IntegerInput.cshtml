@@ -2,6 +2,7 @@
 @{
 	var showError = !string.IsNullOrWhiteSpace(Model.ErrorMessage);
 	var showHint = !string.IsNullOrWhiteSpace(Model.Hint);
+	var hintId = showHint ? $"{Model.Id}-hint" : null;
 }
 <div class="govuk-form-group @(showError ? "govuk-form-group--error" : "")">
 	@if (showError)
@@ -25,7 +26,7 @@
 
 			<input class="govuk-input govuk-input--width-10" id="@Model.Id"
 			       name="@Model.Name" type="text" value="@Model.Value"
-			       @(showHint ? $"aria-describedby=\"{Model.Id}-hint\"" : "")>
+			       aria-describedby="@hintId">
 		</div>
 	}
 	else
@@ -33,7 +34,7 @@
 		<div class="govuk-input__wrapper">
 			<input class="govuk-input govuk-input--width-10" id="@Model.Id"
 			       name="@Model.Name" type="text" value="@Model.Value"
-			       @(showHint ? $"aria-describedby=\"{Model.Id}-hint\"" : "")>
+			       aria-describedby="@hintId">
 		</div>
 	}
 </div>

@@ -123,6 +123,9 @@ describe('Smoke Test Create an individual Central project - (Up Until Check your
         Logger.log('Select Designation');
         createProjectPage.selectOption('Designation').continue();
 
+        // Anchor before injecting axe, so it lands on the new page rather than the outgoing one
+        createProjectPage.titleIs('What is the faith type?');
+
         cy.executeAccessibilityTests();
 
         Logger.log('Select Greek Orthodox');

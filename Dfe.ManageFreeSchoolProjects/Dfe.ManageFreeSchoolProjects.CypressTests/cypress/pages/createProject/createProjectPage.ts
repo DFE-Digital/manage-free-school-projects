@@ -24,17 +24,17 @@ class CreateProjectPage {
     }
 
     public enterProjectId(value: string) {
-        cy.getByTestId('projectid').clear().type(value);
+        this.typeInto('projectid', value);
         return this;
     }
 
     public enterApplicationNumber(value: string) {
-        cy.getByTestId('application-number').clear().type(value);
+        this.typeInto('application-number', value);
         return this;
     }
 
     public enterApplicationWave(value: string) {
-        cy.getByTestId('application-wave').clear().type(value);
+        this.typeInto('application-wave', value);
         return this;
     }
 
@@ -49,7 +49,7 @@ class CreateProjectPage {
     }
 
     public enterSchoolName(value: string): this {
-        cy.getByTestId('school').clear().type(value);
+        this.typeInto('school', value);
         return this;
     }
 
@@ -59,7 +59,7 @@ class CreateProjectPage {
     }
 
     public enterTRN(value: string): this {
-        cy.getByTestId('trn').clear().type(value);
+        this.typeInto('trn', value);
         return this;
     }
 
@@ -127,12 +127,12 @@ class CreateProjectPage {
     }
 
     public enterAgeRangeFrom(value: string): this {
-        cy.getByTestId('age-range-from').clear().type(value);
+        this.typeInto('age-range-from', value);
         return this;
     }
 
     public enterAgeRangeTo(value: string): this {
-        cy.getByTestId('age-range-to').clear().type(value);
+        this.typeInto('age-range-to', value);
         return this;
     }
 
@@ -147,7 +147,7 @@ class CreateProjectPage {
     }
 
     public enterNurseryCapacity(value: string): this {
-        this.getNurseryCapacity().clear().type(value);
+        this.typeInto('nursery-capacity', value);
 
         return this;
     }
@@ -163,11 +163,7 @@ class CreateProjectPage {
     }
 
     public enterReceptionToYear6(value: string): this {
-        if (value == '') {
-            cy.getByTestId('yr-y6-capacity').clear();
-        } else {
-            cy.getByTestId('yr-y6-capacity').clear().type(value);
-        }
+        this.typeInto('yr-y6-capacity', value);
         return this;
     }
 
@@ -177,11 +173,7 @@ class CreateProjectPage {
     }
 
     public enterYear7ToYear11(value: string): this {
-        if (value == '') {
-            cy.getByTestId('y7-y11-capacity').clear();
-        } else {
-            cy.getByTestId('y7-y11-capacity').clear().type(value);
-        }
+        this.typeInto('y7-y11-capacity', value);
         return this;
     }
 
@@ -191,11 +183,7 @@ class CreateProjectPage {
     }
 
     public enterYear12ToYear14(value: string): this {
-        if (value == '') {
-            cy.getByTestId('y12-y14-capacity').clear();
-        } else {
-            cy.getByTestId('y12-y14-capacity').clear().type(value);
-        }
+        this.typeInto('y12-y14-capacity', value);
         return this;
     }
 
@@ -215,7 +203,7 @@ class CreateProjectPage {
     }
 
     public enterOtherFaith(value: string): this {
-        cy.getByTestId('other-faith-type').clear().type(value);
+        this.typeInto('other-faith-type', value);
         return this;
     }
 
@@ -241,18 +229,10 @@ class CreateProjectPage {
         return this;
     }
 
-    public enterProjectAssignedToName(value: string) {
-        cy.getByTestId('name').clear().type(value);
-        return this;
-    }
-
+    // The create journey's "assign this project to" page only collects an email address;
+    // the name field it used to have was removed from ProjectAssignedTo.cshtml.
     public enterProjectAssignedToEmail(value: string) {
-        cy.getByTestId('email').clear().type(value);
-        return this;
-    }
-
-    public hasProjectAssignedToName(value: string) {
-        cy.getByTestId('email').should('have.value', value);
+        this.typeInto('email', value);
         return this;
     }
 
@@ -261,8 +241,11 @@ class CreateProjectPage {
         return this;
     }
 
+    // Uses `cy.get` rather than the `getByTestId` custom command so the button is a
+    // requeryable subject. Two consecutive `continue()` calls span a navigation, and a
+    // non-requeryable subject means the second click lands on the outgoing page's button.
     public continue(): this {
-        cy.getByTestId('continue').click();
+        cy.get('[data-testid="continue"]').click();
         return this;
     }
 
@@ -297,6 +280,26 @@ class CreateProjectPage {
 
     private getNurseryCapacity() {
         return cy.getByTestId('nursery-capacity');
+    }
+
+    // Each command gets its own `cy.get` so the input is re-queried every time.
+    // `getByTestId` is a custom command rather than a query, so Cypress cannot requery its
+    // subject; a `getByTestId(...).clear().type(...)` chain run while the page is still
+    // settling after a `continue()` therefore acts on a stale node. Cypress reports that
+    // inconsistently — sometimes "detached from the DOM", sometimes the misleading
+    // "cy.type() failed because it targeted a disabled element".
+    // An empty value clears the field without typing, which is what the capacity fields want.
+    private typeInto(testId: string, value: string) {
+        const selector = `[data-testid="${testId}"]`;
+
+        // The `should` matters as much as the split: it keeps re-running the query until the
+        // input is actually live in the current document, so a type() issued straight after a
+        // continue() cannot act on the outgoing page's node while it is being torn down.
+        cy.get(selector).should('be.visible').and('be.enabled').clear();
+
+        if (value !== '') {
+            cy.get(selector).should('be.visible').type(value);
+        }
     }
 }
 
