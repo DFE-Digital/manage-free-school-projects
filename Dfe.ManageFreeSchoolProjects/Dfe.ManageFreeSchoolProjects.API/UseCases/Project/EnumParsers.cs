@@ -10,7 +10,20 @@ public static class EnumParsers
 {
     public static FaithStatus ParseFaithStatus(string input)
     {
-        return Enum.TryParse<FaithStatus>(input, out var faithStatus) ? faithStatus : FaithStatus.NotSet;
+        if (Enum.TryParse<FaithStatus>(input, out var faithStatus))
+        {
+            return faithStatus;
+        }
+
+        try
+        {
+            // Older records were saved using the description instead of the name
+            return input.ToEnumFromDescription<FaithStatus>();
+        }
+        catch
+        {
+            return FaithStatus.NotSet;
+        }
     }
 
     public static FaithType ParseFaithType(string input)

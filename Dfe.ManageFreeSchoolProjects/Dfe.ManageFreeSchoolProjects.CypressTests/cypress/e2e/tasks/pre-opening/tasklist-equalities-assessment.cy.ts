@@ -56,8 +56,7 @@ describe('Testing equalities assessment', () => {
 
         cy.log('Check confirm puts project in In Progress');
         summaryPage.clickConfirmAndContinue();
-        taskListPage.isTaskStatusInProgress('EqualitiesAssessment'); // TODO: this should be Not Started
-
+        taskListPage.isTaskStatusInProgress('EqualitiesAssessment');
         cy.log('Add new values');
 
         taskListPage.selectEqualitiesAssessmentFromTaskList();

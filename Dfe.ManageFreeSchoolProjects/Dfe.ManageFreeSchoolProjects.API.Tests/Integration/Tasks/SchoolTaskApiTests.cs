@@ -71,5 +71,46 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration.Tasks
             updatedProject.ProjectStatusHasTheFreeSchoolChangedItsName.Should().Be("Yes");
             updatedProject.ProjectStatusPreviousFreeSchoolName.Should().Be(previousFreeSchoolName);
         }
+
+        [Theory]
+        [InlineData(FaithStatus.Designation)]
+        [InlineData(FaithStatus.Ethos)]
+        [InlineData(FaithStatus.None)]
+        public async Task Patch_SchoolTask_FaithStatus_Is_Returned_By_Get(FaithStatus faithStatus)
+        {
+            var project = DatabaseModelBuilder.BuildProject();
+            var projectId = project.ProjectStatusProjectId;
+
+            using var context = _testFixture.GetContext();
+            context.Kpi.Add(project);
+
+            var tasks = TasksStub.BuildListOfTasks(project.Rid);
+            context.Tasks.AddRange(tasks);
+
+            await context.SaveChangesAsync();
+
+            var faithType = faithStatus == FaithStatus.None ? FaithType.None : FaithType.ChurchOfEngland;
+
+            var request = new UpdateProjectByTaskRequest()
+            {
+                School = new SchoolTask()
+                {
+                    CurrentFreeSchoolName = "Test High School",
+                    FaithStatus = faithStatus,
+                    FaithType = faithType
+                }
+            };
+
+            var projectResponse = await _client.UpdateProjectTask(projectId, request, TaskName.School.ToString());
+
+            projectResponse.School.FaithStatus.Should().Be(faithStatus);
+            projectResponse.School.FaithType.Should().Be(faithType);
+
+            using var updatedContext = _testFixture.GetContext();
+
+            var updatedProject = updatedContext.Kpi.First(p => p.ProjectStatusProjectId == projectId);
+
+            updatedProject.SchoolDetailsFaithStatus.Should().Be(faithStatus.ToString());
+        }
     }
 }

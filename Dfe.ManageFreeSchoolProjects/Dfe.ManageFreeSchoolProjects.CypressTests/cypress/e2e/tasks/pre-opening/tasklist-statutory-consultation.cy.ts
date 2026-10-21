@@ -67,9 +67,6 @@ describe('Testing statutory consultation', () => {
             .schoolNameIs(project.schoolName)
             .clickContinue();
 
-        cy.log('Go back to task list');
-        summaryPage.clickBack();
-
         cy.log('Check confirm puts project in In Progress');
         summaryPage.clickConfirmAndContinue();
         taskListPage.isTaskStatusInProgress('StatutoryConsultation').selectStatutoryConsultationFromTaskList();

@@ -8,6 +8,8 @@
     ViewData["Title"] = $"School - {Model.Project.School.CurrentFreeSchoolName}";
 
     var faithType = Model.Project.School.FaithType == FaithType.Other ? $"Other - {Model.Project.School.OtherFaithType}" : Model.Project.School.FaithType.ToDescription();
+    // The faith status descriptions are radio button hints, so the name is shown instead
+    var faithStatus = Model.Project.School.FaithStatus.ToString();
     var backlink = $"/projects/{Model.ProjectId}/tasks";
 
     var schoolTask = Model.Project.School;
@@ -42,7 +44,7 @@
                     <govuk-summary-item label="Special educational needs (specialist resource provision)" asp-for="@schoolTask.SpecialEducationNeeds" href="@editLink" />
                 }
             }
-            <govuk-summary-item label="Faith status" asp-for="@schoolTask.FaithStatus" href="@editLink" />
+            <govuk-summary-item label="Faith status" asp-for="@faithStatus" href="@editLink" />
             <govuk-summary-item label="Faith type" asp-for="@faithType" href="@editLink" />
 
         </govuk-summary-list>

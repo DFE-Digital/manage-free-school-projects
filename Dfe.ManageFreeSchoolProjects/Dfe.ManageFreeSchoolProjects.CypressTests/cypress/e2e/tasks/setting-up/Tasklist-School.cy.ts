@@ -115,7 +115,7 @@ describe('Testing project overview', () => {
             .withResidentialOrBoarding('Yes')
             .withAlternativeProvision('No')
             .withSpecialEducationNeeds('No')
-            .withFaithStatus('Designation') // TODO: setting this fails to save, this is a bug to fix
+            .withFaithStatus('Designation')
             .withFaithType('faith-type-Jewish')
             .clickContinue();
 
@@ -145,8 +145,7 @@ describe('Testing project overview', () => {
             .summaryShows('Special educational needs (specialist resource provision)')
             .HasValue('No')
             .summaryShows('Faith status')
-            //.HasValue('Designation') // it is should be indeed Designation, but the field does not save correctly due to a known bug
-            .IsEmpty()
+            .HasValue('Designation')
             .summaryShows('Faith type')
             .HasValue('Jewish')
             .clickChange();
