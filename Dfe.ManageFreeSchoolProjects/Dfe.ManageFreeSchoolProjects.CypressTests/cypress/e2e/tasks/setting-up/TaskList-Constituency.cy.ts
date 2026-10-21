@@ -88,7 +88,7 @@ describe('Testing Constituency Task', () => {
             .isNotMarkedAsComplete();
 
         summaryPage.clickChangeFor('Name');
-        
+
         Logger.log('Check validation for no input');
 
         constituencySearchPage

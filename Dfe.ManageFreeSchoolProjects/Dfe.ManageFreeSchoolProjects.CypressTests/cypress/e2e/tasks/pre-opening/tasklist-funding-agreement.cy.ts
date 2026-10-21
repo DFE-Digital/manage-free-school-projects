@@ -135,7 +135,7 @@ describe('Testing Funding agreement Task', () => {
 
         summaryPage.clickBack();
         summaryPage.clickChangeFor('Tailored the funding agreement (FA)');
-        
+
         cy.log('Actual date FA was signed validation');
 
         cy.log('Fill in valid funding agreement');
