@@ -61,7 +61,7 @@ describe('Testing the central route project creation journey', () => {
             cy.visit('/');
         });
 
-        it.only('Should create a project', () => {
+        it('Should create a project', () => {
             const applicationNumber = dataGenerator.generateTemporaryId(10);
             const applicationWave = dataGenerator.generateTemporaryId(10);
             const temporaryProjectId = dataGenerator.generateTemporaryId(25);
