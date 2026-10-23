@@ -1,6 +1,11 @@
 @using Dfe.ManageFreeSchoolProjects.Enums
 @model Dfe.ManageFreeSchoolProjects.ViewModels.ProposalConfirmTrustViewModel
 
+@{
+    var confirmLabels = new[] { nameof(YesNoOption.No), nameof(YesNoOption.Yes) };
+    var confirmTestIds = new[] { "confirm-trust-no", "confirm-trust-yes" };
+}
+
 <div class="govuk-grid-row">
     <partial name="_ErrorSummary" />
 
@@ -44,13 +49,14 @@
                 </div>
             </dl>
 
-            <div class="govuk-form-group">
-                <label class="govuk-label govuk-heading-s" for="current-free-school-name">Is this the correct trust?</label>
-                <govuk-radios-list>
-                    <govuk-radios-list-item id="@YesNoOption.No" value="@YesNoOption.No" description="@YesNoOption.No" asp-for="@Model.ConfirmOption" name="ConfirmOption" />
-                    <govuk-radios-list-item id="@YesNoOption.Yes" value="@YesNoOption.Yes" description="@YesNoOption.Yes" asp-for="@Model.ConfirmOption" name="ConfirmOption" />
-                </govuk-radios-list>
-            </div>
+            <govuk-radios-input id="ConfirmOption"
+                                name="ConfirmOption"
+                                asp-for="@Model.ConfirmOption"
+                                label="Is this the correct trust?"
+                                medium-heading-label="true"
+                                labels="@confirmLabels"
+                                values="@confirmLabels"
+                                test-ids="@confirmTestIds" />
 
             <button class="govuk-button" data-module="govuk-button" data-testid="continue">
                 @Model.ButtonText
