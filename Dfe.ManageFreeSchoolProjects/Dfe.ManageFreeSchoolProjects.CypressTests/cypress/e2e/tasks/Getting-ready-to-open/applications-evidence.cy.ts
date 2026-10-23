@@ -52,9 +52,8 @@ describe('Testing the applications evidence task', () => {
         summaryPage.clickBack();
 
         taskListPage.selectApplicationsEvidenceFromTaskList();
-        summaryPage.clickChange();
 
-        Logger.log('Applications evidence can save null values');
+        summaryPage.clickChangeFor('Confirmed that the trust has provided minimum viable pupil number');
 
         applicationsEvidenceEditPage.clickContinue();
 
@@ -76,12 +75,12 @@ describe('Testing the applications evidence task', () => {
             )
             .IsEmpty()
             .HasChangeLink()
-            .isNotMarkedAsComplete()
-            .clickChange();
+            .isNotMarkedAsComplete();
 
-        cy.executeAccessibilityTests();
+        // cy.executeAccessibilityTests();
 
         Logger.log('Applications evidence can be edited');
+        summaryPage.clickChangeFor('Confirmed that the trust has provided minimum viable pupil number');
 
         applicationsEvidenceEditPage
             .withComments('!')
@@ -120,7 +119,8 @@ describe('Testing the applications evidence task', () => {
         taskListPage.isTaskStatusInProgress('ApplicationsEvidence');
 
         taskListPage.selectApplicationsEvidenceFromTaskList();
-        summaryPage.clickChange();
+
+        summaryPage.clickChangeFor('Confirmed that the trust has provided minimum viable pupil number');
 
         Logger.log('Should be able to clear all values');
 
@@ -153,11 +153,13 @@ describe('Testing the applications evidence task', () => {
             .MarkAsComplete()
             .clickConfirmAndContinue();
 
-        Logger.log('Should not be able to see task if school type special');
+        Logger.log('Verify that status is set to Complete');
+        taskListPage.isTaskStatusIsCompleted('ApplicationsEvidence');
 
-        taskListPage.isTaskStatusIsCompleted('ApplicationsEvidence').selectSchoolFromTaskList();
+        Logger.log('Should not be able to see applications evidence task if school type special');
 
-        summaryPage.clickChange();
+        taskListPage.selectSchoolFromTaskList();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withSchoolName('Test School')

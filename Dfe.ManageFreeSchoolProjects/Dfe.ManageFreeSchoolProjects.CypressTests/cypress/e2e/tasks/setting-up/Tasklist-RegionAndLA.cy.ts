@@ -48,7 +48,7 @@ describe('Testing project overview', () => {
 
         cy.executeAccessibilityTests();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Region');
 
         Logger.log('Configuring region and local authority task');
         regionDetailsPage.hasSchoolName(project.schoolName).selectContinue();
@@ -57,15 +57,17 @@ describe('Testing project overview', () => {
 
         cy.executeAccessibilityTests();
 
-        regionDetailsPage.hasSchoolName(project.schoolName).withRegion('South West').selectContinue();
-
-        regionDetailsPage.hasSchoolName(project.schoolName).selectContinue();
-
-        validationComponent.hasValidationError('Select the local authority');
+        regionDetailsPage.withRegion('South West').selectContinue();
 
         cy.executeAccessibilityTests();
 
-        regionDetailsPage.hasSchoolName(project.schoolName).withLocalAuthority('Gloucestershire').selectContinue();
+        regionDetailsPage.hasSchoolName(project.schoolName).selectContinue();
+
+        validationComponent.hasValidationError('Select the local authority of the school.');
+
+        cy.executeAccessibilityTests();
+
+        regionDetailsPage.withLocalAuthority('Gloucestershire').selectContinue();
 
         Logger.log('Region and local authority should be set');
         summaryPage
@@ -76,9 +78,11 @@ describe('Testing project overview', () => {
             .HasValue('Gloucestershire');
 
         Logger.log('Edit the region and local authority');
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Region');
 
         regionDetailsPage.withRegion('North West').selectContinue();
+
+        cy.executeAccessibilityTests();
 
         regionDetailsPage.withLocalAuthority('Liverpool').selectContinue();
 

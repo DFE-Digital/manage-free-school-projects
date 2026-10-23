@@ -15,7 +15,9 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.School
                 return;
             }
 
-            var faithStatus = task.FaithStatus == FaithStatus.NotSet ? string.Empty : task.FaithStatus.ToDescription();
+            // Faith status is persisted by name, not description, as the descriptions are radio
+            // button hints and cannot be read back into the enum. See EnumParsers.ParseFaithStatus.
+            var faithStatus = task.FaithStatus == FaithStatus.NotSet ? string.Empty : ProjectMapper.ToFaithStatus(task.FaithStatus);
             var faithType = task.FaithType == FaithType.NotSet ? string.Empty : task.FaithType.ToDescription();
             var gender = task.Gender == Gender.NotSet ? string.Empty : task.Gender.ToDescription();
 

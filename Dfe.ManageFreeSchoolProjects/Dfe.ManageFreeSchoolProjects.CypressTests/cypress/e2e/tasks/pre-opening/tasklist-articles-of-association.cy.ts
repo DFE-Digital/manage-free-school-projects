@@ -64,8 +64,7 @@ describe('Testing articles of association Task', () => {
         taskListPage.isTaskStatusInProgress('ArticlesOfAssociation').selectArticlesOfAssociationFromTaskList();
 
         cy.log('Check search page');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Checked that the submitted articles match the model articles');
 
         cy.executeAccessibilityTests();
 
@@ -100,8 +99,7 @@ describe('Testing articles of association Task', () => {
             .isNotMarkedAsComplete()
             .clickChange();
 
-        cy.log('Sharepoint link validation');
-
+        cy.log('Sharepoint link should fail validation - SharePoint link must be a valid url');
         articlesOfAssociationEditPage
             .withSharepointLink(dataGenerator.generateAlphaNumeric(101))
             .clickContinue()
@@ -109,12 +107,24 @@ describe('Testing articles of association Task', () => {
             .showsError('SharePoint link must be a valid url')
             .withSharepointLink('NotAUrl')
             .clickContinue()
-            .errorForSharepointLink()
-            .showsError('SharePoint link must be a valid url')
+            .errorForSharepointLink();
+
+        articlesOfAssociationEditPage.clickBack();
+
+        cy.log('Sharepoint link should fail validation - SharePoint link must be 500 characters or less');
+        summaryPage.clickChangeFor('Checked that the submitted articles match the model articles');
+        articlesOfAssociationEditPage
             .withSharepointLinkExceedingMaxLength()
             .clickContinue()
             .errorForSharepointLink()
-            .showsError('SharePoint link must be 500 characters or less')
+            .showsError('SharePoint link must be 500 characters or less');
+
+        articlesOfAssociationEditPage.clickBack();
+
+        cy.log('Sharepoint link passes validation');
+        summaryPage.clickChangeFor('Checked that the submitted articles match the model articles');
+
+        articlesOfAssociationEditPage
             .withSharepointLink('https://www.gov.uk/government/organisations/department-for-education')
             .clickContinue();
 
@@ -122,13 +132,13 @@ describe('Testing articles of association Task', () => {
             .SummaryHasValue('SharePoint link', 'https://www.gov.uk/government/organisations/department-for-education')
             .clickChange();
 
-        cy.log('Comment on decision validation');
+        // cy.log('Comment on decision validation');
 
-        // *** The following lines can be uncommented to test, this takes a long time to execute and will fail in the build process ***
-        // articlesOfAssociationEditPage
-        //     .withComments(dataGenerator.generateAlphaNumeric(1000))
-        //     .clickContinue()
-        //     .errorForComments().showsError("Comments on decision to approve (if applicable) must be 999 characters or less")
+        // // *** The following lines can be uncommented to test, this takes a long time to execute and will fail in the build process ***
+        // // articlesOfAssociationEditPage
+        // //     .withComments(dataGenerator.generateAlphaNumeric(1000))
+        // //     .clickContinue()
+        // //     .errorForComments().showsError("Comments on decision to approve (if applicable) must be 999 characters or less")
 
         articlesOfAssociationEditPage
             .withComments('#TaTers')

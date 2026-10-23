@@ -82,10 +82,7 @@ describe('Testing project overview', () => {
 
         createProjectPage.setProvisionalOpeningDate('1', '10', '2035').continue();
 
-        createProjectPage
-            .enterProjectAssignedToName('Test Person')
-            .enterProjectAssignedToEmail('test.person@education.gov.uk')
-            .continue();
+        createProjectPage.enterProjectAssignedToEmail('test.person@education.gov.uk').continue();
 
         createProjectPage.clickCreateProject();
     }
