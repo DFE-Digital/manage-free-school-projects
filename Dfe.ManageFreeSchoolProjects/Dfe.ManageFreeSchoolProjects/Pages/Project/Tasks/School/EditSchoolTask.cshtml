@@ -188,11 +188,12 @@
     {
         const faithStatus = $("input[type='radio']:checked[name='faith-status']").val();
 
-        // Faith type is only hidden when the faith status has explicitly been set to None,
-        // so that an existing faith type is always shown, including when no faith status is set yet.
-        if(faithStatus === 'None')
+        if(!faithStatus || faithStatus === 'None')
         {
-            $("input[type='radio'][name='faith-type'][value='None']").prop("checked", true);
+            if(faithStatus === 'None')
+            {
+                $("input[type='radio'][name='faith-type'][value='None']").prop("checked", true);
+            }
 
             $('#faith-type-group').hide();
             $('#other-faith-type').parent().hide();
