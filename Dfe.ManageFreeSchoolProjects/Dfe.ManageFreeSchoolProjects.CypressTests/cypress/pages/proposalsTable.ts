@@ -14,10 +14,10 @@ class ProposalsTable {
     }
 
     public getRowByProposer(proposer: string): Cypress.Chainable<ProposalRow> {
-        const escaped = proposer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const escaped = proposer.replace(/[.*+?^${}()|[\]\\]/g, String.raw`\$&`);
 
         return cy
-            .contains('[data-testid="proposal-proposer"]', new RegExp(`^\\s*${escaped}\\s*$`))
+            .contains('[data-testid="proposal-proposer"]', new RegExp(String.raw`^\s*${escaped}\s*$`))
             .parents('[data-testid*="row-"]')
             .then(($row) => {
                 return new ProposalRow($row[0]);

@@ -1,5 +1,5 @@
 export class ProposalRow {
-    constructor(private element: Element) {}
+    constructor(private readonly element: Element) {}
 
     public hasProposer(value: string): this {
         this.containsText('proposal-proposer', value);

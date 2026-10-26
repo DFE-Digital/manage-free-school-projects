@@ -1,5 +1,5 @@
 import { Logger } from 'cypress/common/logger';
-import { EnvUrl, ProjectRecordCreator } from 'cypress/constants/cypressConstants';
+import { ProjectRecordCreator } from 'cypress/constants/cypressConstants';
 import dataGenerator from 'cypress/fixtures/dataGenerator';
 import createProjectPage from 'cypress/pages/createProject/createProjectPage';
 import homePage from 'cypress/pages/homePage';
