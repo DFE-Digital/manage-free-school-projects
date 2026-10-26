@@ -370,7 +370,7 @@ describe('Testing add new proposal journeys', () => {
             .continue()
             .errorMessage('Select the local authority')
             .selectOption('Central Bedfordshire')
-            .continue();  
+            .continue();
 
         Logger.log('Check proposed faith status');
         createProposalPage
@@ -432,7 +432,7 @@ describe('Testing add new proposal journeys', () => {
             .continue()
             .errorMessage('Select the local authority')
             .selectOption('Central Bedfordshire')
-            .continue();  
+            .continue();
 
         Logger.log('Check proposed faith status');
         createProposalPage
@@ -446,9 +446,13 @@ describe('Testing add new proposal journeys', () => {
         summaryPage
             .inOrder()
             .summaryShows('Type of proposer')
-            .HasValue('Joint proposal between the local authority that published the specification and another local authority')
+            .HasValue(
+                'Joint proposal between the local authority that published the specification and another local authority'
+            )
             .HasChangeLink()
-            .summaryShows('Name of another LA that has submitted a joint proposal with the LA that has published the specification')
+            .summaryShows(
+                'Name of another LA that has submitted a joint proposal with the LA that has published the specification'
+            )
             .HasValue('Central Bedfordshire')
             .HasChangeLink()
             .summaryShows('Is the proposal for a school with a religious character or religious ethos')

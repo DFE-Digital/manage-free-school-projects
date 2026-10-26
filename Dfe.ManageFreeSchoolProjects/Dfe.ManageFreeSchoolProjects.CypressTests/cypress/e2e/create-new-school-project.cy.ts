@@ -7,14 +7,14 @@ import summaryPage from 'cypress/pages/task-summary-base';
 
 describe('Testing the new school route project creation journey', () => {
     beforeEach(() => {
-            cy.login({ role: ProjectRecordCreator });
-            cy.visit('/');
-        });
+        cy.login({ role: ProjectRecordCreator });
+        cy.visit('/');
+    });
 
     it('should create a new school project successfully - school type = Mainstream AND Faith status = none', () => {
         const temporaryProjectId = dataGenerator.generateTemporaryId(25);
         const schoolName = dataGenerator.generateSchoolName();
-        
+
         cy.executeAccessibilityTests();
 
         homePage.createNewProjects();
@@ -74,10 +74,7 @@ describe('Testing the new school route project creation journey', () => {
         createProjectPage.selectOption('East of England').continue();
 
         Logger.log('Check local authority required');
-        createProjectPage
-            .titleIs('What is the local authority?')
-            .continue()
-            .errorMessage('Select the local authority');
+        createProjectPage.titleIs('What is the local authority?').continue().errorMessage('Select the local authority');
 
         cy.executeAccessibilityTests();
 
@@ -306,7 +303,7 @@ describe('Testing the new school route project creation journey', () => {
     it('should create a new school project successfully - school type = Mainstream AND Faith status <> none', () => {
         const temporaryProjectId = dataGenerator.generateTemporaryId(25);
         const schoolName = dataGenerator.generateSchoolName();
-        
+
         cy.executeAccessibilityTests();
 
         homePage.createNewProjects();
@@ -366,10 +363,7 @@ describe('Testing the new school route project creation journey', () => {
         createProjectPage.selectOption('East of England').continue();
 
         Logger.log('Check local authority required');
-        createProjectPage
-            .titleIs('What is the local authority?')
-            .continue()
-            .errorMessage('Select the local authority');
+        createProjectPage.titleIs('What is the local authority?').continue().errorMessage('Select the local authority');
 
         cy.executeAccessibilityTests();
 
@@ -603,7 +597,7 @@ describe('Testing the new school route project creation journey', () => {
     it('should create a new school project successfully - school type <> Mainstream AND Faith status = none', () => {
         const temporaryProjectId = dataGenerator.generateTemporaryId(25);
         const schoolName = dataGenerator.generateSchoolName();
-        
+
         cy.executeAccessibilityTests();
 
         homePage.createNewProjects();
@@ -663,10 +657,7 @@ describe('Testing the new school route project creation journey', () => {
         createProjectPage.selectOption('East of England').continue();
 
         Logger.log('Check local authority required');
-        createProjectPage
-            .titleIs('What is the local authority?')
-            .continue()
-            .errorMessage('Select the local authority');
+        createProjectPage.titleIs('What is the local authority?').continue().errorMessage('Select the local authority');
 
         cy.executeAccessibilityTests();
 
@@ -694,11 +685,7 @@ describe('Testing the new school route project creation journey', () => {
         cy.executeAccessibilityTests();
 
         Logger.log('Set class types');
-        createProjectPage
-            .setNurseryTo('Yes')
-            .setSixthFormTo('Yes')
-            .setResidentialOrBoarding('Yes')
-            .continue();
+        createProjectPage.setNurseryTo('Yes').setSixthFormTo('Yes').setResidentialOrBoarding('Yes').continue();
 
         Logger.log('Check school phase validation');
         createProjectPage.titleIs('What is the school phase?').continue().errorMessage('Select the school phase');
@@ -865,7 +852,7 @@ describe('Testing the new school route project creation journey', () => {
     it('should create a new school project successfully - school type <> Mainstream AND Faith status <> none', () => {
         const temporaryProjectId = dataGenerator.generateTemporaryId(25);
         const schoolName = dataGenerator.generateSchoolName();
-        
+
         cy.executeAccessibilityTests();
 
         homePage.createNewProjects();
@@ -925,10 +912,7 @@ describe('Testing the new school route project creation journey', () => {
         createProjectPage.selectOption('East of England').continue();
 
         Logger.log('Check local authority required');
-        createProjectPage
-            .titleIs('What is the local authority?')
-            .continue()
-            .errorMessage('Select the local authority');
+        createProjectPage.titleIs('What is the local authority?').continue().errorMessage('Select the local authority');
 
         cy.executeAccessibilityTests();
 
@@ -956,11 +940,7 @@ describe('Testing the new school route project creation journey', () => {
         cy.executeAccessibilityTests();
 
         Logger.log('Set class types');
-        createProjectPage
-            .setNurseryTo('Yes')
-            .setSixthFormTo('Yes')
-            .setResidentialOrBoarding('Yes')
-            .continue();
+        createProjectPage.setNurseryTo('Yes').setSixthFormTo('Yes').setResidentialOrBoarding('Yes').continue();
 
         Logger.log('Check school phase validation');
         createProjectPage.titleIs('What is the school phase?').continue().errorMessage('Select the school phase');

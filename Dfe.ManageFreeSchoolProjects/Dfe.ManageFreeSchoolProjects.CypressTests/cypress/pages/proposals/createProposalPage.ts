@@ -28,7 +28,7 @@ class CreateProposalPage extends BasePage {
 
         return this;
     }
-    
+
     public errorMessage(error: string): this {
         validationComponent.hasValidationError(error);
         validationComponent.hasLinkedValidationError(error);
@@ -81,7 +81,6 @@ class CreateProposalPage extends BasePage {
         cy.getByTestId('trust-type').should('contain.text', trustType);
         return this;
     }
-
 
     private typeInto(testId: string, value: string) {
         const selector = `[data-testid="${testId}"]`;
