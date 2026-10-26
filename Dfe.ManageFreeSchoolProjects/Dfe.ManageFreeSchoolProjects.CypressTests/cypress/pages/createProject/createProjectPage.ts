@@ -192,6 +192,26 @@ class CreateProjectPage {
         return this;
     }
 
+    public enterApResourceProvision(value: string): this {
+        this.typeInto('ap-resources-provision', value);
+        return this;
+    }
+
+    public hasApResourceProvision(value: string): this {
+        cy.getByTestId('ap-resources-provision').should('have.value', value);
+        return this;
+    }
+
+    public enterSenResourcedProvisionSenUnit(value: string): this {
+        this.typeInto('sen-resourced-provision-sen-unit', value);
+        return this;
+    }
+
+    public hasSenResourcedProvisionSenUnit(value: string): this {
+        cy.getByTestId('sen-resourced-provision-sen-unit').should('have.value', value);
+        return this;
+    }
+
     public enterFormsOfEntry(value: string): this {
         cy.get('#forms-of-entry').clear().type(value);
         return this;

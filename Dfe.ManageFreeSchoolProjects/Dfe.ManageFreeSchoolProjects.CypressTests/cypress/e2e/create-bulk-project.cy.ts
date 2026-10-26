@@ -28,7 +28,7 @@ describe('Creating a bulk project', () => {
 
         const csv = createCsv([completeRow, emptyRow]);
 
-        bulkCreateProjectPage.upload(csv, 'file.csv').continue();
+        bulkCreateProjectPage.upload(csv, 'file.csv').continue().hasReloaded();
     });
 
     it('Should validate an uploaded Excel file', async () => {
@@ -48,7 +48,7 @@ describe('Creating a bulk project', () => {
 
         const buffer = await createExcel([completeRow, emptyRow]);
 
-        bulkCreateProjectPage.upload(buffer, 'file.xlsx').continue();
+        bulkCreateProjectPage.upload(buffer, 'file.xlsx').continue().hasReloaded();
     });
 
     function createTable(rows: Array<BulkProjectRow>) {

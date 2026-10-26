@@ -114,6 +114,8 @@ jobs:
             spec: cypress/e2e/create-*.cy.ts
           - group: project-config
             spec: cypress/e2e/project-contacts.cy.ts,cypress/e2e/project-pupil-numbers.cy.ts,cypress/e2e/project-risk.cy.ts
+          - group: proposals
+            spec: cypress/e2e/proposals/**/*.cy.ts
           - group: navigation-misc
             spec: cypress/e2e/homepage.cy.ts,cypress/e2e/project-overview.cy.ts,cypress/e2e/project-tasks-completed-count.cy.ts,cypress/e2e/cookie-consent.cy.ts,cypress/e2e/footerLinks.cy.ts,cypress/e2e/project-sites.cy.ts
           - group: setting-up
