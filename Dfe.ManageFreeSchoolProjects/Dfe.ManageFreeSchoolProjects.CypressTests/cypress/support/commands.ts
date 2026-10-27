@@ -108,6 +108,15 @@ Cypress.Commands.add('login', (params) => {
     cy.task('waitForApp', { url, ...appWarmUp }, { timeout: warmUpCommandTimeout }).then((result) => {
         const { ok, attempts, error } = result as WaitForAppResult;
 
+        // A warm-up that succeeds silently is indistinguishable from an app that answered
+        // instantly, which makes it impossible to tell "the environment is coping" from
+        // "the environment is drowning and the warm-up is hiding it". Log whenever it took
+        // more than one attempt, so the retry count is visible evidence when deciding how
+        // far `max-parallel` can be raised in cypress-tests.yml.
+        if (ok && attempts > 1) {
+            Logger.log(`WARM-UP: the web app needed ${attempts} attempts before it responded`);
+        }
+
         if (!ok) {
             throw new Error(
                 `The web app at ${url} did not respond after ${attempts} attempt(s). ` +

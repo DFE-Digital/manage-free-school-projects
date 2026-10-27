@@ -108,23 +108,43 @@ jobs:
     environment: ${{ inputs.environment }}
     strategy:
       fail-fast: false
-      # Three groups, not nine. Nine concurrent Cypress jobs saturated the single
-      # development App Service: the run of 2026-10-26 lost 27 tests to
-      # `cy.visit()` ESOCKETTIMEDOUT, and because each one fired in a `beforeEach`
-      # Cypress skipped the rest of that spec file, taking 45 more tests with it.
-      # The same specs pass locally with retries disabled when only one job is
-      # hitting the environment. Raise this again only alongside more web capacity.
+
+      # All nine groups run — `max-parallel` limits how many run *at the same time*, not
+      # how many run. The remaining groups queue and start as slots free up, so coverage
+      # is unaffected.
       #
-      # Groups are balanced on measured runtime (~17-20 min each), not spec count.
-      # Between them they cover all 60 non-smoke specs with no overlap.
+      # Why it is capped: nine *concurrent* Cypress jobs saturated the single development
+      # App Service. The run of 2026-10-26 lost 27 tests to `cy.visit()` ESOCKETTIMEDOUT
+      # and, because each one fired in a `beforeEach`, Cypress skipped the rest of that
+      # spec file — taking 45 more tests with it, for 73 of 118 lost. The same specs pass
+      # against the same deployed portal when only one job is hitting it.
+      #
+      # 3 is the value proven to pass. Raise it one step at a time and watch the
+      # `waitForApp` retry logs: attempts consistently at 1 means there is headroom,
+      # attempts climbing to 3-4 means the environment is at its limit and needs capacity
+      # rather than a higher number here.
+      max-parallel: 3
+
       matrix:
         include:
-          - group: core-and-setting-up
-            spec: cypress/e2e/*.cy.ts,cypress/e2e/tasks/setting-up/**/*.cy.ts
-          - group: pre-opening
-            spec: cypress/e2e/tasks/pre-opening/**/*.cy.ts
-          - group: grants-and-opening
-            spec: cypress/e2e/tasks/project-development-grant-central/**/*.cy.ts,cypress/e2e/tasks/project-development-grant-presumption/**/*.cy.ts,cypress/e2e/tasks/Getting-ready-to-open/**/*.cy.ts,cypress/e2e/tasks/After-opening/**/*.cy.ts,cypress/e2e/proposals/**/*.cy.ts
+          - group: project-creation
+            spec: cypress/e2e/create-*.cy.ts
+          - group: project-config
+            spec: cypress/e2e/project-contacts.cy.ts,cypress/e2e/project-pupil-numbers.cy.ts,cypress/e2e/project-risk.cy.ts
+          - group: proposals
+            spec: cypress/e2e/proposals/**/*.cy.ts
+          - group: navigation-misc
+            spec: cypress/e2e/homepage.cy.ts,cypress/e2e/project-overview.cy.ts,cypress/e2e/project-tasks-completed-count.cy.ts,cypress/e2e/cookie-consent.cy.ts,cypress/e2e/footerLinks.cy.ts,cypress/e2e/project-sites.cy.ts
+          - group: setting-up
+            spec: cypress/e2e/tasks/setting-up/**/*.cy.ts,cypress/e2e/project-status.cy.ts
+          - group: pre-opening-tasklist
+            spec: cypress/e2e/tasks/pre-opening/tasklist-*.cy.ts
+          - group: pre-opening-other
+            spec: cypress/e2e/tasks/pre-opening/admissions-arrangements.cy.ts,cypress/e2e/tasks/pre-opening/due-diligence-checks.cy.ts,cypress/e2e/tasks/pre-opening/finance-plan.cy.ts,cypress/e2e/tasks/pre-opening/governance-plan-central.cy.ts,cypress/e2e/tasks/pre-opening/governance-plan-presumption.cy.ts,cypress/e2e/tasks/pre-opening/pre-funding-agreement-checkpoint-meeting.cy.ts,cypress/e2e/tasks/pre-opening/principal-designate.cy.ts
+          - group: grants
+            spec: cypress/e2e/tasks/project-development-grant-central/**/*.cy.ts,cypress/e2e/tasks/project-development-grant-presumption/**/*.cy.ts
+          - group: getting-ready-to-open
+            spec: cypress/e2e/tasks/Getting-ready-to-open/**/*.cy.ts,cypress/e2e/tasks/After-opening/**/*.cy.ts
 
     container:
       image: cypress/browsers:22.21.0@sha256:1b0e8df630f819b84ae8f46e39746ac79e3e1666208a1d0716b2e07ccafd19a9
