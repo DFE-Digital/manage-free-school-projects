@@ -145,7 +145,6 @@ export default defineConfig({
                     return null;
                 },
 
-
                 waitForApp(options: WaitForAppOptions) {
                     return waitUntilAppResponds(options);
                 },
