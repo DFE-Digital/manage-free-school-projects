@@ -148,6 +148,8 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
 
         public string SchoolDetailsSchoolTypeMainstreamApEtc { get; set; }
 
+        public string SchoolDetailsEstablishmentType { get; set; }
+
         public string SchoolDetailsSchoolPhasePrimarySecondary { get; set; }
 
         public string SchoolDetailsAgeRange { get; set; }

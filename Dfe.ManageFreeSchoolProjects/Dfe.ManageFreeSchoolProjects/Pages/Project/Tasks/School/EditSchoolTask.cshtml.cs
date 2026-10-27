@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.Constants;
@@ -16,6 +10,12 @@ using Dfe.ManageFreeSchoolProjects.Validators;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
 {
@@ -39,6 +39,11 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
         [Display(Name = "School type")]
         [Required (ErrorMessage = "Enter the school type")]
         public SchoolType SchoolType { get; set; }
+
+        [BindProperty(Name = "establishment-type")]
+        [Display(Name = "Establishment type")]
+        [Required(ErrorMessage = "Enter the establishment type")]
+        public EstablishmentType EstablishmentType { get; set; }
 
         [BindProperty(Name = "school-phase")]
         [Display(Name = "School phase")]
@@ -98,6 +103,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
         
         public IEnumerable<SchoolType> SchoolTypes { get; set; } = Enum.GetValues<SchoolType>().Except(new[] { SchoolType.NotSet });
 
+        public IEnumerable<EstablishmentType> EstablishmentTypes { get; set; } = Enum.GetValues<EstablishmentType>().Except(new[] { EstablishmentType.NotSet });
+
         public EditSchoolTaskModel(
             IGetProjectByTaskService getProjectService,
             IUpdateProjectByTaskService updateProjectTaskService,
@@ -136,7 +143,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
                 }
                 
                 SchoolType = project.School.SchoolType;
-                
+                EstablishmentType = project.School.EstablishmentType;
+
                 if (!string.IsNullOrEmpty(project.School.AgeRange))
                 {
                     AgeRange = project.School.AgeRange;
@@ -154,6 +162,13 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
         {
             ValidateFaithFields();
 
+            // Nothing is posted for a radio group with no option selected, so the Required attribute
+            // on the non nullable enum passes and the answer has to be checked for NotSet here.
+            if (EstablishmentType == EstablishmentType.NotSet)
+            {
+                ModelState.AddModelError("establishment-type", "Enter the establishment type");
+            }
+
             if (ProjectConstants.SchoolTypesWithSpecialistProvisions.Contains(SchoolType))
             {
                 if (AlternativeProvision == ClassType.AlternativeProvision.NotSet)
@@ -167,7 +182,6 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
                 }
 
             }
-
             else
             { 
                 if (AlternativeProvision == ClassType.AlternativeProvision.Yes)
@@ -264,6 +278,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
             {
                 CurrentFreeSchoolName = CurrentFreeSchoolName,
                 SchoolType = SchoolType,
+                EstablishmentType = EstablishmentType,
                 SchoolPhase = SchoolPhase,
                 Nursery = Nursery,
                 SixthForm = SixthForm,
