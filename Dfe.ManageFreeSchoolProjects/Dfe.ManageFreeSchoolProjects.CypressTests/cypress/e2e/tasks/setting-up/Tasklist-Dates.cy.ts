@@ -65,12 +65,12 @@ describe('Testing project overview', () => {
 
         cy.executeAccessibilityTests();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Date the project was cancelled');
 
         Logger.log('Check all the fields are optional');
         datesDetailsPage.titleIs('Edit Dates').schoolNameIs(project.schoolName).clickContinue();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Date the project was cancelled');
 
         Logger.log('Checking validation');
         datesDetailsPage
@@ -93,7 +93,7 @@ describe('Testing project overview', () => {
             .withEntryIntoPreOpening('10', '08', '2025')
             .withRealisticYearOfOpeningStartDate('2040')
             .withRealisticYearOfOpeningEndDate('2041')
-            .withProvisionalOpeningDateAgreedWithTrust('12', '09', '2026')
+            .withProvisionalOpeningDateAgreedWithTrust('12', '09', '2046')
             .clickContinue();
 
         summaryPage
@@ -108,14 +108,14 @@ describe('Testing project overview', () => {
             .HasValue('2040/41')
             .HasChangeLink()
             .summaryShows('Provisional opening date agreed with trust')
-            .HasValue('12 September 2026')
+            .HasValue('12 September 2046')
             .HasChangeLink()
             .clickChange();
 
         Logger.log('Change values');
         datesDetailsPage
             .withEntryIntoPreOpening('11', '08', '2026')
-            .withProvisionalOpeningDateAgreedWithTrust('13', '09', '2027')
+            .withProvisionalOpeningDateAgreedWithTrust('13', '09', '2047')
             .clickContinue();
 
         summaryPage
@@ -130,7 +130,7 @@ describe('Testing project overview', () => {
             .HasValue('2040/41')
             .HasChangeLink()
             .summaryShows('Provisional opening date agreed with trust')
-            .HasValue('13 September 2027')
+            .HasValue('13 September 2047')
             .HasChangeLink();
 
         Logger.log('Should update the task status');
@@ -146,7 +146,7 @@ describe('Testing project overview', () => {
 
         projectOverviewPage
             .hasDateOfEntryIntoPreopening('11 August 2026')
-            .hasProvisionalOpeningDateAgreedWithTrust('13 September 2027');
+            .hasProvisionalOpeningDateAgreedWithTrust('13 September 2047');
     });
 
     it('Should show validation errors on date fields', () => {
@@ -155,7 +155,7 @@ describe('Testing project overview', () => {
         Logger.log('Selecting Dates link from Tasklist');
         datesDetailsPage.titleIs('Dates').schoolNameIs(project.schoolName);
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Entry into pre-opening');
 
         Logger.log('re-enter incorrect day,month and year');
         datesDetailsPage

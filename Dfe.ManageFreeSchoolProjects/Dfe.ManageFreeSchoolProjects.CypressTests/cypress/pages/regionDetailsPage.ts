@@ -1,6 +1,18 @@
 class RegionDetailsPage {
     public selectContinue(): this {
-        cy.contains('Save and continue').click();
+        cy.contains('button.govuk-button', 'Save and continue').click();
+
+        return this;
+    }
+
+    public isRegionPage(): this {
+        cy.get('#region').should('exist');
+
+        return this;
+    }
+
+    public isLocalAuthorityPage(): this {
+        cy.get('#local-authority').should('exist');
 
         return this;
     }

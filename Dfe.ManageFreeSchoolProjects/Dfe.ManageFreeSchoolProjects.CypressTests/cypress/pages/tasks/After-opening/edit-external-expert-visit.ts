@@ -1,4 +1,5 @@
 import { BaseEditPage } from '../../baseEditPage';
+import dateComponent from '../../dateComponent';
 
 class ExternalExpertVisitEditPage extends BaseEditPage {
     private readonly summaryCounter = -1;
@@ -6,6 +7,12 @@ class ExternalExpertVisitEditPage extends BaseEditPage {
     withVisitDate(day: string, month: string, year: string): this {
         const key = 'external-expert-visit-date';
         this.setDate(key, day, month, year);
+        return this;
+    }
+
+    hasVisitDate(day: string, month: string, year: string): this {
+        const key = 'external-expert-visit-date';
+        dateComponent.checkDate(key, day, month, year);
         return this;
     }
 

@@ -1,64 +1,60 @@
 import { ProjectRow } from './projectRow';
 
+const ROW_SELECTOR = '[data-testid*="row-"]';
+
 class ProjectTable {
     public getRowByProjectId(projectId: string): Cypress.Chainable<ProjectRow> {
-        return cy.getByTestId(`row-${projectId}`).then((el) => {
-            return new ProjectRow(el);
-        });
+        const selector = `[data-testid="row-${projectId}"]`;
+
+        return cy.wrap(new ProjectRow(() => cy.get(selector)), { log: false });
     }
 
     public getRows(): Cypress.Chainable<ProjectRow> {
-        return cy.containsByTestId(`row-`).then((el) => {
-            return new ProjectRow(el);
-        });
+        return cy.wrap(new ProjectRow(() => cy.get(ROW_SELECTOR).first()), { log: false });
     }
-    public getProjectIds() {
-        const result: Array<string> = [];
 
+    public getProjectIds(): Cypress.Chainable<Array<string>> {
         return cy
-            .containsByTestId('row-')
-            .each(($el) => {
-                result.push($el.text());
-
-                return result;
-            })
-            .then(() => {
-                return result;
-            });
+            .get(ROW_SELECTOR)
+            .should('have.length.at.least', 1)
+            .then(($rows) => $rows.toArray().map((row) => Cypress.$(row).text()));
     }
 
     public allRowsHaveRegion(region: string) {
-        cy.containsByTestId(`row-`).each((el) => {
-            const projectRow = new ProjectRow(el.get(0));
-            projectRow.hasRegionName(region);
-        });
+        this.allRowsHaveCellText('region-name', region);
     }
 
     public allRowsHaveProjectManagedBy(projectManagedBy: string) {
-        cy.containsByTestId(`row-`).each((el) => {
-            const projectRow = new ProjectRow(el.get(0));
-            projectRow.hasProjectManagedBy(projectManagedBy);
-        });
+        this.allRowsHaveCellText('project-managed-by', projectManagedBy);
     }
 
     public allRowsHaveProjectStatus(projectStatus: string) {
-        cy.containsByTestId(`row-`).each((el) => {
-            const projectRow = new ProjectRow(el.get(0));
-            projectRow.hasStatus(projectStatus);
-        });
+        this.allRowsHaveCellText('status', projectStatus);
     }
 
     public allRowsHaveLocalAuthority(localAuthority: string) {
-        cy.containsByTestId(`row-`).each((el) => {
-            const projectRow = new ProjectRow(el.get(0));
-            projectRow.hasLocalAuthority(localAuthority);
-        });
+        this.allRowsHaveCellText('local-authority', localAuthority);
     }
 
     public allRowsHaveViewLink() {
-        cy.containsByTestId(`row-`).each((el) => {
-            const projectRow = new ProjectRow(el.get(0));
-            projectRow.hasViewLink('View');
+        this.allRowsHaveCellText('action', 'View');
+    }
+
+    // Applying a filter POSTs the form and reloads the page, so the unfiltered table is
+    // still in the DOM for a moment. `.each()` snapshots the rows from its first attempt
+    // and never re-queries, so it could latch onto those pre-reload rows and then assert
+    // against detached elements. A single `should` callback re-runs the `cy.get` on every
+    // retry instead, so it waits for the filtered table to render.
+    private allRowsHaveCellText(cellTestId: string, value: string) {
+        cy.get(ROW_SELECTOR).should(($rows) => {
+            expect($rows.length, 'number of project rows').to.be.at.least(1);
+
+            $rows.each((_, row) => {
+                const cell = Cypress.$(row).find(`[data-testid="${cellTestId}"]`);
+
+                expect(cell, `${cellTestId} cell`).to.have.length(1);
+                expect(cell.text().trim(), `${cellTestId} text`).to.contain(value);
+            });
         });
     }
 }

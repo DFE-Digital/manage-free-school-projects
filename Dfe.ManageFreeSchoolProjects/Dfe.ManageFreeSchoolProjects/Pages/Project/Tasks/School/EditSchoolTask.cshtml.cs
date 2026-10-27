@@ -223,7 +223,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
                 }
                 if (FaithType == FaithType.None)
                 {
-                    ModelState.AddModelError("faith-type", $"Select a different faith type, if faith status is {FaithStatus.ToDescription().ToLower()}.");
+                    ModelState.AddModelError("faith-type", $"Select a different faith type, if faith status is {FaithStatus.ToString().ToLower()}.");
                 }
 
             }

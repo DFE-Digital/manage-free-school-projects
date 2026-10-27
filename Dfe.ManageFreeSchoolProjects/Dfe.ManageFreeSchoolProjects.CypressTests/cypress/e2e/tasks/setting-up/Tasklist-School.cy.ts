@@ -39,7 +39,7 @@ describe('Testing project overview', () => {
             .schoolNameIs(project.schoolName)
             .titleIs('School')
             .inOrder()
-            .summaryShows('Current free school name')
+            .summaryShows('Current school name')
             .HasValue(project.schoolName)
             .HasChangeLink()
             .summaryShows('School type')
@@ -76,7 +76,7 @@ describe('Testing project overview', () => {
 
         cy.executeAccessibilityTests();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         Logger.log('Checking validation');
         schoolDetailsPage.clickContinue();
@@ -96,7 +96,7 @@ describe('Testing project overview', () => {
         schoolDetailsPage.withSchoolNameExceedingMaxLength().withFormsOfEntryExceedingLimit().clickContinue();
 
         validationComponent
-            .hasValidationError('Current free school name must be 100 characters or less')
+            .hasValidationError('Current school name must be 100 characters or less')
             .hasValidationError('Forms of entry must be 100 characters or less');
 
         const updatedSchoolName = dataGenerator.generateSchoolName();
@@ -122,7 +122,7 @@ describe('Testing project overview', () => {
         summaryPage
             .schoolNameIs(updatedSchoolName)
             .inOrder()
-            .summaryShows('Current free school name')
+            .summaryShows('Current school name')
             .HasValue(updatedSchoolName)
             .summaryShows('School type')
             .HasValue('Mainstream')
@@ -170,7 +170,7 @@ describe('Testing project overview', () => {
         summaryPage
             .schoolNameIs(updatedSchoolName)
             .inOrder()
-            .summaryShows('Current free school name')
+            .summaryShows('Current school name')
             .HasValue(updatedSchoolName)
             .summaryShows('School type')
             .HasValue('Special')
@@ -215,7 +215,7 @@ describe('Testing project overview', () => {
 
         summaryPage.SummaryHasValue('Faith type', 'Other - This is my faith');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withFaithType('faith-type-ChurchOfEngland')
@@ -224,7 +224,7 @@ describe('Testing project overview', () => {
 
         summaryPage.SummaryHasValue('Faith type', 'Church of England');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage.withFaithStatus('None').faithTypeSectionIsNotVisible().clickContinue();
 
@@ -243,7 +243,7 @@ describe('Testing project overview', () => {
     it('Should validate the faith type field if a faith status is selected', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withSchoolType('Mainstream')
@@ -271,7 +271,7 @@ describe('Testing project overview', () => {
     it('Should validate the class type field if a school type with specialist provisions is selected', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withSchoolType('Mainstream')
@@ -293,7 +293,7 @@ describe('Testing project overview', () => {
     it('Should validate the class type field if a school type with specialist provisions is selected for Voluntary Aided', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withSchoolType('VoluntaryAided')
