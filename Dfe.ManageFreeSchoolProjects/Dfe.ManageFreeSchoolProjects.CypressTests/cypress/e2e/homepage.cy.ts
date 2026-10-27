@@ -218,7 +218,7 @@ describe('Testing the home page', () => {
                     pageOneProjects = projectIds;
 
                     Logger.log(`Ensure we have ${pageSize} projects on page one`);
-                    expect(pageOneProjects.length, 'projects on page one').to.eq(pageSize);
+                    expect(pageOneProjects, 'projects on page one').to.have.lengthOf(pageSize);
 
                     Logger.log('Moving to the second page using the direct link');
                     paginationComponent.goToPage('2').isCurrentPage('2');
@@ -229,7 +229,7 @@ describe('Testing the home page', () => {
                     pageTwoProjects = projectIds;
 
                     Logger.log(`Ensure we have ${pageSize} projects on page 2`);
-                    expect(pageTwoProjects.length, 'projects on page two').to.equal(pageSize);
+                    expect(pageTwoProjects, 'projects on page two').to.have.lengthOf(pageSize);
 
                     Logger.log('Ensure that the projects on page one and two are different');
                     hasNoSimilarElements(pageOneProjects, pageTwoProjects);
@@ -259,7 +259,7 @@ describe('Testing the home page', () => {
                 })
                 .then((projectIds: Array<string>) => {
                     Logger.log(`Should get ${lastPageSize} case(s) on page 3`);
-                    expect(projectIds.length, 'projects on page three').to.equal(lastPageSize);
+                    expect(projectIds, 'projects on page three').to.have.lengthOf(lastPageSize);
                 });
         });
     });

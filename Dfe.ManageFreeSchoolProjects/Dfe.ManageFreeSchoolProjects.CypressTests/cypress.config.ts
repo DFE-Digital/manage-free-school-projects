@@ -49,6 +49,59 @@ function describeNetworkError(error: unknown, timeoutMs: number): string {
     return findCode(top) ?? causeMessage ?? top?.message ?? String(error);
 }
 
+type WaitForAppOptions = {
+    url: string;
+    attempts: number;
+    delayMs: number;
+    timeoutMs: number;
+};
+
+type WaitForAppResult = {
+    ok: boolean;
+    status?: number;
+    attempts: number;
+    error?: string;
+};
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// A single probe: yields the status code if the app answers at all, throws otherwise.
+async function probeApp(url: string, timeoutMs: number): Promise<number> {
+    const controller = new AbortController();
+    const abortProbe = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+        // Any response means the app is up; the dev portal answers `/` with a 302 to the
+        // auth provider, so the status itself is not checked.
+        const response = await fetch(url, { redirect: 'manual', signal: controller.signal });
+
+        return response.status;
+    } finally {
+        clearTimeout(abortProbe);
+    }
+}
+
+// Probes until the app answers, and reports the outcome rather than throwing. Attempts
+// are sequential by design — each has to finish before the next begins — so this recurses
+// instead of awaiting inside a loop.
+async function waitUntilAppResponds(options: WaitForAppOptions, attempt = 1): Promise<WaitForAppResult> {
+    const { url, attempts, delayMs, timeoutMs } = options;
+
+    try {
+        return { ok: true, status: await probeApp(url, timeoutMs), attempts: attempt };
+    } catch (error) {
+        const lastError = describeNetworkError(error, timeoutMs);
+
+        if (attempt >= attempts) {
+            return { ok: false, error: lastError, attempts: attempt };
+        }
+
+        await delay(delayMs);
+
+        return waitUntilAppResponds(options, attempt + 1);
+    }
+}
+
 export default defineConfig({
     allowCypressEnv: false,
     defaultCommandTimeout: 45000,
@@ -74,8 +127,6 @@ export default defineConfig({
         },
     },
     e2e: {
-        // We've imported your old cypress plugins here.
-        // You may want to clean this up later by importing these.
         setupNodeEvents(on, config) {
             on('before:run', () => {
                 // Map cypress env vars to process env vars for usage outside of Cypress run environment
@@ -94,37 +145,9 @@ export default defineConfig({
                     return null;
                 },
 
-                // Probes the web app until it answers, and reports rather than throws.
-                // Runs in Node on purpose: a failed `cy.visit()` cannot be caught from a
-                // test, so the retry has to live somewhere a real try/catch works.
-                async waitForApp({ url, attempts, delayMs, timeoutMs }) {
-                    let lastError = 'none';
 
-                    for (let attempt = 1; attempt <= attempts; attempt++) {
-                        const controller = new AbortController();
-                        const abort = setTimeout(() => controller.abort(), timeoutMs);
-
-                        try {
-                            // Any response at all means the app is up; the dev portal
-                            // answers `/` with a 302 to the auth provider.
-                            const response = await fetch(url, {
-                                redirect: 'manual',
-                                signal: controller.signal,
-                            });
-
-                            return { ok: true, status: response.status, attempts: attempt };
-                        } catch (error) {
-                            lastError = describeNetworkError(error, timeoutMs);
-
-                            if (attempt < attempts) {
-                                await new Promise((resolve) => setTimeout(resolve, delayMs));
-                            }
-                        } finally {
-                            clearTimeout(abort);
-                        }
-                    }
-
-                    return { ok: false, error: lastError, attempts };
+                waitForApp(options: WaitForAppOptions) {
+                    return waitUntilAppResponds(options);
                 },
             });
             require('@cypress/grep/plugin').plugin(config);
