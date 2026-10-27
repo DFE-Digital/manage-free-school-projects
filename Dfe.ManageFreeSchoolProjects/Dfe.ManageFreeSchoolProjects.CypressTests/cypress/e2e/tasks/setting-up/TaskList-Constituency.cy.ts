@@ -63,6 +63,7 @@ describe('Testing Constituency Task', () => {
         summaryPage.clickChangeFor('Name');
 
         constituencySearchPage
+            .isSearchPage()
             .schoolNameIs(project.schoolName)
             .titleIs('Search for a constituency')
             .searchLabelIs('Enter a name or postcode');
@@ -121,6 +122,7 @@ describe('Testing Constituency Task', () => {
         cy.executeAccessibilityTests();
 
         constituencyEditPage
+            .isResultsPage()
             .schoolNameIs(project.schoolName)
             .titleIs('Confirm the constituency')
             .hasResult('Battersea')
@@ -142,6 +144,7 @@ describe('Testing Constituency Task', () => {
         constituencySearchPage.enterSearch('SW1P').clickContinue();
 
         constituencyEditPage
+            .isResultsPage()
             .hasResult('Battersea')
             .hasResult('Cities of London and Westminster')
             .hasNoneOption()

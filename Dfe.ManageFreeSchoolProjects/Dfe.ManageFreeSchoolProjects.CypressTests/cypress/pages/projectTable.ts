@@ -1,30 +1,23 @@
 import { ProjectRow } from './projectRow';
 
+const ROW_SELECTOR = '[data-testid*="row-"]';
+
 class ProjectTable {
     public getRowByProjectId(projectId: string): Cypress.Chainable<ProjectRow> {
-        return cy.getByTestId(`row-${projectId}`).then((el) => {
-            return new ProjectRow(el);
-        });
+        const selector = `[data-testid="row-${projectId}"]`;
+
+        return cy.wrap(new ProjectRow(() => cy.get(selector)), { log: false });
     }
 
     public getRows(): Cypress.Chainable<ProjectRow> {
-        return cy.containsByTestId(`row-`).then((el) => {
-            return new ProjectRow(el);
-        });
+        return cy.wrap(new ProjectRow(() => cy.get(ROW_SELECTOR).first()), { log: false });
     }
-    public getProjectIds() {
-        const result: Array<string> = [];
 
+    public getProjectIds(): Cypress.Chainable<Array<string>> {
         return cy
-            .containsByTestId('row-')
-            .each(($el) => {
-                result.push($el.text());
-
-                return result;
-            })
-            .then(() => {
-                return result;
-            });
+            .get(ROW_SELECTOR)
+            .should('have.length.at.least', 1)
+            .then(($rows) => $rows.toArray().map((row) => Cypress.$(row).text()));
     }
 
     public allRowsHaveRegion(region: string) {
@@ -53,7 +46,7 @@ class ProjectTable {
     // against detached elements. A single `should` callback re-runs the `cy.get` on every
     // retry instead, so it waits for the filtered table to render.
     private allRowsHaveCellText(cellTestId: string, value: string) {
-        cy.get('[data-testid*="row-"]').should(($rows) => {
+        cy.get(ROW_SELECTOR).should(($rows) => {
             expect($rows.length, 'number of project rows').to.be.at.least(1);
 
             $rows.each((_, row) => {

@@ -51,13 +51,16 @@ describe('Testing project overview', () => {
         summaryPage.clickChangeFor('Region');
 
         Logger.log('Configuring region and local authority task');
-        regionDetailsPage.hasSchoolName(project.schoolName).selectContinue();
+        regionDetailsPage.isRegionPage().hasSchoolName(project.schoolName).selectContinue();
 
         validationComponent.hasValidationError('Select the region');
 
         cy.executeAccessibilityTests();
 
-        regionDetailsPage.withRegion('South West').selectContinue();
+        regionDetailsPage.isRegionPage().withRegion('South West').selectContinue();
+
+        Logger.log('Should now be on the local authority page');
+        regionDetailsPage.isLocalAuthorityPage();
 
         cy.executeAccessibilityTests();
 
@@ -81,8 +84,6 @@ describe('Testing project overview', () => {
         summaryPage.clickChangeFor('Region');
 
         regionDetailsPage.withRegion('North West').selectContinue();
-
-        cy.executeAccessibilityTests();
 
         regionDetailsPage.withLocalAuthority('Liverpool').selectContinue();
 

@@ -1,5 +1,7 @@
+import { RowScope } from './projectRow';
+
 export class ProposalRow {
-    constructor(private readonly element: Element) {}
+    constructor(private readonly scope: RowScope) {}
 
     public hasProposer(value: string): this {
         this.containsText('proposal-proposer', value);
@@ -38,7 +40,7 @@ export class ProposalRow {
     }
 
     private containsText(id: string, value: string) {
-        cy.wrap(this.element).within(() => {
+        this.scope().within(() => {
             cy.getByTestId(id).should('contain.text', value);
         });
     }

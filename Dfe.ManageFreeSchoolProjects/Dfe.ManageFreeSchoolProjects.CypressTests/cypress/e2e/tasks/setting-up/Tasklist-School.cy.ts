@@ -266,7 +266,7 @@ describe('Testing project overview', () => {
         schoolDetailsPage.withFaithStatus('None').withFaithStatus('Designation').clickContinue();
 
         validationComponent.hasValidationError(
-            'Select a different faith type, if faith status is this is also known as character..'
+            'Select a different faith type, if faith status is designation.'
         );
     });
 

@@ -2,6 +2,7 @@ import 'cypress-localstorage-commands';
 import 'cypress-axe';
 import { AuthenticationInterceptor } from '../auth/authenticationInterceptor';
 import { Logger } from '../common/logger';
+import { EnvUrl } from '../constants/cypressConstants';
 import { Result, RuleObject } from 'axe-core';
 
 function formatViolation(violation: Result): string {
@@ -71,6 +72,29 @@ Cypress.Commands.add('assertChildList', (selector: string, values: string[]) => 
         });
 });
 
+// When several Cypress jobs hit one environment the web app starts refusing connections
+// and `cy.visit()` fails with ESOCKETTIMEDOUT. `login` runs in a `beforeEach`, and a
+// failure there makes Cypress skip every remaining test in the spec file — the CI run of
+// 2026-10-26 lost 27 tests to the timeout itself and 45 more to that cascade. Waiting for
+// the app to answer first turns a saturated or cold-starting environment into a short
+// delay instead of a whole file's lost results.
+const appWarmUp = {
+    attempts: 4,
+    delayMs: 5000,
+    timeoutMs: 30000,
+};
+
+// Generous enough to cover every attempt plus its backoff, so the command itself is not
+// what times out — we want the task's diagnosis, not an opaque cy.task timeout.
+const warmUpCommandTimeout = appWarmUp.attempts * (appWarmUp.timeoutMs + appWarmUp.delayMs) + 10000;
+
+type WaitForAppResult = {
+    ok: boolean;
+    status?: number;
+    attempts: number;
+    error?: string;
+};
+
 Cypress.Commands.add('login', (params) => {
     cy.clearCookies();
     cy.clearLocalStorage();
@@ -78,6 +102,19 @@ Cypress.Commands.add('login', (params) => {
     // Intercept all browser requests and add our special auth header
     // Means we don't have to use azure to authenticate
     new AuthenticationInterceptor().register(params);
+
+    const url = Cypress.expose(EnvUrl);
+
+    cy.task('waitForApp', { url, ...appWarmUp }, { timeout: warmUpCommandTimeout }).then((result) => {
+        const { ok, attempts, error } = result as WaitForAppResult;
+
+        if (!ok) {
+            throw new Error(
+                `The web app at ${url} did not respond after ${attempts} attempt(s). ` +
+                    `Last network error: ${error}. This is an environment problem, not a test failure.`
+            );
+        }
+    });
 
     cy.visit('/');
 });
