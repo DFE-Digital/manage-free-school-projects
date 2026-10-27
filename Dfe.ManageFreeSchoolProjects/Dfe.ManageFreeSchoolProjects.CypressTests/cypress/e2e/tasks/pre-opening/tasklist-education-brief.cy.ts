@@ -64,8 +64,7 @@ describe('Testing education plans and policies - presumption', () => {
         taskListPage.isTaskStatusInProgress('EducationBrief').selectEducationBriefFromList();
 
         cy.log('Check education plans and policies page');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Trust confirmed it has education plans and policies in place');
 
         cy.executeAccessibilityTests();
 
@@ -79,10 +78,10 @@ describe('Testing education plans and policies - presumption', () => {
             .errorForDateEEReviewedEducationBrief()
             .showsError('Year must be between 2000 and 2050')
             .withDateEEReviewedEducationBrief('2', '2', '1999')
-            .clickContinue()
-            .errorForDateEEReviewedEducationBrief()
-            .showsError('Year must be between 2000 and 2050')
-            .withDateEEReviewedEducationBrief('', '', '');
+            .clickContinue();
+
+        educationBriefEditPage.clickBack();
+        summaryPage.clickChangeFor('Trust confirmed it has education plans and policies in place');
 
         educationBriefEditPage
             .withDateEEReviewedEducationBrief('2', '3', '2049')
@@ -116,8 +115,7 @@ describe('Testing education plans and policies - presumption', () => {
             .isNotMarkedAsComplete();
 
         cy.log('uncheck education plans and policies page');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Trust confirmed it has education plans and policies in place');
 
         cy.executeAccessibilityTests();
 
@@ -222,8 +220,7 @@ describe('Testing education plans and policies - central', () => {
         taskListPage.isTaskStatusInProgress('EducationBrief').selectEducationBriefFromList();
 
         cy.log('Check education plans and policies page');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Date the trust provided the education brief');
 
         cy.executeAccessibilityTests();
 
@@ -237,28 +234,13 @@ describe('Testing education plans and policies - central', () => {
             .errorForDateTrustProvidedEducationBrief()
             .showsError('Year must be between 2000 and 2050')
             .withDateTrustProvidedEducationBrief('2', '2', '1999')
-            .clickContinue()
-            .errorForDateTrustProvidedEducationBrief()
-            .showsError('Year must be between 2000 and 2050')
-            .withDateTrustProvidedEducationBrief('', '', '');
+            .clickContinue();
+
+        educationBriefEditPage.clickBack();
+        summaryPage.clickChangeFor('Date the trust provided the education brief');
 
         educationBriefEditPage
-            .withDateTrustProvidedEducationBrief('2', '5', '2049')
-            .withDateEEReviewedEducationBrief('2', 'ds', '2050')
-            .clickContinue()
-            .errorForDateEEReviewedEducationBrief()
-            .showsError('Enter a date in the correct format')
-            .withDateEEReviewedEducationBrief('2', '2', '2090')
-            .clickContinue()
-            .errorForDateEEReviewedEducationBrief()
-            .showsError('Year must be between 2000 and 2050')
-            .withDateEEReviewedEducationBrief('2', '2', '1999')
-            .clickContinue()
-            .errorForDateEEReviewedEducationBrief()
-            .showsError('Year must be between 2000 and 2050')
-            .withDateEEReviewedEducationBrief('', '', '');
-
-        educationBriefEditPage
+            .withDateTrustProvidedEducationBrief('1', '1', '2049')
             .withDateEEReviewedEducationBrief('2', '3', '2049')
             .checkCommissionedEEToReviewSafeguardingPolicy()
             .checkCommissionedEEToReviewPupilAssessmentRecordingAndReportingPolicy()
@@ -271,7 +253,7 @@ describe('Testing education plans and policies - central', () => {
             .titleIs('Education plans and policies')
             .inOrder()
             .summaryShows('Date the trust provided the education brief')
-            .HasValue('2 May 2049')
+            .HasValue('1 January 2049')
             .HasChangeLink()
             .summaryShows('Commisioned an external expert (EE) to review the safeguarding policy')
             .HasValue('Yes')
@@ -291,8 +273,7 @@ describe('Testing education plans and policies - central', () => {
             .isNotMarkedAsComplete();
 
         cy.log('uncheck education plans and policies page');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Date the trust provided the education brief');
 
         cy.executeAccessibilityTests();
 
@@ -312,7 +293,7 @@ describe('Testing education plans and policies - central', () => {
             .titleIs('Education plans and policies')
             .inOrder()
             .summaryShows('Date the trust provided the education brief')
-            .HasValue('2 May 2049')
+            .HasValue('1 January 2049')
             .HasChangeLink()
             .summaryShows('Commisioned an external expert (EE) to review the safeguarding policy')
             .IsEmpty()

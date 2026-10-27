@@ -105,7 +105,6 @@ describe('Testing the presumption route project creation journey', () => {
                 .enterSchoolName('Invalid#')
                 .continue()
                 .errorMessage("School name must not include special characters other than , ( ) '")
-                .continue()
                 .enterSchoolName(dataGenerator.generateAlphaNumeric(101))
                 .continue()
                 .errorMessage('School name must be 100 characters or less');
@@ -115,7 +114,7 @@ describe('Testing the presumption route project creation journey', () => {
 
             createProjectPage.enterSchoolName(schoolName).continue();
 
-            createProjectPage.titleIs('What is the region of the school?').continue().errorMessage('Select the region');
+            createProjectPage.titleIs('Which region is the school in?').continue().errorMessage('Select the region');
 
             cy.executeAccessibilityTests();
 
@@ -193,7 +192,7 @@ describe('Testing the presumption route project creation journey', () => {
 
             Logger.log('Check class types validation');
             createProjectPage
-                .titleIs('Will it have any of these provisions?')
+                .titleIs('Will it have any of these?')
                 .continue()
                 .errorMessage('Select yes if it will have a nursery')
                 .errorMessage('Select yes if it will have a sixth form')
@@ -266,8 +265,7 @@ describe('Testing the presumption route project creation journey', () => {
                 .errorMessage('Nursery capacity must be between 0 and 9999')
                 .errorMessage('Reception to year 6 capacity must be between 0 and 9999')
                 .errorMessage('Year 7 to year 11 capacity must be between 0 and 9999')
-                .errorMessage('Year 12 to year 14 capacity must be between 0 and 9999')
-                .continue();
+                .errorMessage('Year 12 to year 14 capacity must be between 0 and 9999');
 
             cy.executeAccessibilityTests();
 
@@ -295,8 +293,6 @@ describe('Testing the presumption route project creation journey', () => {
                 .selectOption('Other')
                 .continue()
                 .errorMessage('Enter the other faith type')
-                .continue()
-                .errorMessage('Enter the other faith type')
                 .enterOtherFaith(dataGenerator.generateAlpha(101))
                 .continue()
                 .errorMessage('Other faith type must be 100 characters or less')
@@ -307,7 +303,7 @@ describe('Testing the presumption route project creation journey', () => {
             cy.executeAccessibilityTests();
 
             Logger.log('Select Greek Orthodox');
-            createProjectPage.selectOption('Greek Orthodox').continue();
+            createProjectPage.titleIs('What is the faith type?').selectOption('Greek Orthodox').continue();
 
             Logger.log('Check provisional opening date validation');
             createProjectPage
@@ -319,19 +315,16 @@ describe('Testing the presumption route project creation journey', () => {
             cy.executeAccessibilityTests();
 
             Logger.log('Enter valid provisional opening date');
-            createProjectPage.setProvisionalOpeningDate('1', '10', '2035').continue();
+            createProjectPage
+                .titleIs('What is the provisional opening date? (optional)')
+                .setProvisionalOpeningDate('1', '10', '2035')
+                .continue();
 
             Logger.log('Check project assigned to validation');
             createProjectPage
                 .titleIs('Who do you want to assign this project to?')
                 .continue()
-                .errorMessage('Enter the name')
-                .errorMessage('Enter the email')
-                .enterProjectAssignedToName('j')
-                .enterProjectAssignedToEmail('test.person@education.gov.uk')
-                .continue()
-                .errorMessage('Enter the full name, for example John Smith')
-                .enterProjectAssignedToName('joe bloggs')
+                .errorMessage('Enter the email address')
                 .enterProjectAssignedToEmail('test.person@edunation.gov.uk')
                 .continue()
                 .errorMessage('Email address must be in the format firstname.surname@education.gov.uk')
@@ -342,10 +335,7 @@ describe('Testing the presumption route project creation journey', () => {
             cy.executeAccessibilityTests();
 
             Logger.log('Set email');
-            createProjectPage
-                .enterProjectAssignedToName('joe bloggs')
-                .enterProjectAssignedToEmail('test.person@education.gov.uk')
-                .continue();
+            createProjectPage.enterProjectAssignedToEmail('test.person@education.gov.uk').continue();
 
             Logger.log('Check answers');
             summaryPage
@@ -356,7 +346,7 @@ describe('Testing the presumption route project creation journey', () => {
                 .summaryShows('Temporary project ID')
                 .HasValue(temporaryProjectId)
                 .HasChangeLink()
-                .summaryShows('Current free school name')
+                .summaryShows('Current school name')
                 .HasValue(schoolName)
                 .HasChangeLink()
                 .summaryShows('Region')
@@ -413,9 +403,6 @@ describe('Testing the presumption route project creation journey', () => {
                 .summaryShows('Provisional opening date')
                 .HasValue('1 October 2035')
                 .HasChangeLink()
-                .summaryShows('Project assigned to')
-                .HasValue('joe bloggs')
-                .HasChangeLink()
                 .summaryShows('Email')
                 .HasValue('test.person@education.gov.uk')
                 .HasChangeLink();
@@ -443,7 +430,7 @@ describe('Testing the presumption route project creation journey', () => {
             homePage.createNewProjects();
 
             Logger.log('Use individual method');
-            createProjectPage.selectOption('Presumption').continue();
+            createProjectPage.titleIs('What project do you want to create?').selectOption('Presumption').continue();
 
             Logger.log('Enter Valid project ID');
             createProjectPage.enterProjectId(temporaryProjectId).continue();
@@ -495,10 +482,7 @@ describe('Testing the presumption route project creation journey', () => {
             createProjectPage.setProvisionalOpeningDate('1', '10', '2035').continue();
 
             Logger.log('Set project assigned to');
-            createProjectPage
-                .enterProjectAssignedToName('test person')
-                .enterProjectAssignedToEmail('test.person@education.gov.uk')
-                .continue();
+            createProjectPage.enterProjectAssignedToEmail('test.person@education.gov.uk').continue();
 
             Logger.log('Check answers');
 
@@ -510,7 +494,7 @@ describe('Testing the presumption route project creation journey', () => {
                 .summaryShows('Temporary project ID')
                 .HasValue(temporaryProjectId)
                 .HasChangeLink()
-                .summaryShows('Current free school name')
+                .summaryShows('Current school name')
                 .HasValue(schoolName)
                 .HasChangeLink()
                 .summaryShows('Region')
@@ -564,9 +548,6 @@ describe('Testing the presumption route project creation journey', () => {
                 .summaryShows('Provisional opening date')
                 .HasValue('1 October 2035')
                 .HasChangeLink()
-                .summaryShows('Project assigned to')
-                .HasValue('test person')
-                .HasChangeLink()
                 .summaryShows('Email')
                 .HasValue('test.person@education.gov.uk')
                 .HasChangeLink();
@@ -577,11 +558,11 @@ describe('Testing the presumption route project creation journey', () => {
 
             summaryPage.SummaryHasValue('Temporary project ID', updatedTemporaryProjectId);
 
-            Logger.log('Update Current free school name');
-            summaryPage.clickChangeFor('Current free school name');
+            Logger.log('Update Current school name');
+            summaryPage.clickChangeFor('Current school name');
             createProjectPage.hasSchoolName(schoolName).enterSchoolName(updatedSchoolName).continue();
 
-            summaryPage.SummaryHasValue('Current free school name', updatedSchoolName);
+            summaryPage.SummaryHasValue('Current school name', updatedSchoolName);
 
             Logger.log('Update region and local authority');
             summaryPage.clickChangeFor('Region');
@@ -602,15 +583,14 @@ describe('Testing the presumption route project creation journey', () => {
 
             Logger.log('Update Trust');
             summaryPage.clickChangeFor('Trust');
-            createProjectPage
-                .enterTRN('TR00012')
-                .continue()
-                .selectOption('No')
-                .continue()
-                .enterTRN('TR00012')
-                .continue()
-                .selectOption('Yes')
-                .continue();
+            createProjectPage.titleIs('Search for a trust by TRN').enterTRN('TR00012').continue();
+
+            Logger.log('Selecting No returns to the TRN search page');
+            createProjectPage.titleIs('Confirm the trust').selectOption('No').continue();
+
+            createProjectPage.titleIs('Search for a trust by TRN').enterTRN('TR00012').continue();
+
+            createProjectPage.titleIs('Confirm the trust').selectOption('Yes').continue();
 
             summaryPage.SummaryHasValue('Trust', 'The Academy of Central Bedfordshire');
 
@@ -656,7 +636,10 @@ describe('Testing the presumption route project creation journey', () => {
 
             Logger.log('Change School type');
             summaryPage.clickChangeFor('School type');
-            createProjectPage.isOptionChecked('Mainstream').selectOption('Special').continue().continue();
+
+            createProjectPage.isOptionChecked('Mainstream').selectOption('Special').continue();
+
+            createProjectPage.titleIs('Will it have any of these?').continue();
             summaryPage
                 .SummaryHasValue('School type', 'Special')
                 .summaryDoesNotShow('Alternative provision (specialist resource provision)')
@@ -713,12 +696,9 @@ describe('Testing the presumption route project creation journey', () => {
             summaryPage.SummaryHasValue('Provisional opening date', '12 November 2034');
 
             Logger.log('Change Project assigned to');
-            summaryPage.clickChangeFor('Project assigned to');
-            createProjectPage.enterProjectAssignedToName('Anne Jones');
+            summaryPage.clickChangeFor('Email');
             createProjectPage.enterProjectAssignedToEmail('anne.jones@education.gov.uk').continue();
-            summaryPage
-                .SummaryHasValue('Project assigned to', 'Anne Jones')
-                .SummaryHasValue('Email', 'anne.jones@education.gov.uk');
+            summaryPage.SummaryHasValue('Email', 'anne.jones@education.gov.uk');
 
             createProjectPage.clickCreateProject();
 

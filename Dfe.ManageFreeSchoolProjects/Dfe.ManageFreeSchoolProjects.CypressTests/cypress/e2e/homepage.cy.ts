@@ -49,8 +49,6 @@ describe('Testing the home page', () => {
                 row.hasViewLink('View');
             });
 
-            // Filter is displayed and has the searched value
-            // clear proves its visible, as the visibility checks don't work
             homePage.hasProjectFilter(projectTitlePrefix).clearFilters();
         });
     });
@@ -72,8 +70,6 @@ describe('Testing the home page', () => {
 
             projectTable.allRowsHaveRegion('North West');
 
-            // Filter is displayed and has the searched value
-            // clear proves its visible, as the visibility checks don't work
             homePage.hasRegionFilter('North West').clearFilters();
         });
 
@@ -128,7 +124,7 @@ describe('Testing the home page', () => {
             firstProject.localAuthority = 'Bedford';
 
             const secondProject = RequestBuilder.createProjectDetails();
-            firstProject.region = 'East of England';
+            secondProject.region = 'East of England';
 
             projectApi.post({
                 projects: [firstProject, secondProject],
@@ -144,8 +140,6 @@ describe('Testing the home page', () => {
 
             projectTable.allRowsHaveLocalAuthority('Bedford');
 
-            // Filter is displayed and has the searched value
-            // clear proves its visible, as the visibility checks don't work
             homePage.hasRegionFilter('East of England').hasLocalAuthorityFilter('Bedford').clearFilters();
         });
 
@@ -154,50 +148,59 @@ describe('Testing the home page', () => {
 
             projectTable.allRowsHaveProjectManagedBy('Test Person');
 
-            // Filter is displayed and has the searched value
-            // clear proves its visible, as the visibility checks don't work
             homePage.hasProjectManagedByFilter('Test Person').clearFilters();
         });
 
         it.skip('Should be able to filter projects by project status', () => {
-            homePage
-                .openFilter()
-                //.withProjectStatusFilter("Pre-opening")
-                .applyFilters();
+            homePage.openFilter().applyFilters();
 
             projectTable.allRowsHaveProjectStatus('Pre-opening');
-
-            // Filter is displayed and has the searched value
-            // clear proves its visible, as the visibility checks don't work
-            homePage
-                //.hasProjectStatusFilter("Pre-opening")
-                .clearFilters();
+            homePage.clearFilters();
         });
     });
 
     describe('Pagination on the dashboard with filters for project', () => {
-        const paginationPrefix = 'Pagination';
         const region = 'South East';
+        const pageSize = 20;
+
+        const totalProjects = pageSize * 2 + 1;
+        const lastPageSize = totalProjects - pageSize * 2;
+
+        const paginationPrefix = 'PaginationFixture';
+
+        const countFixtureProjects = () =>
+            dashboardApi.get({ project: paginationPrefix, regions: [region] }).then((response) => {
+                return response.paging.recordCount;
+            });
 
         beforeEach(() => {
-            dashboardApi.get({ project: paginationPrefix, regions: [region] }).then((response) => {
-                const currentNumberOfProjects = response.paging.recordCount;
-                const projectsToCreate = 41 - currentNumberOfProjects;
-
+            countFixtureProjects().then((existing) => {
                 const projects: Array<ProjectDetailsRequest> = [];
 
-                for (let idx = 0; idx < projectsToCreate; idx++) {
+                for (let idx = existing; idx < totalProjects; idx++) {
                     const project = RequestBuilder.createProjectDetails();
                     project.schoolName = `${project.schoolName.substring(0, 15)} ${paginationPrefix}`;
                     project.region = region;
                     projects.push(project);
                 }
 
-                projectApi.post({
-                    projects: projects,
-                });
+                if (projects.length > 0) {
+                    Logger.log(`Topping the pagination fixture up by ${projects.length} project(s)`);
 
-                cy.reload();
+                    projectApi.post({
+                        projects: projects,
+                    });
+                }
+            });
+
+            cy.reload();
+
+            countFixtureProjects().then((total) => {
+                expect(
+                    total,
+                    `projects matching "${paginationPrefix}" in ${region} — if this exceeds ` +
+                        `${totalProjects} the fixture has been polluted and needs cleaning up`
+                ).to.equal(totalProjects);
             });
         });
 
@@ -207,58 +210,56 @@ describe('Testing the home page', () => {
             let pageOneProjects: Array<string> = [];
             let pageTwoProjects: Array<string> = [];
 
+            paginationComponent.isCurrentPage('1');
+
             projectTable
                 .getProjectIds()
                 .then((projectIds: Array<string>) => {
                     pageOneProjects = projectIds;
 
-                    Logger.log('Ensure we have 20 projects on page one');
-                    expect(pageOneProjects.length).to.eq(20);
-
-                    paginationComponent.isCurrentPage('1');
+                    Logger.log(`Ensure we have ${pageSize} projects on page one`);
+                    expect(pageOneProjects, 'projects on page one').to.have.lengthOf(pageSize);
 
                     Logger.log('Moving to the second page using the direct link');
-                    paginationComponent.goToPage('2');
+                    paginationComponent.goToPage('2').isCurrentPage('2');
+
                     return projectTable.getProjectIds();
                 })
                 .then((projectIds: Array<string>) => {
                     pageTwoProjects = projectIds;
 
-                    Logger.log('Ensure we have 20 projects on page 2');
-                    expect(pageTwoProjects.length).to.equal(20);
+                    Logger.log(`Ensure we have ${pageSize} projects on page 2`);
+                    expect(pageTwoProjects, 'projects on page two').to.have.lengthOf(pageSize);
 
                     Logger.log('Ensure that the projects on page one and two are different');
                     hasNoSimilarElements(pageOneProjects, pageTwoProjects);
 
-                    paginationComponent.isCurrentPage('2');
-
                     Logger.log('Move to the previous page, which is page 1');
-                    paginationComponent.previous();
+                    paginationComponent.previous().isCurrentPage('1');
+
                     return projectTable.getProjectIds();
                 })
                 .then((projectIds: Array<string>) => {
                     Logger.log('On moving to page one, we should get the exact same projects');
-                    expect(projectIds).to.deep.equal(pageOneProjects);
+                    expect(projectIds, 'page one revisited').to.deep.equal(pageOneProjects);
 
                     Logger.log('Move to the next page, which is page 2');
-                    paginationComponent.next();
+                    paginationComponent.next().isCurrentPage('2');
+
                     return projectTable.getProjectIds();
                 })
                 .then((projectIds: Array<string>) => {
                     Logger.log('On moving to page two, we should get the exact same cases');
-                    expect(projectIds).to.deep.equal(pageTwoProjects);
+                    expect(projectIds, 'page two revisited').to.deep.equal(pageTwoProjects);
 
                     Logger.log('Move to the third page');
-
-                    paginationComponent.next();
+                    paginationComponent.next().isCurrentPage('3');
 
                     return projectTable.getProjectIds();
                 })
                 .then((projectIds: Array<string>) => {
-                    Logger.log('Should get 1 case on page 3');
-                    expect(projectIds.length).to.equal(20);
-
-                    paginationComponent.isCurrentPage('3');
+                    Logger.log(`Should get ${lastPageSize} case(s) on page 3`);
+                    expect(projectIds, 'projects on page three').to.have.lengthOf(lastPageSize);
                 });
         });
     });

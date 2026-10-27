@@ -45,11 +45,9 @@ describe('Testing the pupil numbers checks task', () => {
         Logger.log('Go back to task list');
         summaryPage.clickBack();
 
-        taskListPage.selectPupilNumbersChecksTaskList();
-        summaryPage.clickChange();
-
         Logger.log('pupil numbers checks can save null values');
-
+        taskListPage.selectPupilNumbersChecksTaskList();
+        summaryPage.clickChangeFor('School has received enough applications to be viable');
         pupilNumbersChecksEditPage.clickContinue();
 
         summaryPage
@@ -70,9 +68,7 @@ describe('Testing the pupil numbers checks task', () => {
         cy.executeAccessibilityTests();
 
         Logger.log('pupil numbers checks can be edited');
-
-        summaryPage.clickChange();
-
+        summaryPage.clickChangeFor('School has received enough applications to be viable');
         pupilNumbersChecksEditPage
             .checkReceivedEnoughApplications()
             .checkDataMatchesFundingAgreement()
@@ -99,10 +95,9 @@ describe('Testing the pupil numbers checks task', () => {
 
         taskListPage.isTaskStatusInProgress('PupilNumbersChecks');
 
-        taskListPage.selectPupilNumbersChecksTaskList();
-        summaryPage.clickChange();
-
         Logger.log('Should be able to clear all values');
+        taskListPage.selectPupilNumbersChecksTaskList();
+        summaryPage.clickChangeFor('School has received enough applications to be viable');
 
         pupilNumbersChecksEditPage
             .uncheckReceivedEnoughApplications()
