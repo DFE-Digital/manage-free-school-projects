@@ -152,13 +152,10 @@ describe('Testing the home page', () => {
         });
 
         it.skip('Should be able to filter projects by project status', () => {
-            homePage
-                .openFilter()
-                .applyFilters();
+            homePage.openFilter().applyFilters();
 
             projectTable.allRowsHaveProjectStatus('Pre-opening');
-            homePage
-                .clearFilters();
+            homePage.clearFilters();
         });
     });
 
