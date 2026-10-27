@@ -77,8 +77,6 @@ describe('Testing the applications evidence task', () => {
             .HasChangeLink()
             .isNotMarkedAsComplete();
 
-        // cy.executeAccessibilityTests();
-
         Logger.log('Applications evidence can be edited');
         summaryPage.clickChangeFor('Confirmed that the trust has provided minimum viable pupil number');
 

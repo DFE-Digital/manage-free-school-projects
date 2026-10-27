@@ -132,7 +132,6 @@ describe('Testing the admissions arragements task', () => {
         admissionsArrangementsEditPage.clickBack();
 
         cy.log('Edit Admissions arrangements should set date');
-        //taskListPage.selectAdmissionsArrangementsFromTaskList();
         summaryPage.clickChangeFor('Expected date that trust will confirm arrangements');
 
         admissionsArrangementsEditPage

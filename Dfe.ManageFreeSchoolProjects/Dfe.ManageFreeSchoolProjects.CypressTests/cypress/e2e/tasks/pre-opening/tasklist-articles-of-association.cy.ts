@@ -132,8 +132,6 @@ describe('Testing articles of association Task', () => {
             .SummaryHasValue('SharePoint link', 'https://www.gov.uk/government/organisations/department-for-education')
             .clickChange();
 
-        // cy.log('Comment on decision validation');
-
         // // *** The following lines can be uncommented to test, this takes a long time to execute and will fail in the build process ***
         // // articlesOfAssociationEditPage
         // //     .withComments(dataGenerator.generateAlphaNumeric(1000))
