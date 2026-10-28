@@ -23,7 +23,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
         private readonly IGetProjectByTaskService _getProjectService = Substitute.For<IGetProjectByTaskService>();
         private readonly IUpdateProjectByTaskService _updateProjectTaskService = Substitute.For<IUpdateProjectByTaskService>();
 
-        private UpdateProjectByTaskRequest _capturedRequest;
+        private UpdateProjectByTaskRequest? _capturedRequest;
 
         public EditSchoolTaskModelTests()
         {
