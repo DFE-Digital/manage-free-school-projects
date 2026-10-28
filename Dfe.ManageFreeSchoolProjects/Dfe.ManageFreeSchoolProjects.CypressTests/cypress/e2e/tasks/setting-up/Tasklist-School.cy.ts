@@ -3,6 +3,7 @@ import projectApi from 'cypress/api/projectApi';
 import { RequestBuilder } from 'cypress/api/requestBuilder';
 import { Logger } from 'cypress/common/logger';
 import taskListPage from 'cypress/pages/taskListPage';
+import projectOverviewPage from 'cypress/pages/projectOverviewPage';
 import schoolDetailsPage from 'cypress/pages/schoolDetailsPage';
 import summaryPage from 'cypress/pages/task-summary-base';
 import validationComponent from 'cypress/pages/validationComponent';
@@ -310,5 +311,67 @@ describe('Testing project overview', () => {
         validationComponent
             .hasValidationError('Select yes if it will have alternative provision')
             .hasValidationError('Select yes if it will have special educational needs provision');
+    });
+});
+
+describe('Testing the school task on a New School project', () => {
+    let project: ProjectDetailsRequest;
+
+    beforeEach(() => {
+        cy.login();
+
+        project = RequestBuilder.createProjectDetailsNewSchool();
+
+        projectApi
+            .post({
+                projects: [project],
+            })
+            .then(() => {
+                cy.visit(`/projects/${project.projectId}/tasks`);
+            });
+    });
+
+    // A New School project stores the school type without the 'FS - ' prefix that every
+    // other wave keeps, so the value has to survive the trip through the database.
+    it('Should save and redisplay the school type', () => {
+        taskListPage.selectSchoolFromTaskList();
+
+        summaryPage.clickChangeFor('Current school name');
+
+        schoolDetailsPage
+            .withSchoolType('Mainstream')
+            .withSchoolPhase('Secondary')
+            .withAgeRange('11', '16')
+            .withFormsOfEntry('3')
+            .withGender('Mixed')
+            .withNursery('No')
+            .withSixthForm('No')
+            .withResidentialOrBoarding('No')
+            .withAlternativeProvision('No')
+            .withSpecialEducationNeeds('No')
+            .withFaithStatus('None')
+            .clickContinue();
+
+        summaryPage.SummaryHasValue('School type', 'Mainstream');
+
+        Logger.log('The school type is read back from the database, not the form');
+        cy.reload();
+
+        summaryPage.SummaryHasValue('School type', 'Mainstream');
+
+        Logger.log('Changing to another school type that drops the prefix');
+        summaryPage.clickChangeFor('Current school name');
+
+        schoolDetailsPage.withSchoolType('AlternativeProvisionPRU').clickContinue();
+
+        summaryPage.SummaryHasValue('School type', 'Alternative provision / PRU');
+
+        Logger.log('The overview shows the school type and the New School project type');
+        cy.visit(`/projects/${project.projectId}/overview`);
+
+        projectOverviewPage
+            .hasSchoolType('Alternative provision / PRU')
+            .hasApplicationWave('New School')
+            .hasProjectType();
     });
 });

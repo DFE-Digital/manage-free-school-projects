@@ -28,7 +28,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.School
             }
 
             dbKpi.ProjectStatusCurrentFreeSchoolName = task.CurrentFreeSchoolName;
-            dbKpi.SchoolDetailsSchoolTypeMainstreamApEtc = ProjectMapper.ToSchoolType(task.SchoolType);
+            dbKpi.SchoolDetailsSchoolTypeMainstreamApEtc = ProjectMapper.ToSchoolType(task.SchoolType, dbKpi.ProjectStatusFreeSchoolApplicationWave);
             dbKpi.SchoolDetailsSchoolPhasePrimarySecondary = ProjectMapper.ToSchoolPhase(task.SchoolPhase);
             dbKpi.SchoolDetailsGender = gender;
             dbKpi.SchoolDetailsAgeRange = task.AgeRange;

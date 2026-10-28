@@ -73,7 +73,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Summary
                     : "Central Route",
                 ProjectManagedByEmail = record.Kpi.KeyContactsFsgLeadContactEmail,
                 ProjectStatus = ProjectMapper.ToProjectStatusType(record.Kpi.ProjectStatusProjectStatus).ToDescription(),
-                SchoolType = ProjectMapper.ToSchoolType(record.Kpi.SchoolDetailsSchoolTypeMainstreamApEtc).ToDescription(),
+                SchoolType = ProjectMapper.ToSchoolType(record.Kpi.SchoolDetailsSchoolTypeMainstreamApEtc, record.Kpi.ProjectStatusFreeSchoolApplicationWave).ToDescription(),
                 UpdatedAt = record.PeriodStart
             }).ToList();
             mappingStopwatch.Stop();

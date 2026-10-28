@@ -12,31 +12,49 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
         private const string ChurchOfEngland = "Church of England";
         private const string RomanCatholic = "Roman Catholic";
 
-        public static SchoolType ToSchoolType(string schoolType)
+        public static SchoolType ToSchoolType(string schoolType, string projectStatusFreeSchoolApplicationWave)
         {
-            return schoolType switch
+            if (projectStatusFreeSchoolApplicationWave == "New School")
             {
-                "FS - AP" => SchoolType.AlternativeProvision,
-                "FS - AP/PRU" => SchoolType.AlternativeProvisionPRU,
-                "FS - Special" => SchoolType.Special,
-                "SS" => SchoolType.StudioSchool,
-                "FS - Mainstream" => SchoolType.Mainstream,
-                "UTC" => SchoolType.UniversityTechnicalCollege,
-                "FE" => SchoolType.FurtherEducation,
-                "VA" => SchoolType.VoluntaryAided,
-                _ => SchoolType.NotSet
-            };
+                return schoolType switch
+                {
+                    "AP" => SchoolType.AlternativeProvision,
+                    "AP/PRU" => SchoolType.AlternativeProvisionPRU,
+                    "Special" => SchoolType.Special,
+                    "SS" => SchoolType.StudioSchool,
+                    "Mainstream" => SchoolType.Mainstream,
+                    "UTC" => SchoolType.UniversityTechnicalCollege,
+                    "FE" => SchoolType.FurtherEducation,
+                    "VA" => SchoolType.VoluntaryAided,
+                    _ => SchoolType.NotSet
+                };
+            }
+            else
+            {
+                return schoolType switch
+                {
+                    "FS - AP" => SchoolType.AlternativeProvision,
+                    "FS - AP/PRU" => SchoolType.AlternativeProvisionPRU,
+                    "FS - Special" => SchoolType.Special,
+                    "SS" => SchoolType.StudioSchool,
+                    "FS - Mainstream" => SchoolType.Mainstream,
+                    "UTC" => SchoolType.UniversityTechnicalCollege,
+                    "FE" => SchoolType.FurtherEducation,
+                    "VA" => SchoolType.VoluntaryAided,
+                    _ => SchoolType.NotSet
+                };
+            }
         }
 
-        public static string ToSchoolType(SchoolType? schoolType)
+        public static string ToSchoolType(SchoolType? schoolType, string projectStatusFreeSchoolApplicationWave)
         {
             return schoolType switch
             {
-                SchoolType.AlternativeProvision => "FS - AP",
-                SchoolType.AlternativeProvisionPRU => "FS - AP/PRU",
-                SchoolType.Special => "FS - Special",
+                SchoolType.AlternativeProvision => projectStatusFreeSchoolApplicationWave == "New School" ? "AP" : "FS - AP",
+                SchoolType.AlternativeProvisionPRU => projectStatusFreeSchoolApplicationWave == "New School" ? "AP/PRU" : "FS - AP/PRU",
+                SchoolType.Special => projectStatusFreeSchoolApplicationWave == "New School" ? "Special" : "FS - Special",
                 SchoolType.StudioSchool => "SS",
-                SchoolType.Mainstream => "FS - Mainstream",
+                SchoolType.Mainstream => projectStatusFreeSchoolApplicationWave == "New School" ? "Mainstream" : "FS - Mainstream",
                 SchoolType.UniversityTechnicalCollege => "UTC",
                 SchoolType.FurtherEducation => "FE",
                 SchoolType.VoluntaryAided => "VA",
