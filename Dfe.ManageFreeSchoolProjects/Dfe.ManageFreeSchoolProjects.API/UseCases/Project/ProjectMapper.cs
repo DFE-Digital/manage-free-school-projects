@@ -12,9 +12,14 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
         private const string ChurchOfEngland = "Church of England";
         private const string RomanCatholic = "Roman Catholic";
 
+        /// <summary>
+        /// The only wave that stores the school type without the historic "FS - " prefix.
+        /// </summary>
+        private const string NewSchoolWave = "New School";
+
         public static SchoolType ToSchoolType(string schoolType, string projectStatusFreeSchoolApplicationWave)
         {
-            if (projectStatusFreeSchoolApplicationWave == "New School")
+            if (projectStatusFreeSchoolApplicationWave == NewSchoolWave)
             {
                 return schoolType switch
                 {
@@ -48,13 +53,15 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
 
         public static string ToSchoolType(SchoolType? schoolType, string projectStatusFreeSchoolApplicationWave)
         {
+            var isNewSchool = projectStatusFreeSchoolApplicationWave == NewSchoolWave;
+
             return schoolType switch
             {
-                SchoolType.AlternativeProvision => projectStatusFreeSchoolApplicationWave == "New School" ? "AP" : "FS - AP",
-                SchoolType.AlternativeProvisionPRU => projectStatusFreeSchoolApplicationWave == "New School" ? "AP/PRU" : "FS - AP/PRU",
-                SchoolType.Special => projectStatusFreeSchoolApplicationWave == "New School" ? "Special" : "FS - Special",
+                SchoolType.AlternativeProvision => isNewSchool ? "AP" : "FS - AP",
+                SchoolType.AlternativeProvisionPRU => isNewSchool ? "AP/PRU" : "FS - AP/PRU",
+                SchoolType.Special => isNewSchool ? "Special" : "FS - Special",
                 SchoolType.StudioSchool => "SS",
-                SchoolType.Mainstream => projectStatusFreeSchoolApplicationWave == "New School" ? "Mainstream" : "FS - Mainstream",
+                SchoolType.Mainstream => isNewSchool ? "Mainstream" : "FS - Mainstream",
                 SchoolType.UniversityTechnicalCollege => "UTC",
                 SchoolType.FurtherEducation => "FE",
                 SchoolType.VoluntaryAided => "VA",

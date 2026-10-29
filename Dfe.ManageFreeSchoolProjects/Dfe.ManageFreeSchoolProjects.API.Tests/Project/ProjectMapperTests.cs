@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project;
@@ -19,27 +18,31 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
             "FS - Presumption", "Central Route", "Non-Presumption", "Wave 15", string.Empty, null
         ];
 
-        public static IEnumerable<object[]> PrefixedStringToEnumData()
+        public static TheoryData<string, string, SchoolType> PrefixedStringToEnumData()
         {
+            var data = new TheoryData<string, string, SchoolType>();
+
             foreach (var wave in WavesThatKeepThePrefix)
             {
-                yield return [wave, "FS - AP", SchoolType.AlternativeProvision];
-                yield return [wave, "FS - AP/PRU", SchoolType.AlternativeProvisionPRU];
-                yield return [wave, "FS - Special", SchoolType.Special];
-                yield return [wave, "FS - Mainstream", SchoolType.Mainstream];
-                yield return [wave, "SS", SchoolType.StudioSchool];
-                yield return [wave, "UTC", SchoolType.UniversityTechnicalCollege];
-                yield return [wave, "FE", SchoolType.FurtherEducation];
-                yield return [wave, "VA", SchoolType.VoluntaryAided];
-                yield return [wave, "InvalidType", SchoolType.NotSet];
-                yield return [wave, null, SchoolType.NotSet];
+                data.Add(wave, "FS - AP", SchoolType.AlternativeProvision);
+                data.Add(wave, "FS - AP/PRU", SchoolType.AlternativeProvisionPRU);
+                data.Add(wave, "FS - Special", SchoolType.Special);
+                data.Add(wave, "FS - Mainstream", SchoolType.Mainstream);
+                data.Add(wave, "SS", SchoolType.StudioSchool);
+                data.Add(wave, "UTC", SchoolType.UniversityTechnicalCollege);
+                data.Add(wave, "FE", SchoolType.FurtherEducation);
+                data.Add(wave, "VA", SchoolType.VoluntaryAided);
+                data.Add(wave, "InvalidType", SchoolType.NotSet);
+                data.Add(wave, null, SchoolType.NotSet);
 
                 // The unprefixed names are only school types on a New School project.
-                yield return [wave, "AP", SchoolType.NotSet];
-                yield return [wave, "AP/PRU", SchoolType.NotSet];
-                yield return [wave, "Special", SchoolType.NotSet];
-                yield return [wave, "Mainstream", SchoolType.NotSet];
+                data.Add(wave, "AP", SchoolType.NotSet);
+                data.Add(wave, "AP/PRU", SchoolType.NotSet);
+                data.Add(wave, "Special", SchoolType.NotSet);
+                data.Add(wave, "Mainstream", SchoolType.NotSet);
             }
+
+            return data;
         }
 
         [Theory]
@@ -87,21 +90,25 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
             Assert.Equal(SchoolType.NotSet, result);
         }
 
-        public static IEnumerable<object[]> EnumToPrefixedStringData()
+        public static TheoryData<string, SchoolType?, string> EnumToPrefixedStringData()
         {
+            var data = new TheoryData<string, SchoolType?, string>();
+
             foreach (var wave in WavesThatKeepThePrefix)
             {
-                yield return [wave, SchoolType.AlternativeProvision, "FS - AP"];
-                yield return [wave, SchoolType.AlternativeProvisionPRU, "FS - AP/PRU"];
-                yield return [wave, SchoolType.Special, "FS - Special"];
-                yield return [wave, SchoolType.Mainstream, "FS - Mainstream"];
-                yield return [wave, SchoolType.StudioSchool, "SS"];
-                yield return [wave, SchoolType.UniversityTechnicalCollege, "UTC"];
-                yield return [wave, SchoolType.FurtherEducation, "FE"];
-                yield return [wave, SchoolType.VoluntaryAided, "VA"];
-                yield return [wave, SchoolType.NotSet, "NotSet"];
-                yield return [wave, null, "NotSet"];
+                data.Add(wave, SchoolType.AlternativeProvision, "FS - AP");
+                data.Add(wave, SchoolType.AlternativeProvisionPRU, "FS - AP/PRU");
+                data.Add(wave, SchoolType.Special, "FS - Special");
+                data.Add(wave, SchoolType.Mainstream, "FS - Mainstream");
+                data.Add(wave, SchoolType.StudioSchool, "SS");
+                data.Add(wave, SchoolType.UniversityTechnicalCollege, "UTC");
+                data.Add(wave, SchoolType.FurtherEducation, "FE");
+                data.Add(wave, SchoolType.VoluntaryAided, "VA");
+                data.Add(wave, SchoolType.NotSet, "NotSet");
+                data.Add(wave, null, "NotSet");
             }
+
+            return data;
         }
 
         [Theory]
@@ -166,15 +173,19 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
             Assert.Equal(schoolType, result);
         }
 
-        public static IEnumerable<object[]> RoundTripsForWavesThatKeepThePrefixData()
+        public static TheoryData<string, SchoolType> RoundTripsForWavesThatKeepThePrefixData()
         {
+            var data = new TheoryData<string, SchoolType>();
+
             foreach (var wave in WavesThatKeepThePrefix)
             {
                 foreach (var schoolType in Enum.GetValues<SchoolType>())
                 {
-                    yield return [wave, schoolType];
+                    data.Add(wave, schoolType);
                 }
             }
+
+            return data;
         }
 
         /// <summary>
