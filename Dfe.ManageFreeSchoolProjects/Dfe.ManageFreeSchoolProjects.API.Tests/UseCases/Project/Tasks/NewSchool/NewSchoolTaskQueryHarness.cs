@@ -54,7 +54,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Tasks.NewSchoo
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            var context = new MfspContext(options, null);
+            var context = new MfspContext(options);
             context.Kpi.Add(kpi);
             context.SaveChanges();
 

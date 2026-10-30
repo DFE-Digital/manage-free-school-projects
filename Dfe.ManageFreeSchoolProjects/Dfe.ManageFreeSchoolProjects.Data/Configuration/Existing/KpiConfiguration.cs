@@ -887,6 +887,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Configuration.Existing
                 .HasMaxLength(16)
                 .IsUnicode(false);
 
+            builder.HasIndex(e => e.KeyContactsFsgLeadContactEmail)
+                .HasDatabaseName("IX_KPI_KeyContactsFsgLeadContactEmail");
+
             AuditConfiguration.Apply(builder);
         }
 	}

@@ -37,12 +37,32 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Fixtures
 			{
 				if (!_isInitialised)
 				{
-					string connectionString = null;
+					var configPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.tests.json");
+					var configBuilder = new ConfigurationBuilder()
+						.AddJsonFile(configPath)
+						.AddUserSecrets(Assembly.GetExecutingAssembly(), true)
+						.AddEnvironmentVariables();
+
+					var connectionString = BuildDatabaseConnectionString(configBuilder);
+
+					_dbContextOptions = new DbContextOptionsBuilder<MfspContext>()
+						.UseSqlServer(connectionString)
+						.Options;
+
+					using (var context = GetContext())
+					{
+						context.Database.EnsureDeleted();
+						context.Database.Migrate();
+						context.Users.Add(new User()
+						{
+							Email = DefaultUser,
+						});
+						context.SaveChanges();
+					}
 
 					Application = new WebApplicationFactory<Startup>()
 						.WithWebHostBuilder(builder =>
 						{
-							var configPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.tests.json");
 							builder.ConfigureServices((x) =>
 							{
 								x.AddHttpClient();
@@ -51,37 +71,19 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Fixtures
 							{
 								config.AddJsonFile(configPath)
 									.AddUserSecrets(Assembly.GetExecutingAssembly(), true)
-									.AddEnvironmentVariables();
-
-								connectionString = BuildDatabaseConnectionString(config);
-
-								config.AddInMemoryCollection(new Dictionary<string, string>
-								{
-									[ConnectionStringKey] = connectionString
-								});
+									.AddEnvironmentVariables()
+									.AddInMemoryCollection(new Dictionary<string, string>
+									{
+										[ConnectionStringKey] = connectionString
+									});
 							});
 						});
 
-                    var fakeUserInfo = new UserInfo()
+					var fakeUserInfo = new UserInfo()
 						{ Name = DefaultUser, Roles = new[] { Claims.CaseWorkerRoleClaim } };
 
 					Client = CreateHttpClient(fakeUserInfo);
-
-					_dbContextOptions = new DbContextOptionsBuilder<MfspContext>()
-						.UseSqlServer(connectionString)
-						.Options;
-
-					using var context = GetContext();
-					context.Database.EnsureDeleted();
-					context.Database.Migrate();
 					_isInitialised = true;
-
-					context.Users.Add(new User()
-					{
-                        Email = DefaultUser,
-                    });
-
-					context.SaveChanges();
 				}
 			}
 		}
@@ -115,7 +117,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Fixtures
 			return result;
 		}
 
-		public MfspContext GetContext() => new MfspContext(_dbContextOptions, null);
+		public MfspContext GetContext() => new MfspContext(_dbContextOptions);
 
 		public void Dispose()
 		{
