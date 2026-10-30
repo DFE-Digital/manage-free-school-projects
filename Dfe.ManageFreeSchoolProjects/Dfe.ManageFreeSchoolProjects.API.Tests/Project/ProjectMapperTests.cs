@@ -1,6 +1,7 @@
 ﻿using System;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+using Dfe.ManageFreeSchoolProjects.API.Extensions;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
@@ -36,7 +37,85 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
 
             Assert.Equal(expectedResult, result);
         }
-        
+
+        [Theory]
+        [InlineData("Academy alternative provision sponsor led", EstablishmentType.AcademyAlternativeProvisionSponsorLed)]
+        [InlineData("Academy special sponsor led", EstablishmentType.AcademySpecialSponsorLed)]
+        [InlineData("Academy sponsor led", EstablishmentType.AcademySponsorLed)]
+        [InlineData("Community school", EstablishmentType.CommunitySchool)]
+        [InlineData("Community special school", EstablishmentType.CommunitySpecialSchool)]
+        [InlineData("Foundation school", EstablishmentType.FoundationSchool)]
+        [InlineData("Foundation special school", EstablishmentType.FoundationSpecialSchool)]
+        [InlineData("Pupil referral unit", EstablishmentType.PupilReferralUnit)]
+        [InlineData("Voluntary aided school", EstablishmentType.VoluntaryAidedSchool)]
+        [InlineData("Voluntary controlled school", EstablishmentType.VoluntaryControlledSchool)]
+        [InlineData("NotSet", EstablishmentType.NotSet)]
+        [InlineData("InvalidType", EstablishmentType.NotSet)]
+        [InlineData("", EstablishmentType.NotSet)]
+        [InlineData(null, EstablishmentType.NotSet)]
+        public void ToEstablishmentType_ReturnsExpectedEnum(string input, EstablishmentType expectedResult)
+        {
+            var result = ProjectMapper.ToEstablishmentType(input);
+
+            Assert.Equal(expectedResult, result);
+        }
+
+        [Theory]
+        [InlineData(EstablishmentType.AcademyAlternativeProvisionSponsorLed, "Academy alternative provision sponsor led")]
+        [InlineData(EstablishmentType.AcademySpecialSponsorLed, "Academy special sponsor led")]
+        [InlineData(EstablishmentType.AcademySponsorLed, "Academy sponsor led")]
+        [InlineData(EstablishmentType.CommunitySchool, "Community school")]
+        [InlineData(EstablishmentType.CommunitySpecialSchool, "Community special school")]
+        [InlineData(EstablishmentType.FoundationSchool, "Foundation school")]
+        [InlineData(EstablishmentType.FoundationSpecialSchool, "Foundation special school")]
+        [InlineData(EstablishmentType.PupilReferralUnit, "Pupil referral unit")]
+        [InlineData(EstablishmentType.VoluntaryAidedSchool, "Voluntary aided school")]
+        [InlineData(EstablishmentType.VoluntaryControlledSchool, "Voluntary controlled school")]
+        [InlineData(EstablishmentType.NotSet, "NotSet")]
+        [InlineData(null, "NotSet")]
+        public void ToEstablishmentType_ReturnsExpectedString(EstablishmentType? input, string expectedResult)
+        {
+            var result = ProjectMapper.ToEstablishmentType(input);
+
+            Assert.Equal(expectedResult, result);
+        }
+
+        /// <summary>
+        /// The establishment type is stored as free text, so whatever an update writes has to read
+        /// back as the same member or the School task would show the answer as unset.
+        /// </summary>
+        [Fact]
+        public void ToEstablishmentType_RoundTripsEveryMember()
+        {
+            foreach (var establishmentType in Enum.GetValues<EstablishmentType>())
+            {
+                var stored = ProjectMapper.ToEstablishmentType(establishmentType);
+
+                Assert.Equal(establishmentType, ProjectMapper.ToEstablishmentType(stored));
+            }
+        }
+
+        /// <summary>
+        /// The radio labels on the edit page are the enum descriptions, so the text stored against
+        /// the project has to match them, and has to fit the 100 character KPI column.
+        /// </summary>
+        [Fact]
+        public void ToEstablishmentType_StoresTheTextTheRadiosDisplay()
+        {
+            foreach (var establishmentType in Enum.GetValues<EstablishmentType>())
+            {
+                if (establishmentType == EstablishmentType.NotSet)
+                {
+                    continue;
+                }
+
+                var stored = ProjectMapper.ToEstablishmentType(establishmentType);
+
+                Assert.Equal(establishmentType.ToDescription(), stored);
+                Assert.True(stored.Length <= 100, $"'{stored}' does not fit the KPI column");
+            }
+        }
+
         [Theory]
         [InlineData("Standalone",TrustType.SingleAcademyTrust)]
         [InlineData( "MAT",TrustType.MultiAcademyTrust)]
