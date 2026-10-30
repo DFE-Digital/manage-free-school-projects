@@ -72,6 +72,80 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration.Tasks
             updatedProject.ProjectStatusPreviousFreeSchoolName.Should().Be(previousFreeSchoolName);
         }
 
+        /// <summary>
+        /// A New School project stores the school type without the historic "FS - " prefix,
+        /// and has to read its own format back.
+        /// </summary>
+        [Theory]
+        [InlineData(SchoolType.Mainstream, "Mainstream")]
+        [InlineData(SchoolType.AlternativeProvision, "AP")]
+        [InlineData(SchoolType.AlternativeProvisionPRU, "AP/PRU")]
+        [InlineData(SchoolType.Special, "Special")]
+        [InlineData(SchoolType.StudioSchool, "SS")]
+        [InlineData(SchoolType.VoluntaryAided, "VA")]
+        public async Task Patch_SchoolTask_WhenTheWaveIsNewSchool_StoresTheSchoolTypeWithoutThePrefix(
+            SchoolType schoolType, string expectedStoredSchoolType)
+        {
+            var projectId = await CreateProjectWithWave(DatabaseModelBuilder.CreateProjectWave(ProjectType.NewSchool));
+
+            var request = new UpdateProjectByTaskRequest()
+            {
+                School = new SchoolTask() { SchoolType = schoolType }
+            };
+
+            // UpdateProjectTask patches and then reads the task back, so this also proves
+            // the stored value maps back to the same enum member.
+            var projectResponse = await _client.UpdateProjectTask(projectId, request, TaskName.School.ToString());
+
+            projectResponse.School.SchoolType.Should().Be(schoolType);
+
+            using var updatedContext = _testFixture.GetContext();
+            var updatedProject = updatedContext.Kpi.First(p => p.ProjectStatusProjectId == projectId);
+
+            updatedProject.SchoolDetailsSchoolTypeMainstreamApEtc.Should().Be(expectedStoredSchoolType);
+        }
+
+        [Theory]
+        [InlineData(SchoolType.Mainstream, "FS - Mainstream")]
+        [InlineData(SchoolType.AlternativeProvision, "FS - AP")]
+        [InlineData(SchoolType.AlternativeProvisionPRU, "FS - AP/PRU")]
+        [InlineData(SchoolType.Special, "FS - Special")]
+        [InlineData(SchoolType.StudioSchool, "SS")]
+        [InlineData(SchoolType.VoluntaryAided, "VA")]
+        public async Task Patch_SchoolTask_WhenTheWaveIsNotNewSchool_KeepsThePrefixOnTheSchoolType(
+            SchoolType schoolType, string expectedStoredSchoolType)
+        {
+            var projectId = await CreateProjectWithWave(DatabaseModelBuilder.CreateProjectWave(ProjectType.PresumptionRoute));
+
+            var request = new UpdateProjectByTaskRequest()
+            {
+                School = new SchoolTask() { SchoolType = schoolType }
+            };
+
+            var projectResponse = await _client.UpdateProjectTask(projectId, request, TaskName.School.ToString());
+
+            projectResponse.School.SchoolType.Should().Be(schoolType);
+
+            using var updatedContext = _testFixture.GetContext();
+            var updatedProject = updatedContext.Kpi.First(p => p.ProjectStatusProjectId == projectId);
+
+            updatedProject.SchoolDetailsSchoolTypeMainstreamApEtc.Should().Be(expectedStoredSchoolType);
+        }
+
+        private async Task<string> CreateProjectWithWave(string applicationWave)
+        {
+            var project = DatabaseModelBuilder.BuildProject();
+            project.ProjectStatusFreeSchoolApplicationWave = applicationWave;
+
+            using var context = _testFixture.GetContext();
+            context.Kpi.Add(project);
+            context.Tasks.AddRange(TasksStub.BuildListOfTasks(project.Rid));
+
+            await context.SaveChangesAsync();
+
+            return project.ProjectStatusProjectId;
+        }
+
         [Theory]
         [InlineData(FaithStatus.Designation)]
         [InlineData(FaithStatus.Ethos)]

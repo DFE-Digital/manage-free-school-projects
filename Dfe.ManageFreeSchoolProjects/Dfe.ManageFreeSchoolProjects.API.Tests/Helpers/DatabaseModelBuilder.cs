@@ -125,7 +125,12 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Helpers
 
         public static string CreateProjectWave(ProjectType projType = ProjectType.NotSet)
         {
-            return projType == ProjectType.PresumptionRoute ? "FS - Presumption" : "Central Route";
+            return projType switch
+            {
+                ProjectType.PresumptionRoute => "FS - Presumption",
+                ProjectType.NewSchool => "New School",
+                _ => "Central Route"
+            };
         }
 
         public static RiskAppraisalMeetingTask BuildRiskAppraisalMeetingTask(string rid)

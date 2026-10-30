@@ -68,6 +68,43 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             
         }
 
+        /// <summary>
+        /// A New School project stores the school type without the historic "FS - " prefix,
+        /// so the summary has to read it back in that format.
+        /// </summary>
+        [Theory]
+        [InlineData("Mainstream", SchoolType.Mainstream)]
+        [InlineData("AP", SchoolType.AlternativeProvision)]
+        [InlineData("AP/PRU", SchoolType.AlternativeProvisionPRU)]
+        [InlineData("Special", SchoolType.Special)]
+        public async Task When_Get_NewSchoolWave_Returns_UnprefixedSchoolType_200(
+            string storedSchoolType, SchoolType expectedSchoolType)
+        {
+            var user = await CreateUser();
+
+            using var context = _testFixture.GetContext();
+            var project = DatabaseModelBuilder.BuildProject();
+
+            project.ProjectStatusFreeSchoolApplicationWave =
+                DatabaseModelBuilder.CreateProjectWave(ProjectType.NewSchool);
+            project.SchoolDetailsSchoolTypeMainstreamApEtc = storedSchoolType;
+            project.KeyContactsFsgLeadContactEmail = user.Email;
+
+            var dbUser = context.Users.First(u => u.Email == user.Email);
+            dbUser.Projects.Add(project);
+
+            await context.SaveChangesAsync();
+
+            var userDashboardResponse = await _client.GetAsync($"/api/v1/summary/project?projectManagedByEmail={user.Email}");
+            userDashboardResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = await userDashboardResponse.Content.ReadFromJsonAsync<ApiListWrapper<GetProjectSummaryResponse>>();
+
+            var summary = result.Data.Should().ContainSingle().Subject;
+
+            summary.SchoolType.Should().Be(expectedSchoolType.ToDescription());
+        }
+
         private async Task<CreateUserRequest> CreateUser()
         {
             var result = _autoFixture.Create<CreateUserRequest>();

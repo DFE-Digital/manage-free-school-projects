@@ -7,36 +7,203 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Project
 {
     public class ProjectMapperTests
     {
+        private const string NewSchoolWave = "New School";
+
+        /// <summary>
+        /// Every wave other than "New School" stores the school type with the historic
+        /// "FS - " prefix, so the mapper has to keep reading and writing it for them.
+        /// </summary>
+        private static readonly string[] WavesThatKeepThePrefix =
+        [
+            "FS - Presumption", "Central Route", "Non-Presumption", "Wave 15", string.Empty, null
+        ];
+
+        public static TheoryData<string, string, SchoolType> PrefixedStringToEnumData()
+        {
+            var data = new TheoryData<string, string, SchoolType>();
+
+            foreach (var wave in WavesThatKeepThePrefix)
+            {
+                data.Add(wave, "FS - AP", SchoolType.AlternativeProvision);
+                data.Add(wave, "FS - AP/PRU", SchoolType.AlternativeProvisionPRU);
+                data.Add(wave, "FS - Special", SchoolType.Special);
+                data.Add(wave, "FS - Mainstream", SchoolType.Mainstream);
+                data.Add(wave, "SS", SchoolType.StudioSchool);
+                data.Add(wave, "UTC", SchoolType.UniversityTechnicalCollege);
+                data.Add(wave, "FE", SchoolType.FurtherEducation);
+                data.Add(wave, "VA", SchoolType.VoluntaryAided);
+                data.Add(wave, "InvalidType", SchoolType.NotSet);
+                data.Add(wave, null, SchoolType.NotSet);
+
+                // The unprefixed names are only school types on a New School project.
+                data.Add(wave, "AP", SchoolType.NotSet);
+                data.Add(wave, "AP/PRU", SchoolType.NotSet);
+                data.Add(wave, "Special", SchoolType.NotSet);
+                data.Add(wave, "Mainstream", SchoolType.NotSet);
+            }
+
+            return data;
+        }
+
         [Theory]
-        [InlineData("FS - AP", SchoolType.AlternativeProvision)]
-        [InlineData("FS - AP/PRU", SchoolType.AlternativeProvisionPRU)]
-        [InlineData("FS - Special", SchoolType.Special)]
+        [MemberData(nameof(PrefixedStringToEnumData))]
+        public void ToSchoolType_WhenTheWaveKeepsThePrefix_ReturnsExpectedEnum(
+            string applicationWave, string input, SchoolType expectedResult)
+        {
+            var result = ProjectMapper.ToSchoolType(input, applicationWave);
+
+            Assert.Equal(expectedResult, result);
+        }
+
+        [Theory]
+        [InlineData("AP", SchoolType.AlternativeProvision)]
+        [InlineData("AP/PRU", SchoolType.AlternativeProvisionPRU)]
+        [InlineData("Special", SchoolType.Special)]
+        [InlineData("Mainstream", SchoolType.Mainstream)]
         [InlineData("SS", SchoolType.StudioSchool)]
         [InlineData("UTC", SchoolType.UniversityTechnicalCollege)]
+        [InlineData("FE", SchoolType.FurtherEducation)]
         [InlineData("VA", SchoolType.VoluntaryAided)]
         [InlineData("InvalidType", SchoolType.NotSet)]
-        public void ToSchoolType_Returns_ExpectedString(string input, SchoolType? expectedResult)
+        [InlineData(null, SchoolType.NotSet)]
+        public void ToSchoolType_WhenTheWaveIsNewSchool_ReturnsExpectedEnum(
+            string input, SchoolType expectedResult)
         {
-            var result = ProjectMapper.ToSchoolType(input);
+            var result = ProjectMapper.ToSchoolType(input, NewSchoolWave);
+
+            Assert.Equal(expectedResult, result);
+        }
+
+        /// <summary>
+        /// A New School project never stores the prefix, so a prefixed value is not a
+        /// school type it can recognise.
+        /// </summary>
+        [Theory]
+        [InlineData("FS - AP")]
+        [InlineData("FS - AP/PRU")]
+        [InlineData("FS - Special")]
+        [InlineData("FS - Mainstream")]
+        public void ToSchoolType_WhenTheWaveIsNewSchool_DoesNotRecogniseThePrefixedString(string input)
+        {
+            var result = ProjectMapper.ToSchoolType(input, NewSchoolWave);
+
+            Assert.Equal(SchoolType.NotSet, result);
+        }
+
+        public static TheoryData<string, SchoolType?, string> EnumToPrefixedStringData()
+        {
+            var data = new TheoryData<string, SchoolType?, string>();
+
+            foreach (var wave in WavesThatKeepThePrefix)
+            {
+                data.Add(wave, SchoolType.AlternativeProvision, "FS - AP");
+                data.Add(wave, SchoolType.AlternativeProvisionPRU, "FS - AP/PRU");
+                data.Add(wave, SchoolType.Special, "FS - Special");
+                data.Add(wave, SchoolType.Mainstream, "FS - Mainstream");
+                data.Add(wave, SchoolType.StudioSchool, "SS");
+                data.Add(wave, SchoolType.UniversityTechnicalCollege, "UTC");
+                data.Add(wave, SchoolType.FurtherEducation, "FE");
+                data.Add(wave, SchoolType.VoluntaryAided, "VA");
+                data.Add(wave, SchoolType.NotSet, "NotSet");
+                data.Add(wave, null, "NotSet");
+            }
+
+            return data;
+        }
+
+        [Theory]
+        [MemberData(nameof(EnumToPrefixedStringData))]
+        public void ToSchoolType_WhenTheWaveKeepsThePrefix_ReturnsExpectedString(
+            string applicationWave, SchoolType? input, string expectedResult)
+        {
+            var result = ProjectMapper.ToSchoolType(input, applicationWave);
 
             Assert.Equal(expectedResult, result);
         }
 
         [Theory]
-        [InlineData(SchoolType.AlternativeProvision, "FS - AP")]
-        [InlineData(SchoolType.AlternativeProvisionPRU, "FS - AP/PRU")]
-        [InlineData(SchoolType.Special, "FS - Special")]
+        [InlineData(SchoolType.AlternativeProvision, "AP")]
+        [InlineData(SchoolType.AlternativeProvisionPRU, "AP/PRU")]
+        [InlineData(SchoolType.Special, "Special")]
+        [InlineData(SchoolType.Mainstream, "Mainstream")]
         [InlineData(SchoolType.StudioSchool, "SS")]
         [InlineData(SchoolType.UniversityTechnicalCollege, "UTC")]
+        [InlineData(SchoolType.FurtherEducation, "FE")]
         [InlineData(SchoolType.VoluntaryAided, "VA")]
+        [InlineData(SchoolType.NotSet, "NotSet")]
         [InlineData(null, "NotSet")]
-        public void ToSchoolType_ReturnsExpectedEnum(SchoolType? input, string expectedResult)
+        public void ToSchoolType_WhenTheWaveIsNewSchool_ReturnsExpectedString(
+            SchoolType? input, string expectedResult)
         {
-            var result = ProjectMapper.ToSchoolType(input);
+            var result = ProjectMapper.ToSchoolType(input, NewSchoolWave);
 
             Assert.Equal(expectedResult, result);
         }
-        
+
+        /// <summary>
+        /// The school type is round tripped through the database as a string, so whatever
+        /// the mapper writes for a wave has to map back to the same enum member.
+        /// </summary>
+        [Theory]
+        [InlineData(SchoolType.AlternativeProvision)]
+        [InlineData(SchoolType.AlternativeProvisionPRU)]
+        [InlineData(SchoolType.Special)]
+        [InlineData(SchoolType.Mainstream)]
+        [InlineData(SchoolType.StudioSchool)]
+        [InlineData(SchoolType.UniversityTechnicalCollege)]
+        [InlineData(SchoolType.FurtherEducation)]
+        [InlineData(SchoolType.VoluntaryAided)]
+        [InlineData(SchoolType.NotSet)]
+        public void ToSchoolType_WhenTheWaveIsNewSchool_RoundTrips(SchoolType schoolType)
+        {
+            var result = ProjectMapper.ToSchoolType(
+                ProjectMapper.ToSchoolType(schoolType, NewSchoolWave), NewSchoolWave);
+
+            Assert.Equal(schoolType, result);
+        }
+
+        [Theory]
+        [MemberData(nameof(RoundTripsForWavesThatKeepThePrefixData))]
+        public void ToSchoolType_WhenTheWaveKeepsThePrefix_RoundTrips(
+            string applicationWave, SchoolType schoolType)
+        {
+            var result = ProjectMapper.ToSchoolType(
+                ProjectMapper.ToSchoolType(schoolType, applicationWave), applicationWave);
+
+            Assert.Equal(schoolType, result);
+        }
+
+        public static TheoryData<string, SchoolType> RoundTripsForWavesThatKeepThePrefixData()
+        {
+            var data = new TheoryData<string, SchoolType>();
+
+            foreach (var wave in WavesThatKeepThePrefix)
+            {
+                foreach (var schoolType in Enum.GetValues<SchoolType>())
+                {
+                    data.Add(wave, schoolType);
+                }
+            }
+
+            return data;
+        }
+
+        /// <summary>
+        /// The gate is an exact match on the wave, so a differently cased value is treated
+        /// as any other wave and keeps the prefix.
+        /// </summary>
+        [Theory]
+        [InlineData("new school")]
+        [InlineData("NEW SCHOOL")]
+        [InlineData("New School ")]
+        public void ToSchoolType_WhenTheWaveIsNotExactlyNewSchool_KeepsThePrefix(string applicationWave)
+        {
+            var result = ProjectMapper.ToSchoolType(SchoolType.Mainstream, applicationWave);
+
+            Assert.Equal("FS - Mainstream", result);
+        }
+
+
         [Theory]
         [InlineData("Standalone",TrustType.SingleAcademyTrust)]
         [InlineData( "MAT",TrustType.MultiAcademyTrust)]
