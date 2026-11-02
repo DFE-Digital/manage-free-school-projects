@@ -71,11 +71,6 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
             project.LocalAuthority = LocalAuthority;
             project.LocalAuthorityCode = project.LocalAuthorities.FirstOrDefault(x => x.Value == LocalAuthority).Key;
 
-            if (project.ReachedCheckYourAnswers)
-            {
-                project.Region = project.PreviousRegion;
-            }
-
             CreateProjectCache.Update(project);
 
             return Redirect(GetNextPage(CreateProjectPageName.LocalAuthority));
@@ -86,11 +81,6 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
             var project = CreateProjectCache.Get();
             var region = project.Region.ToDescription();
 
-            if (project.ReachedCheckYourAnswers)
-            {
-                region = project.PreviousRegion.ToDescription();
-            }
-            
             var response = await _getLocalAuthoritiesService.Execute(new List<string> { region });
 
             var authorities = new Dictionary<string, string>();
