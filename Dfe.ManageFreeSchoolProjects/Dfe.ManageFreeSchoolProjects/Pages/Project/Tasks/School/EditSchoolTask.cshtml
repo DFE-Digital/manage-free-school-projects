@@ -10,6 +10,9 @@
     var schoolTypeLabels = Model.SchoolTypes.Select(x => x.ToDescription()).ToArray();
     var schoolTypeValues = Model.SchoolTypes.Select(x => x.ToString()).ToArray();
 
+    var establishmentTypeLabels = Model.EstablishmentTypes.Select(x => x.ToDescription()).ToArray();
+    var establishmentTypeValues = Model.EstablishmentTypes.Select(x => x.ToString()).ToArray();
+
     var schoolPhases = Enum.GetValues<SchoolPhase>().Except(new[] { SchoolPhase.NotSet });
     var schoolPhaseLabels = schoolPhases.Select(x => x.ToDescription()).ToArray();
     var schoolPhaseValues = schoolPhases.Select(x => x.ToString()).ToArray();
@@ -74,6 +77,15 @@
                                             data-testid="school-type"
                                             labels="@schoolTypeLabels"
                                             values="@schoolTypeValues" />
+                    </div>
+
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-heading-m" for="establishment-type">Establishment type</label>
+                        <govuk-radios-input name="establishment-type"
+                                            asp-for="@Model.EstablishmentType"
+                                            data-testid="establishment-type"
+                                            labels="@establishmentTypeLabels"
+                                            values="@establishmentTypeValues" />
                     </div>
 
                     <div class="govuk-form-group">
