@@ -126,6 +126,43 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             createdProject.RyooWd.Should().Be("Awaiting Year");
         }
 
+        /// <summary>
+        /// A New School project stores the school type without the historic "FS - " prefix,
+        /// unlike every other wave.
+        /// </summary>
+        [Theory]
+        [InlineData(SchoolType.Mainstream, "Mainstream")]
+        [InlineData(SchoolType.AlternativeProvision, "AP")]
+        [InlineData(SchoolType.AlternativeProvisionPRU, "AP/PRU")]
+        [InlineData(SchoolType.Special, "Special")]
+        [InlineData(SchoolType.StudioSchool, "SS")]
+        [InlineData(SchoolType.VoluntaryAided, "VA")]
+        public async Task When_CreateProject_NewSchoolWave_StoresTheSchoolTypeWithoutThePrefix(
+            SchoolType schoolType, string expectedStoredSchoolType)
+        {
+            var projectDetails = _autoFixture.Create<ProjectDetails>();
+            projectDetails.ProjectType = ProjectType.NewSchool;
+            projectDetails.SchoolType = schoolType;
+            projectDetails.SchoolPhase = SchoolPhase.Primary;
+            projectDetails.Nursery = ClassType.Nursery.Yes;
+            projectDetails.ApplicationWave = DatabaseModelBuilder.CreateProjectWave(ProjectType.NewSchool);
+            projectDetails.ApplicationNumber = string.Empty;
+            projectDetails.TRN = null;
+            projectDetails.ProjectId = DatabaseModelBuilder.CreateProjectId();
+
+            var request = new CreateProjectRequest { Projects = [projectDetails] };
+
+            var response = await _client.PostAsync($"/api/v1/client/projects/create", request.ConvertToJson());
+
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            using var context = _testFixture.GetContext();
+            var createdProject = context.Kpi.Single(k => k.ProjectStatusProjectId == projectDetails.ProjectId);
+
+            createdProject.ProjectStatusFreeSchoolApplicationWave.Should().Be("New School");
+            createdProject.SchoolDetailsSchoolTypeMainstreamApEtc.Should().Be(expectedStoredSchoolType);
+        }
+
         [Fact]
         public async Task When_CreateProject_NurseryNo_Returns_CorrectTotals_201()
         {

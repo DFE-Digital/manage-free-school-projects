@@ -24,6 +24,16 @@ export class RequestBuilder {
         return { ...this.createNewProjectDetails(), applicationWave: 'Other Wave' };
     }
 
+    public static createProjectDetailsNewSchool(): ProjectDetailsRequest {
+        return {
+            ...this.createNewProjectDetails(),
+            applicationWave: 'New School',
+            projectType: ProjectType.NewSchool,
+            // A New School project is run by a local authority, so it has no trust.
+            TRN: '',
+        };
+    }
+
     public static createProjectDetailsCentralRoute(): ProjectDetailsRequest {
         return {
             ...this.createNewProjectDetails(),

@@ -220,7 +220,7 @@ Kpi kpi)
     {
         var parameters = new ApplicationsEvidenceTaskSummaryBuilderParameters()
         {
-            SchoolType = ProjectMapper.ToSchoolType(kpi.SchoolDetailsSchoolTypeMainstreamApEtc),
+            SchoolType = ProjectMapper.ToSchoolType(kpi.SchoolDetailsSchoolTypeMainstreamApEtc, kpi.ProjectStatusFreeSchoolApplicationWave),
             TaskSummary = taskSummaryResponse
         };
 

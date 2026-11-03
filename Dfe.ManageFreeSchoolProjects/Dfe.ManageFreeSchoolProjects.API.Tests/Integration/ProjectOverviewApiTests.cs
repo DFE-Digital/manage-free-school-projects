@@ -111,6 +111,37 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             pupilNumbers.AcceptedOffers.Should().Be(581);
         }
 
+        /// <summary>
+        /// A New School project stores the school type without the historic "FS - " prefix,
+        /// so the overview has to read it back in that format.
+        /// </summary>
+        [Theory]
+        [InlineData("Mainstream", SchoolType.Mainstream)]
+        [InlineData("AP", SchoolType.AlternativeProvision)]
+        [InlineData("AP/PRU", SchoolType.AlternativeProvisionPRU)]
+        [InlineData("Special", SchoolType.Special)]
+        public async Task When_Get_NewSchoolWave_Returns_UnprefixedSchoolType_200(
+            string storedSchoolType, SchoolType expectedSchoolType)
+        {
+            using var context = _testFixture.GetContext();
+
+            var project = DatabaseModelBuilder.BuildProject();
+            project.ProjectStatusFreeSchoolApplicationWave =
+                DatabaseModelBuilder.CreateProjectWave(ProjectType.NewSchool);
+            project.SchoolDetailsSchoolTypeMainstreamApEtc = storedSchoolType;
+
+            context.Kpi.Add(project);
+            await context.SaveChangesAsync();
+
+            var overviewResponse = await _client.GetAsync($"/api/v1/client/projects/{project.ProjectStatusProjectId}/overview");
+            overviewResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var result = await overviewResponse.Content.ReadFromJsonAsync<ApiSingleResponseV2<ProjectOverviewResponse>>();
+
+            result.Data.ProjectType.Should().Be("New School");
+            result.Data.SchoolDetails.SchoolType.Should().Be(expectedSchoolType);
+        }
+
         [Fact]
         public async Task When_Get_MandatoryFieldsSet_Returns_200()
         {
