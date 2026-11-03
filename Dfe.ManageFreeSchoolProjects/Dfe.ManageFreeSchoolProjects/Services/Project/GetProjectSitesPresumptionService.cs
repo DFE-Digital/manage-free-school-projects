@@ -6,7 +6,7 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Project
 {
     public interface IGetProjectSitesPresumptionService
     {
-        public Task<GetProjectSitesPresumptionResponse> Execute(string projectId);
+        public Task<GetProjectSitesResponse> Execute(string projectId);
     }
 
     public class GetProjectSitesPresumptionService : IGetProjectSitesPresumptionService
@@ -18,11 +18,11 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Project
             _apiClient = apiClient;
         }
 
-        public async Task<GetProjectSitesPresumptionResponse> Execute(string projectId)
+        public async Task<GetProjectSitesResponse> Execute(string projectId)
         {
             var endpoint = $"/api/v1/client/projects/{projectId}/sites/presumption";
 
-            var result = await _apiClient.Get<ApiSingleResponseV2<GetProjectSitesPresumptionResponse>>(endpoint);
+            var result = await _apiClient.Get<ApiSingleResponseV2<GetProjectSitesResponse>>(endpoint);
 
             return result.Data;
         }

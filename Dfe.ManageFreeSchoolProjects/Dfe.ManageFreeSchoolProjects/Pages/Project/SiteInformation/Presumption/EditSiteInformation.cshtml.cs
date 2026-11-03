@@ -105,7 +105,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
 
             ProjectType = sites.ProjectType;
 
-            var updateRequest = new UpdateProjectSitePresumptionRequest
+            var updateRequest = new UpdateProjectSiteRequest
             {
                 Address = new ProjectSiteAddress
                 {
@@ -130,7 +130,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
         /// <param name="sites"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        private ProjectSite GetProjectSite(GetProjectSitesPresumptionResponse sites)
+        private ProjectSite GetProjectSite(GetProjectSitesResponse sites)
         {
             if (SiteType == ProjectSiteType.Permanent)
             {

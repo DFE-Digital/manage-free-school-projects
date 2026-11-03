@@ -1,4 +1,5 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.UseCases;
+﻿using Dfe.ManageFreeSchoolProjects.API.Diagnostics;
+using Dfe.ManageFreeSchoolProjects.API.UseCases;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.BulkEdit;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Constituency;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Construct;
@@ -14,6 +15,7 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.PupilNumbers;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Risk;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites;
+using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites.NewSchool;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.AdmissionsArrangements;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.ApplicationsEvidence;
@@ -67,7 +69,6 @@ using Dfe.ManageFreeSchoolProjects.Logging;
 using Dfe.ManageFreeSchoolProjects.UserContext;
 using FluentValidation;
 using System.Reflection;
-using Dfe.ManageFreeSchoolProjects.API.Diagnostics;
 
 namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 {
@@ -158,7 +159,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
 			services.AddScoped<ISfaApiKeyValidationService, SfaApiKeyValidationService>();
 			services.AddScoped<IGetProjectSitesCentralService, GetProjectSitesCentralService>();
             services.AddScoped<IGetProjectSitesPresumptionService, GetProjectSitesPresumptionService>();
-            services.AddScoped<IUpdateProjectSitePresumptionService, UpdateProjectSitePresumptionService>();
+            services.AddScoped<IGetProjectSitesNewSchoolService, GetProjectSitesNewSchoolService>();
+            services.AddScoped<IUpdateProjectSiteService, UpdateProjectSiteService>();
             services.AddScoped<IGetPupilNumbersService, GetPupilNumbersService>();
 			services.AddScoped<IUpdatePupilNumbersService, UpdatePupilNumbersService>();
 			services.AddScoped<IUpdateCapacityWhenFullService, UpdateCapacityWhenFullService>();

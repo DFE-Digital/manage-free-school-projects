@@ -1,6 +1,6 @@
 ﻿namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites;
 
-public class GetProjectSitesPresumptionResponse
+public class GetProjectSitesResponse
 {
     public ProjectSite PermanentSite { get; set; } = new();
     public ProjectSite TemporarySite { get; set; } = new();

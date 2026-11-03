@@ -24,7 +24,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
 
         public string ProjectType { get; set; }
 
-        public GetProjectSitesPresumptionResponse SiteInformation { get; set; }
+        public GetProjectSitesResponse SiteInformation { get; set; }
 
         public ViewSiteInformationModel(
             IGetProjectSitesPresumptionService getProjectSitesPresumptionService,
