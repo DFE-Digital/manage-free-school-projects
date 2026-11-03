@@ -8,8 +8,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites
 {
     public interface IGetProjectSitesPresumptionService
     {
-        public Task<GetProjectSitesPresumptionResponse> Execute(string projectId);
-        public Task<GetProjectSitesPresumptionResponse> Execute(Kpi project);
+        public Task<GetProjectSitesResponse> Execute(string projectId);
+        public Task<GetProjectSitesResponse> Execute(Kpi project);
     }
 
     public class GetProjectSitesPresumptionService : IGetProjectSitesPresumptionService
@@ -21,7 +21,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites
             _context = context;
         }
 
-        public async Task<GetProjectSitesPresumptionResponse> Execute(string projectId)
+        public async Task<GetProjectSitesResponse> Execute(string projectId)
         {
             var dbProject = await _context.Kpi.FirstOrDefaultAsync(x => x.ProjectStatusProjectId == projectId);
 
@@ -33,7 +33,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites
             return await Execute(dbProject);
         }
 
-        public async Task<GetProjectSitesPresumptionResponse> Execute(Kpi project)
+        public async Task<GetProjectSitesResponse> Execute(Kpi project)
         {
             var sites = await _context.Property
                 .Where(p => p.PRid == project.Rid).ToListAsync();
@@ -46,7 +46,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites
                    ? "Presumption"
                    : "Central Route";
 
-            var result = new GetProjectSitesPresumptionResponse()
+            var result = new GetProjectSitesResponse()
             {
                 PermanentSite = MapToSite(permanentSite),
                 TemporarySite = MapToSite(temporarySite),

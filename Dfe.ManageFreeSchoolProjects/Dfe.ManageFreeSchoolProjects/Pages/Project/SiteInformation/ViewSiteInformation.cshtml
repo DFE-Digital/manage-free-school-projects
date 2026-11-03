@@ -1,17 +1,18 @@
-﻿@page "/projects/{projectId}/site-information/presumption"
+﻿@page "/projects/{projectId}/site-information/{wave:regex(^(presumption|newschool)$)}"
+
 @using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites
 @using Dfe.ManageFreeSchoolProjects.Constants
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption.ViewSiteInformationModel
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.ViewSiteInformationModel
 @{
     var projectStatusViewModel = new ProjectStatusViewModel()
-            {
-                ProjectId = @Model.ProjectId,
-                ProjectStatus = @Model.ProjectStatus,
-                Referrer = Referrer.ProjectOverview
-            };
+    {
+        ProjectId = @Model.ProjectId,
+        ProjectStatus = @Model.ProjectStatus,
+        Referrer = Referrer.ProjectOverview
+    };
 
-    var editPermanentSite = string.Format(RouteConstants.EditPermanentSiteInformation, Model.ProjectId);
-    var editTemporarySite = string.Format(RouteConstants.EditTemporarySiteInformation, Model.ProjectId);
+    var editPermanentSite = string.Format(RouteConstants.EditPermanentSiteInformation, Model.ProjectId, Model.Wave);
+    var editTemporarySite = string.Format(RouteConstants.EditTemporarySiteInformation, Model.ProjectId, Model.Wave);
 
     ViewData["Title"] = $"Site information - {Model.SiteInformation.SchoolName}";
     ViewData["WidePage"] = true;
