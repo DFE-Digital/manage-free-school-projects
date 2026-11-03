@@ -71,11 +71,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
 
             var response = await _getProjectSitesNewSchoolService.Execute(projectId);
 
-            if (response == null)
-            {
-                response = new GetProjectSitesResponse();
-            }
-
             return new ObjectResult(new ApiSingleResponseV2<GetProjectSitesResponse>(response))
             { StatusCode = StatusCodes.Status200OK };
         }
