@@ -27,6 +27,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
         {
             _getProjectSitesCentralService = getProjectSitesCentralService;
             _getProjectSitesPresumptionService = getProjectSitesPresumptionService;
+            _getProjectSitesNewSchoolService = getProjectSitesNewSchoolService;
             _updateProjectSiteService = updateProjectSiteService;
             _logger = logger;
         }
@@ -79,8 +80,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
             { StatusCode = StatusCodes.Status200OK };
         }
 
-        [HttpPatch("presumption/{siteType}")]
-        [HttpPatch("new-school/{siteType}")]
+        [HttpPatch("{siteType}")]
         public async Task<ActionResult<ApiSingleResponseV2<object>>> PatchProjectSite(string projectId, ProjectSiteType siteType, UpdateProjectSiteRequest request)
         {
             _logger.LogMethodEntered();

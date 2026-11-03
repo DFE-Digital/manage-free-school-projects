@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Threading.Tasks;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation
 {
     [HtmlTargetElement("govuk-site-details", TagStructure = TagStructure.NormalOrSelfClosing)]
     public class SiteDetailsTagHelper : TagHelper

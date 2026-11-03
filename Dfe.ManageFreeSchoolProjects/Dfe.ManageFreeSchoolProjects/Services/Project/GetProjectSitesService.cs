@@ -1,26 +1,27 @@
 ﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Sites;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.ResponseModels;
+using Dfe.ManageFreeSchoolProjects.Constants;
 using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Services.Project
 {
-    public interface IGetProjectSitesPresumptionService
+    public interface IGetProjectSitesService
     {
-        public Task<GetProjectSitesResponse> Execute(string projectId);
+        public Task<GetProjectSitesResponse> Execute(string projectId, string wave);
     }
 
-    public class GetProjectSitesPresumptionService : IGetProjectSitesPresumptionService
+    public class GetProjectSitesService : IGetProjectSitesService
     {
         private readonly MfspApiClient _apiClient;
 
-        public GetProjectSitesPresumptionService(MfspApiClient apiClient)
+        public GetProjectSitesService(MfspApiClient apiClient)
         {
             _apiClient = apiClient;
         }
 
-        public async Task<GetProjectSitesResponse> Execute(string projectId)
+        public async Task<GetProjectSitesResponse> Execute(string projectId, string wave)
         {
-            var endpoint = $"/api/v1/client/projects/{projectId}/sites/presumption";
+            var endpoint = $"/api/v1/client/projects/{projectId}/sites/{SiteInformationWave.ToApiSegment(wave)}";
 
             var result = await _apiClient.Get<ApiSingleResponseV2<GetProjectSitesResponse>>(endpoint);
 

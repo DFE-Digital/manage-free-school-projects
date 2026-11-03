@@ -156,11 +156,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             await context.SaveChangesAsync();
 
             var updatePermanentSiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
-            var updatePermanentSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/presumption/permanent", updatePermanentSiteRequest.ConvertToJson());
+            var updatePermanentSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/permanent", updatePermanentSiteRequest.ConvertToJson());
             updatePermanentSiteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var updateTemporarySiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
-            var updateTemporarySiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/presumption/temporary", updateTemporarySiteRequest.ConvertToJson());
+            var updateTemporarySiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/temporary", updateTemporarySiteRequest.ConvertToJson());
             updateTemporarySiteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var getProjectSitesResponse = await _client.GetAsync($"/api/v1/client/projects/{projectId}/sites/presumption");
@@ -193,11 +193,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             await SetSites(projectId);
 
             var updatePermanentSiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
-            var updatePermanentSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/presumption/permanent", updatePermanentSiteRequest.ConvertToJson());
+            var updatePermanentSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/permanent", updatePermanentSiteRequest.ConvertToJson());
             updatePermanentSiteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var updateTemporarySiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
-            var updateTemporarySiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/presumption/temporary", updateTemporarySiteRequest.ConvertToJson());
+            var updateTemporarySiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/temporary", updateTemporarySiteRequest.ConvertToJson());
             updateTemporarySiteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var getProjectSitesResponse = await _client.GetAsync($"/api/v1/client/projects/{projectId}/sites/presumption");
@@ -252,7 +252,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             var projectId = Guid.NewGuid().ToString();
             var updateSiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
 
-            var updateSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/presumption/permanent", updateSiteRequest.ConvertToJson());
+            var updateSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/permanent", updateSiteRequest.ConvertToJson());
             updateSiteResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
@@ -267,18 +267,100 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.Integration
             context.Kpi.Add(project);
             await context.SaveChangesAsync();
 
-            var updateSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/presumption/invalid", updateSiteRequest.ConvertToJson());
+            var updateSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/invalid", updateSiteRequest.ConvertToJson());
             updateSiteResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Fact]
+        public async Task When_SitesExistNewSchool_Returns_200()
+        {
+            var project = DatabaseModelBuilder.BuildProject();
+            var projectId = project.ProjectStatusProjectId;
+
+            project.ProjectStatusFreeSchoolApplicationWave = DatabaseModelBuilder.CreateProjectWave(ProjectType.NewSchool);
+
+            using var context = _testFixture.GetContext();
+            context.Kpi.Add(project);
+            await context.SaveChangesAsync();
+
+            await SetSites(projectId);
+
+            var updatePermanentSiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
+            var updatePermanentSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/permanent", updatePermanentSiteRequest.ConvertToJson());
+            updatePermanentSiteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var updateTemporarySiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
+            var updateTemporarySiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/temporary", updateTemporarySiteRequest.ConvertToJson());
+            updateTemporarySiteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var getProjectSitesResponse = await _client.GetAsync($"/api/v1/client/projects/{projectId}/sites/new-school");
+            getProjectSitesResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = await getProjectSitesResponse.Content.ReadFromJsonAsync<ApiSingleResponseV2<GetProjectSitesResponse>>();
+
+            AssertionHelper.AssertProjectSite(content.Data.PermanentSite, updatePermanentSiteRequest);
+            AssertionHelper.AssertProjectSite(content.Data.TemporarySite, updateTemporarySiteRequest);
+
+            content.Data.SchoolName.Should().Be(project.ProjectStatusCurrentFreeSchoolName);
+            content.Data.ProjectType.Should().Be("New School");
+        }
+
+        [Fact]
+        public async Task When_SiteNotConfiguredNewSchool_Returns_200()
+        {
+            var project = DatabaseModelBuilder.BuildProject();
+            var projectId = project.ProjectStatusProjectId;
+
+            project.ProjectStatusFreeSchoolApplicationWave = DatabaseModelBuilder.CreateProjectWave(ProjectType.NewSchool);
+
+            using var context = _testFixture.GetContext();
+            context.Kpi.Add(project);
+            await context.SaveChangesAsync();
+
+            var getProjectSitesResponse = await _client.GetAsync($"/api/v1/client/projects/{projectId}/sites/new-school");
+            getProjectSitesResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var content = await getProjectSitesResponse.Content.ReadFromJsonAsync<ApiSingleResponseV2<GetProjectSitesResponse>>();
+
+            AssertBlankSite(content.Data.PermanentSite);
+            AssertBlankSite(content.Data.TemporarySite);
+
+            content.Data.ProjectType.Should().Be("New School");
+        }
+
+        [Fact]
+        public async Task When_Get_ProjectIsNotNewSchool_NewSchool_Returns_404()
+        {
+            var project = DatabaseModelBuilder.BuildProject();
+            var projectId = project.ProjectStatusProjectId;
+
+            project.ProjectStatusFreeSchoolApplicationWave = DatabaseModelBuilder.CreateProjectWave(ProjectType.PresumptionRoute);
+
+            using var context = _testFixture.GetContext();
+            context.Kpi.Add(project);
+            await context.SaveChangesAsync();
+
+            var getProjectSitesResponse = await _client.GetAsync($"/api/v1/client/projects/{projectId}/sites/new-school");
+            getProjectSitesResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task When_Get_ProjectDoesNotExistNewSchool_Returns_404()
+        {
+            var projectId = Guid.NewGuid().ToString();
+
+            var getProjectSitesResponse = await _client.GetAsync($"/api/v1/client/projects/{projectId}/sites/new-school");
+            getProjectSitesResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         private async Task SetSites(string projectId)
         {
             var setPermanentSiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
-            var setPermanentSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/presumption/permanent", setPermanentSiteRequest.ConvertToJson());
+            var setPermanentSiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/permanent", setPermanentSiteRequest.ConvertToJson());
             setPermanentSiteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var setTemporarySiteRequest = _autoFixture.Create<UpdateProjectSiteRequest>();
-            var setTemporarySiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/presumption/temporary", setTemporarySiteRequest.ConvertToJson());
+            var setTemporarySiteResponse = await _client.PatchAsync($"/api/v1/client/projects/{projectId}/sites/temporary", setTemporarySiteRequest.ConvertToJson());
             setTemporarySiteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
