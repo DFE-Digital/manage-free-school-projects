@@ -45,6 +45,9 @@ describe('Testing project overview', () => {
             .summaryShows('School type')
             .IsEmpty()
             .HasChangeLink()
+            .summaryShows('Establishment type')
+            .IsEmpty()
+            .HasChangeLink()
             .summaryShows('School phase')
             .IsEmpty()
             .HasChangeLink()
@@ -87,6 +90,7 @@ describe('Testing project overview', () => {
             .hasValidationError('Enter the age range')
             .hasValidationError('Enter the sixth form')
             .hasValidationError('Enter the school type')
+            .hasValidationError('Enter the establishment type')
             .hasValidationError('Enter the faith status')
             .hasValidationError('Enter the school phase')
             .hasValidationError('Enter whether it is residential or boarding');
@@ -106,6 +110,7 @@ describe('Testing project overview', () => {
             .titleIs('Edit School')
             .withSchoolName(updatedSchoolName)
             .withSchoolType('Mainstream')
+            .withEstablishmentType('AcademySponsorLed')
             .withSchoolPhase('AllThrough')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')
@@ -126,6 +131,8 @@ describe('Testing project overview', () => {
             .HasValue(updatedSchoolName)
             .summaryShows('School type')
             .HasValue('Mainstream')
+            .summaryShows('Establishment type')
+            .HasValue('Academy sponsor led')
             .summaryShows('School phase')
             .HasValue('All-through')
             .summaryShows('Age range')
@@ -154,6 +161,7 @@ describe('Testing project overview', () => {
         Logger.log('When special is selected alternative provision and special educational needs are not displayed');
         schoolDetailsPage
             .withSchoolType('Special')
+            .withEstablishmentType('CommunitySpecialSchool')
             .withSchoolPhase('Primary')
             .withAgeRange('5', '11')
             .withFormsOfEntry('10')
@@ -174,6 +182,8 @@ describe('Testing project overview', () => {
             .HasValue(updatedSchoolName)
             .summaryShows('School type')
             .HasValue('Special')
+            .summaryShows('Establishment type')
+            .HasValue('Community special school')
             .summaryShows('School phase')
             .HasValue('Primary')
             .summaryShows('Age range')
@@ -247,6 +257,7 @@ describe('Testing project overview', () => {
 
         schoolDetailsPage
             .withSchoolType('Mainstream')
+            .withEstablishmentType('AcademySponsorLed')
             .withSchoolPhase('AllThrough')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')
@@ -275,6 +286,7 @@ describe('Testing project overview', () => {
 
         schoolDetailsPage
             .withSchoolType('Mainstream')
+            .withEstablishmentType('AcademySponsorLed')
             .withSchoolPhase('AllThrough')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')
@@ -297,6 +309,7 @@ describe('Testing project overview', () => {
 
         schoolDetailsPage
             .withSchoolType('VoluntaryAided')
+            .withEstablishmentType('VoluntaryAidedSchool')
             .withSchoolPhase('AllThrough')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')

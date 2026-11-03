@@ -721,6 +721,10 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Configuration.Existing
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("School Details.Employer sponsors - UTCs/SS only");
+            builder.Property(e => e.SchoolDetailsEstablishmentType)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("School Details.Establishment Type");
             builder.Property(e => e.SchoolDetailsFaithStatus)
                 .HasMaxLength(100)
                 .IsUnicode(false)

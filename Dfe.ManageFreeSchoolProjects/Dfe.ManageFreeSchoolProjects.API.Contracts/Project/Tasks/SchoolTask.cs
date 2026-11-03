@@ -6,6 +6,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
     {
         public string CurrentFreeSchoolName { get; set; }
         public SchoolType SchoolType { get; set; }
+        public EstablishmentType EstablishmentType { get; set; }
         public SchoolPhase SchoolPhase { get; set; }
         public string AgeRange { get; set; }
         public ClassType.Nursery Nursery { get; set; }

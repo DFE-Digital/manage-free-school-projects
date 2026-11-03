@@ -4763,6 +4763,12 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("School Details.Employer sponsors - UTCs/SS only");
 
+                    b.Property<string>("SchoolDetailsEstablishmentType")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("School Details.Establishment Type");
+
                     b.Property<string>("SchoolDetailsFaithStatus")
                         .HasMaxLength(100)
                         .IsUnicode(false)

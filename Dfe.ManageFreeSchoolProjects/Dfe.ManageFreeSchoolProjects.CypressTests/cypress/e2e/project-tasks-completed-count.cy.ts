@@ -83,6 +83,7 @@ describe('Testing the tasks completed count', () => {
         schoolDetailsPage
             .titleIs('Edit School')
             .withSchoolType('AlternativeProvision')
+            .withEstablishmentType('AcademyAlternativeProvisionSponsorLed')
             .withSchoolPhase('Secondary')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')
