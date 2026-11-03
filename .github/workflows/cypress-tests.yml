@@ -229,7 +229,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Download all test results
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           pattern: test-results-*
           path: ${{ env.WORKING_DIRECTORY }}/cypress/reports/mocha
@@ -281,7 +281,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: Download test results
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           pattern: test-results-smoke
           path: ${{ env.WORKING_DIRECTORY }}/cypress/reports/mocha
