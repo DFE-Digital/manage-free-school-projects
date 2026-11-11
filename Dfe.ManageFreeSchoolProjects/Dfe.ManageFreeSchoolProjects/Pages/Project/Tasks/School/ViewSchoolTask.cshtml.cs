@@ -5,6 +5,7 @@ using Dfe.ManageFreeSchoolProjects.Services.Project;
 using Dfe.ManageFreeSchoolProjects.Services.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
@@ -12,21 +13,36 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
     public class ViewSchoolTask : ViewTaskBaseModel
     {
         private readonly ILogger<ViewSchoolTask> _logger;
+        private readonly IGetProjectOverviewService _getProjectOverviewService;
 
         public ViewSchoolTask(
             IGetProjectByTaskService getProjectService,
+            IGetProjectOverviewService getProjectOverviewService,
             ILogger<ViewSchoolTask> logger,
             IGetTaskStatusService getTaskStatusService, 
             IUpdateTaskStatusService updateTaskStatusService) : base(getProjectService, getTaskStatusService, updateTaskStatusService)
         {
             _logger = logger;
+            _getProjectOverviewService = getProjectOverviewService;
         }
+
+        public string ProjectType { get; set; }
 
         public async Task<ActionResult> OnGet()
         {
             _logger.LogMethodEntered();
 
             await GetTask(TaskName.School);
+
+            try
+            {
+                var projectOverview = await _getProjectOverviewService.Execute(ProjectId);
+                ProjectType = projectOverview.ProjectType;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogErrorMsg(ex);
+            }
 
             return Page();
         }
