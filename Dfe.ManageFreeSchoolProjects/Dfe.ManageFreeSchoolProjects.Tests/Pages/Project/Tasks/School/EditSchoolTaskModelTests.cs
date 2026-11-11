@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 
 namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
 {
@@ -21,6 +22,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
         private const string ProjectId = "FS-1";
 
         private readonly IGetProjectByTaskService _getProjectService = Substitute.For<IGetProjectByTaskService>();
+        private readonly IGetProjectOverviewService _getProjectOverviewService = Substitute.For<IGetProjectOverviewService>();
         private readonly IUpdateProjectByTaskService _updateProjectTaskService = Substitute.For<IUpdateProjectByTaskService>();
 
         private UpdateProjectByTaskRequest? _capturedRequest;
@@ -30,6 +32,53 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
             _updateProjectTaskService
                 .When(service => service.Execute(Arg.Any<string>(), Arg.Any<UpdateProjectByTaskRequest>()))
                 .Do(call => _capturedRequest = call.Arg<UpdateProjectByTaskRequest>());
+
+            ReturnsProjectType("New School");
+        }
+
+        /// <summary>
+        /// The view only asks for the establishment type on a new school, so the page has to expose
+        /// the project type it got from the overview.
+        /// </summary>
+        [Theory]
+        [InlineData("New School")]
+        [InlineData("Presumption")]
+        [InlineData("Central Route")]
+        public async Task OnGet_SetsTheProjectTypeFromTheProjectOverview(string projectType)
+        {
+            ReturnsSchoolTask(new SchoolTask { SchoolType = SchoolType.Mainstream });
+            ReturnsProjectType(projectType);
+            var model = BuildModel();
+
+            var result = await model.OnGet();
+
+            result.Should().BeOfType<PageResult>();
+            model.ProjectType.Should().Be(projectType);
+            await _getProjectOverviewService.Received(1).Execute(ProjectId);
+        }
+
+        /// <summary>
+        /// The project type only decides whether the establishment type is asked, so a failed
+        /// overview lookup still shows the rest of the school task.
+        /// </summary>
+        [Fact]
+        public async Task OnGet_WhenTheOverviewCannotBeFetched_StillLoadsTheSchoolTask()
+        {
+            ReturnsSchoolTask(new SchoolTask
+            {
+                CurrentFreeSchoolName = "Test High School",
+                SchoolType = SchoolType.Mainstream
+            });
+            _getProjectOverviewService.Execute(Arg.Any<string>())
+                .ThrowsAsync(new InvalidOperationException("API down"));
+            var model = BuildModel();
+
+            var result = await model.OnGet();
+
+            result.Should().BeOfType<PageResult>();
+            model.ProjectType.Should().BeNull();
+            model.CurrentFreeSchoolName.Should().Be("Test High School");
+            model.SchoolType.Should().Be(SchoolType.Mainstream);
         }
 
         [Fact]
@@ -83,11 +132,11 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
         }
 
         /// <summary>
-        /// A radio group with nothing selected posts no value at all, so the Required attribute on
-        /// the non nullable enum is satisfied by NotSet and the page has to reject it itself.
+        /// The establishment type is optional, so leaving the radios unanswered still saves the
+        /// task, with NotSet sent for the establishment type.
         /// </summary>
         [Fact]
-        public async Task OnPost_WithNoEstablishmentTypeSelected_DoesNotSave()
+        public async Task OnPost_WithNoEstablishmentTypeSelected_StillSaves()
         {
             var model = BuildModel();
             SetValidAnswers(model);
@@ -95,10 +144,10 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
 
             var result = await model.OnPost();
 
-            result.Should().BeOfType<PageResult>();
-            model.ModelState["establishment-type"]!.Errors.Should().ContainSingle()
-                .Which.ErrorMessage.Should().Be("Enter the establishment type");
-            await _updateProjectTaskService.DidNotReceiveWithAnyArgs().Execute(default, default);
+            result.Should().BeOfType<RedirectResult>()
+                .Which.Url.Should().Be(string.Format(RouteConstants.ViewSchoolTask, ProjectId));
+            model.ModelState.ContainsKey("establishment-type").Should().BeFalse();
+            _capturedRequest!.School.EstablishmentType.Should().Be(EstablishmentType.NotSet);
         }
 
         [Fact]
@@ -114,6 +163,52 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
             result.Should().BeOfType<PageResult>();
             model.EstablishmentType.Should().Be(EstablishmentType.CommunitySchool);
             await _updateProjectTaskService.DidNotReceiveWithAnyArgs().Execute(default, default);
+        }
+
+        /// <summary>
+        /// The project type is not posted, so without fetching it again a new school would lose
+        /// the establishment type radios, and the answer with them, whenever validation fails.
+        /// </summary>
+        [Fact]
+        public async Task OnPost_WhenValidationFails_FetchesTheProjectTypeSoTheEstablishmentTypeIsRedisplayed()
+        {
+            var model = BuildModel();
+            SetValidAnswers(model);
+            model.ModelState.AddModelError("school-type", "Enter the school type");
+
+            await model.OnPost();
+
+            model.ProjectType.Should().Be("New School");
+            await _getProjectOverviewService.Received(1).Execute(ProjectId);
+        }
+
+        [Fact]
+        public async Task OnPost_WhenValid_DoesNotFetchTheProjectType()
+        {
+            var model = BuildModel();
+            SetValidAnswers(model);
+
+            await model.OnPost();
+
+            await _getProjectOverviewService.DidNotReceiveWithAnyArgs().Execute(default!);
+        }
+
+        /// <summary>
+        /// Projects that are not new schools are never asked the question, so nothing is posted for
+        /// it and the task is saved with the establishment type unset.
+        /// </summary>
+        [Fact]
+        public async Task OnPost_ForAProjectThatIsNotANewSchool_SavesWithoutAnEstablishmentType()
+        {
+            ReturnsProjectType("Presumption");
+            var model = BuildModel();
+            SetValidAnswers(model);
+            model.EstablishmentType = default;
+
+            var result = await model.OnPost();
+
+            result.Should().BeOfType<RedirectResult>();
+            _capturedRequest!.School.EstablishmentType.Should().Be(EstablishmentType.NotSet);
         }
 
         /// <summary>
@@ -143,6 +238,12 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
                 establishmentType.ToDescriptionOrEmpty()
                     .Should().NotBeEmpty($"{establishmentType} needs a description to label its radio");
             }
+        }
+
+        private void ReturnsProjectType(string projectType)
+        {
+            _getProjectOverviewService.Execute(Arg.Any<string>())
+                .Returns(new ProjectOverviewResponse { ProjectType = projectType });
         }
 
         private void ReturnsSchoolTask(SchoolTask school)
@@ -176,6 +277,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Tasks.School
         {
             return new EditSchoolTaskModel(
                 _getProjectService,
+                _getProjectOverviewService,
                 _updateProjectTaskService,
                 Substitute.For<ILogger<EditSchoolTaskModel>>(),
                 new ErrorService())

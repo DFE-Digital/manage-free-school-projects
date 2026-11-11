@@ -79,14 +79,17 @@
                                             values="@schoolTypeValues" />
                     </div>
 
-                    <div class="govuk-form-group">
-                        <label class="govuk-label govuk-heading-m" for="establishment-type">Establishment type</label>
-                        <govuk-radios-input name="establishment-type"
-                                            asp-for="@Model.EstablishmentType"
-                                            data-testid="establishment-type"
-                                            labels="@establishmentTypeLabels"
-                                            values="@establishmentTypeValues" />
-                    </div>
+                    @if (Model.ProjectType == "New School")
+                    {
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-heading-m" for="establishment-type">Establishment type</label>
+                            <govuk-radios-input name="establishment-type"
+                                                asp-for="@Model.EstablishmentType"
+                                                data-testid="establishment-type"
+                                                labels="@establishmentTypeLabels"
+                                                values="@establishmentTypeValues" />
+                        </div>
+                    }
 
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-heading-m" for="school-phase">School phase</label>

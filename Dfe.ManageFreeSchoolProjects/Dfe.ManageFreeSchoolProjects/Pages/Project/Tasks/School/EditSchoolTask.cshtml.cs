@@ -22,6 +22,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
     public class EditSchoolTaskModel : PageModel
     {
         private readonly IGetProjectByTaskService _getProjectService;
+        private readonly IGetProjectOverviewService _getProjectOverviewService;
         private readonly IUpdateProjectByTaskService _updateProjectTaskService;
         private readonly ILogger<EditSchoolTaskModel> _logger;
         private readonly ErrorService _errorService;
@@ -42,7 +43,6 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
 
         [BindProperty(Name = "establishment-type")]
         [Display(Name = "Establishment type")]
-        [Required(ErrorMessage = "Enter the establishment type")]
         public EstablishmentType EstablishmentType { get; set; }
 
         [BindProperty(Name = "school-phase")]
@@ -100,18 +100,22 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
         [BindProperty(Name = "other-faith-type")]
         [Display(Name = "Other faith type")]
         public string OtherFaithType { get; set; }
-        
+
+        public string ProjectType { get; set; }
+
         public IEnumerable<SchoolType> SchoolTypes { get; set; } = Enum.GetValues<SchoolType>().Except(new[] { SchoolType.NotSet });
 
         public IEnumerable<EstablishmentType> EstablishmentTypes { get; set; } = Enum.GetValues<EstablishmentType>().Except(new[] { EstablishmentType.NotSet });
 
         public EditSchoolTaskModel(
             IGetProjectByTaskService getProjectService,
+            IGetProjectOverviewService getProjectOverviewService,
             IUpdateProjectByTaskService updateProjectTaskService,
             ILogger<EditSchoolTaskModel> logger,
             ErrorService errorService)
         {
             _getProjectService = getProjectService;
+            _getProjectOverviewService = getProjectOverviewService;
             _updateProjectTaskService = updateProjectTaskService;
             _logger = logger;
             _errorService = errorService;
@@ -145,6 +149,8 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
                 SchoolType = project.School.SchoolType;
                 EstablishmentType = project.School.EstablishmentType;
 
+                await LoadProjectType();
+
                 if (!string.IsNullOrEmpty(project.School.AgeRange))
                 {
                     AgeRange = project.School.AgeRange;
@@ -158,16 +164,26 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
             return Page();
         }
 
+        /// <summary>
+        /// The project type only decides whether the establishment type is asked, so the page is
+        /// still shown, without that question, if the overview cannot be fetched.
+        /// </summary>
+        private async Task LoadProjectType()
+        {
+            try
+            {
+                var projectOverview = await _getProjectOverviewService.Execute(ProjectId);
+                ProjectType = projectOverview.ProjectType;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogErrorMsg(ex);
+            }
+        }
+
         public async Task<ActionResult> OnPost()
         {
             ValidateFaithFields();
-
-            // Nothing is posted for a radio group with no option selected, so the Required attribute
-            // on the non nullable enum passes and the answer has to be checked for NotSet here.
-            if (EstablishmentType == EstablishmentType.NotSet)
-            {
-                ModelState.AddModelError("establishment-type", "Enter the establishment type");
-            }
 
             if (ProjectConstants.SchoolTypesWithSpecialistProvisions.Contains(SchoolType))
             {
@@ -206,6 +222,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.School
             if (!ModelState.IsValid)
             {
                 _errorService.AddErrors(ModelState.Keys, ModelState);
+
+                await LoadProjectType();
+
                 return Page();
             }
 

@@ -162,7 +162,6 @@ describe('Testing the applications evidence task', () => {
         schoolDetailsPage
             .withSchoolName('Test School')
             .withSchoolType('Special')
-            .withEstablishmentType('CommunitySpecialSchool')
             .withSchoolPhase('Secondary')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')
