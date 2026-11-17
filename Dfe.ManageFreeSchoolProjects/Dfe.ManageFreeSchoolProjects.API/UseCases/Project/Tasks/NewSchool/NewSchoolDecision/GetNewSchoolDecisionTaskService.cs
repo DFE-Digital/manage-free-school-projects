@@ -13,7 +13,8 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewS
             {
                 NewSchoolDecision = new NewSchoolDecisionTask
                 {
-                    NewSchoolDecision = kpi.NewSchoolDecision
+                    NewSchoolDecision = kpi.NewSchoolDecision,
+                    NewSchoolDecisionCondition = kpi.NewSchoolDecisionCondition
                 }
             }).FirstOrDefaultAsync();
 

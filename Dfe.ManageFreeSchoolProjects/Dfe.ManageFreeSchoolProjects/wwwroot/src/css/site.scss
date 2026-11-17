@@ -368,10 +368,6 @@ h1.govuk-fieldset__heading {
     white-space: pre-wrap;
 }
 
-// Intake footer layout.
-// NOTE: these live here (not as inline styles) because the Content Security
-// Policy is `style-src 'self'`, which blocks inline style attributes. See
-// Security/SecureHeadersDefinitions.cs.
 .mfsp-footer-intake {
     display: flex;
     align-items: stretch;

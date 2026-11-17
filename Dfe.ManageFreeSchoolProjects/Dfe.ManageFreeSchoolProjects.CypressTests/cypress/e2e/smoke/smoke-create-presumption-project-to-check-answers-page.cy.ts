@@ -20,22 +20,24 @@ describe('Smoke Test Create an individual Presumption project - (Up Until Check 
 
         homePage.createNewProjects();
 
+        createProjectPage.titleIs('What project do you want to create?');
         cy.executeAccessibilityTests();
 
         createProjectPage.selectOption('Presumption').continue();
 
+        Logger.log('Enter Valid project ID');
+        createProjectPage.titleIs('What is the temporary project ID?');
         cy.executeAccessibilityTests();
 
-        Logger.log('Enter Valid project ID');
         createProjectPage.enterProjectId(temporaryProjectId).continue();
 
-        cy.executeAccessibilityTests();
-
         Logger.log('Enter school name');
+        createProjectPage.titleIs('What is the current free school name?');
+        cy.executeAccessibilityTests();
 
         createProjectPage.enterSchoolName(schoolName).continue();
 
-        createProjectPage.titleIs('What is the region of the school?');
+        createProjectPage.titleIs('Which region is the school in?');
 
         cy.executeAccessibilityTests();
 
@@ -49,26 +51,21 @@ describe('Smoke Test Create an individual Presumption project - (Up Until Check 
         Logger.log('Select Local authority');
         createProjectPage.selectOption('Luton').continue();
 
-        cy.executeAccessibilityTests();
-
         Logger.log('Enter valid trust');
         createProjectPage.enterTRN(TestTrn).continue();
 
+        Logger.log('Confirm the trust');
+        createProjectPage.titleIs('Confirm the trust');
         cy.executeAccessibilityTests();
 
         createProjectPage
-            .titleIs('Confirm the trust')
             .hasCorrectTrustName('The James Web School')
             .hasCorrectTrustType('SAT (single academy trust)')
             .selectOption('Yes')
             .continue();
 
-        cy.executeAccessibilityTests();
-
         Logger.log('Selecting Mainstream school type');
         createProjectPage.selectOption('Mainstream').continue();
-
-        cy.executeAccessibilityTests();
 
         Logger.log('Set class types');
         createProjectPage
@@ -79,18 +76,18 @@ describe('Smoke Test Create an individual Presumption project - (Up Until Check 
             .setResidentialOrBoarding('Yes')
             .continue();
 
-        cy.executeAccessibilityTests();
-
         Logger.log('Selecting Secondary school phase');
-        createProjectPage.selectOption('Secondary').continue();
-
+        createProjectPage.titleIs('What is the school phase?');
         cy.executeAccessibilityTests();
+
+        createProjectPage.selectOption('Secondary').continue();
 
         createProjectPage.enterAgeRangeFrom('2').enterAgeRangeTo('7').continue();
 
+        Logger.log('Enter valid capacity');
+        createProjectPage.titleIs('What is the capacity?');
         cy.executeAccessibilityTests();
 
-        Logger.log('Enter valid capacity');
         createProjectPage
             .enterNurseryCapacity('200')
             .enterReceptionToYear6('0')
@@ -98,28 +95,26 @@ describe('Smoke Test Create an individual Presumption project - (Up Until Check 
             .enterYear12ToYear14('150')
             .continue();
 
-        cy.executeAccessibilityTests();
-
         Logger.log('Select Designation');
         createProjectPage.selectOption('Designation').continue();
+
+        // Anchor before injecting axe, so it lands on the new page rather than the outgoing one
+        createProjectPage.titleIs('What is the faith type?');
 
         cy.executeAccessibilityTests();
 
         Logger.log('Select Greek Orthodox');
         createProjectPage.selectOption('Greek Orthodox').continue();
 
+        createProjectPage.titleIs('What is the provisional opening date? (optional)');
+
         cy.executeAccessibilityTests();
 
         Logger.log('Enter valid provisional opening date');
         createProjectPage.setProvisionalOpeningDate('1', '10', '2035').continue();
 
-        cy.executeAccessibilityTests();
-
         Logger.log('Set email');
-        createProjectPage
-            .enterProjectAssignedToName('joe bloggs')
-            .enterProjectAssignedToEmail('test.person@education.gov.uk')
-            .continue();
+        createProjectPage.enterProjectAssignedToEmail('test.person@education.gov.uk').continue();
 
         Logger.log('Check answers');
         summaryPage
@@ -130,7 +125,7 @@ describe('Smoke Test Create an individual Presumption project - (Up Until Check 
             .summaryShows('Temporary project ID')
             .HasValue(temporaryProjectId)
             .HasChangeLink()
-            .summaryShows('Current free school name')
+            .summaryShows('Current school name')
             .HasValue(schoolName)
             .HasChangeLink()
             .summaryShows('Region')
@@ -186,9 +181,6 @@ describe('Smoke Test Create an individual Presumption project - (Up Until Check 
             .HasChangeLink()
             .summaryShows('Provisional opening date')
             .HasValue('1 October 2035')
-            .HasChangeLink()
-            .summaryShows('Project assigned to')
-            .HasValue('joe bloggs')
             .HasChangeLink()
             .summaryShows('Email')
             .HasValue('test.person@education.gov.uk')

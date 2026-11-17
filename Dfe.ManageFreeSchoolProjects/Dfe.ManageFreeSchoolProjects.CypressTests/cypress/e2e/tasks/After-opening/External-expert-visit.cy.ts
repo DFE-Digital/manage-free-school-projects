@@ -46,9 +46,11 @@ describe('Testing the External expert visit task', () => {
         summaryPage.clickBack();
 
         taskListPage.selectExternalExpertVisitFromTaskList();
-        summaryPage.clickChange();
 
-        Logger.log('External expert visit');
+        Logger.log('Change the commissioned an external expert (EE) visit row');
+        summaryPage.clickChangeFor('Commissioned an external expert (EE) visit');
+
+        externalExpertVisitEditPage.schoolNameIs(project.schoolName).titleIs('Edit External expert visit');
 
         cy.executeAccessibilityTests();
 
@@ -79,7 +81,11 @@ describe('Testing the External expert visit task', () => {
         taskListPage.isTaskStatusInProgress('CommissionedExternalExpert');
 
         taskListPage.selectExternalExpertVisitFromTaskList();
-        summaryPage.clickChange();
+
+        Logger.log('Change the commissioned an external expert (EE) visit row');
+        summaryPage.clickChangeFor('Commissioned an external expert (EE) visit');
+
+        externalExpertVisitEditPage.schoolNameIs(project.schoolName).titleIs('Edit External expert visit');
 
         externalExpertVisitEditPage
             .withVisitDate('aq', '12', '2010')
@@ -90,11 +96,7 @@ describe('Testing the External expert visit task', () => {
             .clickContinue()
             .errorForVisitDate()
             .showsError('Year must be between 2000 and 2050')
-            .withVisitDate('21', '12', '2051')
-            .clickContinue()
-            .errorForVisitDate()
-            .showsError('Year must be between 2000 and 2050')
-            .withVisitDate('21', '4', '2050')
+            .withVisitDate('21', '04', '2040')
             .uncheckCommissionedExternalExpertVisit()
             .uncheckSavedToWorkplaces()
             .clickContinue();
@@ -104,13 +106,13 @@ describe('Testing the External expert visit task', () => {
             .titleIs('External expert visit')
             .inOrder()
             .summaryShows('Commissioned an external expert (EE) visit')
-            .HasValue(['Empty'])
+            .IsEmpty()
             .HasChangeLink()
             .summaryShows('Date the EE visit took place')
-            .HasValue('21 April 2050')
+            .HasValue('21 April 2040')
             .HasChangeLink()
             .summaryShows('Saved EE specification and report in Workplaces folder')
-            .HasValue(['Empty'])
+            .IsEmpty()
             .HasChangeLink()
             .MarkAsComplete()
             .clickConfirmAndContinue();

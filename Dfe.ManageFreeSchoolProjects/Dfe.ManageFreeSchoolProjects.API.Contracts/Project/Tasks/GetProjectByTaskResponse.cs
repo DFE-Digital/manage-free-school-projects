@@ -62,7 +62,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
 
         public NewSchoolDecisionTask NewSchoolDecision { get; set; }
 
-        public NewSchoolConditionsTask NewSchoolConditions { get; set; }
 
         public NewSchoolDateForConditionsToBeMetTask NewSchoolDateForConditionsToBeMet { get; set; }
     }

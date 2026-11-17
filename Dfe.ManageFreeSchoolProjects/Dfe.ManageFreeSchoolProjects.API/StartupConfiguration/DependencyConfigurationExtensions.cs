@@ -36,7 +36,6 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.ImpactAssessment;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.KickOffMeeting;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.MovingToOpen;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolClosingDateForProposals;
-using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolConditions;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateForConditionsToBeMet;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateOfDecision;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDecision;
@@ -86,6 +85,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
             services.AddScoped<IGetDashboardService, GetDashboardService>();
 			services.AddScoped<ICreateProjectService, CreateProject>();
             services.AddScoped<ICreateProposalService, CreateProposalService>();
+            services.AddScoped<IUpdateProposalService, UpdateProposalService>();
             services.AddScoped<ICreateUserService, CreateUserService>();
 			services.AddScoped<IGetProjectOverviewService, GetProjectOverviewService>();
 			services.AddScoped<IUpdateProjectByTaskService, UpdateProjectByTaskService>();
@@ -150,7 +150,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.StartupConfiguration
             services.AddScoped<IUpdateTaskService, UpdateNewSchoolDecisionMakerTaskService>();
             services.AddScoped<IUpdateTaskService, UpdateNewSchoolDateOfDecisionTaskService>();
             services.AddScoped<IUpdateTaskService, UpdateNewSchoolDateForConditionsToBeMetTaskService>();
-            services.AddScoped<IUpdateTaskService, UpdateGetNewSchoolConditionsTaskService>();
             services.AddScoped<IUpdateTaskService, UpdateNewSchoolDecisionTaskService>();
 
             services.AddScoped<IAllProjectsReportService, AllProjectsReportService>();

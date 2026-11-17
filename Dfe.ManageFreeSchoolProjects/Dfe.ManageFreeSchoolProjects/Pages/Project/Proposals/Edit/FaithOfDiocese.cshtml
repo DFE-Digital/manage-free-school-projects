@@ -1,0 +1,30 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/faith-of-diocese"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.FaithOfDioceseModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
+
+@{
+    var title = "What is the faith of the Diocese?";
+    ViewData["Title"] = title;
+
+    var faithStatuses = Enum.GetValues<FaithOfDiocese>().ToArray();
+    var faithStatusLabels = faithStatuses.Select(x => x.ToDescription()).ToArray();
+    var faithStatusValues = faithStatuses.Select(x => x.ToString()).ToArray();
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<partial name="_ProposalRadiosSelection"
+         model="@(new ProposalRadiosSelectionViewModel
+         {
+             Mode = ProposalJourneyMode.Edit,
+             Title = title,
+             AddMargin = true,
+             Name = "faith-of-diocese",
+             Value = Model.FaithOfDiocese.ToString(),
+             Labels = faithStatusLabels,
+             Values = faithStatusValues,
+             ButtonText = "Continue"
+         })" />

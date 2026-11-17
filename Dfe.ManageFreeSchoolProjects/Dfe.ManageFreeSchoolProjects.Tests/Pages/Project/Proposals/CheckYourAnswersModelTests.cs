@@ -113,7 +113,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
             });
             var model = BuildModel(harness, out var createService, out _);
             createService.Execute(Arg.Any<CreateProposalRequest>())
-                .Returns<Task<CreateProposalResponse>>(_ => throw new HttpRequestException(
+                .Returns<Task<ProposalResponse>>(_ => throw new HttpRequestException(
                     "boom", null, HttpStatusCode.InternalServerError));
 
             var result = await model.OnPostAsync();
@@ -137,7 +137,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
                 .Returns(call =>
                 {
                     capturedRequest.Value = call.Arg<CreateProposalRequest>();
-                    return Task.FromResult(new CreateProposalResponse());
+                    return Task.FromResult(new ProposalResponse());
                 });
 
             return new CheckYourAnswersModel(

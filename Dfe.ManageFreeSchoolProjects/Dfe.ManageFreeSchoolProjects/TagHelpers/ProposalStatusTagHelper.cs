@@ -18,6 +18,8 @@ namespace Dfe.ManageFreeSchoolProjects.TagHelpers
             var tagColour = Status switch
             {
                 ProposalStatus.Active => "yellow",
+                ProposalStatus.Unsuccessful => "blue",
+                ProposalStatus.Successful => "turquoise",
                 _ => "grey"
             };
 

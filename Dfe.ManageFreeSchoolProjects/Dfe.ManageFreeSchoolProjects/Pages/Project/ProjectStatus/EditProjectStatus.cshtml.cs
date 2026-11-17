@@ -16,8 +16,6 @@ using ProjectWithdrawnReasonType = Dfe.ManageFreeSchoolProjects.API.Contracts.Pr
 using Dfe.ManageFreeSchoolProjects.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using Microsoft.Identity.Web;
-using DocumentFormat.OpenXml.EMMA;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.ProjectStatus
 {

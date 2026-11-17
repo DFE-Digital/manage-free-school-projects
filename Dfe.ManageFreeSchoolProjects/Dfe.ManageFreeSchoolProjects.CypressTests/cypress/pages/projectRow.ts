@@ -1,5 +1,7 @@
+export type RowScope = () => Cypress.Chainable<JQuery<HTMLElement>>;
+
 export class ProjectRow {
-    constructor(private element: Element) {}
+    constructor(private readonly scope: RowScope) {}
 
     public hasProjectId(value: string): this {
         this.containsText('project-id', value);
@@ -68,7 +70,7 @@ export class ProjectRow {
     }
 
     private containsText(id: string, value: string) {
-        cy.wrap(this.element).within(() => {
+        this.scope().within(() => {
             cy.getByTestId(id).should('contain.text', value);
         });
     }

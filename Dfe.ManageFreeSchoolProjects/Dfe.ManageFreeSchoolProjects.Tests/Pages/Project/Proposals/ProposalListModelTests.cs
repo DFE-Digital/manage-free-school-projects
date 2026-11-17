@@ -38,7 +38,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
         {
             var model = BuildModel(BuildOverviewService(), out var proposalService);
 
-            var proposals = new List<GetProposalResponse>
+            var proposals = new List<GetProposalSummaryResponse>
             {
                 new()
                 {
@@ -52,7 +52,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
                 }
             };
             proposalService.ExecuteList(ProjectId)
-                .Returns(new ApiSingleResponseV2<List<GetProposalResponse>>(proposals));
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>(proposals));
 
             await model.OnGet();
 
@@ -65,7 +65,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
         {
             var model = BuildModel(BuildOverviewService(), out var proposalService);
             proposalService.ExecuteList(ProjectId)
-                .Returns(new ApiSingleResponseV2<List<GetProposalResponse>>([]));
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>([]));
 
             var result = await model.OnGet();
 
@@ -73,10 +73,6 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
             model.Proposals.Should().BeEmpty();
         }
 
-        /// <summary>
-        /// A failure fetching the project is swallowed so the user still gets the page rather than an
-        /// error, which also means the proposals are never asked for.
-        /// </summary>
         [Fact]
         public async Task OnGet_WhenTheProjectCannotBeFetched_StillReturnsThePage()
         {
@@ -90,12 +86,12 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
 
             result.Should().BeOfType<PageResult>();
             model.Project.Should().BeNull();
-            model.Proposals.Should().BeNull();
+            model.Proposals.Should().BeEmpty();
             await proposalService.DidNotReceiveWithAnyArgs().ExecuteList(default!);
         }
 
         [Fact]
-        public async Task OnGet_WhenTheProposalsCannotBeFetched_StillReturnsThePage()
+        public async Task OnGet_WhenTheProposalsCannotBeFetched_StillReturnsThePageWithAnEmptyList()
         {
             var project = new ProjectOverviewResponse();
             var overviewService = Substitute.For<IGetProjectOverviewService>();
@@ -109,7 +105,60 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
 
             result.Should().BeOfType<PageResult>();
             model.Project.Should().BeSameAs(project);
-            model.Proposals.Should().BeNull();
+            model.Proposals.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task OnGet_WhenTheResponseCarriesNoData_LeavesTheListEmpty()
+        {
+            var model = BuildModel(BuildOverviewService(), out var proposalService);
+            proposalService.ExecuteList(ProjectId)
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>(null!));
+
+            var result = await model.OnGet();
+
+            result.Should().BeOfType<PageResult>();
+            model.Proposals.Should().BeEmpty();
+            model.IsReadOnly.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task OnGet_WhenAProposalHasBeenSuccessful_MakesTheListReadOnly()
+        {
+            var model = BuildModel(BuildOverviewService(), out var proposalService);
+            ReturnsProposals(proposalService, ProposalStatus.Unsuccessful, ProposalStatus.Successful);
+
+            await model.OnGet();
+
+            model.IsReadOnly.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task OnGet_WhileEveryProposalIsStillActive_KeepsTheListEditable()
+        {
+            var model = BuildModel(BuildOverviewService(), out var proposalService);
+            ReturnsProposals(proposalService, ProposalStatus.Active, ProposalStatus.Active);
+
+            await model.OnGet();
+
+            model.IsReadOnly.Should().BeFalse();
+        }
+
+        private static void ReturnsProposals(
+            IGetProposalService proposalService, params ProposalStatus[] statuses)
+        {
+            var proposals = statuses
+                .Select((status, index) => new GetProposalSummaryResponse
+                {
+                    Rid = $"RID-{index + 1}",
+                    ProjectId = ProjectId,
+                    Proposer = ProposalProposer.Diocese,
+                    Status = status
+                })
+                .ToList();
+
+            proposalService.ExecuteList(ProjectId)
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>(proposals));
         }
 
         private static IGetProjectOverviewService BuildOverviewService()
@@ -127,7 +176,7 @@ namespace Dfe.ManageFreeSchoolProjects.Tests.Pages.Project.Proposals
 
             // Default to an empty list so the tests that are not about proposals still get a page.
             proposalService.ExecuteList(Arg.Any<string>())
-                .Returns(new ApiSingleResponseV2<List<GetProposalResponse>>([]));
+                .Returns(new ApiSingleResponseV2<List<GetProposalSummaryResponse>>([]));
 
             return new ProposalListModel(
                 overviewService,

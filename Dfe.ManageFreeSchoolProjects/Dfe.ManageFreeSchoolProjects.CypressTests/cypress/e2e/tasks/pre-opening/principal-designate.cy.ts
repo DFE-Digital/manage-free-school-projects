@@ -55,12 +55,9 @@ describe('Testing Principal designate task', () => {
         cy.log('Check confirm puts project in In Progress');
         summaryPage.clickConfirmAndContinue();
 
-        taskListPage.isTaskStatusInProgress('PrincipalDesignate').selectPrincipleDesignateFromTaskList();
-
-        summaryPage.clickChange();
-
         cy.log('Check empty values accepted');
-
+        taskListPage.isTaskStatusInProgress('PrincipalDesignate').selectPrincipleDesignateFromTaskList();
+        summaryPage.clickChangeFor('Commissioned an external expert');
         editPrincipalDesignatePage.clickContinue();
 
         summaryPage
@@ -116,9 +113,8 @@ describe('Testing Principal designate task', () => {
             .HasChangeLink()
             .isNotMarkedAsComplete();
 
-        summaryPage.clickChange();
-        //
         cy.log('Check validation for expected principal designate date');
+        summaryPage.clickChangeFor('Commissioned an external expert');
 
         editPrincipalDesignatePage
             .withExpectedPrincipleDesignateAppointedDate('25', '', '')
@@ -150,8 +146,7 @@ describe('Testing Principal designate task', () => {
             .HasChangeLink()
             .isNotMarkedAsComplete();
 
-        summaryPage.clickChange();
-        //
+        summaryPage.clickChangeFor('Commissioned an external expert');
         editPrincipalDesignatePage.checkNoForPrincipleDesignate().checkNotApplicableForExternalExpert().clickContinue();
 
         summaryPage
@@ -173,8 +168,7 @@ describe('Testing Principal designate task', () => {
             .isNotMarkedAsComplete();
 
         cy.log('can edit principal designate');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Commissioned an external expert');
 
         editPrincipalDesignatePage
             .checkNoForExternalExpert()

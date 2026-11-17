@@ -2,12 +2,13 @@
 using Dfe.ManageFreeSchoolProjects.Data.Entities.Existing;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
+using Dfe.ManageFreeSchoolProjects.API.Extensions;
 
 namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
 {
     public interface ICreateProposalService
     {
-        Task<CreateProposalResponse> Execute(CreateProposalRequest createRequest);
+        Task<ProposalResponse> Execute(CreateProposalRequest createRequest);
     }
 
     public class CreateProposalService : ICreateProposalService
@@ -19,7 +20,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
             _context = context;
         }
 
-        public async Task<CreateProposalResponse> Execute(CreateProposalRequest createRequest)
+        public async Task<ProposalResponse> Execute(CreateProposalRequest createRequest)
         {
             var rid = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 11);
 
@@ -45,9 +46,11 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
 
                 // Another local authority - ProposalProposer.AnotherLocalAuthority
                 OtherLocalAuthority = createRequest.OtherLocalAuthority,
+                OtherLocalAuthorityRegion = createRequest.OtherLocalAuthorityRegion?.ToDescription(),
 
                 // Joint proposal between the local authority that published the specification and another local authority - ProposalProposer.JointProposal
                 JointProposalLocalAuthority = createRequest.JointProposalLocalAuthority,
+                JointProposalLocalAuthorityRegion = createRequest.JointProposalLocalAuthorityRegion?.ToDescription(),
 
                 //Proposed Faith (Common)
                 ProposedFaithStatus = ProjectMapper.ToFaithStatus(createRequest.ProposedFaithStatus),
@@ -58,27 +61,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals
             _context.Proposals.Add(entity);
             await _context.SaveChangesAsync();
 
-            var result = new CreateProposalResponse
-            {
-                Rid = entity.Rid,
-                ProjectId = entity.ProjectId,
-                Proposer = ProjectMapper.ToProposer(entity.Proposer),
-                TrustReferenceNumber = entity.TrustReferenceNumber,
-                TrustName = entity.TrustName,
-                TrustType = entity.TrustType != null ? ProjectMapper.ToTrustType(entity.TrustType) : null,
-                NameOfDiocese = entity.NameOfDiocese,
-                FaithOfDiocese = entity.FaithOfDiocese != null ? ProjectMapper.ToDioceseFaithType(entity.FaithOfDiocese) : null,
-                NameOfOtherReligiousOrganisation = entity.NameOfOtherReligiousOrganisation,
-                FaithTypeOfOtherReligiousOrganisation = entity.FaithTypeOfOtherReligiousOrganisation != null ? ProjectMapper.ToFaithType(entity.FaithTypeOfOtherReligiousOrganisation) : null,
-                OtherFaithTypeOfOtherReligiousOrganisation = entity.OtherFaithTypeOfOtherReligiousOrganisation,
-                OtherLocalAuthority = entity.OtherLocalAuthority,
-                JointProposalLocalAuthority = entity.JointProposalLocalAuthority,
-                ProposedFaithStatus = ProjectMapper.ToFaithStatus(entity.ProposedFaithStatus),
-                ProposedFaithType = ProjectMapper.ToFaithType(entity.ProposedFaithType),
-                OtherFaithType = entity.OtherFaithType
-            };
-
-            return result;
+            return ProposalMapper.ToProposalResponse(entity);
         }
     }
 }

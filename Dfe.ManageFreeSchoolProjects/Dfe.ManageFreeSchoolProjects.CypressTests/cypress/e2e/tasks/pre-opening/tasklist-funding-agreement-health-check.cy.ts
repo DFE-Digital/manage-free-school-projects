@@ -68,8 +68,7 @@ describe('Testing Funding agreement health check Task', () => {
             .selectFundingAgreementHealthCheckFromTaskList();
 
         cy.log('Check search page');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Drafted a funding agreement (FA) health check');
 
         cy.executeAccessibilityTests({ 'aria-allowed-attr': { enabled: false } });
 
@@ -104,7 +103,7 @@ describe('Testing Funding agreement health check Task', () => {
 
         cy.log('Edit funding agreement health check');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Drafted a funding agreement (FA) health check');
         fundingAgreementHealthCheckEditPage
             .uncheckMinisterSignedOffFAHealthCheck()
             .checkRegionalDirectorSignedOffFAHealthCheck()

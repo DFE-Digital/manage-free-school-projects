@@ -6,7 +6,7 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Proposal
 {
     public interface ICreateProposalService
     {
-        public Task<CreateProposalResponse> Execute(CreateProposalRequest createRequest);
+        public Task<ProposalResponse> Execute(CreateProposalRequest createRequest);
     }
 
     public class CreateProposalService : ICreateProposalService
@@ -18,9 +18,9 @@ namespace Dfe.ManageFreeSchoolProjects.Services.Proposal
             _apiClient = apiClient;
         }
 
-        public async Task<CreateProposalResponse> Execute(CreateProposalRequest createRequest)
+        public async Task<ProposalResponse> Execute(CreateProposalRequest createRequest)
         {
-            var response = await _apiClient.Post<CreateProposalRequest, CreateProposalResponse>($"/api/v1/client/proposals/create/", createRequest);
+            var response = await _apiClient.Post<CreateProposalRequest, ProposalResponse>($"/api/v1/client/proposals/create/", createRequest);
             return response;
         }
     }

@@ -66,7 +66,7 @@ describe('Testing Risk appraisal meeting Task', () => {
 
         Logger.log('Go to edit page');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Initial risk appraisal meeting completed');
 
         cy.executeAccessibilityTests();
 
@@ -97,7 +97,7 @@ describe('Testing Risk appraisal meeting Task', () => {
             .HasChangeLink()
             .isNotMarkedAsComplete();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Initial risk appraisal meeting completed');
 
         Logger.log('Invalid data causes error');
 

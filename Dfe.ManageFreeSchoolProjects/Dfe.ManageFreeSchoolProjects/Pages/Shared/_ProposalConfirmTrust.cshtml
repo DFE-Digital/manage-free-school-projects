@@ -1,0 +1,66 @@
+@using Dfe.ManageFreeSchoolProjects.Enums
+@model Dfe.ManageFreeSchoolProjects.ViewModels.ProposalConfirmTrustViewModel
+
+@{
+    var confirmLabels = new[] { nameof(YesNoOption.No), nameof(YesNoOption.Yes) };
+    var confirmTestIds = new[] { "confirm-trust-no", "confirm-trust-yes" };
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+            @if (Model.Mode == ProposalJourneyMode.Create)
+            {
+                <govuk-create-proposal-title label="@Model.Title" add-margin="true" />
+            }
+            else
+            {
+                <govuk-update-proposal-title label="@Model.Title" add-margin="true" />
+            }
+
+            <dl class="govuk-summary-list">
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Trust ID
+                    </dt>
+                    <dd class="govuk-summary-list__value" data-testid="trn">
+                        @Model.Trust.TRN
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Trust name
+                    </dt>
+                    <dd class="govuk-summary-list__value" data-testid="trust-name">
+                        @Model.Trust.TrustName
+                    </dd>
+                </div>
+
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Trust type
+                    </dt>
+                    <dd class="govuk-summary-list__value" data-testid="trust-type">
+                        @Model.Trust.TrustType.ToDescription()
+                    </dd>
+                </div>
+            </dl>
+
+            <govuk-radios-input id="ConfirmOption"
+                                name="ConfirmOption"
+                                asp-for="@Model.ConfirmOption"
+                                label="Is this the correct trust?"
+                                medium-heading-label="true"
+                                labels="@confirmLabels"
+                                values="@confirmLabels"
+                                test-ids="@confirmTestIds" />
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                @Model.ButtonText
+            </button>
+        </form>
+    </div>
+</div>

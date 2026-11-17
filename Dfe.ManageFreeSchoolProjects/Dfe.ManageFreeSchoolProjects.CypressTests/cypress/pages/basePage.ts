@@ -4,6 +4,11 @@ export class BasePage {
         return this;
     }
 
+    public titleHeadingIs(title: string): this {
+        cy.getByTestId('title-heading').should('contains.text', title);
+        return this;
+    }
+
     public schoolNameIs(school: string): this {
         cy.getByTestId('school-name').should('contains.text', school);
         return this;

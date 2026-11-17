@@ -3,5 +3,9 @@
     public record NewSchoolDecisionTask
     {
         public string NewSchoolDecision { get; set; }
+
+        public string NewSchoolDecisionCondition { get; set; }
+
+        public string ProposalId { get; set; }
     }
 }

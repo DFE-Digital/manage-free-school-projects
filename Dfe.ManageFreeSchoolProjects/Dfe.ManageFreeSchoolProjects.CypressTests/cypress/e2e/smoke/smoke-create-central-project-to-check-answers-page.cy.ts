@@ -21,6 +21,7 @@ describe('Smoke Test Create an individual Central project - (Up Until Check your
         homePage.createNewProjects();
 
         Logger.log('Check method required');
+        createProjectPage.titleIs('What project do you want to create?');
         cy.executeAccessibilityTests();
 
         createProjectPage.selectOption('Central').continue();
@@ -34,17 +35,19 @@ describe('Smoke Test Create an individual Central project - (Up Until Check your
         Logger.log('Enter application wave ');
         createProjectPage.titleIs('What is the application wave?').enterApplicationWave(applicationWave).continue();
 
+        Logger.log('Enter Valid project ID');
+        createProjectPage.titleIs('What is the temporary project ID?');
         cy.executeAccessibilityTests();
 
-        Logger.log('Enter Valid project ID');
         createProjectPage.enterProjectId(temporaryProjectId).continue();
 
-        cy.executeAccessibilityTests();
         Logger.log('Enter school name');
+        createProjectPage.titleIs('What is the current free school name?');
+        cy.executeAccessibilityTests();
 
         createProjectPage.enterSchoolName(schoolName).continue();
 
-        createProjectPage.titleIs('What is the region of the school?').continue().errorMessage('Select the region');
+        createProjectPage.titleIs('Which region is the school in?').continue().errorMessage('Select the region');
 
         cy.executeAccessibilityTests();
 
@@ -94,7 +97,7 @@ describe('Smoke Test Create an individual Central project - (Up Until Check your
 
         Logger.log('Set class types');
         createProjectPage
-            .titleIs('Will it have any of these provisions?')
+            .titleIs('Will it have any of these?')
             .setNurseryTo('Yes')
             .setSixthFormTo('Yes')
             .setResidentialOrBoarding('Yes')
@@ -120,6 +123,9 @@ describe('Smoke Test Create an individual Central project - (Up Until Check your
         Logger.log('Select Designation');
         createProjectPage.selectOption('Designation').continue();
 
+        // Anchor before injecting axe, so it lands on the new page rather than the outgoing one
+        createProjectPage.titleIs('What is the faith type?');
+
         cy.executeAccessibilityTests();
 
         Logger.log('Select Greek Orthodox');
@@ -127,13 +133,12 @@ describe('Smoke Test Create an individual Central project - (Up Until Check your
 
         Logger.log('Enter valid provisional opening date');
         createProjectPage.setProvisionalOpeningDate('1', '10', '2035').continue();
-        cy.executeAccessibilityTests();
 
         Logger.log('Set email');
-        createProjectPage
-            .enterProjectAssignedToName('joe bloggs')
-            .enterProjectAssignedToEmail('test.person@education.gov.uk')
-            .continue();
+        createProjectPage.titleIs('Who do you want to assign this project to?');
+        cy.executeAccessibilityTests();
+
+        createProjectPage.enterProjectAssignedToEmail('test.person@education.gov.uk').continue();
 
         Logger.log('Check answers');
         summaryPage
@@ -150,7 +155,7 @@ describe('Smoke Test Create an individual Central project - (Up Until Check your
             .summaryShows('Temporary project ID')
             .HasValue(temporaryProjectId)
             .HasChangeLink()
-            .summaryShows('Current free school name')
+            .summaryShows('Current school name')
             .HasValue(schoolName)
             .HasChangeLink()
             .summaryShows('Region')
@@ -206,9 +211,6 @@ describe('Smoke Test Create an individual Central project - (Up Until Check your
             .HasChangeLink()
             .summaryShows('Provisional opening date')
             .HasValue('1 October 2035')
-            .HasChangeLink()
-            .summaryShows('Project assigned to')
-            .HasValue('joe bloggs')
             .HasChangeLink()
             .summaryShows('Email')
             .HasValue('test.person@education.gov.uk')

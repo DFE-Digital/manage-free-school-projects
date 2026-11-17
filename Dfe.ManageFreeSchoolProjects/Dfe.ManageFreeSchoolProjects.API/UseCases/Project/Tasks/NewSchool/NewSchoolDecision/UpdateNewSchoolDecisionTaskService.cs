@@ -13,6 +13,7 @@
             }
 
             dbKpi.NewSchoolDecision = task.NewSchoolDecision;
+            dbKpi.NewSchoolDecisionCondition = task.NewSchoolDecisionCondition;
         }
     }
 }

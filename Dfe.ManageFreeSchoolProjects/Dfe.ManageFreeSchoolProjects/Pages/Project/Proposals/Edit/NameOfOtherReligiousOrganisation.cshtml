@@ -1,0 +1,28 @@
+﻿@page "/projects/{projectId}/proposals/{rid}/name-of-other-religious-organisation"
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Edit.NameOfOtherReligiousOrganisationModel
+
+@{
+    ViewData["Title"] = "What is the name of the other religious organisation?";
+}
+
+@section BeforeMain {
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
+}
+
+<div class="govuk-grid-row">
+    <partial name="_ErrorSummary" />
+
+    <div class="govuk-grid-column-two-thirds">
+        <form class="form" method="post">
+
+            <div class="govuk-form-group">
+                <govuk-update-proposal-title label="What is the name of the other religious organisation?" for="name-of-other-religious-organisation" />
+                <govuk-text-input id="name-of-other-religious-organisation" name="name-of-other-religious-organisation" asp-for="@Model.NameOfOtherReligiousOrganisation" data-testid="name-of-other-religious-organisation" />
+            </div>
+
+            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
+                Save and return
+            </button>
+        </form>
+    </div>
+</div>

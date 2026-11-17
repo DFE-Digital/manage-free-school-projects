@@ -33,10 +33,9 @@ describe('Testing the due diligence checks task', () => {
         Logger.log('Go back to task list');
         summaryPage.clickBack();
 
-        taskListPage.selectDueDiligenceFromTaskList();
-        summaryPage.clickChange();
         Logger.log('Due diligence checks can save null values');
-
+        taskListPage.selectDueDiligenceFromTaskList();
+        summaryPage.clickChangeFor("Received Chair of Trustee's DBS countersigned certificate");
         dueDiligenceChecksEditPage.clickContinue();
 
         checkSummaryPageHasEmptyValuesAndNotComplete(project.schoolName);
@@ -44,8 +43,7 @@ describe('Testing the due diligence checks task', () => {
         cy.executeAccessibilityTests();
 
         Logger.log('Due diligence checks can be edited');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor("Received Chair of Trustee's DBS countersigned certificate");
 
         dueDiligenceChecksEditPage
             .checkReceivedChairOfTrusteesDbsCountersignedCertificate()
@@ -90,8 +88,7 @@ describe('Testing the due diligence checks task', () => {
         taskListPage.selectDueDiligenceFromTaskList();
 
         Logger.log('Due dilligence checks date validation is correct');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor("Received Chair of Trustee's DBS countersigned certificate");
 
         dueDiligenceChecksEditPage.enterDateWhenAllChecksWereCompleted('30', '01', '2090');
         dueDiligenceChecksEditPage.clickContinue();

@@ -148,6 +148,8 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
 
         public string SchoolDetailsSchoolTypeMainstreamApEtc { get; set; }
 
+        public string SchoolDetailsEstablishmentType { get; set; }
+
         public string SchoolDetailsSchoolPhasePrimarySecondary { get; set; }
 
         public string SchoolDetailsAgeRange { get; set; }
@@ -444,11 +446,9 @@ namespace Dfe.ManageFreeSchoolProjects.Data.Entities.Existing
 
         public DateTime? NewSchoolDateOfDecision { get; set; }
 
-        public string NewSchoolConditions { get; set; }
-
-        public string NewSchoolConditionsDescription { get; set; }
-
         public string NewSchoolDecision { get; set; }
+
+        public string NewSchoolDecisionCondition { get; set; }
 
         public DateTime? NewSchoolDateForConditionsToBeMet { get; set; }
     }

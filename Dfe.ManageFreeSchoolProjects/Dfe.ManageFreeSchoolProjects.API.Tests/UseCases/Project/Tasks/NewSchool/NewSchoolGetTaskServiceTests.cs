@@ -1,5 +1,4 @@
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolClosingDateForProposals;
-using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolConditions;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateForConditionsToBeMet;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateOfDecision;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDecision;
@@ -23,39 +22,18 @@ namespace Dfe.ManageFreeSchoolProjects.API.Tests.UseCases.Project.Tasks.NewSchoo
         private static readonly DateTime ConditionsDate = new(2026, 9, 30);
 
         [Fact]
-        public async Task ConditionsService_ReturnsTheStoredConditions()
+        public async Task DecisionService_ReturnsTheStoredDecisionAndItsConditions()
         {
             using var harness = NewSchoolTaskQueryHarness.WithKpi(kpi =>
             {
-                kpi.NewSchoolConditions = "Yes";
-                kpi.NewSchoolConditionsDescription = "Planning permission required";
+                kpi.NewSchoolDecision = "Approved with conditions";
+                kpi.NewSchoolDecisionCondition = "Planning permission required";
             });
-
-            var result = await new GetNewSchoolConditionsTaskService().Get(harness.Parameters);
-
-            result.NewSchoolConditions.NewSchoolConditions.Should().Be("Yes");
-            result.NewSchoolConditions.NewSchoolConditionsDescription.Should().Be("Planning permission required");
-        }
-
-        [Fact]
-        public async Task ConditionsService_WhenNoProjectMatches_ReturnsNull()
-        {
-            using var harness = NewSchoolTaskQueryHarness.WithNoMatchingKpi();
-
-            var result = await new GetNewSchoolConditionsTaskService().Get(harness.Parameters);
-
-            result.Should().BeNull();
-        }
-
-        [Fact]
-        public async Task DecisionService_ReturnsTheStoredDecision()
-        {
-            using var harness = NewSchoolTaskQueryHarness.WithKpi(
-                kpi => kpi.NewSchoolDecision = "Approved with conditions");
 
             var result = await new GetNewSchoolDecisionTaskService().Get(harness.Parameters);
 
             result.NewSchoolDecision.NewSchoolDecision.Should().Be("Approved with conditions");
+            result.NewSchoolDecision.NewSchoolDecisionCondition.Should().Be("Planning permission required");
         }
 
         [Fact]

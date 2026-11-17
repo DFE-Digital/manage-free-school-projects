@@ -108,12 +108,31 @@ jobs:
     environment: ${{ inputs.environment }}
     strategy:
       fail-fast: false
+
+      # All nine groups run — `max-parallel` limits how many run *at the same time*, not
+      # how many run. The remaining groups queue and start as slots free up, so coverage
+      # is unaffected.
+      #
+      # Why it is capped: nine *concurrent* Cypress jobs saturated the single development
+      # App Service. The run of 2026-10-26 lost 27 tests to `cy.visit()` ESOCKETTIMEDOUT
+      # and, because each one fired in a `beforeEach`, Cypress skipped the rest of that
+      # spec file — taking 45 more tests with it, for 73 of 118 lost. The same specs pass
+      # against the same deployed portal when only one job is hitting it.
+      #
+      # 3 is the value proven to pass. Raise it one step at a time and watch the
+      # `waitForApp` retry logs: attempts consistently at 1 means there is headroom,
+      # attempts climbing to 3-4 means the environment is at its limit and needs capacity
+      # rather than a higher number here.
+      max-parallel: 3
+
       matrix:
         include:
           - group: project-creation
             spec: cypress/e2e/create-*.cy.ts
           - group: project-config
             spec: cypress/e2e/project-contacts.cy.ts,cypress/e2e/project-pupil-numbers.cy.ts,cypress/e2e/project-risk.cy.ts
+          - group: proposals
+            spec: cypress/e2e/proposals/**/*.cy.ts
           - group: navigation-misc
             spec: cypress/e2e/homepage.cy.ts,cypress/e2e/project-overview.cy.ts,cypress/e2e/project-tasks-completed-count.cy.ts,cypress/e2e/cookie-consent.cy.ts,cypress/e2e/footerLinks.cy.ts,cypress/e2e/project-sites.cy.ts
           - group: setting-up
@@ -132,7 +151,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           ref: ${{ github.ref }}
 
@@ -199,9 +218,9 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: '18'
+          node-version-file: ${{ env.WORKING_DIRECTORY }}/.nvmrc
           cache: 'npm'
           cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
 
@@ -251,9 +270,9 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
-          node-version: '18'
+          node-version-file: ${{ env.WORKING_DIRECTORY }}/.nvmrc
           cache: 'npm'
           cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
 

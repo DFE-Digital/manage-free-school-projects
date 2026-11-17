@@ -1,8 +1,10 @@
 ﻿@page "/projects/{projectId}/proposals/create/proposed-faith-status"
-@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.ProposedFaithStatusModel
+@using Dfe.ManageFreeSchoolProjects.ViewModels
+@using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
 
 @{
+    var title = "Is the proposal for a school with a religious designation or ethos?";
     ViewData["Title"] = "Faith status";
 
     var faithStatusValues = Enum.GetValues<FaithStatus>().Except(new[] { FaithStatus.NotSet }).ToArray();
@@ -11,29 +13,17 @@
 }
 
 @section BeforeMain {
-    <nav class="govuk-extra-width-container">
-        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
-    </nav>
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
 }
 
-<div class="govuk-grid-row">
-    <partial name="_ErrorSummary" />
-
-    <div class="govuk-grid-column-two-thirds">
-        <form class="form" method="post">
-            <govuk-create-proposal-title label="Is the proposal for a school with a religious designation or ethos?" />
-
-            <govuk-radios-input name="faith-status"
-                                asp-for="@Model.Status"
-                                data-testid="faith-status"
-                                labels="@faithStatuses"
-                                values="@faithStatuses"
-                                hints="@faithStatusHints" />
-
-            <br />
-            <button class="govuk-button" data-module="govuk-button" data-testid="continue">
-                Continue
-            </button>
-        </form>
-    </div>
-</div>
+<partial name="_ProposalRadiosSelection"
+         model="@(new ProposalRadiosSelectionViewModel
+         {
+             Title = title,
+             Name = "faith-status",
+             Value = Model.Status.ToString(),
+             Labels = faithStatuses,
+             Values = faithStatuses,
+             Hints = faithStatusHints,
+             ButtonText = "Continue"
+         })" />

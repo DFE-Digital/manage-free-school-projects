@@ -102,17 +102,23 @@ describe('Testing the central route project creation journey', () => {
                 .enterApplicationWave(applicationWave)
                 .continue();
 
+            // Assert the new page before injecting axe: cy.injectAxe() against a document that
+            // is still being replaced puts axe on the outgoing page, where it is lost.
+            Logger.log('Enter Valid project ID');
+            createProjectPage.titleIs('What is the temporary project ID?');
+
             cy.executeAccessibilityTests();
 
-            Logger.log('Enter Valid project ID');
             createProjectPage.enterProjectId(temporaryProjectId).continue();
 
-            cy.executeAccessibilityTests();
             Logger.log('Enter school name');
+            createProjectPage.titleIs('What is the current free school name?');
+
+            cy.executeAccessibilityTests();
 
             createProjectPage.enterSchoolName(schoolName).continue();
 
-            createProjectPage.titleIs('What is the region of the school?').continue().errorMessage('Select the region');
+            createProjectPage.titleIs('Which region is the school in?').continue().errorMessage('Select the region');
 
             cy.executeAccessibilityTests();
 
@@ -168,7 +174,7 @@ describe('Testing the central route project creation journey', () => {
 
             Logger.log('Set class types');
             createProjectPage
-                .titleIs('Will it have any of these provisions?')
+                .titleIs('Will it have any of these?')
                 .setNurseryTo('Yes')
                 .setSixthFormTo('Yes')
                 .setResidentialOrBoarding('Yes')
@@ -194,6 +200,9 @@ describe('Testing the central route project creation journey', () => {
             Logger.log('Select Designation');
             createProjectPage.selectOption('Designation').continue();
 
+            // Anchor before injecting axe, so it lands on the new page rather than the outgoing one
+            createProjectPage.titleIs('What is the faith type?');
+
             cy.executeAccessibilityTests();
 
             Logger.log('Select Greek Orthodox');
@@ -201,13 +210,11 @@ describe('Testing the central route project creation journey', () => {
 
             Logger.log('Enter valid provisional opening date');
             createProjectPage.setProvisionalOpeningDate('1', '10', '2035').continue();
+            createProjectPage.titleIs('Who do you want to assign this project to?');
             cy.executeAccessibilityTests();
 
             Logger.log('Set email');
-            createProjectPage
-                .enterProjectAssignedToName('joe bloggs')
-                .enterProjectAssignedToEmail('test.person@education.gov.uk')
-                .continue();
+            createProjectPage.enterProjectAssignedToEmail('test.person@education.gov.uk').continue();
 
             Logger.log('Check answers');
             summaryPage
@@ -224,7 +231,7 @@ describe('Testing the central route project creation journey', () => {
                 .summaryShows('Temporary project ID')
                 .HasValue(temporaryProjectId)
                 .HasChangeLink()
-                .summaryShows('Current free school name')
+                .summaryShows('Current school name')
                 .HasValue(schoolName)
                 .HasChangeLink()
                 .summaryShows('Region')
@@ -280,9 +287,6 @@ describe('Testing the central route project creation journey', () => {
                 .HasChangeLink()
                 .summaryShows('Provisional opening date')
                 .HasValue('1 October 2035')
-                .HasChangeLink()
-                .summaryShows('Project assigned to')
-                .HasValue('joe bloggs')
                 .HasChangeLink()
                 .summaryShows('Email')
                 .HasValue('test.person@education.gov.uk')

@@ -1,6 +1,7 @@
 ﻿@model Dfe.ManageFreeSchoolProjects.ViewModels.TextInputViewModel
 @{
 	var showHint = !string.IsNullOrWhiteSpace(Model.Hint);
+	var hintId = showHint ? $"{Model.Id}-hint" : null;
 	var showError = !string.IsNullOrWhiteSpace(Model.ErrorMessage);
 	var width = Model.Width > 0 ? $"govuk-input--width-{Model.Width}" : "";
 	var testId = Model.TestId ?? Model.Id;
@@ -52,5 +53,5 @@
 	       value="@Model.Value"
 	       type="text"
 		   data-testid="@testId"
-	       @(showHint ? $"aria-describedby=\"{Model.Id}-hint\"" : "")>
+	       aria-describedby="@hintId">
 </div>

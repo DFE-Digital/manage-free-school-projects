@@ -1,4 +1,4 @@
-@page "/projects/{projectId}/proposals/create/joint-proposal-region"
+﻿@page "/projects/{projectId}/proposals/create/joint-proposal-region"
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Proposals.Create.JointProposalRegionModel
 @using Dfe.ManageFreeSchoolProjects.ViewModels
 
@@ -8,9 +8,7 @@
 }
 
 @section BeforeMain {
-    <nav class="govuk-extra-width-container">
-        <a href="@Model.BackLink" class="govuk-back-link" data-testid="back">Back</a>
-    </nav>
+    <partial name="_ProposalBackLink" model="@Model.BackLink" />
 }
 
 <partial name="_ProposalRegionSelection"

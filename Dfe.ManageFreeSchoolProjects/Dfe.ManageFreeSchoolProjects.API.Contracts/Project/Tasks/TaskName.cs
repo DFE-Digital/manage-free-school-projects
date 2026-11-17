@@ -47,7 +47,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks
         NewSchoolDecisionMaker,
         NewSchoolDateOfDecision,
         NewSchoolDecision,
-        NewSchoolConditions,
         NewSchoolDateForConditionsToBeMet
     }
 }

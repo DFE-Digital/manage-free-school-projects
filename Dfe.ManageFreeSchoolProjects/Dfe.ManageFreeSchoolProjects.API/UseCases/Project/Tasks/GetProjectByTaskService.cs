@@ -20,7 +20,6 @@ using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.ImpactAssessment;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.KickOffMeeting;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolClosingDateForProposals;
-using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolConditions;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateForConditionsToBeMet;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDateOfDecision;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks.NewSchool.NewSchoolDecision;
@@ -194,9 +193,6 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Tasks
                     break;
                 case TaskName.NewSchoolDecision:
                     result = await new GetNewSchoolDecisionTaskService().Get(parameters);
-                    break;
-                case TaskName.NewSchoolConditions:
-                    result = await new GetNewSchoolConditionsTaskService().Get(parameters);
                     break;
                 case TaskName.NewSchoolDateForConditionsToBeMet:
                     result = await new GetNewSchoolDateForConditionsToBeMetTaskService().Get(parameters);

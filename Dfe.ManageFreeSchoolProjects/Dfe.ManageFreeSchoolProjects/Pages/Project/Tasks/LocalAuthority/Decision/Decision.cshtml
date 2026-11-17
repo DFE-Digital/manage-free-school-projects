@@ -1,5 +1,6 @@
-﻿@page "/projects/{projectId}/tasks/local-authority/decision"
+@page "/projects/{projectId}/tasks/local-authority/{proposalId}/decision"
 @using Dfe.ManageFreeSchoolProjects.Constants;
+@using Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision
 
 @model Dfe.ManageFreeSchoolProjects.Pages.Project.Tasks.LocalAuthority.Decision.DecisionModel
 
@@ -27,11 +28,26 @@
     <div class="govuk-grid-column-two-thirds">
         <form method="post">
             <div class="govuk-form-group">
-                <govuk-radios-input name="decision"
-                                    asp-for="@Model.Decision"
-                                    data-testid="decision"
-                                    labels="@Model.Options.ToArray()"
-                                    values="@Model.Options.ToArray()" />
+                <govuk-radios-list>
+                    <govuk-radios-list-item id="approved-without-conditions"
+                                            value="@DecisionModel.ApprovedWithoutConditions"
+                                            description="@DecisionModel.ApprovedWithoutConditions"
+                                            asp-for="@Model.Decision"
+                                            name="decision" />
+                    <govuk-radios-list-conditional-item id="approved-with-conditions"
+                                                        value="@DecisionModel.ApprovedWithConditions"
+                                                        description="@DecisionModel.ApprovedWithConditions"
+                                                        asp-for="@Model.Decision"
+                                                        name="decision">
+                        <govuk-textarea-input id="@DecisionModel.ConditionDescriptionField"
+                                              name="@DecisionModel.ConditionDescriptionField"
+                                              asp-for="@Model.ConditionDescription"
+                                              test-id="condition-description"
+                                              rows="10"
+                                              label="What conditions have been applied?"
+                                              bold-label="true" />
+                    </govuk-radios-list-conditional-item>
+                </govuk-radios-list>
             </div>
 
             <button class="govuk-button" data-module="govuk-button">

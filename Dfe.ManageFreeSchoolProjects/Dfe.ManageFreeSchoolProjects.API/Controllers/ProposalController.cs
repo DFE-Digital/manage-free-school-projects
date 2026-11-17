@@ -1,10 +1,6 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Projects;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.RequestModels.Proposals;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.ResponseModels;
-using Dfe.ManageFreeSchoolProjects.API.UseCases.Project;
 using Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Proposals;
 using Dfe.ManageFreeSchoolProjects.Logging;
 using Microsoft.AspNetCore.Mvc;
@@ -25,17 +21,23 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
     {
         private readonly ICreateProposalService _createProposalService;
         private readonly IGetProposalService _getProposalService;
+        private readonly IUpdateProposalService _updateProposalService;
+        private readonly UpdateProposalRequestValidator _updateProposalRequestValidator;
         private readonly CreateProposalRequestValidator _createProposalRequestValidator;
         private readonly ILogger<ProposalController> _logger;
 
         public ProposalController(
             ICreateProposalService createProposalService,
             IGetProposalService getProposalService,
+            IUpdateProposalService updateProposalService,
+            UpdateProposalRequestValidator updateProposalRequestValidator,
             CreateProposalRequestValidator createProposalRequestValidator,
             ILogger<ProposalController> logger)
         {
             _createProposalService = createProposalService;
             _getProposalService = getProposalService;
+            _updateProposalService = updateProposalService;
+            _updateProposalRequestValidator = updateProposalRequestValidator;
             _createProposalRequestValidator = createProposalRequestValidator;
             _logger = logger;
         }
@@ -55,7 +57,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
 
             var createResult = await _createProposalService.Execute(createProposalRequest);
 
-            var response = new ApiSingleResponseV2<CreateProposalResponse>(createResult);
+            var response = new ApiSingleResponseV2<ProposalResponse>(createResult);
 
             return new ObjectResult(response)
             {
@@ -65,13 +67,46 @@ namespace Dfe.ManageFreeSchoolProjects.API.Controllers
 
         [HttpGet]
         [Route("list")]
-        public async Task<ActionResult<ApiSingleResponseV2<List<GetProposalResponse>>>> GetProjectTaskListSummary(string projectId)
+        public async Task<ActionResult<ApiSingleResponseV2<List<GetProposalSummaryResponse>>>> GetProposals(string projectId)
         {
             _logger.LogMethodEntered();
 
             var result = await _getProposalService.ExecuteList(projectId);
 
-            var response = new ApiSingleResponseV2<List<GetProposalResponse>>(result);
+            var response = new ApiSingleResponseV2<List<GetProposalSummaryResponse>>(result);
+
+            return new ObjectResult(response) { StatusCode = StatusCodes.Status200OK };
+        }
+
+        [HttpGet]
+        [Route("{rid}")]
+        public async Task<ActionResult<ApiSingleResponseV2<ProposalResponse>>> GetProposalByRid(string rid)
+        {
+            _logger.LogMethodEntered();
+
+            var result = await _getProposalService.ExecuteSingle(rid);
+
+            var response = new ApiSingleResponseV2<ProposalResponse>(result);
+
+            return new ObjectResult(response) { StatusCode = StatusCodes.Status200OK };
+        }
+
+        [HttpPut]
+        [Route("update")]
+        public async Task<ActionResult<ApiSingleResponseV2<ProposalResponse>>> UpdateProposal(UpdateProposalRequest updateProposalRequest)
+        {
+            _logger.LogMethodEntered();
+            
+            var validationResult = await _updateProposalRequestValidator.ValidateAsync(updateProposalRequest);
+
+            if (!validationResult.IsValid)
+            {
+                return new BadRequestObjectResult(validationResult.Errors.Select(e => e.ErrorMessage));
+            }
+
+            var result = await _updateProposalService.Execute(updateProposalRequest);
+
+            var response = new ApiSingleResponseV2<ProposalResponse>(result);
 
             return new ObjectResult(response) { StatusCode = StatusCodes.Status200OK };
         }
