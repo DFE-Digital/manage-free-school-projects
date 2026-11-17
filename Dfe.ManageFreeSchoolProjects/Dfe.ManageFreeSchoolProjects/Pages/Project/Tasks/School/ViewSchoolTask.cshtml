@@ -8,6 +8,8 @@
     ViewData["Title"] = $"School - {Model.Project.School.CurrentFreeSchoolName}";
 
     var faithType = Model.Project.School.FaithType == FaithType.Other ? $"Other - {Model.Project.School.OtherFaithType}" : Model.Project.School.FaithType.ToDescription();
+    // The faith status descriptions are radio button hints, so the name is shown instead
+    var faithStatus = Model.Project.School.FaithStatus.ToString();
     var backlink = $"/projects/{Model.ProjectId}/tasks";
 
     var schoolTask = Model.Project.School;
@@ -27,6 +29,7 @@
         <govuk-summary-list>
             <govuk-summary-item label="Current school name" asp-for="@schoolTask.CurrentFreeSchoolName" href="@editLink" />
             <govuk-summary-item label="School type" asp-for="@schoolTask.SchoolType" href="@editLink" />
+            <govuk-summary-item label="Establishment type" asp-for="@schoolTask.EstablishmentType" href="@editLink" />
             <govuk-summary-item label="School phase" asp-for="@schoolTask.SchoolPhase" href="@editLink" />
             <govuk-summary-item label="Age range" asp-for="@schoolTask.AgeRange" href="@editLink" />
             <govuk-summary-item label="Forms of entry" asp-for="@schoolTask.FormsOfEntry" href="@editLink" />
@@ -42,7 +45,7 @@
                     <govuk-summary-item label="Special educational needs (specialist resource provision)" asp-for="@schoolTask.SpecialEducationNeeds" href="@editLink" />
                 }
             }
-            <govuk-summary-item label="Faith status" asp-for="@schoolTask.FaithStatus" href="@editLink" />
+            <govuk-summary-item label="Faith status" asp-for="@faithStatus" href="@editLink" />
             <govuk-summary-item label="Faith type" asp-for="@faithType" href="@editLink" />
 
         </govuk-summary-list>

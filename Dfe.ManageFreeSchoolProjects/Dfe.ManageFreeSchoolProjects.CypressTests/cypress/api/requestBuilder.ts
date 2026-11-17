@@ -1,4 +1,4 @@
-import { CreateProjectRiskRequest, ProjectDetailsRequest } from './domain';
+import { CreateProjectRiskRequest, ProjectDetailsRequest, ProjectType } from './domain';
 import { EnvUsername } from 'cypress/constants/cypressConstants';
 import dataGenerator from 'cypress/fixtures/dataGenerator';
 
@@ -6,13 +6,13 @@ export class RequestBuilder {
     public static createNewProjectDetails(): ProjectDetailsRequest {
         return {
             projectId: dataGenerator.generateTemporaryId(25),
-            projectType: 'Presumption',
+            projectType: ProjectType.PresumptionRoute,
             createdBy: Cypress.expose(EnvUsername),
             schoolName: dataGenerator.generateSchoolName(),
             TRN: 'TR90111',
             applicationWave: 'FS - Presumption',
             projectAssignedToName: 'Test Person',
-            projectAssignedToEmail: 'test.person.education.gov.uk',
+            projectAssignedToEmail: 'test.person@education.gov.uk',
         };
     }
 
@@ -29,7 +29,7 @@ export class RequestBuilder {
             ...this.createNewProjectDetails(),
             applicationWave: 'Other Wave',
             applicationNumber: dataGenerator.generateTemporaryId(5),
-            projectType: 'Central Route',
+            projectType: ProjectType.CentralRoute,
         };
     }
 

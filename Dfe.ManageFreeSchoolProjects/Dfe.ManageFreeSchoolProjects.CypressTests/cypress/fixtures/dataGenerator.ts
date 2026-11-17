@@ -6,7 +6,7 @@ class DataGenerator {
         let tempId: string = '';
 
         for (let i = 0; i < length; i++) {
-            tempId += values.charAt(Math.round(values.length * Math.random()));
+            tempId += values.charAt(Math.floor(values.length * Math.random()));
         }
 
         return tempId;

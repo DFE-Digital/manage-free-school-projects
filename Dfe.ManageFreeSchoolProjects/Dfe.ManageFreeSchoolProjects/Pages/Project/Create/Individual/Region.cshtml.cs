@@ -1,14 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
-using Dfe.ManageFreeSchoolProjects.Constants;
 using Dfe.ManageFreeSchoolProjects.Pages.Project.Create.Individual;
 using Dfe.ManageFreeSchoolProjects.Services;
 using Dfe.ManageFreeSchoolProjects.Services.Project;
-using Dfe.ManageFreeSchoolProjects.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
 {
@@ -55,14 +51,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.Create
                 return Page();
             }
 
-            if (!project.ReachedCheckYourAnswers)
-            {
-                project.Region = (ProjectRegion)Enum.Parse(typeof(ProjectRegion), Region);
-            }
-            else
-            {
-                project.PreviousRegion = (ProjectRegion)Enum.Parse(typeof(ProjectRegion), Region);
-            }
+            project.Region = (ProjectRegion)Enum.Parse(typeof(ProjectRegion), Region);
 
             CreateProjectCache.Update(project);
 

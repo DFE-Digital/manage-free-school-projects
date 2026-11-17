@@ -27,8 +27,6 @@ describe('Testing gias', () => {
         taskListPage.isTaskStatusIsNotStarted('Gias').selectGiasFromTaskList();
 
         cy.log('Confirm empty gias');
-
-        cy.log('Confirm empty gias');
         summaryPage
             .schoolNameIs(project.schoolName)
             .titleIs('Set up the school on GIAS (Get information about schools)')
@@ -60,8 +58,7 @@ describe('Testing gias', () => {
         taskListPage.isTaskStatusInProgress('Gias').selectGiasFromTaskList();
 
         cy.log('Check gias page');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor("Check the information on trusts' completed GIAS application form is correct");
 
         cy.executeAccessibilityTests();
 
@@ -92,7 +89,7 @@ describe('Testing gias', () => {
 
         cy.log('uncheck gias page');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor("Check the information on trusts' completed GIAS application form is correct");
 
         cy.executeAccessibilityTests();
 

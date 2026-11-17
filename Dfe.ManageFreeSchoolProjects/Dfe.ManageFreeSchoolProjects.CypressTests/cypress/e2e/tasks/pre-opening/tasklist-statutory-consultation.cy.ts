@@ -59,7 +59,7 @@ describe('Testing statutory consultation', () => {
 
         cy.executeAccessibilityTests();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Expected date for receiving findings from trust');
 
         cy.log('Check all the fields are optional');
         statutoryConsultationtEditPage
@@ -67,14 +67,12 @@ describe('Testing statutory consultation', () => {
             .schoolNameIs(project.schoolName)
             .clickContinue();
 
-        cy.log('Go back to task list');
-        summaryPage.clickBack();
-
         cy.log('Check confirm puts project in In Progress');
+        summaryPage.clickConfirmAndContinue();
         taskListPage.isTaskStatusInProgress('StatutoryConsultation').selectStatutoryConsultationFromTaskList();
 
         cy.log('Add new values');
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Expected date for receiving findings from trust');
 
         cy.log('Testing validation');
         statutoryConsultationtEditPage
@@ -121,7 +119,7 @@ describe('Testing statutory consultation', () => {
             .isNotMarkedAsComplete();
 
         cy.log('Edit values');
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Expected date for receiving findings from trust');
 
         statutoryConsultationtEditPage
             .withDateReceived('3', '3', '2020')

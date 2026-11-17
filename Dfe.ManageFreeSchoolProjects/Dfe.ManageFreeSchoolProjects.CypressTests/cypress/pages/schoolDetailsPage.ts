@@ -16,6 +16,11 @@ class SchoolDetailsPage extends BasePage {
         return this;
     }
 
+    public withEstablishmentType(value: string): this {
+        cy.getByTestId(value).check();
+        return this;
+    }
+
     public withSchoolPhase(value: string): this {
         cy.getByTestId(value).check();
         return this;

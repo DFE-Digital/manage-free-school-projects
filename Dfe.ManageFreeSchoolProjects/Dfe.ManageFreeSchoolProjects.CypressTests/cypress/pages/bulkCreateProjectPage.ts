@@ -13,6 +13,12 @@ class BulkCreateProjectPage {
 
         return this;
     }
+
+    public hasReloaded(): this {
+        cy.getByTestId('upload').should('have.value', '');
+
+        return this;
+    }
 }
 
 const bulkCreateProjectPage = new BulkCreateProjectPage();

@@ -39,10 +39,13 @@ describe('Testing project overview', () => {
             .schoolNameIs(project.schoolName)
             .titleIs('School')
             .inOrder()
-            .summaryShows('Current free school name')
+            .summaryShows('Current school name')
             .HasValue(project.schoolName)
             .HasChangeLink()
             .summaryShows('School type')
+            .IsEmpty()
+            .HasChangeLink()
+            .summaryShows('Establishment type')
             .IsEmpty()
             .HasChangeLink()
             .summaryShows('School phase')
@@ -76,7 +79,7 @@ describe('Testing project overview', () => {
 
         cy.executeAccessibilityTests();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         Logger.log('Checking validation');
         schoolDetailsPage.clickContinue();
@@ -87,6 +90,7 @@ describe('Testing project overview', () => {
             .hasValidationError('Enter the age range')
             .hasValidationError('Enter the sixth form')
             .hasValidationError('Enter the school type')
+            .hasValidationError('Enter the establishment type')
             .hasValidationError('Enter the faith status')
             .hasValidationError('Enter the school phase')
             .hasValidationError('Enter whether it is residential or boarding');
@@ -96,7 +100,7 @@ describe('Testing project overview', () => {
         schoolDetailsPage.withSchoolNameExceedingMaxLength().withFormsOfEntryExceedingLimit().clickContinue();
 
         validationComponent
-            .hasValidationError('Current free school name must be 100 characters or less')
+            .hasValidationError('Current school name must be 100 characters or less')
             .hasValidationError('Forms of entry must be 100 characters or less');
 
         const updatedSchoolName = dataGenerator.generateSchoolName();
@@ -106,6 +110,7 @@ describe('Testing project overview', () => {
             .titleIs('Edit School')
             .withSchoolName(updatedSchoolName)
             .withSchoolType('Mainstream')
+            .withEstablishmentType('AcademySponsorLed')
             .withSchoolPhase('AllThrough')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')
@@ -122,10 +127,12 @@ describe('Testing project overview', () => {
         summaryPage
             .schoolNameIs(updatedSchoolName)
             .inOrder()
-            .summaryShows('Current free school name')
+            .summaryShows('Current school name')
             .HasValue(updatedSchoolName)
             .summaryShows('School type')
             .HasValue('Mainstream')
+            .summaryShows('Establishment type')
+            .HasValue('Academy sponsor led')
             .summaryShows('School phase')
             .HasValue('All-through')
             .summaryShows('Age range')
@@ -154,6 +161,7 @@ describe('Testing project overview', () => {
         Logger.log('When special is selected alternative provision and special educational needs are not displayed');
         schoolDetailsPage
             .withSchoolType('Special')
+            .withEstablishmentType('CommunitySpecialSchool')
             .withSchoolPhase('Primary')
             .withAgeRange('5', '11')
             .withFormsOfEntry('10')
@@ -170,10 +178,12 @@ describe('Testing project overview', () => {
         summaryPage
             .schoolNameIs(updatedSchoolName)
             .inOrder()
-            .summaryShows('Current free school name')
+            .summaryShows('Current school name')
             .HasValue(updatedSchoolName)
             .summaryShows('School type')
             .HasValue('Special')
+            .summaryShows('Establishment type')
+            .HasValue('Community special school')
             .summaryShows('School phase')
             .HasValue('Primary')
             .summaryShows('Age range')
@@ -215,7 +225,7 @@ describe('Testing project overview', () => {
 
         summaryPage.SummaryHasValue('Faith type', 'Other - This is my faith');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withFaithType('faith-type-ChurchOfEngland')
@@ -224,7 +234,7 @@ describe('Testing project overview', () => {
 
         summaryPage.SummaryHasValue('Faith type', 'Church of England');
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage.withFaithStatus('None').faithTypeSectionIsNotVisible().clickContinue();
 
@@ -243,10 +253,11 @@ describe('Testing project overview', () => {
     it('Should validate the faith type field if a faith status is selected', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withSchoolType('Mainstream')
+            .withEstablishmentType('AcademySponsorLed')
             .withSchoolPhase('AllThrough')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')
@@ -271,10 +282,11 @@ describe('Testing project overview', () => {
     it('Should validate the class type field if a school type with specialist provisions is selected', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withSchoolType('Mainstream')
+            .withEstablishmentType('AcademySponsorLed')
             .withSchoolPhase('AllThrough')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')
@@ -293,10 +305,11 @@ describe('Testing project overview', () => {
     it('Should validate the class type field if a school type with specialist provisions is selected for Voluntary Aided', () => {
         taskListPage.selectSchoolFromTaskList();
 
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Current school name');
 
         schoolDetailsPage
             .withSchoolType('VoluntaryAided')
+            .withEstablishmentType('VoluntaryAidedSchool')
             .withSchoolPhase('AllThrough')
             .withAgeRange('11', '16')
             .withFormsOfEntry('3')

@@ -1,4 +1,5 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
+﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Tasks;
 using ProjectCancelledReasonType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectCancelledReason;
 using ProjectStatusType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectStatus;
 using ProjectWithdrawnReasonType = Dfe.ManageFreeSchoolProjects.API.Contracts.Project.ProjectWithdrawnReason;
@@ -40,6 +41,42 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 SchoolType.UniversityTechnicalCollege => "UTC",
                 SchoolType.FurtherEducation => "FE",
                 SchoolType.VoluntaryAided => "VA",
+                _ => NotSet
+            };
+        }
+
+        public static EstablishmentType ToEstablishmentType(string establishmentType)
+        {
+            return establishmentType switch
+            {
+                "Academy alternative provision sponsor led" => EstablishmentType.AcademyAlternativeProvisionSponsorLed,
+                "Academy special sponsor led" => EstablishmentType.AcademySpecialSponsorLed,
+                "Academy sponsor led" => EstablishmentType.AcademySponsorLed,
+                "Community school" => EstablishmentType.CommunitySchool,
+                "Community special school" => EstablishmentType.CommunitySpecialSchool,
+                "Foundation school" => EstablishmentType.FoundationSchool,
+                "Foundation special school" => EstablishmentType.FoundationSpecialSchool,
+                "Pupil referral unit" => EstablishmentType.PupilReferralUnit,
+                "Voluntary aided school" => EstablishmentType.VoluntaryAidedSchool,
+                "Voluntary controlled school" => EstablishmentType.VoluntaryControlledSchool,
+                _ => EstablishmentType.NotSet
+            };
+        }
+
+        public static string ToEstablishmentType(EstablishmentType? establishmentType)
+        {
+            return establishmentType switch
+            {
+                EstablishmentType.AcademyAlternativeProvisionSponsorLed => "Academy alternative provision sponsor led",
+                EstablishmentType.AcademySpecialSponsorLed => "Academy special sponsor led",
+                EstablishmentType.AcademySponsorLed => "Academy sponsor led",
+                EstablishmentType.CommunitySchool => "Community school",
+                EstablishmentType.CommunitySpecialSchool => "Community special school",
+                EstablishmentType.FoundationSchool => "Foundation school",
+                EstablishmentType.FoundationSpecialSchool => "Foundation special school",
+                EstablishmentType.PupilReferralUnit => "Pupil referral unit",
+                EstablishmentType.VoluntaryAidedSchool => "Voluntary aided school",
+                EstablishmentType.VoluntaryControlledSchool => "Voluntary controlled school",
                 _ => NotSet
             };
         }

@@ -1,6 +1,11 @@
 @using Dfe.ManageFreeSchoolProjects.Enums
 @model Dfe.ManageFreeSchoolProjects.ViewModels.ProposalConfirmTrustViewModel
 
+@{
+    var confirmLabels = new[] { nameof(YesNoOption.No), nameof(YesNoOption.Yes) };
+    var confirmTestIds = new[] { "confirm-trust-no", "confirm-trust-yes" };
+}
+
 <div class="govuk-grid-row">
     <partial name="_ErrorSummary" />
 
@@ -20,7 +25,7 @@
                     <dt class="govuk-summary-list__key">
                         Trust ID
                     </dt>
-                    <dd class="govuk-summary-list__value" data-testid="project-risk-date">
+                    <dd class="govuk-summary-list__value" data-testid="trn">
                         @Model.Trust.TRN
                     </dd>
                 </div>
@@ -29,7 +34,7 @@
                     <dt class="govuk-summary-list__key">
                         Trust name
                     </dt>
-                    <dd class="govuk-summary-list__value" data-testid="project-risk-rating">
+                    <dd class="govuk-summary-list__value" data-testid="trust-name">
                         @Model.Trust.TrustName
                     </dd>
                 </div>
@@ -38,19 +43,20 @@
                     <dt class="govuk-summary-list__key">
                         Trust type
                     </dt>
-                    <dd class="govuk-summary-list__value" data-testid="project-risk-summary">
+                    <dd class="govuk-summary-list__value" data-testid="trust-type">
                         @Model.Trust.TrustType.ToDescription()
                     </dd>
                 </div>
             </dl>
 
-            <div class="govuk-form-group">
-                <label class="govuk-label govuk-heading-s" for="current-free-school-name">Is this the correct trust?</label>
-                <govuk-radios-list>
-                    <govuk-radios-list-item id="@YesNoOption.No" value="@YesNoOption.No" description="@YesNoOption.No" asp-for="@Model.ConfirmOption" name="ConfirmOption" />
-                    <govuk-radios-list-item id="@YesNoOption.Yes" value="@YesNoOption.Yes" description="@YesNoOption.Yes" asp-for="@Model.ConfirmOption" name="ConfirmOption" />
-                </govuk-radios-list>
-            </div>
+            <govuk-radios-input id="ConfirmOption"
+                                name="ConfirmOption"
+                                asp-for="@Model.ConfirmOption"
+                                label="Is this the correct trust?"
+                                medium-heading-label="true"
+                                labels="@confirmLabels"
+                                values="@confirmLabels"
+                                test-ids="@confirmTestIds" />
 
             <button class="govuk-button" data-module="govuk-button" data-testid="continue">
                 @Model.ButtonText

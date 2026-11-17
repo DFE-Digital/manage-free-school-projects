@@ -47,7 +47,6 @@ describe('Testing that we can add contacts', () => {
             Logger.log('Check edit contact validation');
             editProjectAssignedToPage
                 .hasProjectAssignedToTitle('Edit Project assigned to')
-                .clickContinue()
                 .withProjectAssignedToName('$da')
                 .clickContinue()
                 .errorForProjectAssignedToName(

@@ -49,15 +49,13 @@ describe('Testing the moving to open task', () => {
         summaryPage.clickBack();
 
         taskListPage.selectMovingToOpenFromTaskList();
-        summaryPage.clickChange();
 
         Logger.log('Moving to open can save null values');
-
+        summaryPage.clickChangeFor('Sent the project brief to');
         movingToOpenEditPage.clickContinue();
 
         Logger.log('Moving to open can be edited');
-
-        summaryPage.clickChange();
+        summaryPage.clickChangeFor('Sent the project brief to');
 
         movingToOpenEditPage
             .withActualOpeningDate('60', '12', '2050')
@@ -110,10 +108,9 @@ describe('Testing the moving to open task', () => {
 
         taskListPage.isTaskStatusInProgress('MovingToOpen');
 
-        taskListPage.selectMovingToOpenFromTaskList();
-        summaryPage.clickChange();
-
         Logger.log('Should be able to clear some values');
+        taskListPage.selectMovingToOpenFromTaskList();
+        summaryPage.clickChangeFor('Sent the project brief to');
 
         movingToOpenEditPage
             .withActualOpeningDate('29', '12', '2050')
