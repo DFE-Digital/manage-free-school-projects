@@ -106,7 +106,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project
                 SchoolDetailsGeographicalRegion = proj.Region,
                 SchoolDetailsLocalAuthority = proj.LocalAuthorityCode,
                 LocalAuthority = proj.LocalAuthority,
-                SchoolDetailsSchoolTypeMainstreamApEtc = ProjectMapper.ToSchoolType(proj.SchoolType),
+                SchoolDetailsSchoolTypeMainstreamApEtc = ProjectMapper.ToSchoolType(proj.SchoolType, proj.ApplicationWave),
                 SchoolDetailsSchoolPhasePrimarySecondary = ProjectMapper.ToSchoolPhase(proj.SchoolPhase),
                 TrustId = trust?.TrustRef,
                 TrustName = trust?.TrustsTrustName ?? null,

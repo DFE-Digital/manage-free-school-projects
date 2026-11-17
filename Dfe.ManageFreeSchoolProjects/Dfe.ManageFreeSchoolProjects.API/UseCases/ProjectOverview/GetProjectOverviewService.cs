@@ -75,7 +75,7 @@ namespace Dfe.ManageFreeSchoolProjects.API.UseCases.ProjectOverview
                     Constituency = project.SchoolDetailsConstituency,
                     ConstituencyMp = project.SchoolDetailsConstituencyMp,
                     NumberOfEntryForms = project.SchoolDetailsNumberOfFormsOfEntry,
-                    SchoolType = ProjectMapper.ToSchoolType(project.SchoolDetailsSchoolTypeMainstreamApEtc),
+                    SchoolType = ProjectMapper.ToSchoolType(project.SchoolDetailsSchoolTypeMainstreamApEtc, project.ProjectStatusFreeSchoolApplicationWave),
                     SchoolPhase = ProjectMapper.ToSchoolPhase(project.SchoolDetailsSchoolPhasePrimarySecondary),
                     AgeRange = project.SchoolDetailsAgeRange,
                     Gender = project.SchoolDetailsGender,

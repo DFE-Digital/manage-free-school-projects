@@ -323,11 +323,22 @@ class ProjectOverviewPage {
         cy.getByTestId('application-wave')
             .invoke('text')
             .then((applicationWave) => {
-                const projectType = applicationWave.includes('FS - Presumption') ? 'Presumption' : 'Central Route';
-                cy.getByTestId('project-type').should('contain.text', projectType);
+                cy.getByTestId('project-type').should('contain.text', this.projectTypeForWave(applicationWave));
             });
 
         return this;
+    }
+
+    private projectTypeForWave(applicationWave: string): string {
+        if (applicationWave.includes('FS - Presumption')) {
+            return 'Presumption';
+        }
+
+        if (applicationWave.includes('New School')) {
+            return 'New School';
+        }
+
+        return 'Central Route';
     }
 
     public changeSiteInformation(): this {
