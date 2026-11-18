@@ -34,6 +34,7 @@ module "azure_container_apps_hosting" {
   mssql_server_public_access_enabled = local.mssql_server_public_access_enabled
   mssql_managed_identity_assign_role = local.mssql_managed_identity_assign_role
   mssql_sku_name                     = local.mssql_sku_name
+  mssql_azuread_auth_only            = local.mssql_azuread_auth_only
 
   mssql_private_endpoint_subnet_cidr = local.mssql_private_endpoint_subnet_cidr
   storage_subnet_cidr                = local.storage_subnet_cidr

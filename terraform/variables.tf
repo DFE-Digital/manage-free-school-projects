@@ -156,6 +156,12 @@ variable "mssql_managed_identity_assign_role" {
   default     = false
 }
 
+variable "mssql_azuread_auth_only" {
+  description = "Set to true to only permit SQL logins from Azure AD users"
+  type        = bool
+  default     = false
+}
+
 variable "enable_cdn_frontdoor" {
   description = "Enable Azure CDN FrontDoor. This will use the Container Apps endpoint as the origin."
   type        = bool
