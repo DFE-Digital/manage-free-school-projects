@@ -578,7 +578,13 @@ describe('Testing the presumption route project creation journey', () => {
 
             Logger.log('Update local authority');
             summaryPage.clickChangeFor('Local authority');
-            createProjectPage.isOptionChecked('Camden').selectOption('Hackney').continue();
+            createProjectPage
+                .isOptionChecked('London')
+                .selectOption('London')
+                .continue()
+                .selectOption('Hackney')
+                .continue();
+
             summaryPage.SummaryHasValue('Local authority', 'Hackney');
 
             Logger.log('Update Trust');
