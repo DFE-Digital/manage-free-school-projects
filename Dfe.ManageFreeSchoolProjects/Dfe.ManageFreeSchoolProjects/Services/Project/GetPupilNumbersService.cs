@@ -1,7 +1,5 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.PupilNumbers;
-using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.Risk;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project.PupilNumbers;
 using Dfe.ManageFreeSchoolProjects.API.Contracts.ResponseModels;
-using DocumentFormat.OpenXml.Vml.Office;
 using System.Threading.Tasks;
 
 namespace Dfe.ManageFreeSchoolProjects.Services.Project

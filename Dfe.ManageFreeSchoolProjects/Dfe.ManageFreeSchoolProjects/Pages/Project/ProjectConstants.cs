@@ -1,6 +1,5 @@
-﻿using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
+using Dfe.ManageFreeSchoolProjects.API.Contracts.Project;
 using Dfe.ManageFreeSchoolProjects.Constants;
-using DocumentFormat.OpenXml.EMMA;
 using System.Collections.Generic;
 
 namespace Dfe.ManageFreeSchoolProjects.Pages.Project
