@@ -10,17 +10,18 @@ public static class ApiConfigurationExtensions
 
 		services.AddControllers();
 		services.AddApiVersioning(config =>
-		{
-			config.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
-			config.AssumeDefaultVersionWhenUnspecified = true;
-			config.ReportApiVersions = true;
-		});
-		services.AddVersionedApiExplorer(setup =>
-		{
-			// ReSharper disable once StringLiteralTypo
-			setup.GroupNameFormat = "'v'VVV";
-			setup.SubstituteApiVersionInUrl = true;
-		});
+			{
+				config.DefaultApiVersion = new ApiVersion(1, 0);
+				config.AssumeDefaultVersionWhenUnspecified = true;
+				config.ReportApiVersions = true;
+			})
+			.AddMvc()
+			.AddApiExplorer(setup =>
+			{
+				// ReSharper disable once StringLiteralTypo
+				setup.GroupNameFormat = "'v'VVV";
+				setup.SubstituteApiVersionInUrl = true;
+			});
 
 		services.AddSwaggerGen();
 		services.ConfigureOptions<SwaggerOptions>();
