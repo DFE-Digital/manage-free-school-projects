@@ -120,10 +120,13 @@ jobs:
     name: Tag and release
     needs: [ set-env, build-import-deploy ]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           ref: ${{ github.ref }}
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Create tag
         run: |
@@ -133,7 +136,6 @@ jobs:
       - name: Create release
         uses: "actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3"
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
           script: |
             try {
               await github.rest.repos.createRelease({
