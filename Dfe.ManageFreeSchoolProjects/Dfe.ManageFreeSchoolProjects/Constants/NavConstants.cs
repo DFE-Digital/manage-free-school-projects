@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Immutable;
 
 namespace Dfe.ManageFreeSchoolProjects.Constants
 {
@@ -22,7 +20,5 @@ namespace Dfe.ManageFreeSchoolProjects.Constants
             new NavItem { Description = "Site information", Link = RouteConstants.ViewSiteInformation },
             new NavItem { Description = "Pupil numbers", Link = RouteConstants.PupilNumbersSummary }
         ];
-
-
     }
 }

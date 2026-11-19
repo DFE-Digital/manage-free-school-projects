@@ -54,8 +54,8 @@
         public const string CreateProject = "/project/create";
 
         public const string ViewSiteInformation = "/projects/{0}/site-information/{1}";
-        public const string EditPermanentSiteInformation = "/projects/{0}/site-information/presumption/permanent/edit";
-        public const string EditTemporarySiteInformation = "/projects/{0}/site-information/presumption/temporary/edit";
+        public const string EditPermanentSiteInformation = "/projects/{0}/site-information/{1}/permanent/edit";
+        public const string EditTemporarySiteInformation = "/projects/{0}/site-information/{1}/temporary/edit";
 
         public const string EditProjectStatus = "/projects/{0}/projectstatus/edit-project-status";
         public const string EditProjectStatusCancelled = "/projects/{0}/projectstatus/edit-project-status-cancelled";

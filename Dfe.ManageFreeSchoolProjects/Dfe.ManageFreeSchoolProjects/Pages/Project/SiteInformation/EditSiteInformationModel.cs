@@ -10,16 +10,19 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
+namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation
 {
     public class EditSiteInformationModel : PageModel
     {
-        private readonly IGetProjectSitesPresumptionService _getProjectSitesPresumptionService;
-        private readonly IUpdateProjectSitePresumptionService _updateProjectSitePresumptionService;
+        private readonly IGetProjectSitesService _getProjectSitesService;
+        private readonly IUpdateProjectSiteService _updateProjectSiteService;
         private readonly ErrorService _errorService;
 
         [BindProperty(SupportsGet = true, Name = "projectId")]
         public string ProjectId { get; set; }
+
+        [BindProperty(SupportsGet = true, Name = "wave")]
+        public string Wave { get; set; }
 
         [BindProperty(SupportsGet = true, Name = "siteType")]
         public ProjectSiteType SiteType { get; set; }
@@ -59,23 +62,24 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
 
 
         public EditSiteInformationModel(
-            IGetProjectSitesPresumptionService getProjectSitesPresumptionService,
-            IUpdateProjectSitePresumptionService updateProjectSitePresumptionService,
+            IGetProjectSitesService getProjectSitesService,
+            IUpdateProjectSiteService updateProjectSiteService,
             ErrorService errorService)
         {
-            _getProjectSitesPresumptionService = getProjectSitesPresumptionService;
-            _updateProjectSitePresumptionService = updateProjectSitePresumptionService;
+            _getProjectSitesService = getProjectSitesService;
+            _updateProjectSiteService = updateProjectSiteService;
             _errorService = errorService;
         }
 
         public async Task<IActionResult> OnGet()
         {
-
-            var sites = await _getProjectSitesPresumptionService.Execute(ProjectId);
+            var sites = await _getProjectSitesService.Execute(ProjectId, Wave);
 
             ProjectType = sites.ProjectType;
 
-            if (ProjectType == "Central Route")
+            // Only allow editing via the route that matches the project's wave
+            // e.g. a central route project cannot be edited, a presumption project cannot be edited via /newschool
+            if (!string.Equals(SiteInformationWave.FromProjectType(ProjectType), Wave, StringComparison.OrdinalIgnoreCase))
             {
                 return new NotFoundResult();
             }
@@ -101,11 +105,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
                 return Page();
             }
 
-            var sites = await _getProjectSitesPresumptionService.Execute(ProjectId);
-
-            ProjectType = sites.ProjectType;
-
-            var updateRequest = new UpdateProjectSitePresumptionRequest
+            var updateRequest = new UpdateProjectSiteRequest
             {
                 Address = new ProjectSiteAddress
                 {
@@ -118,9 +118,9 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
                 DatePlanningPermissionObtained = DatePlanningPermissionObtained
             };
 
-            await _updateProjectSitePresumptionService.Execute(ProjectId, updateRequest, SiteType);
+            await _updateProjectSiteService.Execute(ProjectId, updateRequest, SiteType);
 
-            return Redirect(string.Format(RouteConstants.ViewSiteInformation, ProjectId, ProjectType));
+            return Redirect(string.Format(RouteConstants.ViewSiteInformation, ProjectId, Wave));
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption
         /// <param name="sites"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        private ProjectSite GetProjectSite(GetProjectSitesPresumptionResponse sites)
+        private ProjectSite GetProjectSite(GetProjectSitesResponse sites)
         {
             if (SiteType == ProjectSiteType.Permanent)
             {
