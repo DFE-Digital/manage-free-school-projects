@@ -11,8 +11,6 @@ public static class ApiConfigurationExtensions
 		services.AddControllers();
 		services.AddApiVersioning(config =>
 			{
-				config.DefaultApiVersion = new ApiVersion(1, 0);
-				config.AssumeDefaultVersionWhenUnspecified = true;
 				config.ReportApiVersions = true;
 				// Every route is "api/v{version:apiVersion}/...", so only read the version from the URL segment
 				config.ApiVersionReader = new UrlSegmentApiVersionReader();

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/client/projects/{projectId}/tasks")]
     [ApiController]
     public class ProjectTaskController(
