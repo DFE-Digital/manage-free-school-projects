@@ -33,6 +33,14 @@ export class RequestBuilder {
         };
     }
 
+    public static createProjectDetailsNewSchool(): ProjectDetailsRequest {
+        return {
+            ...this.createNewProjectDetails(),
+            applicationWave: 'New School',
+            projectType: ProjectType.NewSchool,
+        };
+    }
+
     public static CreateProjectRiskRequest(): CreateProjectRiskRequest {
         return {
             overall: {
