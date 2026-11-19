@@ -578,7 +578,7 @@ describe('Testing the presumption route project creation journey', () => {
 
             Logger.log('Update local authority');
             summaryPage.clickChangeFor('Local authority');
-          
+
             createProjectPage
                 .isOptionChecked('London')
                 .selectOption('London')
