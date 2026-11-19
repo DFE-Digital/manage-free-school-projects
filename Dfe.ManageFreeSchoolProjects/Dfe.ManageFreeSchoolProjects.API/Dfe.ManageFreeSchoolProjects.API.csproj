@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
@@ -28,30 +28,30 @@
 
     <ItemGroup>
       <PackageReference Include="Ardalis.GuardClauses" Version="5.0.0" />
+      <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.2.1" />
       <PackageReference Include="DocumentFormat.OpenXml" Version="3.5.1" />
-      <PackageReference Include="DocumentFormat.OpenXml.Framework" Version="3.5.1" />
-      <PackageReference Include="FluentValidation" Version="12.1.1" />
+      <PackageReference Include="FluentValidation" Version="12.2.0" />
       <PackageReference Include="GovukNotify" Version="7.2.0" />
-      <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="3.1.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.6" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.6">
+      <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="3.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.15">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.6">
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.15">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-      <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.6" />
-      <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.17.0" />
-      <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.17.0" />
-      <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.15" />
+      <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
       <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.3.1" />
-      <PackageReference Include="OfficeOpenXml.Core.ExcelPackage" Version="1.0.0" />
-      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.9.0" />
-      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.9.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.3.1" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <!-- [ApiVersion] attribute used by every controller (Asp.Versioning replaces Microsoft.AspNetCore.Mvc.Versioning) -->
+      <Using Include="Asp.Versioning" />
     </ItemGroup>
 
     <ItemGroup>
