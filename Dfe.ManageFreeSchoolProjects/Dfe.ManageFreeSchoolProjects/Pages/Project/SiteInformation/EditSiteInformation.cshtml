@@ -1,17 +1,17 @@
-﻿@page "/projects/{projectId}/site-information/presumption/{siteType}/edit"
+﻿@page "/projects/{projectId}/site-information/{wave:regex(^(presumption|newschool)$)}/{siteType}/edit"
 @using Dfe.ManageFreeSchoolProjects.Constants
-@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.Presumption.EditSiteInformationModel
+@model Dfe.ManageFreeSchoolProjects.Pages.Project.SiteInformation.EditSiteInformationModel
 @{
-    var backlink = string.Format(RouteConstants.ViewSiteInformation, Model.ProjectId, Model.ProjectType);
+    var backlink = string.Format(RouteConstants.ViewSiteInformation, Model.ProjectId, Model.Wave);
     var siteType = Model.SiteType.ToString();
 
     ViewData["Title"] = $"Edit {siteType} site information - {Model.SchoolName}";
 }
 
 @section BeforeMain {
-    <div role="navigation" class="govuk-extra-width-container">
+    <nav class="govuk-extra-width-container" aria-label="Back">
         <a href=@backlink class="govuk-back-link">Back</a>
-    </div>
+    </nav>
 }
 
 <partial name="_ErrorSummary" />

@@ -6,23 +6,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dfe.ManageFreeSchoolProjects.API.UseCases.Project.Sites
 {
-    public interface IUpdateProjectSitePresumptionService
+    public interface IUpdateProjectSiteService
     {
-        public Task Execute(string projectId, UpdateProjectSitePresumptionRequest request, ProjectSiteType siteType);
+        public Task Execute(string projectId, UpdateProjectSiteRequest request, ProjectSiteType siteType);
     }
 
-    public class UpdateProjectSitePresumptionService : IUpdateProjectSitePresumptionService
+    public class UpdateProjectSiteService : IUpdateProjectSiteService
     {
         private readonly MfspContext _context;
 
-        public UpdateProjectSitePresumptionService(MfspContext context)
+        public UpdateProjectSiteService(MfspContext context)
         {
             _context = context;
         }
 
         public async Task Execute(
             string projectId,
-            UpdateProjectSitePresumptionRequest request,
+            UpdateProjectSiteRequest request,
             ProjectSiteType siteType)
         {
             var dbProject = await _context.Kpi.FirstOrDefaultAsync(x => x.ProjectStatusProjectId == projectId);
