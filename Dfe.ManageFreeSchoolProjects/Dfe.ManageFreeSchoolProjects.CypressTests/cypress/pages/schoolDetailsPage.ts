@@ -21,6 +21,21 @@ class SchoolDetailsPage extends BasePage {
         return this;
     }
 
+    public hasEstablishmentType(): this {
+        cy.get('input[name="establishment-type"]').should('have.length.greaterThan', 0);
+        return this;
+    }
+
+    public hasNoEstablishmentType(): this {
+        cy.get('input[name="establishment-type"]').should('not.exist');
+        return this;
+    }
+
+    public establishmentTypeIsSelected(value: string): this {
+        cy.getByTestId(value).should('be.checked');
+        return this;
+    }
+
     public withSchoolPhase(value: string): this {
         cy.getByTestId(value).check();
         return this;
