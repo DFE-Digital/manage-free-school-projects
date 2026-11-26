@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Asp.Versioning.ApiExplorer;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Extensions;

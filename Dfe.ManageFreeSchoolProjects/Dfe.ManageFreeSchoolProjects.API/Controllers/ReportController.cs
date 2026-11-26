@@ -6,6 +6,7 @@ using System.Net;
 
 namespace Dfe.ManageFreeSchoolProjects.API.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/client/reports")]
     [ApiController]
     public class ReportController : ControllerBase

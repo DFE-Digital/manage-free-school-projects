@@ -1,9 +1,6 @@
-﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
 using Microsoft.Net.Http.Headers;
 
 namespace Dfe.ManageFreeSchoolProjects.Authorization
